@@ -1,1 +1,1 @@
-# guo365.github.com
+# https://guo365.github.com/study
