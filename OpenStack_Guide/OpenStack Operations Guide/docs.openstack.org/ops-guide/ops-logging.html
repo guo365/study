@@ -1,0 +1,669 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/ops-guide/ops-logging.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:37:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Logging</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Logging</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="ops-logging-monitoring.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Logging and Monitoring"></i></a>
+    
+    
+    <a href="ops-logging-rsyslog.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: rsyslog"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Logging</a><ul>
+<li><a class="reference internal" href="#where-are-the-logs">Where Are the Logs?</a></li>
+<li><a class="reference internal" href="#reading-the-logs">Reading the Logs</a></li>
+<li><a class="reference internal" href="#tracing-instance-requests">Tracing Instance Requests</a></li>
+<li><a class="reference internal" href="#adding-custom-logging-statements">Adding Custom Logging Statements</a></li>
+<li><a class="reference internal" href="#rabbitmq-web-management-interface-or-rabbitmqctl">RabbitMQ Web Management Interface or rabbitmqctl</a></li>
+<li><a class="reference internal" href="#centrally-managing-logs">Centrally Managing Logs</a><ul>
+<li><a class="reference internal" href="#syslog-choices">Syslog choices</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="logging">
+<h1>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="where-are-the-logs">
+<h2>Where Are the Logs?<a class="headerlink" href="#where-are-the-logs" title="Permalink to this headline">¶</a></h2>
+<p>Most services use the convention of writing their log files to
+subdirectories of the <code class="docutils literal"><span class="pre">/var/log</span> <span class="pre">directory</span></code>, as listed in
+<a class="reference internal" href="#table-log-locations"><span>Table OpenStack log locations</span></a>.</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<span id="table-log-locations"></span><caption><span class="caption-text">Table OpenStack log locations</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Node type</th>
+<th class="head">Service</th>
+<th class="head">Log location</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Cloud controller</td>
+<td><code class="docutils literal"><span class="pre">nova-*</span></code></td>
+<td><code class="docutils literal"><span class="pre">/var/log/nova</span></code></td>
+</tr>
+<tr class="row-odd"><td>Cloud controller</td>
+<td><code class="docutils literal"><span class="pre">glance-*</span></code></td>
+<td><code class="docutils literal"><span class="pre">/var/log/glance</span></code></td>
+</tr>
+<tr class="row-even"><td>Cloud controller</td>
+<td><code class="docutils literal"><span class="pre">cinder-*</span></code></td>
+<td><code class="docutils literal"><span class="pre">/var/log/cinder</span></code></td>
+</tr>
+<tr class="row-odd"><td>Cloud controller</td>
+<td><code class="docutils literal"><span class="pre">keystone-*</span></code></td>
+<td><code class="docutils literal"><span class="pre">/var/log/keystone</span></code></td>
+</tr>
+<tr class="row-even"><td>Cloud controller</td>
+<td><code class="docutils literal"><span class="pre">neutron-*</span></code></td>
+<td><code class="docutils literal"><span class="pre">/var/log/neutron</span></code></td>
+</tr>
+<tr class="row-odd"><td>Cloud controller</td>
+<td>horizon</td>
+<td><code class="docutils literal"><span class="pre">/var/log/apache2/</span></code></td>
+</tr>
+<tr class="row-even"><td>All nodes</td>
+<td>misc (swift, dnsmasq)</td>
+<td><code class="docutils literal"><span class="pre">/var/log/syslog</span></code></td>
+</tr>
+<tr class="row-odd"><td>Compute nodes</td>
+<td>libvirt</td>
+<td><code class="docutils literal"><span class="pre">/var/log/libvirt/libvirtd.log</span></code></td>
+</tr>
+<tr class="row-even"><td>Compute nodes</td>
+<td>Console (boot up messages) for VM instances:</td>
+<td><code class="docutils literal"><span class="pre">/var/lib/nova/instances/instance-&lt;instance</span> <span class="pre">id&gt;/console.log</span></code></td>
+</tr>
+<tr class="row-odd"><td>Block Storage nodes</td>
+<td>cinder-volume</td>
+<td><code class="docutils literal"><span class="pre">/var/log/cinder/cinder-volume.log</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="reading-the-logs">
+<h2>Reading the Logs<a class="headerlink" href="#reading-the-logs" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack services use the standard logging levels, at increasing
+severity: DEBUG, INFO, AUDIT, WARNING, ERROR, CRITICAL, and TRACE. That
+is, messages only appear in the logs if they are more &#8220;severe&#8221; than the
+particular log level, with DEBUG allowing all log statements through.
+For example, TRACE is logged only if the software has a stack trace,
+while INFO is logged for every message including those that are only for
+information.</p>
+<p>To disable DEBUG-level logging, edit <code class="docutils literal"><span class="pre">/etc/nova/nova.conf</span></code> file as follows:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">debug</span><span class="o">=</span><span class="s">false</span>
+</pre></div>
+</div>
+<p>Keystone is handled a little differently. To modify the logging level,
+edit the <code class="docutils literal"><span class="pre">/etc/keystone/logging.conf</span></code> file and look at the
+<code class="docutils literal"><span class="pre">logger_root</span></code> and <code class="docutils literal"><span class="pre">handler_file</span></code> sections.</p>
+<p>Logging for horizon is configured in
+<code class="docutils literal"><span class="pre">/etc/openstack_dashboard/local_settings.py</span></code>. Because horizon is
+a Django web application, it follows the <a class="reference external" href="https://docs.djangoproject.com/en/dev/topics/logging/">Django Logging framework
+conventions</a>.</p>
+<p>The first step in finding the source of an error is typically to search
+for a CRITICAL, TRACE, or ERROR message in the log starting at the
+bottom of the log file.</p>
+<p>Here is an example of a CRITICAL log message, with the corresponding
+TRACE (Python traceback) immediately following:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">2013-02-25 21:05:51 17409 CRITICAL cinder [-] Bad or unexpected response from the storage volume backend API:</span>
+<span class="go">volume group cinder-volumes doesn&#39;t exist</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder Traceback (most recent call last):</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/bin/cinder-volume&quot;, line 48, in &lt;module&gt;</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder service.wait()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/cinder/service.py&quot;, line 422, in wait</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder _launcher.wait()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/cinder/service.py&quot;, line 127, in wait</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder service.wait()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/eventlet/greenthread.py&quot;, line 166, in wait</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder return self._exit_event.wait()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/eventlet/event.py&quot;, line 116, in wait</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder return hubs.get_hub().switch()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/eventlet/hubs/hub.py&quot;, line 177, in switch</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder return self.greenlet.switch()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/eventlet/greenthread.py&quot;, line 192, in main</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder result = function(*args, **kwargs)</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/cinder/service.py&quot;, line 88, in run_server</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder server.start()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/cinder/service.py&quot;, line 159, in start</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder self.manager.init_host()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/cinder/volume/manager.py&quot;, line 95,</span>
+<span class="go"> in init_host</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder self.driver.check_for_setup_error()</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder File &quot;/usr/lib/python2.7/dist-packages/cinder/volume/driver.py&quot;, line 116,</span>
+<span class="go"> in check_for_setup_error</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder raise exception.VolumeBackendAPIException(data=exception_message)</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder VolumeBackendAPIException: Bad or unexpected response from the storage volume</span>
+<span class="go"> backend API: volume group cinder-volumes doesn&#39;t exist</span>
+<span class="go">2013-02-25 21:05:51 17409 TRACE cinder</span>
+</pre></div>
+</div>
+<p>In this example, <code class="docutils literal"><span class="pre">cinder-volumes</span></code> failed to start and has provided a
+stack trace, since its volume back end has been unable to set up the
+storage volume—probably because the LVM volume that is expected from the
+configuration does not exist.</p>
+<p>Here is an example error log:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">2013-02-25 20:26:33 6619 ERROR nova.openstack.common.rpc.common [-] AMQP server on localhost:5672 is unreachable:</span>
+<span class="go"> [Errno 111] ECONNREFUSED. Trying again in 23 seconds.</span>
+</pre></div>
+</div>
+<p>In this error, a nova service has failed to connect to the RabbitMQ
+server because it got a connection refused error.</p>
+</div>
+<div class="section" id="tracing-instance-requests">
+<h2>Tracing Instance Requests<a class="headerlink" href="#tracing-instance-requests" title="Permalink to this headline">¶</a></h2>
+<p>When an instance fails to behave properly, you will often have to trace
+activity associated with that instance across the log files of various
+<code class="docutils literal"><span class="pre">nova-*</span></code> services and across both the cloud controller and compute
+nodes.</p>
+<p>The typical way is to trace the UUID associated with an instance across
+the service logs.</p>
+<p>Consider the following example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack server list
+<span class="go">+--------------------------------+--------+--------+--------------------------+------------+</span>
+<span class="go">| ID                             | Name   | Status | Networks                 | Image Name |</span>
+<span class="go">+--------------------------------+--------+--------+--------------------------+------------+</span>
+<span class="go">| fafed8-4a46-413b-b113-f1959ffe | cirros | ACTIVE | novanetwork=192.168.100.3| cirros     |</span>
+<span class="go">+--------------------------------------+--------+--------+--------------------+------------+</span>
+</pre></div>
+</div>
+<p>Here, the ID associated with the instance is
+<code class="docutils literal"><span class="pre">faf7ded8-4a46-413b-b113-f19590746ffe</span></code>. If you search for this string
+on the cloud controller in the <code class="docutils literal"><span class="pre">/var/log/nova-*.log</span></code> files, it appears
+in <code class="docutils literal"><span class="pre">nova-api.log</span></code> and <code class="docutils literal"><span class="pre">nova-scheduler.log</span></code>. If you search for this
+on the compute nodes in <code class="docutils literal"><span class="pre">/var/log/nova-*.log</span></code>, it appears in
+<code class="docutils literal"><span class="pre">nova-compute.log</span></code>. If no ERROR or CRITICAL messages appear, the most
+recent log entry that reports this may provide a hint about what has gone
+wrong.</p>
+</div>
+<div class="section" id="adding-custom-logging-statements">
+<h2>Adding Custom Logging Statements<a class="headerlink" href="#adding-custom-logging-statements" title="Permalink to this headline">¶</a></h2>
+<p>If there is not enough information in the existing logs, you may need to
+add your own custom logging statements to the <code class="docutils literal"><span class="pre">nova-*</span></code>
+services.</p>
+<p>The source files are located in
+<code class="docutils literal"><span class="pre">/usr/lib/python2.7/dist-packages/nova</span></code>.</p>
+<p>To add logging statements, the following line should be near the top of
+the file. For most files, these should already be there:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nova.openstack.common</span> <span class="kn">import</span> <span class="n">log</span> <span class="k">as</span> <span class="n">logging</span>
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To add a DEBUG logging statement, you would do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;This is a custom debugging statement&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may notice that all the existing logging messages are preceded by an
+underscore and surrounded by parentheses, for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Logging statement appears here&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This formatting is used to support translation of logging messages into
+different languages using the
+<a class="reference external" href="https://docs.python.org/2/library/gettext.html">gettext</a>
+internationalization library. You don&#8217;t need to do this for your own
+custom log messages. However, if you want to contribute the code back to
+the OpenStack project that includes logging statements, you must
+surround your log messages with underscores and parentheses.</p>
+</div>
+<div class="section" id="rabbitmq-web-management-interface-or-rabbitmqctl">
+<h2>RabbitMQ Web Management Interface or rabbitmqctl<a class="headerlink" href="#rabbitmq-web-management-interface-or-rabbitmqctl" title="Permalink to this headline">¶</a></h2>
+<p>Aside from connection failures, RabbitMQ log files are generally not
+useful for debugging OpenStack related issues. Instead, we recommend you
+use the RabbitMQ web management interface. Enable it on your cloud
+controller:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> /usr/lib/rabbitmq/bin/rabbitmq-plugins <span class="nb">enable</span> rabbitmq_management
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> service rabbitmq-server restart
+</pre></div>
+</div>
+<p>The RabbitMQ web management interface is accessible on your cloud
+controller at <em>http://localhost:55672</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Ubuntu 12.04 installs RabbitMQ version 2.7.1, which uses port 55672.
+RabbitMQ versions 3.0 and above use port 15672 instead. You can
+check which version of RabbitMQ you have running on your local
+Ubuntu machine by doing:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> dpkg -s rabbitmq-server <span class="p">|</span> grep <span class="s2">&quot;Version:&quot;</span>
+<span class="go">Version: 2.7.1-0ubuntu4</span>
+</pre></div>
+</div>
+</div>
+<p>An alternative to enabling the RabbitMQ web management interface is to
+use the <code class="docutils literal"><span class="pre">rabbitmqctl</span></code> commands. For example,
+<strong class="command">rabbitmqctl list_queues| grep cinder</strong> displays any messages left in
+the queue. If there are messages, it&#8217;s a possible sign that cinder
+services didn&#8217;t connect properly to rabbitmq and might have to be
+restarted.</p>
+<p>Items to monitor for RabbitMQ include the number of items in each of the
+queues and the processing time statistics for the server.</p>
+</div>
+<div class="section" id="centrally-managing-logs">
+<h2>Centrally Managing Logs<a class="headerlink" href="#centrally-managing-logs" title="Permalink to this headline">¶</a></h2>
+<p>Because your cloud is most likely composed of many servers, you must
+check logs on each of those servers to properly piece an event together.
+A better solution is to send the logs of all servers to a central
+location so that they can all be accessed from the same
+area.</p>
+<p>The choice of central logging engine will be dependent on the operating
+system in use as well as any organizational requirements for logging tools.</p>
+<div class="section" id="syslog-choices">
+<h3>Syslog choices<a class="headerlink" href="#syslog-choices" title="Permalink to this headline">¶</a></h3>
+<p>There are a large number of syslogs engines available, each have differing
+capabilities and configuration requirements.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ops-logging-rsyslog.html">rsyslog</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="ops-logging-monitoring.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Logging and Monitoring"></i></a>
+          
+          
+            <a href="ops-logging-rsyslog.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: rsyslog"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="operations.html">Operations</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ops-lay-of-the-land.html">Lay of the Land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-projects-users.html">Managing Projects and Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-user-facing-operations.html">User-Facing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-maintenance.html">Maintenance, Failures, and Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-network-troubleshooting.html">Network Troubleshooting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ops-logging-monitoring.html">Logging and Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-backup-recovery.html">Backup and Recovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-customize.html">Customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-advanced-configuration.html">Advanced Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-upgrades.html">Upgrades</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app-usecases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-crypt.html">Tales From the Cryp^H^H^H^H Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-roadmaps.html">Working with Roadmaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "ops-logging" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/ops-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Logging in Operations Guide";
+    var fieldTags = "ops-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/ops-guide/ops-logging.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:37:47 GMT -->
+</html>

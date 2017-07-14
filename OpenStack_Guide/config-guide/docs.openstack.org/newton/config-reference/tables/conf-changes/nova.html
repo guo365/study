@@ -1,0 +1,879 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/tables/conf-changes/nova.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:41:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: New, updated, and deprecated options in Newton for Compute</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>New, updated, and deprecated options in Newton for Compute</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="../../compute/config-options.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: nova.conf - configuration options"></i></a>
+    
+    
+    <a href="../../compute/nova-conf.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Overview of nova.conf"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">New, updated, and deprecated options in Newton for Compute</a></li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="new-updated-and-deprecated-options-in-newton-for-compute">
+<h1>New, updated, and deprecated options in Newton for Compute<a class="headerlink" href="#new-updated-and-deprecated-options-in-newton-for-compute" title="Permalink to this headline">¶</a></h1>
+<table border="1" class="config-ref-table docutils" id="id1">
+<caption><span class="caption-text">New options</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option = default value</th>
+<th class="head">(Type) Help string</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">pointer_model</span> <span class="pre">=</span> <span class="pre">usbtablet</span></code></td>
+<td>(String) Generic property to specify the pointer type.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">sync_power_state_pool_size</span> <span class="pre">=</span> <span class="pre">1000</span></code></td>
+<td>(Integer) Number of greenthreads available for use to sync power states.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">vendordata_dynamic_connect_timeout</span> <span class="pre">=</span> <span class="pre">5</span></code></td>
+<td>(Integer) Maximum wait time for an external REST service to connect.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">vendordata_dynamic_read_timeout</span> <span class="pre">=</span> <span class="pre">5</span></code></td>
+<td>(Integer) Maximum wait time for an external REST service to return data once connected.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">vendordata_dynamic_ssl_certfile</span> <span class="pre">=</span></code></td>
+<td>(String) Path to an optional certificate file or CA bundle to verify dynamic vendordata REST services ssl certificates against.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">vendordata_dynamic_targets</span> <span class="pre">=</span></code></td>
+<td>(List) A list of targets for the dynamic vendordata provider. These targets are of the form &lt;name&gt;&#64;&lt;url&gt;.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">vendordata_providers</span> <span class="pre">=</span></code></td>
+<td>(List) A list of vendordata providers.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">auth_endpoint</span> <span class="pre">=</span> <span class="pre">http://localhost:5000/v3</span></code></td>
+<td>(String) Use this endpoint to connect to Keystone</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">barbican_api_version</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Version of the Barbican API, for example: &#8220;v1&#8221;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">barbican_endpoint</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Use this endpoint to connect to Barbican, for example: &#8220;<a class="reference external" href="http://localhost:9311/">http://localhost:9311/</a>&#8220;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">number_of_retries</span> <span class="pre">=</span> <span class="pre">60</span></code></td>
+<td>(Integer) Number of times to retry poll for key creation completion</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">retry_delay</span> <span class="pre">=</span> <span class="pre">1</span></code></td>
+<td>(Integer) Number of seconds to wait before retrying poll for key creation completion</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[cloudpipe]</span> <span class="pre">boot_script_template</span> <span class="pre">=</span> <span class="pre">$pybasedir/nova/cloudpipe/bootscript.template</span></code></td>
+<td>(String) Template for cloudpipe instance boot script.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[cloudpipe]</span> <span class="pre">dmz_mask</span> <span class="pre">=</span> <span class="pre">255.255.255.0</span></code></td>
+<td>(Unknown) Netmask to push into OpenVPN config.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[cloudpipe]</span> <span class="pre">dmz_net</span> <span class="pre">=</span> <span class="pre">10.0.0.0</span></code></td>
+<td>(Unknown) Network to push into OpenVPN config.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[cloudpipe]</span> <span class="pre">vpn_flavor</span> <span class="pre">=</span> <span class="pre">m1.tiny</span></code></td>
+<td>(String) Flavor for VPN instances.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[cloudpipe]</span> <span class="pre">vpn_image_id</span> <span class="pre">=</span> <span class="pre">0</span></code></td>
+<td>(String) Image ID used when starting up a cloudpipe VPN client.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[cloudpipe]</span> <span class="pre">vpn_key_suffix</span> <span class="pre">=</span> <span class="pre">-vpn</span></code></td>
+<td>(String) Suffix to add to project name for VPN key and secgroups</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">ca_file</span> <span class="pre">=</span> <span class="pre">cacert.pem</span></code></td>
+<td>(String) Filename of root CA (Certificate Authority). This is a container format and includes root certificates.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">ca_path</span> <span class="pre">=</span> <span class="pre">$state_path/CA</span></code></td>
+<td>(String) Directory path where root CA is located.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">crl_file</span> <span class="pre">=</span> <span class="pre">crl.pem</span></code></td>
+<td>(String) Filename of root Certificate Revocation List (CRL). This is a list of certificates that have been revoked, and therefore, entities presenting those (revoked) certificates should no longer be trusted.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">key_file</span> <span class="pre">=</span> <span class="pre">private/cakey.pem</span></code></td>
+<td>(String) Filename of a private key.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">keys_path</span> <span class="pre">=</span> <span class="pre">$state_path/keys</span></code></td>
+<td>(String) Directory path where keys are located.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">project_cert_subject</span> <span class="pre">=</span> <span class="pre">/C=US/ST=California/O=OpenStack/OU=NovaDev/CN=project-ca-%.16s-%s</span></code></td>
+<td>(String) Subject for certificate for projects, %s for project, timestamp</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">use_project_ca</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(Boolean) Option to enable/disable use of CA for each project.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[crypto]</span> <span class="pre">user_cert_subject</span> <span class="pre">=</span> <span class="pre">/C=US/ST=California/O=OpenStack/OU=NovaDev/CN=%.16s-%.16s-%s</span></code></td>
+<td>(String) Subject for certificate for users, %s for project, user, timestamp</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[glance]</span> <span class="pre">debug</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(Boolean) Enable or disable debug logging with glanceclient.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[glance]</span> <span class="pre">use_glance_v1</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(Boolean) DEPRECATED: This flag allows reverting to glance v1 if for some reason glance v2 doesn’t work in your environment. This will only exist in Newton, and a fully working Glance v2 will be a hard requirement in Ocata.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[hyperv]</span> <span class="pre">enable_remotefx</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(Boolean) Enable RemoteFX feature</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">auth_section</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(Unknown) Config Section from which to load plugin specific options</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">auth_type</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(Unknown) Authentication type to load</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">certfile</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) PEM encoded client certificate cert file</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">insecure</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(Boolean) Verify HTTPS connections.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[ironic]keyfile</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) PEM encoded client certificate key file</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">timeout</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(Integer) Timeout value for http requests</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[key_manager]</span> <span class="pre">api_class</span> <span class="pre">=</span> <span class="pre">castellan.key_manager.barbican_key_manager.BarbicanKeyManager</span></code></td>
+<td>(String) The full class name of the key manager API class</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[key_manager]</span> <span class="pre">fixed_key</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Fixed key returned by key manager, specified in hex.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">enabled_perf_events</span> <span class="pre">=</span></code></td>
+<td>(String) Override the default disk prefix for the devices attached to an instance.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">vzstorage_cache_path</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Path to the SSD cache file.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">vzstorage_log_path</span> <span class="pre">=</span> <span class="pre">/var/log/pstorage/%(cluster_name)s/nova.log.gz</span></code></td>
+<td>(String) Path to vzstorage client log.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">vzstorage_mount_group</span> <span class="pre">=</span> <span class="pre">qemu</span></code></td>
+<td>(String) Mount owner group name.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">vzstorage_mount_opts</span> <span class="pre">=</span></code></td>
+<td>(List) Extra mount options for pstorage-mount</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">vzstorage_mount_perms</span> <span class="pre">=</span> <span class="pre">0770</span></code></td>
+<td>(String) Mount access mode.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">vzstorage_mount_point_base</span> <span class="pre">=</span> <span class="pre">$state_path/mnt</span></code></td>
+<td>(String) Directory where the Virtuozzo Storage clusters are mounted on the compute node.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">vzstorage_mount_user</span> <span class="pre">=</span> <span class="pre">stack</span></code></td>
+<td>(String) Mount owner user name.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">flat_interface</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) FlatDhcp will bridge into this interface if set</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">forward_bridge_interface</span> <span class="pre">=</span> <span class="pre">['all']</span></code></td>
+<td>(Multi-valued) An interface that bridges can forward to. If this is set to all then all traffic will be forwarded. Can be specified multiple times.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">iptables_bottom_regex</span> <span class="pre">=</span></code></td>
+<td>(String) Regular expression to match the iptables rule that should always be on the bottom.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">iptables_drop_action</span> <span class="pre">=</span> <span class="pre">DROP</span></code></td>
+<td>(String) The table that iptables to jump to when a packet is to be dropped.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">iptables_top_regex</span> <span class="pre">=</span></code></td>
+<td>(String) Regular expression to match the iptables rule that should always be on the top.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">network_device_mtu</span> <span class="pre">=</span> <span class="pre">1500</span></code></td>
+<td>(Integer) MTU setting for network interface.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">use_ipv6</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(Boolean) Use IPv6</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[os_vif_linux_bridge]</span> <span class="pre">vlan_interface</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) VLANs will bridge into this interface if set</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[os_vif_ovs]</span> <span class="pre">network_device_mtu</span> <span class="pre">=</span> <span class="pre">1500</span></code></td>
+<td>(Integer) MTU setting for network interface.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[os_vif_ovs]</span> <span class="pre">ovs_vsctl_timeout</span> <span class="pre">=</span> <span class="pre">120</span></code></td>
+<td>(Integer) Amount of time, in seconds, that ovs_vsctl should wait for a response from the database. 0 is to wait forever.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[remote_debug]</span> <span class="pre">host</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Debug host (IP or name) to connect to. This command line parameter is used when you want to connect to a nova service via a debugger running on a different host.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[remote_debug]</span> <span class="pre">port</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(Port number) Debug port to connect to. This command line parameter allows you to specify the port you want to use to connect to a nova service via a debugger running on different host.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[vif_plug_linux_bridge_privileged]</span> <span class="pre">capabilities</span> <span class="pre">=</span> <span class="pre">[]</span></code></td>
+<td>(Unknown) List of Linux capabilities retained by the privsep daemon.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[vif_plug_linux_bridge_privileged]</span> <span class="pre">group</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Group that the privsep daemon should run as.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[vif_plug_linux_bridge_privileged]</span> <span class="pre">helper_command</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Command to invoke to start the privsep daemon if not using the &#8220;fork&#8221; method.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[vif_plug_linux_bridge_privileged]</span> <span class="pre">user</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) User that the privsep daemon should run as.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[vif_plug_ovs_privileged]</span> <span class="pre">capabilities</span> <span class="pre">=</span> <span class="pre">[]</span></code></td>
+<td>(Unknown) List of Linux capabilities retained by the privsep daemon.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[vif_plug_ovs_privileged]</span> <span class="pre">group</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Group that the privsep daemon should run as.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[vif_plug_ovs_privileged]</span> <span class="pre">helper_command</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) Command to invoke to start the privsep daemon if not using the &#8220;fork&#8221; method.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[vif_plug_ovs_privileged]</span> <span class="pre">user</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) User that the privsep daemon should run as.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">api_paste_config</span> <span class="pre">=</span> <span class="pre">api-paste.ini</span></code></td>
+<td>(String) This option represents a file name for the paste.deploy config for nova-api.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">client_socket_timeout</span> <span class="pre">=</span> <span class="pre">900</span></code></td>
+<td>(Integer) This option specifies the timeout for client connections’ socket operations. If an incoming connection is idle for this number of seconds it will be closed. It indicates timeout on individual read/writes on the socket connection. To wait forever set to 0.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">default_pool_size</span> <span class="pre">=</span> <span class="pre">1000</span></code></td>
+<td>(Integer) This option specifies the size of the pool of greenthreads used by wsgi. It is possible to limit the number of concurrent connections using this option.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">keep_alive</span> <span class="pre">=</span> <span class="pre">True</span></code></td>
+<td>(Boolean) This option allows using the same TCP connection to send and receive multiple HTTP requests/responses, as opposed to opening a new one for every single request/response pair. HTTP keep-alive indicates HTTP connection reuse.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">max_header_line</span> <span class="pre">=</span> <span class="pre">16384</span></code></td>
+<td>(Integer) This option specifies the maximum line size of message headers to be accepted. max_header_line may need to be increased when using large tokens (typically those generated by the Keystone v3 API with big service catalogs).</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">secure_proxy_ssl_header</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) This option specifies the HTTP header used to determine the protocol scheme for the original request, even if it was removed by a SSL terminating proxy.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">ssl_ca_file</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) This option allows setting path to the CA certificate file that should be used to verify connecting clients.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">ssl_cert_file</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) This option allows setting path to the SSL certificate of API server.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">ssl_key_file</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(String) This option specifies the path to the file where SSL private key of API server is stored when SSL is in effect.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">tcp_keepidle</span> <span class="pre">=</span> <span class="pre">600</span></code></td>
+<td>(Integer) This option sets the value of TCP_KEEPIDLE in seconds for each server socket. It specifies the duration of time to keep connection active. TCP generates a KEEPALIVE transmission for an application that requests to keep connection active. Not supported on OS X.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[wsgi]</span> <span class="pre">wsgi_log_format</span> <span class="pre">=</span> <span class="pre">%(client_ip)s</span> <span class="pre">&quot;%(request_line)s&quot;</span> <span class="pre">status:</span> <span class="pre">%(status_code)s</span> <span class="pre">len:</span> <span class="pre">%(body_length)s</span> <span class="pre">time:</span> <span class="pre">%(wall_seconds).7f</span></code></td>
+<td>(String) It represents a python format string that is used as the template to generate log lines. The following values can be formatted into it: client_ip, date_time, request_line, status_code, body_length, wall_seconds.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[xenserver]</span> <span class="pre">independent_compute</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(Boolean) Used to prevent attempts to attach VBDs locally, so Nova can be run in a VM on a different host.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[xvp]</span> <span class="pre">console_xvp_conf</span> <span class="pre">=</span> <span class="pre">/etc/xvp.conf</span></code></td>
+<td>(String) Generated XVP conf file</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[xvp]</span> <span class="pre">console_xvp_conf_template</span> <span class="pre">=</span> <span class="pre">$pybasedir/nova/console/xvp.conf.template</span></code></td>
+<td>(String) XVP conf template</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[xvp]</span> <span class="pre">console_xvp_log</span> <span class="pre">=</span> <span class="pre">/var/log/xvp.log</span></code></td>
+<td>(String) XVP log file</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[xvp]</span> <span class="pre">console_xvp_multiplex_port</span> <span class="pre">=</span> <span class="pre">5900</span></code></td>
+<td>(Port number) Port for XVP to multiplex VNC connections on</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[xvp]</span> <span class="pre">console_xvp_pid</span> <span class="pre">=</span> <span class="pre">/var/run/xvp.pid</span></code></td>
+<td>(String) XVP master process pid file</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id2">
+<caption><span class="caption-text">New default values</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Previous default value</th>
+<th class="head">New default value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">api_endpoint</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+<td><code class="docutils literal"><span class="pre">http://ironic.example.org:6385/</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[neutron]</span> <span class="pre">region_name</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+<td><code class="docutils literal"><span class="pre">RegionOne</span></code></td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id3">
+<caption><span class="caption-text">Deprecated options</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Deprecated option</th>
+<th class="head">New Option</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">cert_manager</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">cert_topic</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">compute_available_monitors</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">compute_manager</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">compute_stats_class</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">console_manager</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">consoleauth_manager</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">default_flavor</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">driver</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">enable_network_quota</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">fatal_exception_format_errors</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">image_decryption_dir</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">manager</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">metadata_manager</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">quota_driver</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">quota_networks</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">s3_access_key</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">s3_affix_tenant</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">s3_host</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">s3_port</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">s3_secret_key</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">s3_use_ssl</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">scheduler_manager</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">secure_proxy_ssl_header</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">share_dhcp_address</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">snapshot_name_template</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">use_local</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[DEFAULT]</span> <span class="pre">vendordata_driver</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">catalog_info</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">endpoint_template</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[barbican]</span> <span class="pre">os_region_name</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[glance]</span> <span class="pre">admin_password</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[glance]</span> <span class="pre">filesystems</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[glance]</span> <span class="pre">use_glance_v1</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[hyperv]</span> <span class="pre">force_volumeutils_v1</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">admin_tenant_name</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">admin_url</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[ironic]</span> <span class="pre">admin_username</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">checksum_base_images</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">checksum_interval_seconds</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">image_info_filename_pattern</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[libvirt]</span> <span class="pre">use_usb_tablet</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[matchmaker_redis]</span> <span class="pre">host</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[matchmaker_redis]</span> <span class="pre">password</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[matchmaker_redis]</span> <span class="pre">port</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[matchmaker_redis]</span> <span class="pre">sentinel_hosts</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[osapi_v21]</span> <span class="pre">extensions_blacklist</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">[osapi_v21]</span> <span class="pre">extensions_whitelist</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">[osapi_v21]</span> <span class="pre">project_id_regex</span></code></td>
+<td><code class="docutils literal"><span class="pre">None</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="../../compute/config-options.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: nova.conf - configuration options"></i></a>
+          
+          
+            <a href="../../compute/nova-conf.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Overview of nova.conf"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../compute.html">Compute service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../compute/config-options.html">The full set of available options</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">New, updated, and deprecated options in Newton for Compute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/nova-conf.html">Overview of nova.conf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/api.html">Compute API configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/resize.html">Configure resize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/database-connections.html">Database configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/fibre-channel.html">Fibre Channel support in Compute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/iscsi-offload.html">iSCSI interface and offload support in Compute</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/hypervisors.html">Hypervisors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/schedulers.html">Compute schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/cells.html">Cells</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/conductor.html">Conductor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/logs.html">Compute log files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/nova-conf-samples.html">Example nova.conf configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../compute/samples/index.html">Compute service sample configuration files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "tables/conf-changes/nova" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "New, updated, and deprecated options in Newton for Compute in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/tables/conf-changes/nova.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:44:07 GMT -->
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/ops-guide/arch-example-nova-network.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:40:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Example Architecture — Legacy Networking (nova)</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Example Architecture — Legacy Networking (nova)</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="arch-examples.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Architecture Examples"></i></a>
+    
+    
+    <a href="arch-example-neutron.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Example Architecture — OpenStack Networking"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Example Architecture — Legacy Networking (nova)</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#components">Components</a></li>
+<li><a class="reference internal" href="#rationale">Rationale</a></li>
+<li><a class="reference internal" href="#why-not-use-openstack-networking">Why not use OpenStack Networking?</a></li>
+<li><a class="reference internal" href="#why-use-multi-host-networking">Why use multi-host networking?</a><ul>
+<li><a class="reference internal" href="#detailed-description">Detailed Description</a></li>
+<li><a class="reference internal" href="#optional-extensions">Optional Extensions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="example-architecture-legacy-networking-nova">
+<h1>Example Architecture — Legacy Networking (nova)<a class="headerlink" href="#example-architecture-legacy-networking-nova" title="Permalink to this headline">¶</a></h1>
+<p>This particular example architecture has been upgraded from <a class="reference internal" href="common/glossary.html#term-grizzly"><span class="xref std std-term">Grizzly</span></a> to
+<a class="reference internal" href="common/glossary.html#term-havana"><span class="xref std std-term">Havana</span></a> and tested in production environments where many public IP
+addresses are available for assignment to multiple instances. You can
+find a second example architecture that uses OpenStack Networking
+(neutron) after this section. Each example offers high availability,
+meaning that if a particular node goes down, another node with the same
+configuration can take over the tasks so that the services continue to
+be available.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The simplest architecture you can build upon for Compute has a single
+cloud controller and multiple compute nodes. The simplest architecture
+for Object Storage has five nodes: one for identifying users and
+proxying requests to the API, then four for storage itself to provide
+enough replication for eventual consistency. This example architecture
+does not dictate a particular number of nodes, but shows the thinking
+and considerations that went into choosing this architecture including
+the features offered.</p>
+</div>
+<div class="section" id="components">
+<h2>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Component</th>
+<th class="head">Details</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>OpenStack release</td>
+<td>Havana</td>
+</tr>
+<tr class="row-odd"><td>Host operating system</td>
+<td>Ubuntu 12.04 LTS or Red Hat Enterprise Linux 6.5,
+including derivatives such as CentOS and Scientific Linux</td>
+</tr>
+<tr class="row-even"><td>OpenStack package repository</td>
+<td><a class="reference external" href="https://wiki.ubuntu.com/ServerTeam/CloudArchive">Ubuntu Cloud Archive</a>
+or <a class="reference external" href="http://openstack.redhat.com/Frequently_Asked_Questions">RDO</a></td>
+</tr>
+<tr class="row-odd"><td>Hypervisor</td>
+<td>KVM</td>
+</tr>
+<tr class="row-even"><td>Database</td>
+<td>MySQL*</td>
+</tr>
+<tr class="row-odd"><td>Message queue</td>
+<td>RabbitMQ for Ubuntu; Qpid for Red Hat Enterprise Linux and derivatives</td>
+</tr>
+<tr class="row-even"><td>Networking service</td>
+<td><code class="docutils literal"><span class="pre">nova-network</span></code></td>
+</tr>
+<tr class="row-odd"><td>Network manager</td>
+<td>FlatDHCP</td>
+</tr>
+<tr class="row-even"><td>Single <code class="docutils literal"><span class="pre">nova-network</span></code> or multi-host?</td>
+<td>multi-host*</td>
+</tr>
+<tr class="row-odd"><td>Image service (glance) back end</td>
+<td>file</td>
+</tr>
+<tr class="row-even"><td>Identity (keystone) driver</td>
+<td>SQL</td>
+</tr>
+<tr class="row-odd"><td>Block Storage (cinder) back end</td>
+<td>LVM/iSCSI</td>
+</tr>
+<tr class="row-even"><td>Live Migration back end</td>
+<td>Shared storage using NFS*</td>
+</tr>
+<tr class="row-odd"><td>Object storage</td>
+<td>OpenStack Object Storage (swift)</td>
+</tr>
+</tbody>
+</table>
+<p>An asterisk (*) indicates when the example architecture deviates from
+the settings of a default installation. We&#8217;ll offer explanations for
+those deviations next.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The following features of OpenStack are supported by the example
+architecture documented in this guide, but are optional:</p>
+<ul class="last simple">
+<li><a class="reference internal" href="common/glossary.html#term-dashboard-horizon"><span class="xref std std-term">Dashboard</span></a>: You probably want to offer
+a dashboard, but your users may be more interested in API access only.</li>
+<li><a class="reference internal" href="common/glossary.html#term-block-storage-service-cinder"><span class="xref std std-term">Block storage</span></a>:
+You don&#8217;t have to offer users block storage if their use case only
+needs ephemeral storage on compute nodes, for example.</li>
+<li><a class="reference internal" href="common/glossary.html#term-floating-ip-address"><span class="xref std std-term">Floating IP address</span></a>:
+Floating IP addresses are public IP addresses that you allocate
+from a predefined pool to assign to virtual machines at launch.
+Floating IP address ensure that the public IP address is available
+whenever an instance is booted. Not every organization can offer
+thousands of public floating IP addresses for thousands of
+instances, so this feature is considered optional.</li>
+<li><a class="reference internal" href="common/glossary.html#term-live-migration"><span class="xref std std-term">Live migration</span></a>: If you need to move
+running virtual machine instances from one host to another with
+little or no service interruption, you would enable live migration,
+but it is considered optional.</li>
+<li><a class="reference internal" href="common/glossary.html#term-object-storage-service-swift"><span class="xref std std-term">Object storage</span></a>: You may
+choose to store machine images on a file system rather than in
+object storage if you do not have the extra hardware for the
+required replication and redundancy that OpenStack Object Storage
+offers.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="rationale">
+<h2>Rationale<a class="headerlink" href="#rationale" title="Permalink to this headline">¶</a></h2>
+<p>This example architecture has been selected based on the current default
+feature set of OpenStack Havana, with an emphasis on stability. We
+believe that many clouds that currently run OpenStack in production have
+made similar choices.</p>
+<p>You must first choose the operating system that runs on all of the
+physical nodes. While OpenStack is supported on several distributions of
+Linux, we used <em>Ubuntu 12.04 LTS (Long Term Support)</em>, which is used by
+the majority of the development community, has feature completeness
+compared with other distributions and has clear future support plans.</p>
+<p>We recommend that you do not use the default Ubuntu OpenStack install
+packages and instead use the <a class="reference external" href="https://wiki.ubuntu.com/ServerTeam/CloudArchive">Ubuntu Cloud
+Archive</a>. The Cloud
+Archive is a package repository supported by Canonical that allows you
+to upgrade to future OpenStack releases while remaining on Ubuntu 12.04.</p>
+<p><em>KVM</em> as a <a class="reference internal" href="common/glossary.html#term-hypervisor"><span class="xref std std-term">hypervisor</span></a> complements the choice of Ubuntu—being a
+matched pair in terms of support, and also because of the significant degree
+of attention it garners from the OpenStack development community (including
+the authors, who mostly use KVM). It is also feature complete, free from
+licensing charges and restrictions.</p>
+<p><em>MySQL</em> follows a similar trend. Despite its recent change of ownership,
+this database is the most tested for use with OpenStack and is heavily
+documented. We deviate from the default database, <em>SQLite</em>, because
+SQLite is not an appropriate database for production usage.</p>
+<p>The choice of <em>RabbitMQ</em> over other
+<a class="reference internal" href="common/glossary.html#term-advanced-message-queuing-protocol-amqp"><span class="xref std std-term">AMQP</span></a> compatible options
+that are gaining support in OpenStack, such as ZeroMQ and Qpid, is due to its
+ease of use and significant testing in production. It also is the only
+option that supports features such as Compute cells. We recommend
+clustering with RabbitMQ, as it is an integral component of the system
+and fairly simple to implement due to its inbuilt nature.</p>
+<p>As discussed in previous chapters, there are several options for
+networking in OpenStack Compute. We recommend <em>FlatDHCP</em> and to use
+<em>Multi-Host</em> networking mode for high availability, running one
+<code class="docutils literal"><span class="pre">nova-network</span></code> daemon per OpenStack compute host. This provides a
+robust mechanism for ensuring network interruptions are isolated to
+individual compute hosts, and allows for the direct use of hardware
+network gateways.</p>
+<p><em>Live Migration</em> is supported by way of shared storage, with <em>NFS</em> as
+the distributed file system.</p>
+<p>Acknowledging that many small-scale deployments see running Object
+Storage just for the storage of virtual machine images as too costly, we
+opted for the file back end in the OpenStack <a class="reference internal" href="common/glossary.html#term-image-service-glance"><span class="xref std std-term">Image service (Glance)</span></a>.
+If your cloud will include Object Storage, you can easily add it as a back
+end.</p>
+<p>We chose the <em>SQL back end for Identity</em> over others, such as LDAP. This
+back end is simple to install and is robust. The authors acknowledge
+that many installations want to bind with existing directory services
+and caution careful understanding of the <a class="reference external" href="http://docs.openstack.org/newton/config-reference/identity/options.html#keystone-ldap">array of options available</a>.</p>
+<p>Block Storage (cinder) is installed natively on external storage nodes
+and uses the <em>LVM/iSCSI plug-in</em>. Most Block Storage plug-ins are tied
+to particular vendor products and implementations limiting their use to
+consumers of those hardware platforms, but LVM/iSCSI is robust and
+stable on commodity hardware.</p>
+<p>While the cloud can be run without the <em>OpenStack Dashboard</em>, we
+consider it to be indispensable, not just for user interaction with the
+cloud, but also as a tool for operators. Additionally, the dashboard&#8217;s
+use of Django makes it a flexible framework for extension.</p>
+</div>
+<div class="section" id="why-not-use-openstack-networking">
+<h2>Why not use OpenStack Networking?<a class="headerlink" href="#why-not-use-openstack-networking" title="Permalink to this headline">¶</a></h2>
+<p>This example architecture does not use OpenStack Networking, because it
+does not yet support multi-host networking and our organizations
+(university, government) have access to a large range of
+publicly-accessible IPv4 addresses.</p>
+</div>
+<div class="section" id="why-use-multi-host-networking">
+<h2>Why use multi-host networking?<a class="headerlink" href="#why-use-multi-host-networking" title="Permalink to this headline">¶</a></h2>
+<p>In a default OpenStack deployment, there is a single <code class="docutils literal"><span class="pre">nova-network</span></code>
+service that runs within the cloud (usually on the cloud controller)
+that provides services such as
+<a class="reference internal" href="common/glossary.html#term-network-address-translation-nat"><span class="xref std std-term">Network Address Translation (NAT)</span></a>, <a class="reference internal" href="common/glossary.html#term-dynamic-host-configuration-protocol-dhcp"><span class="xref std std-term">DHCP</span></a>, and <a class="reference internal" href="common/glossary.html#term-domain-name-system-dns"><span class="xref std std-term">DNS</span></a>
+to the guest instances. If the single node that runs the <code class="docutils literal"><span class="pre">nova-network</span></code>
+service goes down, you cannot access your instances, and the instances
+cannot access the Internet. The single node that runs the <code class="docutils literal"><span class="pre">nova-network</span></code>
+service can become a bottleneck if excessive network traffic comes in and
+goes out of the cloud.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><a class="reference external" href="http://docs.openstack.org/havana/install-guide/install/apt/content/nova-network.html">Multi-host</a>
+is a high-availability option for the network configuration, where
+the <code class="docutils literal"><span class="pre">nova-network</span></code> service is run on every compute node instead of
+running on only a single node.</p>
+</div>
+<div class="section" id="detailed-description">
+<h3>Detailed Description<a class="headerlink" href="#detailed-description" title="Permalink to this headline">¶</a></h3>
+<p>The reference architecture consists of multiple compute nodes, a cloud
+controller, an external NFS storage server for instance storage, and an
+OpenStack Block Storage server for volume storage.
+A network time service (<a class="reference internal" href="common/glossary.html#term-network-time-protocol-ntp"><span class="xref std std-term">Network Time Protocol (NTP)</span></a>)
+synchronizes time on all the nodes. FlatDHCPManager in
+multi-host mode is used for the networking. A logical diagram for this
+example architecture shows which services are running on each node:</p>
+<a class="reference internal image-reference" href="_images/osog_01in01.png"><img alt="_images/osog_01in01.png" src="_images/osog_01in01.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The cloud controller runs the dashboard, the API services, the database
+(MySQL), a message queue server (RabbitMQ), the scheduler for choosing
+compute resources (<code class="docutils literal"><span class="pre">nova-scheduler</span></code>), Identity services (keystone,
+<code class="docutils literal"><span class="pre">nova-consoleauth</span></code>), Image services (<code class="docutils literal"><span class="pre">glance-api</span></code>,
+<code class="docutils literal"><span class="pre">glance-registry</span></code>), services for console access of guests, and Block
+Storage services, including the scheduler for storage resources
+(<code class="docutils literal"><span class="pre">cinder-api</span></code> and <code class="docutils literal"><span class="pre">cinder-scheduler</span></code>).</p>
+<p>Compute nodes are where the computing resources are held, and in our
+example architecture, they run the hypervisor (KVM), libvirt (the driver
+for the hypervisor, which enables live migration from node to node),
+<code class="docutils literal"><span class="pre">nova-compute</span></code>, <code class="docutils literal"><span class="pre">nova-api-metadata</span></code> (generally only used when
+running in multi-host mode, it retrieves instance-specific metadata),
+<code class="docutils literal"><span class="pre">nova-vncproxy</span></code>, and <code class="docutils literal"><span class="pre">nova-network</span></code>.</p>
+<p>The network consists of two switches, one for the management or private
+traffic, and one that covers public access, including floating IPs. To
+support this, the cloud controller and the compute nodes have two
+network cards. The OpenStack Block Storage and NFS storage servers only
+need to access the private network and therefore only need one network
+card, but multiple cards run in a bonded configuration are recommended
+if possible. Floating IP access is direct to the Internet, whereas Flat
+IP access goes through a NAT. To envision the network traffic, use this
+diagram:</p>
+<a class="reference internal image-reference" href="_images/osog_01in02.png"><img alt="_images/osog_01in02.png" src="_images/osog_01in02.png" style="width: 100%;" /></a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
+<div class="section" id="optional-extensions">
+<h3>Optional Extensions<a class="headerlink" href="#optional-extensions" title="Permalink to this headline">¶</a></h3>
+<p>You can extend this reference architecture as follows:</p>
+<ul class="simple">
+<li>Add additional cloud controllers (see <a class="reference internal" href="ops-maintenance.html"><em>Maintenance, Failures, and Debugging</em></a>).</li>
+<li>Add an OpenStack Storage service (see the Object Storage chapter in
+the <a class="reference external" href="http://docs.openstack.org/project-install-guide/newton/">Installation Tutorials and Guides</a> for your distribution).</li>
+<li>Add additional OpenStack Block Storage hosts (see
+<a class="reference internal" href="ops-maintenance.html"><em>Maintenance, Failures, and Debugging</em></a>).</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="arch-examples.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Architecture Examples"></i></a>
+          
+          
+            <a href="arch-example-neutron.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Example Architecture — OpenStack Networking"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="architecture.html">Architecture</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="arch-examples.html">Architecture Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-provision.html">Provisioning and Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-cloud-controller.html">Designing for Cloud Controllers and Cloud Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-compute-nodes.html">Compute Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-scaling.html">Scaling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-storage.html">Storage Decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-network-design.html">Network Design</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Operations</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app-usecases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-crypt.html">Tales From the Cryp^H^H^H^H Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-roadmaps.html">Working with Roadmaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "arch-example-nova-network" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/ops-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Example Architecture — Legacy Networking (nova) in Operations Guide";
+    var fieldTags = "ops-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/ops-guide/arch-example-nova-network.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:40:38 GMT -->
+</html>

@@ -1,0 +1,707 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/object-storage.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:24:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Object Storage</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Object Storage</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="networking/checklist.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Checklist"></i></a>
+    
+    
+    <a href="messaging.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Message queuing"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Object Storage</a><ul>
+<li><a class="reference internal" href="#first-thing-to-secure-the-network">First thing to secure: the network</a></li>
+<li><a class="reference internal" href="#securing-services-general">Securing services: general</a><ul>
+<li><a class="reference internal" href="#run-services-as-non-root-user">Run services as non-root user</a></li>
+<li><a class="reference internal" href="#file-permissions">File permissions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#securing-storage-services">Securing storage services</a><ul>
+<li><a class="reference internal" href="#object-storage-account-terminology">Object Storage &#8220;account&#8221; terminology</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#securing-proxy-services">Securing proxy services</a><ul>
+<li><a class="reference internal" href="#http-listening-port">HTTP listening port</a></li>
+<li><a class="reference internal" href="#load-balancer">Load balancer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#object-storage-authentication">Object Storage authentication</a><ul>
+<li><a class="reference internal" href="#tempauth">TempAuth</a></li>
+<li><a class="reference internal" href="#keystone">Keystone</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other-notable-items">Other notable items</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="object-storage">
+<h1>Object Storage<a class="headerlink" href="#object-storage" title="Permalink to this headline">¶</a></h1>
+<p>OpenStack Object Storage (swift) is a service that provides software that
+stores and retrieves data over HTTP. Objects (blobs of data) are stored in an
+organizational hierarchy that offers anonymous read-only access, ACL defined
+access, or even temporary access. Object Store supports multiple token-based
+authentication mechanisms implemented via middleware.</p>
+<p>Applications store and retrieve data in Object Store via an industry-standard
+HTTP RESTful API. Back-end components of Object Storage follow the same RESTful
+model however some of the APIs for managing durability, for example, are kept
+private to the cluster. For more details on the API see the <a class="reference external" href="http://docs.openstack.org/api/openstack-object-storage/1.0/content/">OpenStack Storage
+documentation</a>.</p>
+<p>For this document the components will be grouped into the following primary
+groups:</p>
+<ol class="arabic simple">
+<li>Proxy services</li>
+<li>Auth services</li>
+<li>Storage services<ul>
+<li>Account service</li>
+<li>Container service</li>
+<li>Object service</li>
+</ul>
+</li>
+</ol>
+<div class="figure" id="id4">
+<a class="reference internal image-reference" href="_images/swift_network_diagram-1.png"><img alt="_images/swift_network_diagram-1.png" src="_images/swift_network_diagram-1.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">An example diagram from the OpenStack Object Storage Administration Guide
+(2013)</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An Object Storage installation does not have to necessarily be on the
+Internet and could also be a private cloud with the &#8220;Public Switch&#8221; being
+part of the organization&#8217;s internal network infrastructure.</p>
+</div>
+<div class="section" id="first-thing-to-secure-the-network">
+<h2>First thing to secure: the network<a class="headerlink" href="#first-thing-to-secure-the-network" title="Permalink to this headline">¶</a></h2>
+<p>Securing the Object Storage service begins with securing the networking
+component. If you skipped the networking chapter, go back to <a class="reference internal" href="networking.html"><em>Networking</em></a>.</p>
+<p>The rsync protocol is used between storage service nodes to replicate data for
+high availability. In addition, the proxy service communicates with the storage
+service when relaying data back and forth between the client end-point and the
+cloud environment.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Object Storage does not employ encryption or authentication with inter-node
+communications. This is why you see a &#8220;Private Switch&#8221; or private network
+([V]LAN) in the architecture diagrams. This data domain should be separate
+from other OpenStack data networks as well. For further discussion on
+security domains please see <a class="reference internal" href="introduction/security-boundaries-and-threats.html"><em>Security boundaries and threats</em></a>.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><em>Rule:</em> Use a private (V)LAN network segment for your storage nodes in the
+data domain.</p>
+</div>
+<p>This necessitates that the proxy nodes have dual interfaces (physical or
+virtual):</p>
+<ol class="arabic simple">
+<li>One as a &#8220;public&#8221; interface for consumers to reach</li>
+<li>Another as a &#8220;private&#8221; interface with access to the storage nodes</li>
+</ol>
+<p>The following figure demonstrates one possible network architecture.</p>
+<div class="figure" id="id5">
+<a class="reference internal image-reference" href="_images/swift_network_diagram-2.png"><img alt="_images/swift_network_diagram-2.png" src="_images/swift_network_diagram-2.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">Object Storage network architecture with a management node (OSAM)</span></p>
+</div>
+</div>
+<div class="section" id="securing-services-general">
+<h2>Securing services: general<a class="headerlink" href="#securing-services-general" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="run-services-as-non-root-user">
+<h3>Run services as non-root user<a class="headerlink" href="#run-services-as-non-root-user" title="Permalink to this headline">¶</a></h3>
+<p>It is recommended that you configure each Object Storage service to run under a
+non-root (UID 0) service account. One recommendation is the user name &#8220;swift&#8221;
+with the primary group &#8220;swift.&#8221; Object Storage services include, for example,
+&#8216;proxy-server&#8217;, &#8216;container-server&#8217;, &#8216;account-server&#8217;. Detailed steps for setup
+and configuration can be found in the <a class="reference external" href="http://docs.openstack.org/project-install-guide/object-storage/newton/">Add Object Storage chapter</a>
+of the Installation Guide in the <a class="reference external" href="http://docs.openstack.org/">OpenStack Documentation index</a>. (The link defaults to the Ubuntu version.)</p>
+</div>
+<div class="section" id="file-permissions">
+<h3>File permissions<a class="headerlink" href="#file-permissions" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">/etc/swift</span></code> directory contains information about the ring topology
+and environment configuration. The following permissions are recommended:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> chown -R root:swift /etc/swift/*
+<span class="gp">#</span> find /etc/swift/ -type f -exec chmod <span class="m">640</span> <span class="o">{}</span> <span class="se">\;</span>
+<span class="gp">#</span> find /etc/swift/ -type d -exec chmod <span class="m">750</span> <span class="o">{}</span> <span class="se">\;</span>
+</pre></div>
+</div>
+<p>This restricts only root to be able to modify configuration files while
+allowing the services to read them through their group membership in the
+&#8216;swift&#8217; group.</p>
+</div>
+</div>
+<div class="section" id="securing-storage-services">
+<h2>Securing storage services<a class="headerlink" href="#securing-storage-services" title="Permalink to this headline">¶</a></h2>
+<p>The following are the default listening ports for the various storage services:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="60%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Service name</th>
+<th class="head">Port</th>
+<th class="head">Type</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Account service</td>
+<td>6002</td>
+<td>TCP</td>
+</tr>
+<tr class="row-odd"><td>Container service</td>
+<td>6001</td>
+<td>TCP</td>
+</tr>
+<tr class="row-even"><td>Object Service</td>
+<td>6000</td>
+<td>TCP</td>
+</tr>
+<tr class="row-odd"><td>Rsync <a class="footnote-reference" href="#id2" id="id1">[1]</a></td>
+<td>873</td>
+<td>TCP</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>If ssync is used instead of rsync, the Object service port is used for
+maintaining durability.</td></tr>
+</tbody>
+</table>
+<p>Authentication does not take place at the storage nodes. If someone was able to
+connect to a storage node on one of these ports they could access or modify
+data without authentication. In order to secure against this issue you should
+follow the recommendations given previously about using a private storage
+network.</p>
+<div class="section" id="object-storage-account-terminology">
+<h3>Object Storage &#8220;account&#8221; terminology<a class="headerlink" href="#object-storage-account-terminology" title="Permalink to this headline">¶</a></h3>
+<p>An Object Storage &#8220;account&#8221; is not a user account or credential. The following
+explains the relations:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>OpenStack Object Storage account</td>
+<td>Collection of containers; not user accounts or authentication. Which
+users are associated with the account and how they may access it
+depends on the authentication system used. See
+<a class="reference internal" href="#object-storage-authentication"><span>Object Storage authentication</span></a>.</td>
+</tr>
+<tr class="row-even"><td>OpenStack Object Storage containers</td>
+<td>Collection of objects. Metadata on the container is available for
+ACLs. The meaning of ACLs is dependent on the authentication system
+used.</td>
+</tr>
+<tr class="row-odd"><td>OpenStack Object Storage objects</td>
+<td>The actual data objects. ACLs at the object level are also possible
+with metadata and are dependent on the authentication system used.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Another way of thinking about the above would be: A single shelf (account)
+holds zero or more buckets (containers) which each hold zero or more
+objects. A garage (Object Storage cluster) may have multiple shelves
+(accounts) with each shelf belonging to zero or more users.</p>
+</div>
+<p>At each level you may have ACLs that dictate who has what type of access. ACLs
+are interpreted based on what authentication system is in use. The two most
+common types of authentication providers used are Identity service (keystone)
+and TempAuth. Custom authentication providers are also possible. Please see
+<a class="reference internal" href="#object-storage-authentication"><span>Object Storage authentication</span></a> for more information.</p>
+</div>
+</div>
+<div class="section" id="securing-proxy-services">
+<h2>Securing proxy services<a class="headerlink" href="#securing-proxy-services" title="Permalink to this headline">¶</a></h2>
+<p>A proxy node should have at least two interfaces (physical or virtual): one
+public and one private. Firewalls or service binding might protect the public
+interface. The public facing service is an HTTP web server that processes
+end-point client requests, authenticates them, and performs the appropriate
+action. The private interface does not require any listening services but is
+instead used to establish outgoing connections to storage nodes on the private
+storage network.</p>
+<div class="section" id="http-listening-port">
+<h3>HTTP listening port<a class="headerlink" href="#http-listening-port" title="Permalink to this headline">¶</a></h3>
+<p>You should configure your web service as a non-root (no UID 0) user such as
+&#8220;swift&#8221; mentioned before. The use of a port greater than 1024 is required to
+make this easy and avoid running any part of the web container as root. Doing
+so is not a burden as end-point clients are not typically going to type in the
+URL manually into a web browser to browse around in the object storage.
+Additionally, for clients using the HTTP REST API and performing authentication
+they will normally automatically grab the full REST API URL they are to use as
+provided by the authentication response. OpenStack&#8217;s REST API allows for a
+client to authenticate to one URL and then be told to use a completely
+different URL for the actual service. Example: Client authenticates to
+<a class="reference external" href="https://identity.cloud.example.org:55443/v1/auth">https://identity.cloud.example.org:55443/v1/auth</a> and gets a response with their
+authentication key and Storage URL (the URL of the proxy nodes or load
+balancer) of <a class="reference external" href="https://swift.cloud.example.org:44443/v1/AUTH_8980">https://swift.cloud.example.org:44443/v1/AUTH_8980</a>.</p>
+<p>The method for configuring your web server to start and run as a non-root user
+varies by web server and OS.</p>
+</div>
+<div class="section" id="load-balancer">
+<h3>Load balancer<a class="headerlink" href="#load-balancer" title="Permalink to this headline">¶</a></h3>
+<p>If the option of using Apache is not feasible or for performance you wish to
+offload your TLS work you may employ a dedicated network device load balancer.
+This is also the common way to provide redundancy and load balancing when using
+multiple proxy nodes.</p>
+<p>If you choose to offload your TLS, ensure that the network link between the
+load balancer and your proxy nodes are on a private (V)LAN segment such that
+other nodes on the network (possibly compromised) cannot wiretap (sniff) the
+unencrypted traffic. If such a breach were to occur the attacker could gain
+access to end-point client or cloud administrator credentials and access the
+cloud data.</p>
+<p>The authentication service you use, such as Identity service (keystone) or
+TempAuth, will determine how you configure a different URL in the responses to
+end-point clients so they use your load balancer instead of an individual proxy
+node.</p>
+</div>
+</div>
+<div class="section" id="object-storage-authentication">
+<span id="id3"></span><h2>Object Storage authentication<a class="headerlink" href="#object-storage-authentication" title="Permalink to this headline">¶</a></h2>
+<p>Object Storage uses a WSGI model to provide for a middleware capability that
+not only provides general extensibility but is also used for authentication of
+end-point clients. The authentication provider defines what roles and user
+types exist. Some use traditional user name and password credentials while
+others may leverage API key tokens or even client-side x.509 certificates.
+Custom providers can be integrated in using custom middleware.</p>
+<p>Object Storage comes with two authentication middleware modules by default,
+either of which can be used as sample code for developing a custom
+authentication middleware.</p>
+<div class="section" id="tempauth">
+<h3>TempAuth<a class="headerlink" href="#tempauth" title="Permalink to this headline">¶</a></h3>
+<p>TempAuth is the default authentication for Object Storage. In contrast to
+Identity it stores the user accounts, credentials, and metadata in object
+storage itself. More information can be found in the section <a class="reference external" href="http://docs.openstack.org/developer/swift/overview_auth.html">The Auth System</a> of the Object
+Storage (swift) documentation.</p>
+</div>
+<div class="section" id="keystone">
+<h3>Keystone<a class="headerlink" href="#keystone" title="Permalink to this headline">¶</a></h3>
+<p>Keystone is the commonly used Identity provider in OpenStack. It may also be
+used for authentication in Object Storage. Coverage of securing keystone is
+already provided in <a class="reference internal" href="identity.html"><em>Identity</em></a>.</p>
+</div>
+</div>
+<div class="section" id="other-notable-items">
+<h2>Other notable items<a class="headerlink" href="#other-notable-items" title="Permalink to this headline">¶</a></h2>
+<p>In <code class="docutils literal"><span class="pre">/etc/swift</span></code> on every node there is a <code class="docutils literal"><span class="pre">swift_hash_path_prefix</span></code>
+setting and a <code class="docutils literal"><span class="pre">swift_hash_path_suffix</span></code> setting. These are provided to reduce
+the chance of hash collisions for objects being stored and avert one user
+overwriting the data of another user.</p>
+<p>This value should be initially set with a cryptographically secure random
+number generator and consistent across all nodes. Ensure that it is protected
+with proper ACLs and that you have a backup copy to avoid data loss.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="networking/checklist.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Checklist"></i></a>
+          
+          
+            <a href="messaging.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Message queuing"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">System documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="management.html">Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Object Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#first-thing-to-secure-the-network">First thing to secure: the network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#securing-services-general">Securing services: general</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#securing-storage-services">Securing storage services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#securing-proxy-services">Securing proxy services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#object-storage-authentication">Object Storage authentication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-notable-items">Other notable items</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compliance.html">Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "object-storage" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Object Storage in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/object-storage.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:24:55 GMT -->
+</html>

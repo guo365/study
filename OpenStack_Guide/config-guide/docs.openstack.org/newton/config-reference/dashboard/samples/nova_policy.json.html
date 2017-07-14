@@ -1,0 +1,919 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/dashboard/samples/nova_policy.json.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:25:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: nova_policy.json</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>nova_policy.json</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="keystone_policy.json.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: keystone_policy.json"></i></a>
+    
+    
+    <a href="../logs.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Dashboard log files"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">nova_policy.json</a></li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="nova-policy-json">
+<h1>nova_policy.json<a class="headerlink" href="#nova-policy-json" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal"><span class="pre">nova_policy.json</span></code> file defines additional access controls for
+the dashboard that apply to the Compute service.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">nova_policy.json</span></code> file must match the Compute
+<code class="docutils literal"><span class="pre">/etc/nova/policy.json</span></code> policy file.</p>
+</div>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;context_is_admin&quot;</span><span class="p">:</span>  <span class="s2">&quot;role:admin&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;admin_or_owner&quot;</span><span class="p">:</span>  <span class="s2">&quot;is_admin:True or project_id:%(project_id)s&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;default&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;cells_scheduler_filter:TargetCellFilter&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:True&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:create:attach_network&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:create:attach_volume&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:create:forced_host&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:True&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:get&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_all&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_all_tenants&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:True&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:update&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:get_instance_metadata&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_all_instance_metadata&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_all_instance_system_metadata&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:update_instance_metadata&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:delete_instance_metadata&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:get_instance_faults&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_diagnostics&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_instance_diagnostics&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:start&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:stop&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:get_lock&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:lock&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:unlock&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:unlock_override&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:get_vnc_console&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_spice_console&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_rdp_console&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_serial_console&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_mks_console&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:get_console_output&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:reset_network&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:inject_network_info&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:add_fixed_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:remove_fixed_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:attach_volume&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:detach_volume&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:swap_volume&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:attach_interface&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:detach_interface&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:set_admin_password&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:rescue&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:unrescue&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:suspend&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:resume&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:pause&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:unpause&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:shelve&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:shelve_offload&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:unshelve&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:snapshot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:snapshot_volume_backed&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:backup&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:resize&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:confirm_resize&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:revert_resize&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:rebuild&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:reboot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:soft_delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:force_delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:security_groups:add_to_instance&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:security_groups:remove_from_instance&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:soft_delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:force_delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:restore&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;compute:volume_snapshot_create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute:volume_snapshot_delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;admin_api&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:True&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:accounts&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:pause&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:unpause&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:suspend&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:resume&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:lock&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:unlock&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:resetNetwork&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:injectNetworkInfo&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:createBackup&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:migrateLive&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:resetState&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:admin_actions:migrate&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:aggregates&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:agents&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:attach_interfaces&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:baremetal_nodes&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:cells&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:cells:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:cells:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:cells:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:cells:sync_instances&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:certificates&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:cloudpipe&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:cloudpipe_update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:config_drive&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:console_output&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:consoles&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:createserverext&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:deferred_delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:disk_config&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:evacuate&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:extended_server_attributes&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:extended_status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:extended_availability_zone&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:extended_ips&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:extended_ips_mac&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:extended_vif_net&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:extended_volumes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:fixed_ips&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavor_access&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavor_access:addTenantAccess&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavor_access:removeTenantAccess&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavor_disabled&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavor_rxtx&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavor_swap&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavorextradata&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavorextraspecs:index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavorextraspecs:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavorextraspecs:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavorextraspecs:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavorextraspecs:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:flavormanage&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:floating_ip_dns&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:floating_ip_pools&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:floating_ips&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:floating_ips_bulk&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:fping&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:fping:all_tenants&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:hide_server_addresses&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:False&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:hosts&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:hypervisors&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:image_size&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:instance_actions&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:instance_actions:events&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:instance_usage_audit_log&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:keypairs&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:keypairs:index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:keypairs:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:keypairs:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:keypairs:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:multinic&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:networks&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:networks:view&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:networks_associate&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:os-tenant-networks&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:quotas:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:quotas:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:quotas:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:quota_classes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:rescue&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:security_group_default_rules&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:security_groups&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:server_diagnostics&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:server_groups&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:server_password&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:server_usage&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:services&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:shelve&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:shelveOffload&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:simple_tenant_usage:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:simple_tenant_usage:list&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:unshelve&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:users&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:virtual_interfaces&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:virtual_storage_arrays&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:volumes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:volume_attachments:index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:volume_attachments:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:volume_attachments:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:volume_attachments:update&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:volume_attachments:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:volumetypes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:availability_zone:list&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:availability_zone:detail&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:used_limits_for_admin&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:migrations:index&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:os-assisted-volume-snapshots:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:os-assisted-volume-snapshots:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:console_auth_tokens&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;compute_extension:os-server-external-events:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;network:get_all&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:associate&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:disassociate&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_vifs_by_instance&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:allocate_for_instance&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:deallocate_for_instance&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:validate_networks&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_instance_uuids_by_ip_filter&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_instance_id_by_floating_address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:setup_networks_on_host&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_backdoor_port&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;network:get_floating_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_floating_ip_pools&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_floating_ip_by_address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_floating_ips_by_project&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_floating_ips_by_fixed_address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:allocate_floating_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:associate_floating_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:disassociate_floating_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:release_floating_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:migrate_instance_start&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:migrate_instance_finish&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;network:get_fixed_ip&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_fixed_ip_by_address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:add_fixed_ip_to_instance&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:remove_fixed_ip_from_instance&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:add_network_to_project&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_instance_nw_info&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;network:get_dns_domains&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:add_dns_entry&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:modify_dns_entry&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:delete_dns_entry&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_dns_entries_by_address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_dns_entries_by_name&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:create_private_dns_domain&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:create_public_dns_domain&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:delete_dns_domain&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:attach_external_network&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;network:get_vif_by_mac_address&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+    <span class="nt">&quot;os_compute_api:servers:detail:get_all_tenants&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:True&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:index:get_all_tenants&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:True&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:confirm_resize&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:create:attach_network&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:create:attach_volume&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:create:forced_host&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:update&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:detail&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:reboot&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:rebuild&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:resize&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:revert_resize&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:create_image&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:create_image:allow_volume_backed&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:start&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:stop&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-access-ips:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-access-ips&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-admin-actions&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-admin-actions:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-admin-actions:reset_network&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-admin-actions:inject_network_info&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-admin-actions:reset_state&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-admin-password&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-admin-password:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:index&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:add_host&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:remove_host&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-aggregates:set_metadata&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-agents&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-agents:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-attach-interfaces&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-attach-interfaces:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-baremetal-nodes&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-baremetal-nodes:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-block-device-mapping-v1:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cells&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cells:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cells:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cells:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cells:sync_instances&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cells:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-certificates:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-certificates:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-certificates:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cloudpipe&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-cloudpipe:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-config-drive&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-consoles:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-consoles:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-consoles:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-consoles:index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-consoles:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-console-output:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-console-output&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-remote-consoles&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-remote-consoles:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-create-backup:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-create-backup&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-deferred-delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-deferred-delete:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-disk-config&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-disk-config:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-evacuate&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-evacuate:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-server-attributes&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-server-attributes:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-status&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-status:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-availability-zone&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-availability-zone:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:extensions&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:extension_info:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-volumes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-extended-volumes:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-fixed-ips&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-fixed-ips:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-access&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-access:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-access:remove_tenant_access&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-access:add_tenant_access&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-rxtx&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-rxtx:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:flavors:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-extra-specs:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-extra-specs:index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-extra-specs:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-extra-specs:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-extra-specs:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-extra-specs:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-manage:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-flavor-manage&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ip-dns&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ip-dns:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ip-dns:domain:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ip-dns:domain:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ip-pools&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ip-pools:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ips&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ips:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ips-bulk&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-floating-ips-bulk:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-fping&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-fping:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-fping:all_tenants&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-hide-server-addresses&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:False&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-hide-server-addresses:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-hosts&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-hosts:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-hypervisors&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-hypervisors:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:images:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:image-size&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:image-size:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-instance-actions&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-instance-actions:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-instance-actions:events&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-instance-usage-audit-log&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-instance-usage-audit-log:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:ips:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:ips:index&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:ips:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-keypairs:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-keypairs&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-keypairs:index&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api or user_id:%(user_id)s&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-keypairs:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api or user_id:%(user_id)s&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-keypairs:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api or user_id:%(user_id)s&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-keypairs:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api or user_id:%(user_id)s&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:limits:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:limits&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-lock-server:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-lock-server:lock&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-lock-server:unlock&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-lock-server:unlock:unlock_override&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-migrate-server:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-migrate-server:migrate&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-migrate-server:migrate_live&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-multinic&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-multinic:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-networks&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-networks:view&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-networks:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-networks-associate&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-networks-associate:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pause-server:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pause-server:pause&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pause-server:unpause&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pci:pci_servers&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pci:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pci:index&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pci:detail&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-pci:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-personality:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-preserve-ephemeral-rebuild:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-sets:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-sets:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-sets:defaults&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-sets:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-sets:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-sets:detail&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-class-sets:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-class-sets:show&quot;</span><span class="p">:</span> <span class="s2">&quot;is_admin:True or quota_class:%(quota_class)s&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-quota-class-sets:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-rescue&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-rescue:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-scheduler-hints:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-security-group-default-rules:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-security-group-default-rules&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-security-groups&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-security-groups:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-diagnostics&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-diagnostics:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-password&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-password:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-usage&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-usage:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-groups&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-groups:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-services&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-services:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:server-metadata:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:server-metadata:index&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:server-metadata:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:server-metadata:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:server-metadata:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:server-metadata:update&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:server-metadata:update_all&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:servers:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-shelve:shelve&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-shelve:shelve:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-shelve:shelve_offload&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-simple-tenant-usage:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-simple-tenant-usage:show&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-simple-tenant-usage:list&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-suspend-server:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-suspend-server:suspend&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-suspend-server:resume&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-tenant-networks&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_or_owner&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-tenant-networks:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-shelve:unshelve&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-user-data:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-virtual-interfaces&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-virtual-interfaces:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes-attachments:index&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes-attachments:show&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes-attachments:create&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes-attachments:update&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes-attachments:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-volumes-attachments:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-availability-zone:list&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-availability-zone:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-availability-zone:detail&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-used-limits&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-used-limits:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-migrations:index&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-migrations:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-assisted-volume-snapshots:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-assisted-volume-snapshots:delete&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-assisted-volume-snapshots:discoverable&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-console-auth-tokens&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;os_compute_api:os-server-external-events:create&quot;</span><span class="p">:</span> <span class="s2">&quot;rule:admin_api&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="keystone_policy.json.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: keystone_policy.json"></i></a>
+          
+          
+            <a href="../logs.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Dashboard log files"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../dashboard.html">Dashboard</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Dashboard configuration options</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Dashboard sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Dashboard log files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "dashboard/samples/nova_policy.json" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "nova_policy.json in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/dashboard/samples/nova_policy.json.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:25:30 GMT -->
+</html>

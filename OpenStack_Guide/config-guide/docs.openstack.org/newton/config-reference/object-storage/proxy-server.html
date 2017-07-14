@@ -1,0 +1,1911 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/object-storage/proxy-server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:46:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Proxy server configuration</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Proxy server configuration</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="account-server.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Account server configuration"></i></a>
+    
+    
+    <a href="memcache.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Proxy server memcache configuration"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Proxy server configuration</a><ul>
+<li><a class="reference internal" href="#sample-proxy-server-configuration-file">Sample proxy server configuration file</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="proxy-server-configuration">
+<h1>Proxy server configuration<a class="headerlink" href="#proxy-server-configuration" title="Permalink to this headline">¶</a></h1>
+<p>Find an example proxy server configuration at
+<code class="docutils literal"><span class="pre">etc/proxy-server.conf-sample</span></code> in the source code repository.</p>
+<p>The available configuration options are:</p>
+<table border="1" class="config-ref-table docutils" id="id1">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[app-proxy-server]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">account_autocreate</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If set to &#8216;true&#8217; authorized accounts that do not yet exist within the Swift cluster will be automatically created.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">allow_account_management</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Whether account PUTs and DELETEs are even callable.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">auto_create_account_prefix</span></code> = <code class="docutils literal"><span class="pre">.</span></code></td>
+<td>Prefix to use when automatically creating accounts.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">client_chunk_size</span></code> = <code class="docutils literal"><span class="pre">65536</span></code></td>
+<td>Chunk size to read from clients.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">conn_timeout</span></code> = <code class="docutils literal"><span class="pre">0.5</span></code></td>
+<td>Connection timeout to external services.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">deny_host_headers</span></code> =</td>
+<td>Comma separated list of Host headers to which the proxy will deny requests.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">error_suppression_interval</span></code> = <code class="docutils literal"><span class="pre">60</span></code></td>
+<td>Time in seconds that must elapse since the last error for a node to be considered no longer error limited.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">error_suppression_limit</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td>Error count to consider a node error limited.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_handoffs</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td><p class="first">Log handoff requests if handoff logging is enabled and the handoff was not expected.</p>
+<p class="last">We only log handoffs when we&#8217;ve pushed the handoff count further than we would normally have expected under normal circumstances, that is (request_node_count - num_primaries), when handoffs goes higher than that it means one of the primaries must have been skipped because of error limiting before we consumed all of our nodes_left.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_containers_per_account</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>If set to a positive value, trying to create a container when the account already has at least this maximum containers will result in a 403 Forbidden. Note: This is a soft limit, meaning a user might exceed the cap for recheck_account_existence before the 403s kick in.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_containers_whitelist</span></code> =</td>
+<td>is a comma separated list of account names that ignore the max_containers_per_account cap.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">node_timeout</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td>Request timeout to external services.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">object_chunk_size</span></code> = <code class="docutils literal"><span class="pre">65536</span></code></td>
+<td>Chunk size to read from object servers.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">object_post_as_copy</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td>Set object_post_as_copy = false to turn on fast posts where only the metadata changes are stored anew and the original data file is kept in place. This makes for quicker posts; but since the container metadata isn&#8217;t updated in this mode, features like container sync won&#8217;t be able to sync posts.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">post_quorum_timeout</span></code> = <code class="docutils literal"><span class="pre">0.5</span></code></td>
+<td>How long to wait for requests to finish after a quorum has been established.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">put_queue_depth</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td>Depth of the proxy put queue.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">read_affinity</span></code> = <code class="docutils literal"><span class="pre">r1z1=100,</span> <span class="pre">r1z2=200,</span> <span class="pre">r2=300</span></code></td>
+<td><p class="first">Which backend servers to prefer on reads. Format is r&lt;N&gt; for region N or r&lt;N&gt;z&lt;M&gt; for region N, zone M. The value after the equals is the priority; lower numbers are higher priority.</p>
+<p>Example: first read from region 1 zone 1, then region 1 zone 2, then anything in region 2, then everything else: read_affinity = r1z1=100, r1z2=200, r2=300</p>
+<p class="last">Default is empty, meaning no preference.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">recheck_account_existence</span></code> = <code class="docutils literal"><span class="pre">60</span></code></td>
+<td>Cache timeout in seconds to send memcached for account existence.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">recheck_container_existence</span></code> = <code class="docutils literal"><span class="pre">60</span></code></td>
+<td>Cache timeout in seconds to send memcached for container existence.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">recoverable_node_timeout</span></code> = <code class="docutils literal"><span class="pre">node_timeout</span></code></td>
+<td>Request timeout to external services for requests that, on failure, can be recovered from. For example, object GET. from a client external services.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">request_node_count</span></code> = <code class="docutils literal"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">replicas</span></code></td>
+<td>replicas Set to the number of nodes to contact for a normal request. You can use &#8216;* replicas&#8217; at the end to have it use the number given times the number of replicas for the ring being used for the request. conf file for values will only be shown to the list of swift_owners. The exact default definition of a swift_owner is headers&gt; up to the auth system in use, but usually indicates administrative responsibilities. paste.deploy to use for auth. To use tempauth set to:</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">proxy-server</span></code></td>
+<td>Label to use when logging.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">sorting_method</span></code> = <code class="docutils literal"><span class="pre">shuffle</span></code></td>
+<td><p class="first">Storage nodes can be chosen at random (shuffle), by using timing measurements (timing), or by using an explicit match (affinity). Using timing measurements may allow for lower overall latency, while using affinity allows for finer control. In both the timing and affinity cases, equally-sorting nodes are still randomly chosen to spread load.</p>
+<p class="last">The valid values for sorting_method are &#8220;affinity&#8221;, &#8220;shuffle&#8221;, or &#8220;timing&#8221;.</p>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">swift_owner_headers</span></code> = <code class="docutils literal"><span class="pre">x-container-read,</span> <span class="pre">x-container-write,</span> <span class="pre">x-container-sync-key,</span> <span class="pre">x-container-sync-to,</span> <span class="pre">x-account-meta-temp-url-key,</span> <span class="pre">x-account-meta-temp-url-key-2,</span> <span class="pre">x-container-meta-temp-url-key,</span> <span class="pre">x-container-meta-temp-url-key-2,</span> <span class="pre">x-account-access-control</span></code></td>
+<td>These are the headers whose conf file for values will only be shown to the list of swift_owners. The exact default definition of a swift_owner is headers&gt; up to the auth system in use, but usually indicates administrative responsibilities. paste.deploy to use for auth. To use tempauth set to:</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">timing_expiry</span></code> = <code class="docutils literal"><span class="pre">300</span></code></td>
+<td>If the &#8220;timing&#8221; sorting_method is used, the timings will only be valid for the number of seconds configured by timing_expiry.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#proxy</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">write_affinity</span></code> = <code class="docutils literal"><span class="pre">r1,</span> <span class="pre">r2</span></code></td>
+<td>This setting lets you trade data distribution for throughput. It makes the proxy server prefer local back-end servers for object PUT requests over non-local ones. Note that only object PUT requests are affected by the write_affinity setting; POST, GET, HEAD, DELETE, OPTIONS, and account/container PUT requests are not affected. The format is r&lt;N&gt; for region N or r&lt;N&gt;z&lt;M&gt; for region N, zone M. If this is set, then when handling an object PUT request, some number (see the write_affinity_node_count setting) of local backend servers will be tried before any nonlocal ones. Example: try to write to regions 1 and 2 before writing to any other nodes: write_affinity = r1, r2</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">write_affinity_node_count</span></code> = <code class="docutils literal"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">replicas</span></code></td>
+<td>This setting is only useful in conjunction with write_affinity; it governs how many local object servers will be tried before falling back to non-local ones. You can use &#8216;* replicas&#8217; at the end to have it use the number given times the number of replicas for the ring being used for the request: write_affinity_node_count = 2 * replicas</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id2">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[pipeline-main]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">pipeline</span></code> = <code class="docutils literal"><span class="pre">catch_errors</span> <span class="pre">gatekeeper</span> <span class="pre">healthcheck</span> <span class="pre">proxy-logging</span> <span class="pre">cache</span> <span class="pre">container_sync</span> <span class="pre">bulk</span> <span class="pre">tempurl</span> <span class="pre">ratelimit</span> <span class="pre">tempauth</span> <span class="pre">container-quotas</span> <span class="pre">account-quotas</span> <span class="pre">slo</span> <span class="pre">dlo</span> <span class="pre">versioned_writes</span> <span class="pre">proxy-logging</span> <span class="pre">proxy-server</span></code></td>
+<td>Pipeline to use for processing operations.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id3">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-account-quotas]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#account_quotas</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id4">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-authtoken]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">auth_plugin</span></code> = <code class="docutils literal"><span class="pre">password</span></code></td>
+<td>Authentication module to use.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">auth_uri</span></code> = <code class="docutils literal"><span class="pre">http://keystonehost:5000</span></code></td>
+<td>auth_uri should point to a Keystone service from which users may retrieve tokens. This value is used in the WWW-Authenticate header that auth_token sends with any denial response.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">auth_url</span></code> = <code class="docutils literal"><span class="pre">http://keystonehost:35357</span></code></td>
+<td>auth_url points to the Keystone Admin service. This information is used by the middleware to actually query Keystone about the validity of the authentication tokens. It is not necessary to append any Keystone API version number to this URI.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">cache</span></code> = <code class="docutils literal"><span class="pre">swift.cache</span></code></td>
+<td><code class="docutils literal"><span class="pre">cache</span></code> is set to <code class="docutils literal"><span class="pre">swift.cache</span></code>. This means that the middleware will get the Swift memcache from the request environment.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">delay_auth_decision</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>delay_auth_decision defaults to False, but leaving it as false will prevent other auth systems, staticweb, tempurl, formpost, and ACLs from working. This value must be explicitly set to True.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">include_service_catalog</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>include_service_catalog defaults to True if not set. This means that when validating a token, the service catalog is retrieved and stored in the X-Service-Catalog header. Since Swift does not use the X-Service-Catalog header, there is no point in getting the service catalog. We recommend you set include_service_catalog to False.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">password</span></code> = <code class="docutils literal"><span class="pre">password</span></code></td>
+<td>Password for service user.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">paste.filter_factory</span></code> = <code class="docutils literal"><span class="pre">keystonemiddleware.auth_token:filter_factory</span></code></td>
+<td>Entry point of paste.filter_factory in the server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">project_domain_id</span></code> = <code class="docutils literal"><span class="pre">default</span></code></td>
+<td>Service project domain.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">project_name</span></code> = <code class="docutils literal"><span class="pre">service</span></code></td>
+<td>Service project name.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">user_domain_id</span></code> = <code class="docutils literal"><span class="pre">default</span></code></td>
+<td>Service user domain.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">username</span></code> = <code class="docutils literal"><span class="pre">swift</span></code></td>
+<td>Service user name.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id5">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-cache]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">memcache_max_connections</span></code> = <code class="docutils literal"><span class="pre">2</span></code></td>
+<td>Max number of connections to each memcached server per worker services</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">memcache_serialization_support</span></code> = <code class="docutils literal"><span class="pre">2</span></code></td>
+<td>Sets how memcache values are serialized and deserialized</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">memcache_servers</span></code> = <code class="docutils literal"><span class="pre">127.0.0.1:11211</span></code></td>
+<td>Comma-separated list of memcached servers ip:port services</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If True, log headers in each request</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">cache</span></code></td>
+<td>Label to use when logging</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#memcache</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id6">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-catch_errors]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If True, log headers in each request</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">catch_errors</span></code></td>
+<td>Label to use when logging</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#catch_errors</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id7">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-container_sync]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">allow_full_urls</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td>Set this to false if you want to disallow any full URL values to be set for any new X-Container-Sync-To headers. This will keep any new full URLs from coming in, but won&#8217;t change any existing values already in the cluster. Updating those will have to be done manually, as knowing what the true realm endpoint should be cannot always be guessed.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">current</span></code> = <code class="docutils literal"><span class="pre">//REALM/CLUSTER</span></code></td>
+<td>Set this to specify this cluster //realm/cluster as &#8220;current&#8221; in /info.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#container_sync</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id8">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-dlo]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_get_time</span></code> = <code class="docutils literal"><span class="pre">86400</span></code></td>
+<td>Time limit on GET requests (seconds).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">rate_limit_after_segment</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td>Rate limit the download of large object segments after this segment is downloaded.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">rate_limit_segments_per_sec</span></code> = <code class="docutils literal"><span class="pre">1</span></code></td>
+<td>Rate limit large object downloads at this rate. contact for a normal request. You can use &#8216;* replicas&#8217; at the end to have it use the number given times the number of replicas for the ring being used for the request. paste.deploy to use for auth. To use tempauth set to:</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#dlo</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id9">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-versioned_writes]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">allow_versioned_writes</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td><p class="first">Enables using versioned writes middleware and exposing configuration settings via HTTP GET /info.</p>
+<div class="last admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Setting this option bypasses the <code class="docutils literal"><span class="pre">allow_versions</span></code> option in the
+container configuration file, which will be eventually deprecated.
+For more details, see <a class="reference external" href="http://docs.openstack.org/developer/swift/overview_object_versioning.html">Object Versioning</a>.</p>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#versioned_writes</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id10">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-gatekeeper]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If True, log headers in each request</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">gatekeeper</span></code></td>
+<td>Label to use when logging</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#gatekeeper</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id11">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-healthcheck]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">disable_path</span></code> =</td>
+<td>An optional filesystem path, which if present, will cause the healthcheck URL to return &#8220;503 Service Unavailable&#8221; with a body of &#8220;DISABLED BY FILE&#8221;.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#healthcheck</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id12">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-keystoneauth]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">allow_names_in_acls</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td>The backwards compatible behavior can be disabled by setting this option to False.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">allow_overrides</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td>This option allows middleware higher in the WSGI pipeline to override auth processing, useful for middleware such as tempurl and formpost. If you know you are not going to use such middleware and you want a bit of extra security, you can set this to False.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">default_domain_id</span></code> = <code class="docutils literal"><span class="pre">default</span></code></td>
+<td>Name of the default domain. It is identified by its UUID, which by default has the value &#8220;default&#8221;.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">is_admin</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If this option is set to True, it allows to give a user whose username is the same as the project name and who has any role in the project access rights elevated to be the same as if the user had one of the operator_roles. Note that the condition compares names rather than UUIDs. This option is deprecated. It is False by default.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">operator_roles</span></code> = <code class="docutils literal"><span class="pre">admin,</span> <span class="pre">swiftoperator</span></code></td>
+<td>Operator role defines the user which is allowed to manage a tenant and create containers or give ACL to others. This parameter may be prefixed with an appropriate prefix.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">reseller_admin_role</span></code> = <code class="docutils literal"><span class="pre">ResellerAdmin</span></code></td>
+<td>The reseller admin role gives the ability to create and delete accounts.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">reseller_prefix</span></code> = <code class="docutils literal"><span class="pre">AUTH</span></code></td>
+<td>The naming scope for the auth service.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">service_roles</span></code> =</td>
+<td>When present, this option requires that the X-Service-Token header supplies a token from a user who has a role listed in service_roles. This parameter may be prefixed with an appropriate prefix.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#keystoneauth</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id13">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-list-endpoints]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">list_endpoints_path</span></code> = <code class="docutils literal"><span class="pre">/endpoints/</span></code></td>
+<td>Path to list endpoints for an object, account or container.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#list_endpoints</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id14">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-proxy-logging]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access_log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">access_log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog facility to receive log lines. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access_log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Header to receive log lines. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">access_log_headers_only</span></code> =</td>
+<td>If access_log_headers is True and access_log_headers_only is set only these headers are logged. Multiple headers can be defined as comma separated list like this: access_log_headers_only = Host, X-Object-Meta-Mtime.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access_log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Syslog logging level to receive log lines. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">access_log_name</span></code> = <code class="docutils literal"><span class="pre">swift</span></code></td>
+<td>Label used when logging. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access_log_statsd_default_sample_rate</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>Defines the probability of sending a sample for any given event or timing measurement. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">access_log_statsd_host</span></code> = <code class="docutils literal"><span class="pre">localhost</span></code></td>
+<td>You can use log_statsd_* from [DEFAULT], or override them here. StatsD server. IPv4/IPv6 addresses and hostnames are supported. If a hostname resolves to an IPv4 and IPv6 address, the IPv4 address will be used.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access_log_statsd_metric_prefix</span></code> =</td>
+<td>Value will be prepended to every metric sent to the StatsD server. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">access_log_statsd_port</span></code> = <code class="docutils literal"><span class="pre">8125</span></code></td>
+<td>Port value for the StatsD server. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access_log_statsd_sample_rate_factor</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>Not recommended to set this to a value less than 1.0, if frequency of logging is too high, tune the log_statsd_default_sample_rate instead. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">access_log_udp_host</span></code> =</td>
+<td>If not set, the UDP receiver for syslog is disabled. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">access_log_udp_port</span></code> = <code class="docutils literal"><span class="pre">514</span></code></td>
+<td>Port value for UDP receiver, if enabled. If not set, logging directives from [DEFAULT] without &#8220;access_&#8221; will be used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_statsd_valid_http_methods</span></code> = <code class="docutils literal"><span class="pre">GET,HEAD,POST,PUT,DELETE,COPY,OPTIONS</span></code></td>
+<td>What HTTP methods are allowed for StatsD logging (comma-sep). request methods not in this list will have &#8220;BAD_METHOD&#8221; for the &lt;verb&gt; portion of the metric.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">reveal_sensitive_prefix</span></code> = <code class="docutils literal"><span class="pre">16</span></code></td>
+<td><p class="first">The X-Auth-Token is sensitive data. If revealed to an unauthorised person, they can now make requests against an account until the token expires. Set reveal_sensitive_prefix to the number of characters of the token that are logged. For example reveal_sensitive_prefix = 12 so only first 12 characters of the token are logged. Or, set to 0 to completely remove the token.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">reveal_sensitive_prefix will not affect the value logged with access_log_headers=True.</p>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#proxy_logging</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id15">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-tempauth]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id15" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">allow_overrides</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td>This option allows middleware higher in the WSGI pipeline to override auth processing, useful for middleware such as tempurl and formpost. If you know you are not going to use such middleware and you want a bit of extra security, you can set this to False.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">auth_prefix</span></code> = <code class="docutils literal"><span class="pre">/auth/</span></code></td>
+<td>The HTTP request path prefix for the auth service. Swift itself reserves anything beginning with the letter.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">require_group</span></code> =</td>
+<td>The require_group parameter names a group that must be presented by either X-Auth-Token or X-Service-Token. Usually this parameter is used only with multiple reseller prefixes (for example, SERVICE_require_group=blah). By default, no group is needed. Do not use .admin.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">reseller_prefix</span></code> = <code class="docutils literal"><span class="pre">AUTH</span></code></td>
+<td>The naming scope for the auth service.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If True, log headers in each request.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">tempauth</span></code></td>
+<td>Label to use when logging.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storage_url_scheme</span></code> = <code class="docutils literal"><span class="pre">default</span></code></td>
+<td>Scheme to return with storage urls: http, https, or default (chooses based on what the server is running as) This can be useful with an SSL load balancer in front of a non-SSL server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">token_life</span></code> = <code class="docutils literal"><span class="pre">86400</span></code></td>
+<td>The number of seconds a token is valid.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#tempauth</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">user_&lt;account&gt;_&lt;user&gt;</span></code> = <code class="docutils literal"><span class="pre">&lt;key&gt;</span> <span class="pre">[group]</span> <span class="pre">[group]</span> <span class="pre">[...]</span> <span class="pre">[storage_url]</span></code></td>
+<td><p class="first">List of all the accounts and user you want.</p>
+<p>The following are example entries required for running the tests:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">user_admin_admin</span></code> = <code class="docutils literal"><span class="pre">admin</span> <span class="pre">.admin</span> <span class="pre">.reseller_admin</span></code></li>
+<li><code class="docutils literal"><span class="pre">user_test2_tester2</span></code> = <code class="docutils literal"><span class="pre">testing2</span> <span class="pre">.admin</span></code></li>
+<li><code class="docutils literal"><span class="pre">user_test5_tester5</span></code> = <code class="docutils literal"><span class="pre">testing5</span> <span class="pre">service</span></code></li>
+<li><code class="docutils literal"><span class="pre">user_test_tester</span></code> = <code class="docutils literal"><span class="pre">testing</span> <span class="pre">.admin</span></code></li>
+<li><code class="docutils literal"><span class="pre">user_test_tester3</span></code> = <code class="docutils literal"><span class="pre">testing3</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id16">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-xprofile]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id16" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dump_interval</span></code> = <code class="docutils literal"><span class="pre">5.0</span></code></td>
+<td>The profile data will be dumped to local disk based on above naming rule in this interval (seconds).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dump_timestamp</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Be careful, this option will enable the profiler to dump data into the file with a time stamp which means that there will be lots of files piled up in the directory.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">flush_at_shutdown</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Clears the data when the wsgi server shutdowns.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_filename_prefix</span></code> = <code class="docutils literal"><span class="pre">/tmp/log/swift/profile/default.profile</span></code></td>
+<td>This prefix is used to combine the process ID and timestamp to name the profile data file. Make sure the executing user has permission to write into this path. Any missing path segments will be created, if necessary. When you enable profiling in more than one type of daemon, you must override it with a unique value like: /var/log/swift/profile/accoutn.profile.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">path</span></code> = <code class="docutils literal"><span class="pre">/__profile__</span></code></td>
+<td>This is the path of the URL to access the mini web UI.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">profile_module</span></code> = <code class="docutils literal"><span class="pre">eventlet.green.profile</span></code></td>
+<td>This option enables you to switch profilers which inherit from the Python standard profiler. Currently, the supported value can be ‘cProfile’, ‘eventlet.green.profile’, etc.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">unwind</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Unwind the iterator of applications.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#xprofile</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="sample-proxy-server-configuration-file">
+<h2>Sample proxy server configuration file<a class="headerlink" href="#sample-proxy-server-configuration-file" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="c1"># bind_ip = 0.0.0.0</span>
+<span class="na">bind_port</span> <span class="o">=</span> <span class="s">8080</span>
+<span class="c1"># bind_timeout = 30</span>
+<span class="c1"># backlog = 4096</span>
+<span class="c1"># swift_dir = /etc/swift</span>
+<span class="c1"># user = swift</span>
+
+<span class="c1"># Enables exposing configuration settings via HTTP GET /info.</span>
+<span class="c1"># expose_info = true</span>
+
+<span class="c1"># Key to use for admin calls that are HMAC signed.  Default is empty,</span>
+<span class="c1"># which will disable admin calls to /info.</span>
+<span class="c1"># admin_key = secret_admin_key</span>
+<span class="c1">#</span>
+<span class="c1"># Allows the ability to withhold sections from showing up in the public calls</span>
+<span class="c1"># to /info.  You can withhold subsections by separating the dict level with a</span>
+<span class="c1"># &quot;.&quot;.  The following would cause the sections &#39;container_quotas&#39; and &#39;tempurl&#39;</span>
+<span class="c1"># to not be listed, and the key max_failed_deletes would be removed from</span>
+<span class="c1"># bulk_delete.  Default value is &#39;swift.valid_api_versions&#39; which allows all</span>
+<span class="c1"># registered features to be listed via HTTP GET /info except</span>
+<span class="c1"># swift.valid_api_versions information</span>
+<span class="c1"># disallowed_sections = swift.valid_api_versions, container_quotas, tempurl</span>
+
+<span class="c1"># Use an integer to override the number of pre-forked processes that will</span>
+<span class="c1"># accept connections.  Should default to the number of effective cpu</span>
+<span class="c1"># cores in the system.  It&#39;s worth noting that individual workers will</span>
+<span class="c1"># use many eventlet co-routines to service multiple concurrent requests.</span>
+<span class="c1"># workers = auto</span>
+<span class="c1">#</span>
+<span class="c1"># Maximum concurrent requests per worker</span>
+<span class="c1"># max_clients = 1024</span>
+<span class="c1">#</span>
+<span class="c1"># Set the following two lines to enable SSL. This is for testing only.</span>
+<span class="c1"># cert_file = /etc/swift/proxy.crt</span>
+<span class="c1"># key_file = /etc/swift/proxy.key</span>
+<span class="c1">#</span>
+<span class="c1"># expiring_objects_container_divisor = 86400</span>
+<span class="c1"># expiring_objects_account_name = expiring_objects</span>
+<span class="c1">#</span>
+<span class="c1"># You can specify default log routing here if you want:</span>
+<span class="c1"># log_name = swift</span>
+<span class="c1"># log_facility = LOG_LOCAL0</span>
+<span class="c1"># log_level = INFO</span>
+<span class="c1"># log_headers = false</span>
+<span class="c1"># log_address = /dev/log</span>
+<span class="c1"># The following caps the length of log lines to the value given; no limit if</span>
+<span class="c1"># set to 0, the default.</span>
+<span class="c1"># log_max_line_length = 0</span>
+<span class="c1">#</span>
+<span class="c1"># This optional suffix (default is empty) that would be appended to the swift transaction</span>
+<span class="c1"># id allows one to easily figure out from which cluster that X-Trans-Id belongs to.</span>
+<span class="c1"># This is very useful when one is managing more than one swift cluster.</span>
+<span class="c1"># trans_id_suffix =</span>
+<span class="c1">#</span>
+<span class="c1"># comma separated list of functions to call to setup custom log handlers.</span>
+<span class="c1"># functions get passed: conf, name, log_to_console, log_route, fmt, logger,</span>
+<span class="c1"># adapted_logger</span>
+<span class="c1"># log_custom_handlers =</span>
+<span class="c1">#</span>
+<span class="c1"># If set, log_udp_host will override log_address</span>
+<span class="c1"># log_udp_host =</span>
+<span class="c1"># log_udp_port = 514</span>
+<span class="c1">#</span>
+<span class="c1"># You can enable StatsD logging here:</span>
+<span class="c1"># log_statsd_host =</span>
+<span class="c1"># log_statsd_port = 8125</span>
+<span class="c1"># log_statsd_default_sample_rate = 1.0</span>
+<span class="c1"># log_statsd_sample_rate_factor = 1.0</span>
+<span class="c1"># log_statsd_metric_prefix =</span>
+<span class="c1">#</span>
+<span class="c1"># Use a comma separated list of full url (http://foo.bar:1234,https://foo.bar)</span>
+<span class="c1"># cors_allow_origin =</span>
+<span class="c1"># strict_cors_mode = True</span>
+<span class="c1">#</span>
+<span class="c1"># client_timeout = 60</span>
+<span class="c1"># eventlet_debug = false</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="k">[pipeline:main]</span>
+<span class="c1"># This sample pipeline uses tempauth and is used for SAIO dev work and</span>
+<span class="c1"># testing. See below for a pipeline using keystone.</span>
+<span class="na">pipeline</span> <span class="o">=</span> <span class="s">catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk tempurl ratelimit tempauth copy container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server</span>
+
+<span class="c1"># The following pipeline shows keystone integration. Comment out the one</span>
+<span class="c1"># above and uncomment this one. Additional steps for integrating keystone are</span>
+<span class="c1"># covered further below in the filter sections for authtoken and keystoneauth.</span>
+<span class="c1">#pipeline = catch_errors gatekeeper healthcheck proxy-logging cache container_sync bulk tempurl ratelimit authtoken keystoneauth copy container-quotas account-quotas slo dlo versioned_writes proxy-logging proxy-server</span>
+
+<span class="k">[app:proxy-server]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#proxy</span>
+<span class="c1"># You can override the default log routing for this app here:</span>
+<span class="c1"># set log_name = proxy-server</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># log_handoffs = true</span>
+<span class="c1"># recheck_account_existence = 60</span>
+<span class="c1"># recheck_container_existence = 60</span>
+<span class="c1"># object_chunk_size = 65536</span>
+<span class="c1"># client_chunk_size = 65536</span>
+<span class="c1">#</span>
+<span class="c1"># How long the proxy server will wait on responses from the a/c/o servers.</span>
+<span class="c1"># node_timeout = 10</span>
+<span class="c1">#</span>
+<span class="c1"># How long the proxy server will wait for an initial response and to read a</span>
+<span class="c1"># chunk of data from the object servers while serving GET / HEAD requests.</span>
+<span class="c1"># Timeouts from these requests can be recovered from so setting this to</span>
+<span class="c1"># something lower than node_timeout would provide quicker error recovery</span>
+<span class="c1"># while allowing for a longer timeout for non-recoverable requests (PUTs).</span>
+<span class="c1"># Defaults to node_timeout, should be overriden if node_timeout is set to a</span>
+<span class="c1"># high number to prevent client timeouts from firing before the proxy server</span>
+<span class="c1"># has a chance to retry.</span>
+<span class="c1"># recoverable_node_timeout = node_timeout</span>
+<span class="c1">#</span>
+<span class="c1"># conn_timeout = 0.5</span>
+<span class="c1">#</span>
+<span class="c1"># How long to wait for requests to finish after a quorum has been established.</span>
+<span class="c1"># post_quorum_timeout = 0.5</span>
+<span class="c1">#</span>
+<span class="c1"># How long without an error before a node&#39;s error count is reset. This will</span>
+<span class="c1"># also be how long before a node is reenabled after suppression is triggered.</span>
+<span class="c1"># error_suppression_interval = 60</span>
+<span class="c1">#</span>
+<span class="c1"># How many errors can accumulate before a node is temporarily ignored.</span>
+<span class="c1"># error_suppression_limit = 10</span>
+<span class="c1">#</span>
+<span class="c1"># If set to &#39;true&#39; any authorized user may create and delete accounts; if</span>
+<span class="c1"># &#39;false&#39; no one, even authorized, can.</span>
+<span class="c1"># allow_account_management = false</span>
+<span class="c1">#</span>
+<span class="c1"># If set to &#39;true&#39; authorized accounts that do not yet exist within the Swift</span>
+<span class="c1"># cluster will be automatically created.</span>
+<span class="c1"># account_autocreate = false</span>
+<span class="c1">#</span>
+<span class="c1"># If set to a positive value, trying to create a container when the account</span>
+<span class="c1"># already has at least this maximum containers will result in a 403 Forbidden.</span>
+<span class="c1"># Note: This is a soft limit, meaning a user might exceed the cap for</span>
+<span class="c1"># recheck_account_existence before the 403s kick in.</span>
+<span class="c1"># max_containers_per_account = 0</span>
+<span class="c1">#</span>
+<span class="c1"># This is a comma separated list of account hashes that ignore the</span>
+<span class="c1"># max_containers_per_account cap.</span>
+<span class="c1"># max_containers_whitelist =</span>
+<span class="c1">#</span>
+<span class="c1"># Comma separated list of Host headers to which the proxy will deny requests.</span>
+<span class="c1"># deny_host_headers =</span>
+<span class="c1">#</span>
+<span class="c1"># Prefix used when automatically creating accounts.</span>
+<span class="c1"># auto_create_account_prefix = .</span>
+<span class="c1">#</span>
+<span class="c1"># Depth of the proxy put queue.</span>
+<span class="c1"># put_queue_depth = 10</span>
+<span class="c1">#</span>
+<span class="c1"># Storage nodes can be chosen at random (shuffle), by using timing</span>
+<span class="c1"># measurements (timing), or by using an explicit match (affinity).</span>
+<span class="c1"># Using timing measurements may allow for lower overall latency, while</span>
+<span class="c1"># using affinity allows for finer control. In both the timing and</span>
+<span class="c1"># affinity cases, equally-sorting nodes are still randomly chosen to</span>
+<span class="c1"># spread load.</span>
+<span class="c1"># The valid values for sorting_method are &quot;affinity&quot;, &quot;shuffle&quot;, or &quot;timing&quot;.</span>
+<span class="c1"># sorting_method = shuffle</span>
+<span class="c1">#</span>
+<span class="c1"># If the &quot;timing&quot; sorting_method is used, the timings will only be valid for</span>
+<span class="c1"># the number of seconds configured by timing_expiry.</span>
+<span class="c1"># timing_expiry = 300</span>
+<span class="c1">#</span>
+<span class="c1"># By default on a GET/HEAD swift will connect to a storage node one at a time</span>
+<span class="c1"># in a single thread. There is smarts in the order they are hit however. If you</span>
+<span class="c1"># turn on concurrent_gets below, then replica count threads will be used.</span>
+<span class="c1"># With addition of the concurrency_timeout option this will allow swift to send</span>
+<span class="c1"># out GET/HEAD requests to the storage nodes concurrently and answer with the</span>
+<span class="c1"># first to respond. With an EC policy the parameter only affects HEAD requests.</span>
+<span class="c1"># concurrent_gets = off</span>
+<span class="c1">#</span>
+<span class="c1"># This parameter controls how long to wait before firing off the next</span>
+<span class="c1"># concurrent_get thread. A value of 0 would be fully concurrent, any other</span>
+<span class="c1"># number will stagger the firing of the threads. This number should be</span>
+<span class="c1"># between 0 and node_timeout. The default is what ever you set for the</span>
+<span class="c1"># conn_timeout parameter.</span>
+<span class="c1"># concurrency_timeout = 0.5</span>
+<span class="c1">#</span>
+<span class="c1"># Set to the number of nodes to contact for a normal request. You can use</span>
+<span class="c1"># &#39;* replicas&#39; at the end to have it use the number given times the number of</span>
+<span class="c1"># replicas for the ring being used for the request.</span>
+<span class="c1"># request_node_count = 2 * replicas</span>
+<span class="c1">#</span>
+<span class="c1"># Which backend servers to prefer on reads. Format is r&lt;N&gt; for region</span>
+<span class="c1"># N or r&lt;N&gt;z&lt;M&gt; for region N, zone M. The value after the equals is</span>
+<span class="c1"># the priority; lower numbers are higher priority.</span>
+<span class="c1">#</span>
+<span class="c1"># Example: first read from region 1 zone 1, then region 1 zone 2, then</span>
+<span class="c1"># anything in region 2, then everything else:</span>
+<span class="c1"># read_affinity = r1z1=100, r1z2=200, r2=300</span>
+<span class="c1"># Default is empty, meaning no preference.</span>
+<span class="c1"># read_affinity =</span>
+<span class="c1">#</span>
+<span class="c1"># Which backend servers to prefer on writes. Format is r&lt;N&gt; for region</span>
+<span class="c1"># N or r&lt;N&gt;z&lt;M&gt; for region N, zone M. If this is set, then when</span>
+<span class="c1"># handling an object PUT request, some number (see setting</span>
+<span class="c1"># write_affinity_node_count) of local backend servers will be tried</span>
+<span class="c1"># before any nonlocal ones.</span>
+<span class="c1">#</span>
+<span class="c1"># Example: try to write to regions 1 and 2 before writing to any other</span>
+<span class="c1"># nodes:</span>
+<span class="c1"># write_affinity = r1, r2</span>
+<span class="c1"># Default is empty, meaning no preference.</span>
+<span class="c1"># write_affinity =</span>
+<span class="c1">#</span>
+<span class="c1"># The number of local (as governed by the write_affinity setting)</span>
+<span class="c1"># nodes to attempt to contact first, before any non-local ones. You</span>
+<span class="c1"># can use &#39;* replicas&#39; at the end to have it use the number given</span>
+<span class="c1"># times the number of replicas for the ring being used for the</span>
+<span class="c1"># request.</span>
+<span class="c1"># write_affinity_node_count = 2 * replicas</span>
+<span class="c1">#</span>
+<span class="c1"># These are the headers whose values will only be shown to swift_owners. The</span>
+<span class="c1"># exact definition of a swift_owner is up to the auth system in use, but</span>
+<span class="c1"># usually indicates administrative responsibilities.</span>
+<span class="c1"># swift_owner_headers = x-container-read, x-container-write, x-container-sync-key, x-container-sync-to, x-account-meta-temp-url-key, x-account-meta-temp-url-key-2, x-container-meta-temp-url-key, x-container-meta-temp-url-key-2, x-account-access-control</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="k">[filter:tempauth]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#tempauth</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = tempauth</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># The reseller prefix will verify a token begins with this prefix before even</span>
+<span class="c1"># attempting to validate it. Also, with authorization, only Swift storage</span>
+<span class="c1"># accounts with this prefix will be authorized by this middleware. Useful if</span>
+<span class="c1"># multiple auth systems are in use for one Swift cluster.</span>
+<span class="c1"># The reseller_prefix may contain a comma separated list of items. The first</span>
+<span class="c1"># item is used for the token as mentioned above. If second and subsequent</span>
+<span class="c1"># items exist, the middleware will handle authorization for an account with</span>
+<span class="c1"># that prefix. For example, for prefixes &quot;AUTH, SERVICE&quot;, a path of</span>
+<span class="c1"># /v1/SERVICE_account is handled the same as /v1/AUTH_account. If an empty</span>
+<span class="c1"># (blank) reseller prefix is required, it must be first in the list. Two</span>
+<span class="c1"># single quote characters indicates an empty (blank) reseller prefix.</span>
+<span class="c1"># reseller_prefix = AUTH</span>
+
+<span class="c1">#</span>
+<span class="c1"># The require_group parameter names a group that must be presented by</span>
+<span class="c1"># either X-Auth-Token or X-Service-Token. Usually this parameter is</span>
+<span class="c1"># used only with multiple reseller prefixes (e.g., SERVICE_require_group=blah).</span>
+<span class="c1"># By default, no group is needed. Do not use .admin.</span>
+<span class="c1"># require_group =</span>
+
+<span class="c1"># The auth prefix will cause requests beginning with this prefix to be routed</span>
+<span class="c1"># to the auth subsystem, for granting tokens, etc.</span>
+<span class="c1"># auth_prefix = /auth/</span>
+<span class="c1"># token_life = 86400</span>
+<span class="c1">#</span>
+<span class="c1"># This allows middleware higher in the WSGI pipeline to override auth</span>
+<span class="c1"># processing, useful for middleware such as tempurl and formpost. If you know</span>
+<span class="c1"># you&#39;re not going to use such middleware and you want a bit of extra security,</span>
+<span class="c1"># you can set this to false.</span>
+<span class="c1"># allow_overrides = true</span>
+<span class="c1">#</span>
+<span class="c1"># This specifies what scheme to return with storage urls:</span>
+<span class="c1"># http, https, or default (chooses based on what the server is running as)</span>
+<span class="c1"># This can be useful with an SSL load balancer in front of a non-SSL server.</span>
+<span class="c1"># storage_url_scheme = default</span>
+<span class="c1">#</span>
+<span class="c1"># Lastly, you need to list all the accounts/users you want here. The format is:</span>
+<span class="c1">#   user_&lt;account&gt;_&lt;user&gt; = &lt;key&gt; [group] [group] [...] [storage_url]</span>
+<span class="c1"># or if you want underscores in &lt;account&gt; or &lt;user&gt;, you can base64 encode them</span>
+<span class="c1"># (with no equal signs) and use this format:</span>
+<span class="c1">#   user64_&lt;account_b64&gt;_&lt;user_b64&gt; = &lt;key&gt; [group] [group] [...] [storage_url]</span>
+<span class="c1"># There are special groups of:</span>
+<span class="c1">#   .reseller_admin = can do anything to any account for this auth</span>
+<span class="c1">#   .admin = can do anything within the account</span>
+<span class="c1"># If neither of these groups are specified, the user can only access containers</span>
+<span class="c1"># that have been explicitly allowed for them by a .admin or .reseller_admin.</span>
+<span class="c1"># The trailing optional storage_url allows you to specify an alternate url to</span>
+<span class="c1"># hand back to the user upon authentication. If not specified, this defaults to</span>
+<span class="c1"># $HOST/v1/&lt;reseller_prefix&gt;_&lt;account&gt; where $HOST will do its best to resolve</span>
+<span class="c1"># to what the requester would need to use to reach this host.</span>
+<span class="c1"># Here are example entries, required for running the tests:</span>
+<span class="na">user_admin_admin</span> <span class="o">=</span> <span class="s">admin .admin .reseller_admin</span>
+<span class="na">user_test_tester</span> <span class="o">=</span> <span class="s">testing .admin</span>
+<span class="na">user_test2_tester2</span> <span class="o">=</span> <span class="s">testing2 .admin</span>
+<span class="na">user_test_tester3</span> <span class="o">=</span> <span class="s">testing3</span>
+<span class="na">user_test5_tester5</span> <span class="o">=</span> <span class="s">testing5 service</span>
+
+<span class="c1"># To enable Keystone authentication you need to have the auth token</span>
+<span class="c1"># middleware first to be configured. Here is an example below, please</span>
+<span class="c1"># refer to the keystone&#39;s documentation for details about the</span>
+<span class="c1"># different settings.</span>
+<span class="c1">#</span>
+<span class="c1"># You&#39;ll also need to have the keystoneauth middleware enabled and have it in</span>
+<span class="c1"># your main pipeline, as show in the sample pipeline at the top of this file.</span>
+<span class="c1">#</span>
+<span class="c1"># Following parameters are known to work with keystonemiddleware v2.3.0</span>
+<span class="c1"># (above v2.0.0), but checking the latest information in the wiki page[1]</span>
+<span class="c1"># is recommended.</span>
+<span class="c1"># 1. http://docs.openstack.org/developer/keystonemiddleware/middlewarearchitecture.html#configuration</span>
+<span class="c1">#</span>
+<span class="c1"># [filter:authtoken]</span>
+<span class="c1"># paste.filter_factory = keystonemiddleware.auth_token:filter_factory</span>
+<span class="c1"># auth_uri = http://keystonehost:5000</span>
+<span class="c1"># auth_url = http://keystonehost:35357</span>
+<span class="c1"># auth_plugin = password</span>
+<span class="c1"># project_domain_id = default</span>
+<span class="c1"># user_domain_id = default</span>
+<span class="c1"># project_name = service</span>
+<span class="c1"># username = swift</span>
+<span class="c1"># password = password</span>
+<span class="c1">#</span>
+<span class="c1"># delay_auth_decision defaults to False, but leaving it as false will</span>
+<span class="c1"># prevent other auth systems, staticweb, tempurl, formpost, and ACLs from</span>
+<span class="c1"># working. This value must be explicitly set to True.</span>
+<span class="c1"># delay_auth_decision = False</span>
+<span class="c1">#</span>
+<span class="c1"># cache = swift.cache</span>
+<span class="c1"># include_service_catalog = False</span>
+<span class="c1">#</span>
+<span class="c1"># [filter:keystoneauth]</span>
+<span class="c1"># use = egg:swift#keystoneauth</span>
+<span class="c1"># The reseller_prefix option lists account namespaces that this middleware is</span>
+<span class="c1"># responsible for. The prefix is placed before the Keystone project id.</span>
+<span class="c1"># For example, for project 12345678, and prefix AUTH, the account is</span>
+<span class="c1"># named AUTH_12345678 (i.e., path is /v1/AUTH_12345678/...).</span>
+<span class="c1"># Several prefixes are allowed by specifying a comma-separated list</span>
+<span class="c1"># as in: &quot;reseller_prefix = AUTH, SERVICE&quot;. The empty string indicates a</span>
+<span class="c1"># single blank/empty prefix. If an empty prefix is required in a list of</span>
+<span class="c1"># prefixes, a value of &#39;&#39; (two single quote characters) indicates a</span>
+<span class="c1"># blank/empty prefix. Except for the blank/empty prefix, an underscore (&#39;_&#39;)</span>
+<span class="c1"># character is appended to the value unless already present.</span>
+<span class="c1"># reseller_prefix = AUTH</span>
+<span class="c1">#</span>
+<span class="c1"># The user must have at least one role named by operator_roles on a</span>
+<span class="c1"># project in order to create, delete and modify containers and objects</span>
+<span class="c1"># and to set and read privileged headers such as ACLs.</span>
+<span class="c1"># If there are several reseller prefix items, you can prefix the</span>
+<span class="c1"># parameter so it applies only to those accounts (for example</span>
+<span class="c1"># the parameter SERVICE_operator_roles applies to the /v1/SERVICE_&lt;project&gt;</span>
+<span class="c1"># path). If you omit the prefix, the option applies to all reseller</span>
+<span class="c1"># prefix items. For the blank/empty prefix, prefix with &#39;&#39; (do not put</span>
+<span class="c1"># underscore after the two single quote characters).</span>
+<span class="c1"># operator_roles = admin, swiftoperator</span>
+<span class="c1">#</span>
+<span class="c1"># The reseller admin role has the ability to create and delete accounts</span>
+<span class="c1"># reseller_admin_role = ResellerAdmin</span>
+<span class="c1">#</span>
+<span class="c1"># This allows middleware higher in the WSGI pipeline to override auth</span>
+<span class="c1"># processing, useful for middleware such as tempurl and formpost. If you know</span>
+<span class="c1"># you&#39;re not going to use such middleware and you want a bit of extra security,</span>
+<span class="c1"># you can set this to false.</span>
+<span class="c1"># allow_overrides = true</span>
+<span class="c1">#</span>
+<span class="c1"># If the service_roles parameter is present, an X-Service-Token must be</span>
+<span class="c1"># present in the request that when validated, grants at least one role listed</span>
+<span class="c1"># in the parameter. The X-Service-Token may be scoped to any project.</span>
+<span class="c1"># If there are several reseller prefix items, you can prefix the</span>
+<span class="c1"># parameter so it applies only to those accounts (for example</span>
+<span class="c1"># the parameter SERVICE_service_roles applies to the /v1/SERVICE_&lt;project&gt;</span>
+<span class="c1"># path). If you omit the prefix, the option applies to all reseller</span>
+<span class="c1"># prefix items. For the blank/empty prefix, prefix with &#39;&#39; (do not put</span>
+<span class="c1"># underscore after the two single quote characters).</span>
+<span class="c1"># By default, no service_roles are required.</span>
+<span class="c1"># service_roles =</span>
+<span class="c1">#</span>
+<span class="c1"># For backwards compatibility, keystoneauth will match names in cross-tenant</span>
+<span class="c1"># access control lists (ACLs) when both the requesting user and the tenant</span>
+<span class="c1"># are in the default domain i.e the domain to which existing tenants are</span>
+<span class="c1"># migrated. The default_domain_id value configured here should be the same as</span>
+<span class="c1"># the value used during migration of tenants to keystone domains.</span>
+<span class="c1"># default_domain_id = default</span>
+<span class="c1">#</span>
+<span class="c1"># For a new installation, or an installation in which keystone projects may</span>
+<span class="c1"># move between domains, you should disable backwards compatible name matching</span>
+<span class="c1"># in ACLs by setting allow_names_in_acls to false:</span>
+<span class="c1"># allow_names_in_acls = true</span>
+
+<span class="k">[filter:healthcheck]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#healthcheck</span>
+<span class="c1"># An optional filesystem path, which if present, will cause the healthcheck</span>
+<span class="c1"># URL to return &quot;503 Service Unavailable&quot; with a body of &quot;DISABLED BY FILE&quot;.</span>
+<span class="c1"># This facility may be used to temporarily remove a Swift node from a load</span>
+<span class="c1"># balancer pool during maintenance or upgrade (remove the file to allow the</span>
+<span class="c1"># node back into the load balancer pool).</span>
+<span class="c1"># disable_path =</span>
+
+<span class="k">[filter:cache]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#memcache</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = cache</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># If not set here, the value for memcache_servers will be read from</span>
+<span class="c1"># memcache.conf (see memcache.conf-sample) or lacking that file, it will</span>
+<span class="c1"># default to the value below. You can specify multiple servers separated with</span>
+<span class="c1"># commas, as in: 10.1.2.3:11211,10.1.2.4:11211 (IPv6 addresses must</span>
+<span class="c1"># follow rfc3986 section-3.2.2, i.e. [::1]:11211)</span>
+<span class="c1"># memcache_servers = 127.0.0.1:11211</span>
+<span class="c1">#</span>
+<span class="c1"># Sets how memcache values are serialized and deserialized:</span>
+<span class="c1"># 0 = older, insecure pickle serialization</span>
+<span class="c1"># 1 = json serialization but pickles can still be read (still insecure)</span>
+<span class="c1"># 2 = json serialization only (secure and the default)</span>
+<span class="c1"># If not set here, the value for memcache_serialization_support will be read</span>
+<span class="c1"># from /etc/swift/memcache.conf (see memcache.conf-sample).</span>
+<span class="c1"># To avoid an instant full cache flush, existing installations should</span>
+<span class="c1"># upgrade with 0, then set to 1 and reload, then after some time (24 hours)</span>
+<span class="c1"># set to 2 and reload.</span>
+<span class="c1"># In the future, the ability to use pickle serialization will be removed.</span>
+<span class="c1"># memcache_serialization_support = 2</span>
+<span class="c1">#</span>
+<span class="c1"># Sets the maximum number of connections to each memcached server per worker</span>
+<span class="c1"># memcache_max_connections = 2</span>
+<span class="c1">#</span>
+<span class="c1"># More options documented in memcache.conf-sample</span>
+
+<span class="k">[filter:ratelimit]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#ratelimit</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = ratelimit</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># clock_accuracy should represent how accurate the proxy servers&#39; system clocks</span>
+<span class="c1"># are with each other. 1000 means that all the proxies&#39; clock are accurate to</span>
+<span class="c1"># each other within 1 millisecond.  No ratelimit should be higher than the</span>
+<span class="c1"># clock accuracy.</span>
+<span class="c1"># clock_accuracy = 1000</span>
+<span class="c1">#</span>
+<span class="c1"># max_sleep_time_seconds = 60</span>
+<span class="c1">#</span>
+<span class="c1"># log_sleep_time_seconds of 0 means disabled</span>
+<span class="c1"># log_sleep_time_seconds = 0</span>
+<span class="c1">#</span>
+<span class="c1"># allows for slow rates (e.g. running up to 5 sec&#39;s behind) to catch up.</span>
+<span class="c1"># rate_buffer_seconds = 5</span>
+<span class="c1">#</span>
+<span class="c1"># account_ratelimit of 0 means disabled</span>
+<span class="c1"># account_ratelimit = 0</span>
+
+<span class="c1"># DEPRECATED- these will continue to work but will be replaced</span>
+<span class="c1"># by the X-Account-Sysmeta-Global-Write-Ratelimit flag.</span>
+<span class="c1"># Please see ratelimiting docs for details.</span>
+<span class="c1"># these are comma separated lists of account names</span>
+<span class="c1"># account_whitelist = a,b</span>
+<span class="c1"># account_blacklist = c,d</span>
+
+<span class="c1"># with container_limit_x = r</span>
+<span class="c1"># for containers of size x limit write requests per second to r.  The container</span>
+<span class="c1"># rate will be linearly interpolated from the values given. With the values</span>
+<span class="c1"># below, a container of size 5 will get a rate of 75.</span>
+<span class="c1"># container_ratelimit_0 = 100</span>
+<span class="c1"># container_ratelimit_10 = 50</span>
+<span class="c1"># container_ratelimit_50 = 20</span>
+
+<span class="c1"># Similarly to the above container-level write limits, the following will limit</span>
+<span class="c1"># container GET (listing) requests.</span>
+<span class="c1"># container_listing_ratelimit_0 = 100</span>
+<span class="c1"># container_listing_ratelimit_10 = 50</span>
+<span class="c1"># container_listing_ratelimit_50 = 20</span>
+
+<span class="k">[filter:domain_remap]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#domain_remap</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = domain_remap</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># storage_domain = example.com</span>
+<span class="c1"># path_root = v1</span>
+
+<span class="c1"># Browsers can convert a host header to lowercase, so check that reseller</span>
+<span class="c1"># prefix on the account is the correct case. This is done by comparing the</span>
+<span class="c1"># items in the reseller_prefixes config option to the found prefix. If they</span>
+<span class="c1"># match except for case, the item from reseller_prefixes will be used</span>
+<span class="c1"># instead of the found reseller prefix. When none match, the default reseller</span>
+<span class="c1"># prefix is used. When no default reseller prefix is configured, any request</span>
+<span class="c1"># with an account prefix not in that list will be ignored by this middleware.</span>
+<span class="c1"># reseller_prefixes = AUTH</span>
+<span class="c1"># default_reseller_prefix =</span>
+
+<span class="k">[filter:catch_errors]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#catch_errors</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = catch_errors</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+
+<span class="k">[filter:cname_lookup]</span>
+<span class="c1"># Note: this middleware requires python-dnspython</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#cname_lookup</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = cname_lookup</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># Specify the storage_domain that match your cloud, multiple domains</span>
+<span class="c1"># can be specified separated by a comma</span>
+<span class="c1"># storage_domain = example.com</span>
+<span class="c1">#</span>
+<span class="c1"># lookup_depth = 1</span>
+
+<span class="c1"># Note: Put staticweb just after your auth filter(s) in the pipeline</span>
+<span class="k">[filter:staticweb]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#staticweb</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = staticweb</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># At times when it&#39;s impossible for staticweb to guess the outside</span>
+<span class="c1"># endpoint correctly, the url_base may be used to supply the URL</span>
+<span class="c1"># scheme and/or the host name (and port number) in order to generate</span>
+<span class="c1"># redirects.</span>
+<span class="c1"># Example values:</span>
+<span class="c1">#    http://www.example.com    - redirect to www.example.com</span>
+<span class="c1">#    https:                    - changes the schema only</span>
+<span class="c1">#    https://                  - same, changes the schema only</span>
+<span class="c1">#    //www.example.com:8080    - redirect www.example.com on port 8080</span>
+<span class="c1">#                                (schema unchanged)</span>
+<span class="c1"># url_base =</span>
+
+<span class="c1"># Note: Put tempurl before dlo, slo and your auth filter(s) in the pipeline</span>
+<span class="k">[filter:tempurl]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#tempurl</span>
+<span class="c1"># The methods allowed with Temp URLs.</span>
+<span class="c1"># methods = GET HEAD PUT POST DELETE</span>
+<span class="c1">#</span>
+<span class="c1"># The headers to remove from incoming requests. Simply a whitespace delimited</span>
+<span class="c1"># list of header names and names can optionally end with &#39;*&#39; to indicate a</span>
+<span class="c1"># prefix match. incoming_allow_headers is a list of exceptions to these</span>
+<span class="c1"># removals.</span>
+<span class="c1"># incoming_remove_headers = x-timestamp</span>
+<span class="c1">#</span>
+<span class="c1"># The headers allowed as exceptions to incoming_remove_headers. Simply a</span>
+<span class="c1"># whitespace delimited list of header names and names can optionally end with</span>
+<span class="c1"># &#39;*&#39; to indicate a prefix match.</span>
+<span class="c1"># incoming_allow_headers =</span>
+<span class="c1">#</span>
+<span class="c1"># The headers to remove from outgoing responses. Simply a whitespace delimited</span>
+<span class="c1"># list of header names and names can optionally end with &#39;*&#39; to indicate a</span>
+<span class="c1"># prefix match. outgoing_allow_headers is a list of exceptions to these</span>
+<span class="c1"># removals.</span>
+<span class="c1"># outgoing_remove_headers = x-object-meta-*</span>
+<span class="c1">#</span>
+<span class="c1"># The headers allowed as exceptions to outgoing_remove_headers. Simply a</span>
+<span class="c1"># whitespace delimited list of header names and names can optionally end with</span>
+<span class="c1"># &#39;*&#39; to indicate a prefix match.</span>
+<span class="c1"># outgoing_allow_headers = x-object-meta-public-*</span>
+
+<span class="c1"># Note: Put formpost just before your auth filter(s) in the pipeline</span>
+<span class="k">[filter:formpost]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#formpost</span>
+
+<span class="c1"># Note: Just needs to be placed before the proxy-server in the pipeline.</span>
+<span class="k">[filter:name_check]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#name_check</span>
+<span class="c1"># forbidden_chars = &#39;&quot;`&lt;&gt;</span>
+<span class="c1"># maximum_length = 255</span>
+<span class="c1"># forbidden_regexp = /\./|/\.\./|/\.$|/\.\.$</span>
+
+<span class="k">[filter:list-endpoints]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#list_endpoints</span>
+<span class="c1"># list_endpoints_path = /endpoints/</span>
+
+<span class="k">[filter:proxy-logging]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#proxy_logging</span>
+<span class="c1"># If not set, logging directives from [DEFAULT] without &quot;access_&quot; will be used</span>
+<span class="c1"># access_log_name = swift</span>
+<span class="c1"># access_log_facility = LOG_LOCAL0</span>
+<span class="c1"># access_log_level = INFO</span>
+<span class="c1"># access_log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># If set, access_log_udp_host will override access_log_address</span>
+<span class="c1"># access_log_udp_host =</span>
+<span class="c1"># access_log_udp_port = 514</span>
+<span class="c1">#</span>
+<span class="c1"># You can use log_statsd_* from [DEFAULT] or override them here:</span>
+<span class="c1"># access_log_statsd_host =</span>
+<span class="c1"># access_log_statsd_port = 8125</span>
+<span class="c1"># access_log_statsd_default_sample_rate = 1.0</span>
+<span class="c1"># access_log_statsd_sample_rate_factor = 1.0</span>
+<span class="c1"># access_log_statsd_metric_prefix =</span>
+<span class="c1"># access_log_headers = false</span>
+<span class="c1">#</span>
+<span class="c1"># If access_log_headers is True and access_log_headers_only is set only</span>
+<span class="c1"># these headers are logged. Multiple headers can be defined as comma separated</span>
+<span class="c1"># list like this: access_log_headers_only = Host, X-Object-Meta-Mtime</span>
+<span class="c1"># access_log_headers_only =</span>
+<span class="c1">#</span>
+<span class="c1"># By default, the X-Auth-Token is logged. To obscure the value,</span>
+<span class="c1"># set reveal_sensitive_prefix to the number of characters to log.</span>
+<span class="c1"># For example, if set to 12, only the first 12 characters of the</span>
+<span class="c1"># token appear in the log. An unauthorized access of the log file</span>
+<span class="c1"># won&#39;t allow unauthorized usage of the token. However, the first</span>
+<span class="c1"># 12 or so characters is unique enough that you can trace/debug</span>
+<span class="c1"># token usage. Set to 0 to suppress the token completely (replaced</span>
+<span class="c1"># by &#39;...&#39; in the log).</span>
+<span class="c1"># Note: reveal_sensitive_prefix will not affect the value</span>
+<span class="c1"># logged with access_log_headers=True.</span>
+<span class="c1"># reveal_sensitive_prefix = 16</span>
+<span class="c1">#</span>
+<span class="c1"># What HTTP methods are allowed for StatsD logging (comma-sep); request methods</span>
+<span class="c1"># not in this list will have &quot;BAD_METHOD&quot; for the &lt;verb&gt; portion of the metric.</span>
+<span class="c1"># log_statsd_valid_http_methods = GET,HEAD,POST,PUT,DELETE,COPY,OPTIONS</span>
+<span class="c1">#</span>
+<span class="c1"># Note: The double proxy-logging in the pipeline is not a mistake. The</span>
+<span class="c1"># left-most proxy-logging is there to log requests that were handled in</span>
+<span class="c1"># middleware and never made it through to the right-most middleware (and</span>
+<span class="c1"># proxy server). Double logging is prevented for normal requests. See</span>
+<span class="c1"># proxy-logging docs.</span>
+
+<span class="c1"># Note: Put before both ratelimit and auth in the pipeline.</span>
+<span class="k">[filter:bulk]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#bulk</span>
+<span class="c1"># max_containers_per_extraction = 10000</span>
+<span class="c1"># max_failed_extractions = 1000</span>
+<span class="c1"># max_deletes_per_request = 10000</span>
+<span class="c1"># max_failed_deletes = 1000</span>
+<span class="c1">#</span>
+<span class="c1"># In order to keep a connection active during a potentially long bulk request,</span>
+<span class="c1"># Swift may return whitespace prepended to the actual response body. This</span>
+<span class="c1"># whitespace will be yielded no more than every yield_frequency seconds.</span>
+<span class="c1"># yield_frequency = 10</span>
+<span class="c1">#</span>
+<span class="c1"># Note: The following parameter is used during a bulk delete of objects and</span>
+<span class="c1"># their container. This would frequently fail because it is very likely</span>
+<span class="c1"># that all replicated objects have not been deleted by the time the middleware got a</span>
+<span class="c1"># successful response. It can be configured the number of retries. And the</span>
+<span class="c1"># number of seconds to wait between each retry will be 1.5**retry</span>
+<span class="c1"># delete_container_retry_count = 0</span>
+<span class="c1">#</span>
+<span class="c1"># To speed up the bulk delete process, multiple deletes may be executed in</span>
+<span class="c1"># parallel. Avoid setting this too high, as it gives clients a force multiplier</span>
+<span class="c1"># which may be used in DoS attacks. The suggested range is between 2 and 10.</span>
+<span class="c1"># delete_concurrency = 2</span>
+
+<span class="c1"># Note: Put after auth and staticweb in the pipeline.</span>
+<span class="k">[filter:slo]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#slo</span>
+<span class="c1"># max_manifest_segments = 1000</span>
+<span class="c1"># max_manifest_size = 2097152</span>
+<span class="c1">#</span>
+<span class="c1"># Rate limiting applies only to segments smaller than this size (bytes).</span>
+<span class="c1"># rate_limit_under_size = 1048576</span>
+<span class="c1">#</span>
+<span class="c1"># Start rate-limiting SLO segment serving after the Nth small segment of a</span>
+<span class="c1"># segmented object.</span>
+<span class="c1"># rate_limit_after_segment = 10</span>
+<span class="c1">#</span>
+<span class="c1"># Once segment rate-limiting kicks in for an object, limit segments served</span>
+<span class="c1"># to N per second. 0 means no rate-limiting.</span>
+<span class="c1"># rate_limit_segments_per_sec = 1</span>
+<span class="c1">#</span>
+<span class="c1"># Time limit on GET requests (seconds)</span>
+<span class="c1"># max_get_time = 86400</span>
+<span class="c1">#</span>
+<span class="c1"># When deleting with ?multipart-manifest=delete, multiple deletes may be</span>
+<span class="c1"># executed in parallel. Avoid setting this too high, as it gives clients a</span>
+<span class="c1"># force multiplier which may be used in DoS attacks. The suggested range is</span>
+<span class="c1"># between 2 and 10.</span>
+<span class="c1"># delete_concurrency = 2</span>
+
+<span class="c1"># Note: Put after auth and staticweb in the pipeline.</span>
+<span class="c1"># If you don&#39;t put it in the pipeline, it will be inserted for you.</span>
+<span class="k">[filter:dlo]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#dlo</span>
+<span class="c1"># Start rate-limiting DLO segment serving after the Nth segment of a</span>
+<span class="c1"># segmented object.</span>
+<span class="c1"># rate_limit_after_segment = 10</span>
+<span class="c1">#</span>
+<span class="c1"># Once segment rate-limiting kicks in for an object, limit segments served</span>
+<span class="c1"># to N per second. 0 means no rate-limiting.</span>
+<span class="c1"># rate_limit_segments_per_sec = 1</span>
+<span class="c1">#</span>
+<span class="c1"># Time limit on GET requests (seconds)</span>
+<span class="c1"># max_get_time = 86400</span>
+
+<span class="c1"># Note: Put after auth in the pipeline.</span>
+<span class="k">[filter:container-quotas]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#container_quotas</span>
+
+<span class="c1"># Note: Put after auth in the pipeline.</span>
+<span class="k">[filter:account-quotas]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#account_quotas</span>
+
+<span class="k">[filter:gatekeeper]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#gatekeeper</span>
+<span class="c1"># Set this to false if you want to allow clients to set arbitrary X-Timestamps</span>
+<span class="c1"># on uploaded objects. This may be used to preserve timestamps when migrating</span>
+<span class="c1"># from a previous storage system, but risks allowing users to upload</span>
+<span class="c1"># difficult-to-delete data.</span>
+<span class="c1"># shunt_inbound_x_timestamp = true</span>
+<span class="c1">#</span>
+<span class="c1"># You can override the default log routing for this filter here:</span>
+<span class="c1"># set log_name = gatekeeper</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_headers = false</span>
+<span class="c1"># set log_address = /dev/log</span>
+
+<span class="k">[filter:container_sync]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#container_sync</span>
+<span class="c1"># Set this to false if you want to disallow any full url values to be set for</span>
+<span class="c1"># any new X-Container-Sync-To headers. This will keep any new full urls from</span>
+<span class="c1"># coming in, but won&#39;t change any existing values already in the cluster.</span>
+<span class="c1"># Updating those will have to be done manually, as knowing what the true realm</span>
+<span class="c1"># endpoint should be cannot always be guessed.</span>
+<span class="c1"># allow_full_urls = true</span>
+<span class="c1"># Set this to specify this clusters //realm/cluster as &quot;current&quot; in /info</span>
+<span class="c1"># current = //REALM/CLUSTER</span>
+
+<span class="c1"># Note: Put it at the beginning of the pipeline to profile all middleware. But</span>
+<span class="c1"># it is safer to put this after catch_errors, gatekeeper and healthcheck.</span>
+<span class="k">[filter:xprofile]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#xprofile</span>
+<span class="c1"># This option enable you to switch profilers which should inherit from python</span>
+<span class="c1"># standard profiler. Currently the supported value can be &#39;cProfile&#39;,</span>
+<span class="c1"># &#39;eventlet.green.profile&#39; etc.</span>
+<span class="c1"># profile_module = eventlet.green.profile</span>
+<span class="c1">#</span>
+<span class="c1"># This prefix will be used to combine process ID and timestamp to name the</span>
+<span class="c1"># profile data file.  Make sure the executing user has permission to write</span>
+<span class="c1"># into this path (missing path segments will be created, if necessary).</span>
+<span class="c1"># If you enable profiling in more than one type of daemon, you must override</span>
+<span class="c1"># it with an unique value like: /var/log/swift/profile/proxy.profile</span>
+<span class="c1"># log_filename_prefix = /tmp/log/swift/profile/default.profile</span>
+<span class="c1">#</span>
+<span class="c1"># the profile data will be dumped to local disk based on above naming rule</span>
+<span class="c1"># in this interval.</span>
+<span class="c1"># dump_interval = 5.0</span>
+<span class="c1">#</span>
+<span class="c1"># Be careful, this option will enable profiler to dump data into the file with</span>
+<span class="c1"># time stamp which means there will be lots of files piled up in the directory.</span>
+<span class="c1"># dump_timestamp = false</span>
+<span class="c1">#</span>
+<span class="c1"># This is the path of the URL to access the mini web UI.</span>
+<span class="c1"># path = /__profile__</span>
+<span class="c1">#</span>
+<span class="c1"># Clear the data when the wsgi server shutdown.</span>
+<span class="c1"># flush_at_shutdown = false</span>
+<span class="c1">#</span>
+<span class="c1"># unwind the iterator of applications</span>
+<span class="c1"># unwind = false</span>
+
+<span class="c1"># Note: Put after slo, dlo in the pipeline.</span>
+<span class="c1"># If you don&#39;t put it in the pipeline, it will be inserted automatically.</span>
+<span class="k">[filter:versioned_writes]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#versioned_writes</span>
+<span class="c1"># Enables using versioned writes middleware and exposing configuration</span>
+<span class="c1"># settings via HTTP GET /info.</span>
+<span class="c1"># WARNING: Setting this option bypasses the &quot;allow_versions&quot; option</span>
+<span class="c1"># in the container configuration file, which will be eventually</span>
+<span class="c1"># deprecated. See documentation for more details.</span>
+<span class="c1"># allow_versioned_writes = false</span>
+
+<span class="c1"># Note: Put after auth and before dlo and slo middlewares.</span>
+<span class="c1"># If you don&#39;t put it in the pipeline, it will be inserted for you.</span>
+<span class="k">[filter:copy]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#copy</span>
+<span class="c1"># Set object_post_as_copy = false to turn on fast posts where only the metadata</span>
+<span class="c1"># changes are stored anew and the original data file is kept in place. This</span>
+<span class="c1"># makes for quicker posts.</span>
+<span class="c1"># When object_post_as_copy is set to True, a POST request will be transformed</span>
+<span class="c1"># into a COPY request where source and destination objects are the same.</span>
+<span class="c1"># object_post_as_copy = true</span>
+
+<span class="c1"># Note: To enable encryption, add the following 2 dependent pieces of crypto</span>
+<span class="c1"># middleware to the proxy-server pipeline. They should be to the right of all</span>
+<span class="c1"># other middleware apart from the final proxy-logging middleware, and in the</span>
+<span class="c1"># order shown in this example:</span>
+<span class="c1"># &lt;other middleware&gt; keymaster encryption proxy-logging proxy-server</span>
+<span class="k">[filter:keymaster]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#keymaster</span>
+
+<span class="c1"># Sets the root secret from which encryption keys are derived. This must be set</span>
+<span class="c1"># before first use to a value that is a base64 encoding of at least 32 bytes.</span>
+<span class="c1"># The security of all encrypted data critically depends on this key, therefore</span>
+<span class="c1"># it should be set to a high-entropy value. For example, a suitable value may</span>
+<span class="c1"># be obtained by base-64 encoding a 32 byte (or longer) value generated by a</span>
+<span class="c1"># cryptographically secure random number generator. Changing the root secret is</span>
+<span class="c1"># likely to result in data loss.</span>
+<span class="na">encryption_root_secret</span> <span class="o">=</span> <span class="s">changeme</span>
+
+<span class="c1"># Sets the path from which the keymaster config options should be read. This</span>
+<span class="c1"># allows multiple processes which need to be encryption-aware (for example,</span>
+<span class="c1"># proxy-server and container-sync) to share the same config file, ensuring</span>
+<span class="c1"># that the encryption keys used are the same. The format expected is similar</span>
+<span class="c1"># to other config files, with a single [keymaster] section and a single</span>
+<span class="c1"># encryption_root_secret option. If this option is set, the root secret</span>
+<span class="c1"># MUST NOT be set in proxy-server.conf.</span>
+<span class="c1"># keymaster_config_path =</span>
+
+<span class="k">[filter:encryption]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#encryption</span>
+
+<span class="c1"># By default all PUT or POST&#39;ed object data and/or metadata will be encrypted.</span>
+<span class="c1"># Encryption of new data and/or metadata may be disabled by setting</span>
+<span class="c1"># disable_encryption to True. However, all encryption middleware should remain</span>
+<span class="c1"># in the pipeline in order for existing encrypted data to be read.</span>
+<span class="c1"># disable_encryption = False</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="account-server.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Account server configuration"></i></a>
+          
+          
+            <a href="memcache.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Proxy server memcache configuration"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../object-storage.html">Object Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="about.html">Introduction to Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-service-conf.html">Object Storage general service configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object-server.html">Object server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object-expirer.html">Object expirer configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-server.html">Container server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-sync-realms.html">Container sync realms configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-reconciler.html">Container reconciler configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="account-server.html">Account server configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Proxy server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memcache.html">Proxy server memcache configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rsyncd.html">Rsyncd configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html">Configure Object Storage features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-s3.html">Configure Object Storage with the S3 API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="listendpoints.html">Endpoint listing middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logs.html">Object storage log files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tables/conf-changes/swift.html">New, updated, and deprecated options in Newton for OpenStack Object Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "object-storage/proxy-server" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Proxy server configuration in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/object-storage/proxy-server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:46:02 GMT -->
+</html>

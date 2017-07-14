@@ -1,0 +1,949 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-flavors.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:54:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Flavors</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Flavors</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="compute-manage-volumes.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Manage volumes"></i></a>
+    
+    
+    <a href="compute-default-ports.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Compute service node firewall requirements"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Flavors</a><ul>
+<li><a class="reference internal" href="#is-public">Is Public</a></li>
+<li><a class="reference internal" href="#extra-specs">Extra Specs</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="flavors">
+<span id="compute-flavors"></span><h1>Flavors<a class="headerlink" href="#flavors" title="Permalink to this headline">¶</a></h1>
+<p>Admin users can use the <strong class="command">openstack flavor</strong> command to customize and
+manage flavors. To see information for this command, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor --help
+<span class="go">Command &quot;flavor&quot; matches:</span>
+<span class="go">  flavor create</span>
+<span class="go">  flavor delete</span>
+<span class="go">  flavor list</span>
+<span class="go">  flavor set</span>
+<span class="go">  flavor show</span>
+<span class="go">  flavor unset</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Configuration rights can be delegated to additional users by
+redefining the access controls for
+<code class="docutils literal"><span class="pre">compute_extension:flavormanage</span></code> in <code class="docutils literal"><span class="pre">/etc/nova/policy.json</span></code>
+on the <code class="docutils literal"><span class="pre">nova-api</span></code> server.</li>
+<li>The Dashboard simulates the ability to modify a flavor
+by deleting an existing flavor and creating a new one with the same name.</li>
+</ul>
+</div>
+<p>Flavors define these elements:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Element</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Name</td>
+<td>A descriptive name. XX.SIZE_NAME is typically not required,
+though some third party tools may rely on it.</td>
+</tr>
+<tr class="row-odd"><td>Memory MB</td>
+<td>Instance memory in megabytes.</td>
+</tr>
+<tr class="row-even"><td>Disk</td>
+<td>Virtual root disk size in gigabytes. This is an ephemeral disk that the base image is copied into. When booting from a persistent volume it is not used. The &#8220;0&#8221; size is a special case which uses the native base image size as the size of the
+ephemeral root volume.</td>
+</tr>
+<tr class="row-odd"><td>Ephemeral</td>
+<td>Specifies the size of a secondary ephemeral data disk. This
+is an empty, unformatted disk and exists only for the life of the instance. Default value is <code class="docutils literal"><span class="pre">0</span></code>.</td>
+</tr>
+<tr class="row-even"><td>Swap</td>
+<td>Optional swap space allocation for the instance. Default
+value is <code class="docutils literal"><span class="pre">0</span></code>.</td>
+</tr>
+<tr class="row-odd"><td>VCPUs</td>
+<td>Number of virtual CPUs presented to the instance.</td>
+</tr>
+<tr class="row-even"><td>RXTX Factor</td>
+<td>Optional property allows created servers to have a different
+bandwidth cap than that defined in the network they are attached to. This factor is multiplied by the rxtx_base property of the network. Default value is <code class="docutils literal"><span class="pre">1.0</span></code>. That is, the same
+as attached network. This parameter is only available for Xen
+or NSX based systems.</td>
+</tr>
+<tr class="row-odd"><td>Is Public</td>
+<td>Boolean value, whether flavor is available to all users or private to the project it was created in. Defaults to <code class="docutils literal"><span class="pre">True</span></code>.</td>
+</tr>
+<tr class="row-even"><td>Extra Specs</td>
+<td>Key and value pairs that define on which compute nodes a flavor can run. These pairs must match corresponding pairs on the compute nodes. Use to implement special resources, such as flavors that run on only compute nodes with GPU hardware.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Flavor customization can be limited by the hypervisor in use. For
+example the libvirt driver enables quotas on CPUs available to a VM,
+disk tuning, bandwidth I/O, watchdog behavior, random number generator
+device control, and instance VIF traffic control.</p>
+</div>
+<div class="section" id="is-public">
+<h2>Is Public<a class="headerlink" href="#is-public" title="Permalink to this headline">¶</a></h2>
+<p>Flavors can be assigned to particular projects. By default, a flavor is public
+and available to all projects. Private flavors are only accessible to those on
+the access list and are invisible to other projects. To create and assign a
+private flavor to a project, run this command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor create --private p1.medium --id auto --ram <span class="m">512</span> --disk <span class="m">40</span> --vcpus 4
+</pre></div>
+</div>
+</div>
+<div class="section" id="extra-specs">
+<h2>Extra Specs<a class="headerlink" href="#extra-specs" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>CPU limits</dt>
+<dd><p class="first">You can configure the CPU limits with control parameters with the
+<code class="docutils literal"><span class="pre">nova</span></code> client. For example, to configure the I/O limit, use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property quota:read_bytes_sec=10240000 \</span>
+<span class="go">    --property quota:write_bytes_sec=10240000</span>
+</pre></div>
+</div>
+<p>Use these optional parameters to control weight shares, enforcement
+intervals for runtime quotas, and a quota for maximum allowed
+bandwidth:</p>
+<ul class="last">
+<li><p class="first"><code class="docutils literal"><span class="pre">cpu_shares</span></code>: Specifies the proportional weighted share for the
+domain. If this element is omitted, the service defaults to the
+OS provided defaults. There is no unit for the value; it is a
+relative measure based on the setting of other VMs. For example,
+a VM configured with value 2048 gets twice as much CPU time as a
+VM configured with value 1024.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cpu_shares_level</span></code>: On VMware, specifies the allocation level. Can
+be <code class="docutils literal"><span class="pre">custom</span></code>, <code class="docutils literal"><span class="pre">high</span></code>, <code class="docutils literal"><span class="pre">normal</span></code>, or <code class="docutils literal"><span class="pre">low</span></code>. If you choose
+<code class="docutils literal"><span class="pre">custom</span></code>, set the number of shares using <code class="docutils literal"><span class="pre">cpu_shares_share</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cpu_period</span></code>: Specifies the enforcement interval (unit:
+microseconds) for QEMU and LXC hypervisors. Within a period, each
+VCPU of the domain is not allowed to consume more than the quota
+worth of runtime. The value should be in range <code class="docutils literal"><span class="pre">[1000,</span> <span class="pre">1000000]</span></code>.
+A period with value 0 means no value.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cpu_limit</span></code>: Specifies the upper limit for VMware machine CPU
+allocation in MHz. This parameter ensures that a machine never
+uses more than the defined amount of CPU time. It can be used to
+enforce a limit on the machine&#8217;s CPU performance.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cpu_reservation</span></code>: Specifies the guaranteed minimum CPU
+reservation in MHz for VMware. This means that if needed, the
+machine will definitely get allocated the reserved amount of CPU
+cycles.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">cpu_quota</span></code>: Specifies the maximum allowed bandwidth (unit:
+microseconds). A domain with a negative-value quota indicates
+that the domain has infinite bandwidth, which means that it is
+not bandwidth controlled. The value should be in range <code class="docutils literal"><span class="pre">[1000,</span>
+<span class="pre">18446744073709551]</span></code> or less than 0. A quota with value 0 means no
+value. You can use this feature to ensure that all vCPUs run at the
+same speed. For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property quota:cpu_quota=10000 \</span>
+<span class="go">    --property quota:cpu_period=20000</span>
+</pre></div>
+</div>
+<p>In this example, an instance of <code class="docutils literal"><span class="pre">FLAVOR-NAME</span></code> can only consume
+a maximum of 50% CPU of a physical CPU computing capability.</p>
+</li>
+</ul>
+</dd>
+<dt>Memory limits</dt>
+<dd><p class="first">For VMware, you can configure the memory limits with control parameters.</p>
+<p>Use these optional parameters to limit the memory allocation,
+guarantee minimum memory reservation, and to specify shares
+used in case of resource contention:</p>
+<ul class="last">
+<li><p class="first"><code class="docutils literal"><span class="pre">memory_limit</span></code>: Specifies the upper limit for VMware machine
+memory allocation in MB. The utilization of a virtual machine will
+not exceed this limit, even if there are available resources. This
+is typically used to ensure a consistent performance of
+virtual machines independent of available resources.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">memory_reservation</span></code>: Specifies the guaranteed minimum memory
+reservation in MB for VMware. This means the specified amount of
+memory will definitely be allocated to the machine.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">memory_shares_level</span></code>: On VMware, specifies the allocation level.
+This can be <code class="docutils literal"><span class="pre">custom</span></code>, <code class="docutils literal"><span class="pre">high</span></code>, <code class="docutils literal"><span class="pre">normal</span></code> or <code class="docutils literal"><span class="pre">low</span></code>. If you choose
+<code class="docutils literal"><span class="pre">custom</span></code>, set the number of shares using <code class="docutils literal"><span class="pre">memory_shares_share</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">memory_shares_share</span></code>: Specifies the number of shares allocated
+in the event that <code class="docutils literal"><span class="pre">custom</span></code> is used. There is no unit for this
+value. It is a relative measure based on the settings for other VMs.
+For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property quota:memory_shares_level=custom \</span>
+<span class="go">    --property quota:memory_shares_share=15</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd>
+<dt>Disk I/O limits</dt>
+<dd><p class="first">For VMware, you can configure the resource limits for disk
+with control parameters.</p>
+<p>Use these optional parameters to limit the disk utilization,
+guarantee disk allocation, and to specify shares
+used in case of resource contention. This allows the VMware
+driver to enable disk allocations for the running instance.</p>
+<ul class="last">
+<li><p class="first"><code class="docutils literal"><span class="pre">disk_io_limit</span></code>: Specifies the upper limit for disk
+utilization in I/O per second. The utilization of a
+virtual machine will not exceed this limit, even
+if there are available resources. The default value
+is -1 which indicates unlimited usage.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">disk_io_reservation</span></code>: Specifies the guaranteed minimum disk
+allocation in terms of <a class="reference internal" href="common/glossary.html#term-input-output-operations-per-second-iops"><span class="xref std std-term">IOPS</span></a>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">disk_io_shares_level</span></code>: Specifies the allocation
+level. This can be <code class="docutils literal"><span class="pre">custom</span></code>, <code class="docutils literal"><span class="pre">high</span></code>, <code class="docutils literal"><span class="pre">normal</span></code> or <code class="docutils literal"><span class="pre">low</span></code>.
+If you choose custom, set the number of shares
+using <code class="docutils literal"><span class="pre">disk_io_shares_share</span></code>.</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">disk_io_shares_share</span></code>: Specifies the number of shares
+allocated in the event that <code class="docutils literal"><span class="pre">custom</span></code> is used.
+When there is resource contention, this value is used
+to determine the resource allocation.</p>
+<p>The example below sets the <code class="docutils literal"><span class="pre">disk_io_reservation</span></code> to 2000 IOPS.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property quota:disk_io_reservation=2000</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</dd>
+<dt>Disk tuning</dt>
+<dd><p class="first">Using disk I/O quotas, you can set maximum disk write to 10 MB per
+second for a VM user. For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property quota:disk_write_bytes_sec=10485760</span>
+</pre></div>
+</div>
+<p>The disk I/O options are:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">disk_read_bytes_sec</span></code></li>
+<li><code class="docutils literal"><span class="pre">disk_read_iops_sec</span></code></li>
+<li><code class="docutils literal"><span class="pre">disk_write_bytes_sec</span></code></li>
+<li><code class="docutils literal"><span class="pre">disk_write_iops_sec</span></code></li>
+<li><code class="docutils literal"><span class="pre">disk_total_bytes_sec</span></code></li>
+<li><code class="docutils literal"><span class="pre">disk_total_iops_sec</span></code></li>
+</ul>
+</dd>
+<dt>Bandwidth I/O</dt>
+<dd><p class="first">The vif I/O options are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">vif_inbound_average</span></code></li>
+<li><code class="docutils literal"><span class="pre">vif_inbound_burst</span></code></li>
+<li><code class="docutils literal"><span class="pre">vif_inbound_peak</span></code></li>
+<li><code class="docutils literal"><span class="pre">vif_outbound_average</span></code></li>
+<li><code class="docutils literal"><span class="pre">vif_outbound_burst</span></code></li>
+<li><code class="docutils literal"><span class="pre">vif_outbound_peak</span></code></li>
+</ul>
+<p>Incoming and outgoing traffic can be shaped independently. The
+bandwidth element can have at most, one inbound and at most, one
+outbound child element. If you leave any of these child elements
+out, no <a class="reference internal" href="common/glossary.html#term-quality-of-service-qos"><span class="xref std std-term">quality of service (QoS)</span></a> is applied on that traffic
+direction. So, if you want to shape only the network&#8217;s incoming
+traffic, use inbound only (and vice versa). Each element has one
+mandatory attribute average, which specifies the average bit rate on
+the interface being shaped.</p>
+<p>There are also two optional attributes (integer): <code class="docutils literal"><span class="pre">peak</span></code>, which
+specifies the maximum rate at which a bridge can send data
+(kilobytes/second), and <code class="docutils literal"><span class="pre">burst</span></code>, the amount of bytes that can be
+burst at peak speed (kilobytes). The rate is shared equally within
+domains connected to the network.</p>
+<p>The example below sets network traffic bandwidth limits for existing
+flavor as follows:</p>
+<ul class="simple">
+<li>Outbound traffic:<ul>
+<li>average: 262 Mbps (32768 kilobytes/second)</li>
+<li>peak: 524 Mbps (65536 kilobytes/second)</li>
+<li>burst: 65536 kilobytes</li>
+</ul>
+</li>
+<li>Inbound traffic:<ul>
+<li>average: 262 Mbps (32768 kilobytes/second)</li>
+<li>peak: 524 Mbps (65536 kilobytes/second)</li>
+<li>burst: 65536 kilobytes</li>
+</ul>
+</li>
+</ul>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property quota:vif_outbound_average=32768 \</span>
+<span class="go">    --property quota:vif_outbound_peak=65536 \</span>
+<span class="go">    --property quota:vif_outbound_burst=65536 \</span>
+<span class="go">    --property quota:vif_inbound_average=32768 \</span>
+<span class="go">    --property quota:vif_inbound_peak=65536 \</span>
+<span class="go">    --property quota:vif_inbound_burst=65536</span>
+</pre></div>
+</div>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">All the speed limit values in above example are specified in
+kilobytes/second. And burst values are in kilobytes. Values
+were converted using &#8216;Data rate units on
+Wikipedia &lt;<a class="reference external" href="https://en.wikipedia.org/wiki/Data_rate_units">https://en.wikipedia.org/wiki/Data_rate_units</a>&gt;`_.</p>
+</div>
+</dd>
+<dt>Watchdog behavior</dt>
+<dd><p class="first">For the libvirt driver, you can enable and set the behavior of a
+virtual hardware watchdog device for each flavor. Watchdog devices
+keep an eye on the guest server, and carry out the configured
+action, if the server hangs. The watchdog uses the i6300esb device
+(emulating a PCI Intel 6300ESB). If <code class="docutils literal"><span class="pre">hw:watchdog_action</span></code> is not
+specified, the watchdog is disabled.</p>
+<p>To set the behavior, use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME --property hw:watchdog_action<span class="o">=</span>ACTION
+</pre></div>
+</div>
+<p>Valid ACTION values are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">disabled</span></code>: (default) The device is not attached.</li>
+<li><code class="docutils literal"><span class="pre">reset</span></code>: Forcefully reset the guest.</li>
+<li><code class="docutils literal"><span class="pre">poweroff</span></code>: Forcefully power off the guest.</li>
+<li><code class="docutils literal"><span class="pre">pause</span></code>: Pause the guest.</li>
+<li><code class="docutils literal"><span class="pre">none</span></code>: Only enable the watchdog; do nothing if the server hangs.</li>
+</ul>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Watchdog behavior set using a specific image&#8217;s properties will
+override behavior set using flavors.</p>
+</div>
+</dd>
+<dt>Random-number generator</dt>
+<dd><p class="first">If a random-number generator device has been added to the instance
+through its image properties, the device can be enabled and
+configured using:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property hw_rng:allowed=True \</span>
+<span class="go">    --property hw_rng:rate_bytes=RATE-BYTES \</span>
+<span class="go">    --property hw_rng:rate_period=RATE-PERIOD</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="last simple">
+<li>RATE-BYTES: (integer) Allowed amount of bytes that the guest can
+read from the host&#8217;s entropy per period.</li>
+<li>RATE-PERIOD: (integer) Duration of the read period in seconds.</li>
+</ul>
+</dd>
+<dt>CPU topology</dt>
+<dd><p class="first">For the libvirt driver, you can define the topology of the processors
+in the virtual machine using properties. The properties with <code class="docutils literal"><span class="pre">max</span></code>
+limit the number that can be selected by the user with image properties.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property hw:cpu_sockets=FLAVOR-SOCKETS \</span>
+<span class="go">    --property hw:cpu_cores=FLAVOR-CORES \</span>
+<span class="go">    --property hw:cpu_threads=FLAVOR-THREADS \</span>
+<span class="go">    --property hw:cpu_max_sockets=FLAVOR-SOCKETS \</span>
+<span class="go">    --property hw:cpu_max_cores=FLAVOR-CORES \</span>
+<span class="go">    --property hw:cpu_max_threads=FLAVOR-THREADS</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="last simple">
+<li>FLAVOR-SOCKETS: (integer) The number of sockets for the guest VM. By
+default, this is set to the number of vCPUs requested.</li>
+<li>FLAVOR-CORES: (integer) The number of cores per socket for the guest
+VM. By default, this is set to <code class="docutils literal"><span class="pre">1</span></code>.</li>
+<li>FLAVOR-THREADS: (integer) The number of threads per core for the guest
+VM. By default, this is set to <code class="docutils literal"><span class="pre">1</span></code>.</li>
+</ul>
+</dd>
+<dt>CPU pinning policy</dt>
+<dd><p class="first">For the libvirt driver, you can pin the virtual CPUs (vCPUs) of instances
+to the host&#8217;s physical CPU cores (pCPUs) using properties. You can further
+refine this by stating how hardware CPU threads in a simultaneous
+multithreading-based (SMT) architecture be used. These configurations will
+result in improved per-instance determinism and performance.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">SMT-based architectures include Intel processors with Hyper-Threading
+technology. In these architectures, processor cores share a number of
+components with one or more other cores. Cores in such architectures
+are commonly referred to as hardware threads, while the cores that a
+given core share components with are known as thread siblings.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Host aggregates should be used to separate these pinned instances
+from unpinned instances as the latter will not respect the resourcing
+requirements of the former.</p>
+</div>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span>$ openstack flavor set FLAVOR-NAME \
+    --property hw:cpu_policy=CPU-POLICY \
+    --property hw:cpu_thread_policy=CPU-THREAD-POLICY
+</pre></div>
+</div>
+<p>Valid CPU-POLICY values are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">shared</span></code>: (default) The guest vCPUs will be allowed to freely float
+across host pCPUs, albeit potentially constrained by NUMA policy.</li>
+<li><code class="docutils literal"><span class="pre">dedicated</span></code>: The guest vCPUs will be strictly pinned to a set of host
+pCPUs. In the absence of an explicit vCPU topology request, the drivers
+typically expose all vCPUs as sockets with one core and one thread.
+When strict CPU pinning is in effect the guest CPU topology will be
+setup to match the topology of the CPUs to which it is pinned. This
+option implies an overcommit ratio of 1.0. For example, if a two vCPU
+guest is pinned to a single host core with two threads, then the guest
+will get a topology of one socket, one core, two threads.</li>
+</ul>
+<p>Valid CPU-THREAD-POLICY values are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">prefer</span></code>: (default) The host may or may not have an SMT architecture.
+Where an SMT architecture is present, thread siblings are preferred.</li>
+<li><code class="docutils literal"><span class="pre">isolate</span></code>: The host must not have an SMT architecture or must emulate
+a non-SMT architecture. If the host does not have an SMT architecture,
+each vCPU is placed on a different core as expected. If the host does
+have an SMT architecture - that is, one or more cores have thread
+siblings - then each vCPU is placed on a different physical core. No
+vCPUs from other guests are placed on the same core. All but one thread
+sibling on each utilized core is therefore guaranteed to be unusable.</li>
+<li><code class="docutils literal"><span class="pre">require</span></code>: The host must have an SMT architecture. Each vCPU is
+allocated on thread siblings. If the host does not have an SMT
+architecture, then it is not used. If the host has an SMT architecture,
+but not enough cores with free thread siblings are available, then
+scheduling fails.</li>
+</ul>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">hw:cpu_thread_policy</span></code> option is only valid if <code class="docutils literal"><span class="pre">hw:cpu_policy</span></code>
+is set to <code class="docutils literal"><span class="pre">dedicated</span></code>.</p>
+</div>
+</dd>
+<dt>NUMA topology</dt>
+<dd><p class="first">For the libvirt driver, you can define the host NUMA placement for the
+instance vCPU threads as well as the allocation of instance vCPUs and
+memory from the host NUMA nodes. For flavors whose memory and vCPU
+allocations are larger than the size of NUMA nodes in the compute hosts,
+the definition of a NUMA topology allows hosts to better utilize NUMA
+and improve performance of the instance OS.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> FLAVOR-NAME <span class="se">\</span>
+<span class="go">    --property hw:numa_nodes=FLAVOR-NODES \</span>
+<span class="go">    --property hw:numa_cpus.N=FLAVOR-CORES \</span>
+<span class="go">    --property hw:numa_mem.N=FLAVOR-MEMORY</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li>FLAVOR-NODES: (integer) The number of host NUMA nodes to restrict
+execution of instance vCPU threads to. If not specified, the vCPU
+threads can run on any number of the host NUMA nodes available.</li>
+<li>N: (integer) The instance NUMA node to apply a given CPU or memory
+configuration to, where N is in the range <code class="docutils literal"><span class="pre">0</span></code> to <code class="docutils literal"><span class="pre">FLAVOR-NODES</span></code>
+- <code class="docutils literal"><span class="pre">1</span></code>.</li>
+<li>FLAVOR-CORES: (comma-separated list of integers) A list of instance
+vCPUs to map to instance NUMA node N. If not specified, vCPUs are evenly
+divided among available NUMA nodes.</li>
+<li>FLAVOR-MEMORY: (integer) The number of MB of instance memory to map to
+instance NUMA node N. If not specified, memory is evenly divided
+among available NUMA nodes.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">hw:numa_cpus.N</span></code> and <code class="docutils literal"><span class="pre">hw:numa_mem.N</span></code> are only valid if
+<code class="docutils literal"><span class="pre">hw:numa_nodes</span></code> is set. Additionally, they are only required if the
+instance&#8217;s NUMA nodes have an asymmetrical allocation of CPUs and RAM
+(important for some NFV workloads).</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">N</span></code> parameter is an index of <em>guest</em> NUMA nodes and may not
+correspond to <em>host</em> NUMA nodes. For example, on a platform with two
+NUMA nodes, the scheduler may opt to place guest NUMA node 0, as
+referenced in <code class="docutils literal"><span class="pre">hw:numa_mem.0</span></code> on host NUMA node 1 and vice versa.
+Similarly, the integers used for <code class="docutils literal"><span class="pre">FLAVOR-CORES</span></code> are indexes of
+<em>guest</em> vCPUs and may not correspond to <em>host</em> CPUs. As such, this
+feature cannot be used to constrain instances to specific host CPUs or
+NUMA nodes.</p>
+</div>
+<div class="last admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If the combined values of <code class="docutils literal"><span class="pre">hw:numa_cpus.N</span></code> or <code class="docutils literal"><span class="pre">hw:numa_mem.N</span></code>
+are greater than the available number of CPUs or memory respectively,
+an exception is raised.</p>
+</div>
+</dd>
+<dt>Large pages allocation</dt>
+<dd><p class="first">You can configure the size of large pages used to back the VMs.</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span>$ openstack flavor set FLAVOR-NAME \
+    --property hw:mem_page_size=PAGE_SIZE
+</pre></div>
+</div>
+<p>Valid <code class="docutils literal"><span class="pre">PAGE_SIZE</span></code> values are:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">small</span></code>: (default) The smallest page size is used.
+Example: 4 KB on x86.</li>
+<li><code class="docutils literal"><span class="pre">large</span></code>: Only use larger page sizes for guest RAM.
+Example: either 2 MB or 1 GB on x86.</li>
+<li><code class="docutils literal"><span class="pre">any</span></code>: It is left up to the compute driver to decide. In this case,
+the libvirt driver might try to find large pages, but fall back to small
+pages. Other drivers may choose alternate policies for <code class="docutils literal"><span class="pre">any</span></code>.</li>
+<li>pagesize: (string) An explicit page size can be set if the workload has
+specific requirements. This value can be an integer value for the page
+size in KB, or can use any standard suffix.
+Example: <code class="docutils literal"><span class="pre">4KB</span></code>, <code class="docutils literal"><span class="pre">2MB</span></code>, <code class="docutils literal"><span class="pre">2048</span></code>, <code class="docutils literal"><span class="pre">1GB</span></code>.</li>
+</ul>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Large pages can be enabled for guest RAM without any regard to whether
+the guest OS will use them or not. If the guest OS chooses not to
+use huge pages, it will merely see small pages as before. Conversely,
+if a guest OS does intend to use huge pages, it is very important that
+the guest RAM be backed by huge pages. Otherwise, the guest OS will not
+be getting the performance benefit it is expecting.</p>
+</div>
+</dd>
+<dt>PCI passthrough</dt>
+<dd><p class="first">You can assign PCI devices to a guest by specifying them in the flavor.</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span>$ openstack flavor set FLAVOR-NAME \
+    --property pci_passthrough:alias=ALIAS:COUNT
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="last simple">
+<li>ALIAS: (string) The alias which correspond to a particular PCI device
+class as configured in the nova configuration file (see <a class="reference external" href="http://docs.openstack.org/newton/config-reference/compute/config-options.html">nova.conf
+configuration options</a>).</li>
+<li>COUNT: (integer) The amount of PCI devices of type ALIAS to be assigned
+to a guest.</li>
+</ul>
+</dd>
+<dt>Secure Boot</dt>
+<dd><p class="first">When your Compute services use the Hyper-V hypervisor, you can enable
+secure boot for Windows and Linux instances.</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span>$ openstack flavor set FLAVOR-NAME \
+     --property os:secure_boot=SECURE_BOOT_OPTION
+</pre></div>
+</div>
+<p>Valid <code class="docutils literal"><span class="pre">SECURE_BOOT_OPTION</span></code> values are:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">required</span></code>: Enable Secure Boot for instances running with this
+flavor.</li>
+<li><code class="docutils literal"><span class="pre">disabled</span></code> or <code class="docutils literal"><span class="pre">optional</span></code>: (default) Disable Secure Boot for
+instances running with this flavor.</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="compute-manage-volumes.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Manage volumes"></i></a>
+          
+          
+            <a href="compute-default-ports.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Compute service node firewall requirements"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="compute.html">Compute</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compute-arch.html">System architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-images-instances.html">Images and instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-networking-nova.html">Networking with nova-network</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="compute-system-admin.html">System administration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support-compute.html">Troubleshoot Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compute-flavors" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Flavors in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-flavors.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:54:36 GMT -->
+</html>

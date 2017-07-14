@@ -1,0 +1,3108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/install-guide-obs/common/glossary.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:39:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Glossary</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Glossary</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="app-support.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Community support"></i></a>
+    
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Glossary</a><ul>
+<li><a class="reference internal" href="#id1">0-9</a></li>
+<li><a class="reference internal" href="#a">A</a></li>
+<li><a class="reference internal" href="#b">B</a></li>
+<li><a class="reference internal" href="#c">C</a></li>
+<li><a class="reference internal" href="#d">D</a></li>
+<li><a class="reference internal" href="#e">E</a></li>
+<li><a class="reference internal" href="#f">F</a></li>
+<li><a class="reference internal" href="#g">G</a></li>
+<li><a class="reference internal" href="#h">H</a></li>
+<li><a class="reference internal" href="#i">I</a></li>
+<li><a class="reference internal" href="#j">J</a></li>
+<li><a class="reference internal" href="#k">K</a></li>
+<li><a class="reference internal" href="#l">L</a></li>
+<li><a class="reference internal" href="#m">M</a></li>
+<li><a class="reference internal" href="#n">N</a></li>
+<li><a class="reference internal" href="#o">O</a></li>
+<li><a class="reference internal" href="#p">P</a></li>
+<li><a class="reference internal" href="#q">Q</a></li>
+<li><a class="reference internal" href="#r">R</a></li>
+<li><a class="reference internal" href="#s">S</a></li>
+<li><a class="reference internal" href="#t">T</a></li>
+<li><a class="reference internal" href="#u">U</a></li>
+<li><a class="reference internal" href="#v">V</a></li>
+<li><a class="reference internal" href="#w">W</a></li>
+<li><a class="reference internal" href="#x">X</a></li>
+<li><a class="reference internal" href="#z">Z</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="glossary">
+<h1>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline">¶</a></h1>
+<p>This glossary offers a list of terms and definitions to define a
+vocabulary for OpenStack-related concepts.</p>
+<p>To add to OpenStack glossary, clone the <a class="reference external" href="https://git.openstack.org/cgit/openstack/openstack-manuals">openstack/openstack-manuals
+repository</a> and
+update the source file <code class="docutils literal"><span class="pre">doc/common/glossary.rst</span></code> through the
+OpenStack contribution process.</p>
+<div class="section" id="id1">
+<h2>0-9<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-6to4">6to4</dt>
+<dd>A mechanism that allows IPv6 packets to be transmitted
+over an IPv4 network, providing a strategy for migrating to
+IPv6.</dd>
+</dl>
+</div>
+<div class="section" id="a">
+<h2>A<a class="headerlink" href="#a" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-absolute-limit">absolute limit</dt>
+<dd>Impassable limits for guest VMs. Settings include total RAM
+size, maximum number of vCPUs, and maximum disk size.</dd>
+<dt id="term-access-control-list-acl">access control list (ACL)</dt>
+<dd>A list of permissions attached to an object. An ACL specifies
+which users or system processes have access to objects. It also
+defines which operations can be performed on specified objects. Each
+entry in a typical ACL specifies a subject and an operation. For
+instance, the ACL entry <code class="docutils literal"><span class="pre">(Alice,</span> <span class="pre">delete)</span></code> for a file gives
+Alice permission to delete the file.</dd>
+<dt id="term-access-key">access key</dt>
+<dd>Alternative term for an Amazon EC2 access key. See EC2 access
+key.</dd>
+<dt id="term-account">account</dt>
+<dd>The Object Storage context of an account. Do not confuse with a
+user account from an authentication service, such as Active Directory,
+/etc/passwd, OpenLDAP, OpenStack Identity, and so on.</dd>
+<dt id="term-account-auditor">account auditor</dt>
+<dd>Checks for missing replicas and incorrect or corrupted objects
+in a specified Object Storage account by running queries against the
+back-end SQLite database.</dd>
+<dt id="term-account-database">account database</dt>
+<dd>A SQLite database that contains Object Storage accounts and
+related metadata and that the accounts server accesses.</dd>
+<dt id="term-account-reaper">account reaper</dt>
+<dd>An Object Storage worker that scans for and deletes account
+databases and that the account server has marked for deletion.</dd>
+<dt id="term-account-server">account server</dt>
+<dd>Lists containers in Object Storage and stores container
+information in the account database.</dd>
+<dt id="term-account-service">account service</dt>
+<dd>An Object Storage component that provides account services such
+as list, create, modify, and audit. Do not confuse with OpenStack
+Identity service, OpenLDAP, or similar user-account services.</dd>
+<dt id="term-accounting">accounting</dt>
+<dd>The Compute service provides accounting information through the
+event notification and system usage data facilities.</dd>
+<dt id="term-active-active-configuration">active/active configuration</dt>
+<dd>In a high-availability setup with an active/active
+configuration, several systems share the load together and if one
+fails, the load is distributed to the remaining systems.</dd>
+<dt id="term-active-directory">Active Directory</dt>
+<dd>Authentication and identity service by Microsoft, based on LDAP.
+Supported in OpenStack.</dd>
+<dt id="term-active-passive-configuration">active/passive configuration</dt>
+<dd>In a high-availability setup with an active/passive
+configuration, systems are set up to bring additional resources online
+to replace those that have failed.</dd>
+<dt id="term-address-pool">address pool</dt>
+<dd>A group of fixed and/or floating IP addresses that are assigned
+to a project and can be used by or assigned to the VM instances in a
+project.</dd>
+<dt id="term-admin-api">admin API</dt>
+<dd>A subset of API calls that are accessible to authorized
+administrators and are generally not accessible to end users or the
+public Internet. They can exist as a separate service (keystone) or
+can be a subset of another API (nova).</dd>
+<dt id="term-administrator">administrator</dt>
+<dd>The person responsible for installing, configuring,
+and managing an OpenStack cloud.</dd>
+<dt id="term-admin-server">admin server</dt>
+<dd>In the context of the Identity service, the worker process that
+provides access to the admin API.</dd>
+<dt id="term-advanced-message-queuing-protocol-amqp">Advanced Message Queuing Protocol (AMQP)</dt>
+<dd>The open standard messaging protocol used by OpenStack
+components for intra-service communications, provided by RabbitMQ,
+Qpid, or ZeroMQ.</dd>
+<dt id="term-advanced-risc-machine-arm">Advanced RISC Machine (ARM)</dt>
+<dd>Lower power consumption CPU often found in mobile and embedded
+devices. Supported by OpenStack.</dd>
+<dt id="term-alert">alert</dt>
+<dd>The Compute service can send alerts through its notification
+system, which includes a facility to create custom notification
+drivers. Alerts can be sent to and displayed on the horizon
+dashboard.</dd>
+<dt id="term-allocate">allocate</dt>
+<dd>The process of taking a floating IP address from the address
+pool so it can be associated with a fixed IP on a guest VM
+instance.</dd>
+<dt id="term-amazon-kernel-image-aki">Amazon Kernel Image (AKI)</dt>
+<dd>Both a VM container format and disk format. Supported by Image
+service.</dd>
+<dt id="term-amazon-machine-image-ami">Amazon Machine Image (AMI)</dt>
+<dd>Both a VM container format and disk format. Supported by Image
+service.</dd>
+<dt id="term-amazon-ramdisk-image-ari">Amazon Ramdisk Image (ARI)</dt>
+<dd>Both a VM container format and disk format. Supported by Image
+service.</dd>
+<dt id="term-anvil">Anvil</dt>
+<dd>A project that ports the shell script-based project named
+DevStack to Python.</dd>
+<dt id="term-aodh">aodh</dt>
+<dd>Part of the OpenStack <a class="reference internal" href="#term-telemetry-service-telemetry"><span class="xref std std-term">Telemetry service</span></a>; provides alarming functionality.</dd>
+<dt id="term-apache">Apache</dt>
+<dd>The Apache Software Foundation supports the Apache community of
+open-source software projects. These projects provide software
+products for the public good.</dd>
+<dt id="term-apache-license-2-0">Apache License 2.0</dt>
+<dd>All OpenStack core projects are provided under the terms of the
+Apache License 2.0 license.</dd>
+<dt id="term-apache-web-server">Apache Web Server</dt>
+<dd>The most common web server software currently used on the
+Internet.</dd>
+<dt id="term-api-endpoint">API endpoint</dt>
+<dd>The daemon, worker, or service that a client communicates with
+to access an API. API endpoints can provide any number of services,
+such as authentication, sales data, performance meters, Compute VM
+commands, census data, and so on.</dd>
+<dt id="term-api-extension">API extension</dt>
+<dd>Custom modules that extend some OpenStack core APIs.</dd>
+<dt id="term-api-extension-plug-in">API extension plug-in</dt>
+<dd>Alternative term for a Networking plug-in or Networking API
+extension.</dd>
+<dt id="term-api-key">API key</dt>
+<dd>Alternative term for an API token.</dd>
+<dt id="term-api-server">API server</dt>
+<dd>Any node running a daemon or worker that provides an API
+endpoint.</dd>
+<dt id="term-api-token">API token</dt>
+<dd>Passed to API requests and used by OpenStack to verify that the
+client is authorized to run the requested operation.</dd>
+<dt id="term-api-version">API version</dt>
+<dd>In OpenStack, the API version for a project is part of the URL.
+For example, <code class="docutils literal"><span class="pre">example.com/nova/v1/foobar</span></code>.</dd>
+<dt id="term-applet">applet</dt>
+<dd>A Java program that can be embedded into a web page.</dd>
+<dt id="term-application-catalog-service-murano">Application Catalog service (murano)</dt>
+<dd>The project that provides an application catalog service so that users
+can compose and deploy composite environments on an application
+abstraction level while managing the application lifecycle.</dd>
+<dt id="term-application-programming-interface-api">Application Programming Interface (API)</dt>
+<dd>A collection of specifications used to access a service,
+application, or program. Includes service calls, required parameters
+for each call, and the expected return values.</dd>
+<dt id="term-application-server">application server</dt>
+<dd>A piece of software that makes available another piece of
+software over a network.</dd>
+<dt id="term-application-service-provider-asp">Application Service Provider (ASP)</dt>
+<dd>Companies that rent specialized applications that help
+businesses and organizations provide additional services
+with lower cost.</dd>
+<dt id="term-address-resolution-protocol-arp">Address Resolution Protocol (ARP)</dt>
+<dd>The protocol by which layer-3 IP addresses are resolved into
+layer-2 link local addresses.</dd>
+<dt id="term-arptables">arptables</dt>
+<dd>Tool used for maintaining Address Resolution Protocol packet
+filter rules in the Linux kernel firewall modules. Used along with
+iptables, ebtables, and ip6tables in Compute to provide firewall
+services for VMs.</dd>
+<dt id="term-associate">associate</dt>
+<dd>The process associating a Compute floating IP address with a
+fixed IP address.</dd>
+<dt id="term-asynchronous-javascript-and-xml-ajax">Asynchronous JavaScript and XML (AJAX)</dt>
+<dd>A group of interrelated web development techniques used on the
+client-side to create asynchronous web applications. Used extensively
+in horizon.</dd>
+<dt id="term-ata-over-ethernet-aoe">ATA over Ethernet (AoE)</dt>
+<dd>A disk storage protocol tunneled within Ethernet.</dd>
+<dt id="term-attach">attach</dt>
+<dd>The process of connecting a VIF or vNIC to a L2 network in
+Networking. In the context of Compute, this process connects a storage
+volume to an instance.</dd>
+<dt id="term-attachment-network">attachment (network)</dt>
+<dd>Association of an interface ID to a logical port. Plugs an
+interface into a port.</dd>
+<dt id="term-auditing">auditing</dt>
+<dd>Provided in Compute through the system usage data
+facility.</dd>
+<dt id="term-auditor">auditor</dt>
+<dd>A worker process that verifies the integrity of Object Storage
+objects, containers, and accounts. Auditors is the collective term for
+the Object Storage account auditor, container auditor, and object
+auditor.</dd>
+<dt id="term-austin">Austin</dt>
+<dd>The code name for the initial release of
+OpenStack. The first design summit took place in
+Austin, Texas, US.</dd>
+<dt id="term-auth-node">auth node</dt>
+<dd>Alternative term for an Object Storage authorization
+node.</dd>
+<dt id="term-authentication">authentication</dt>
+<dd>The process that confirms that the user, process, or client is
+really who they say they are through private key, secret token,
+password, fingerprint, or similar method.</dd>
+<dt id="term-authentication-token">authentication token</dt>
+<dd>A string of text provided to the client after authentication.
+Must be provided by the user or process in subsequent requests to the
+API endpoint.</dd>
+<dt id="term-authn">AuthN</dt>
+<dd>The Identity service component that provides authentication
+services.</dd>
+<dt id="term-authorization">authorization</dt>
+<dd>The act of verifying that a user, process, or client is
+authorized to perform an action.</dd>
+<dt id="term-authorization-node">authorization node</dt>
+<dd>An Object Storage node that provides authorization
+services.</dd>
+<dt id="term-authz">AuthZ</dt>
+<dd>The Identity component that provides high-level
+authorization services.</dd>
+<dt id="term-auto-ack">Auto ACK</dt>
+<dd>Configuration setting within RabbitMQ that enables or disables
+message acknowledgment. Enabled by default.</dd>
+<dt id="term-auto-declare">auto declare</dt>
+<dd>A Compute RabbitMQ setting that determines whether a message
+exchange is automatically created when the program starts.</dd>
+<dt id="term-availability-zone">availability zone</dt>
+<dd>An Amazon EC2 concept of an isolated area that is used for fault
+tolerance. Do not confuse with an OpenStack Compute zone or
+cell.</dd>
+<dt id="term-aws-cloudformation-template">AWS CloudFormation template</dt>
+<dd>AWS CloudFormation allows Amazon Web Services (AWS) users to create and manage a
+collection of related resources. The Orchestration service
+supports a CloudFormation-compatible format (CFN).</dd>
+</dl>
+</div>
+<div class="section" id="b">
+<h2>B<a class="headerlink" href="#b" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-back-end">back end</dt>
+<dd>Interactions and processes that are obfuscated from the user,
+such as Compute volume mount, data transmission to an iSCSI target by
+a daemon, or Object Storage object integrity checks.</dd>
+<dt id="term-back-end-catalog">back-end catalog</dt>
+<dd>The storage method used by the Identity service catalog service
+to store and retrieve information about API endpoints that are
+available to the client. Examples include an SQL database, LDAP
+database, or KVS back end.</dd>
+<dt id="term-back-end-store">back-end store</dt>
+<dd>The persistent data store used to save and retrieve information
+for a service, such as lists of Object Storage objects, current state
+of guest VMs, lists of user names, and so on. Also, the method that the
+Image service uses to get and store VM images. Options include Object
+Storage, locally mounted file system, RADOS block devices, VMware
+datastore, and HTTP.</dd>
+<dt id="term-backup-restore-and-disaster-recovery-as-a-service">backup restore and disaster recovery as a service</dt>
+<dd>The OpenStack project that provides integrated tooling for
+backing up, restoring, and recovering file systems,
+instances, or database backups. The project name is freezer.</dd>
+<dt id="term-bandwidth">bandwidth</dt>
+<dd>The amount of available data used by communication resources,
+such as the Internet. Represents the amount of data that is used to
+download things or the amount of data available to download.</dd>
+<dt id="term-barbican">barbican</dt>
+<dd>Code name of the <a class="reference internal" href="#term-key-manager-service-barbican"><span class="xref std std-term">Key Manager service</span></a>.</dd>
+<dt id="term-bare">bare</dt>
+<dd>An Image service container format that indicates that no
+container exists for the VM image.</dd>
+<dt id="term-bare-metal-service-ironic">Bare Metal service (ironic)</dt>
+<dd>The OpenStack service that provides a service and associated libraries
+capable of managing and provisioning physical machines in a
+security-aware and fault-tolerant manner.</dd>
+<dt id="term-base-image">base image</dt>
+<dd>An OpenStack-provided image.</dd>
+<dt id="term-bell-lapadula-model">Bell-LaPadula model</dt>
+<dd>A security model that focuses on data confidentiality
+and controlled access to classified information.
+This model divides the entities into subjects and objects.
+The clearance of a subject is compared to the classification of the
+object to determine if the subject is authorized for the specific access mode.
+The clearance or classification scheme is expressed in terms of a lattice.</dd>
+<dt id="term-benchmark-service-rally">Benchmark service (rally)</dt>
+<dd>OpenStack project that provides a framework for
+performance analysis and benchmarking of individual
+OpenStack components as well as full production OpenStack
+cloud deployments.</dd>
+<dt id="term-bexar">Bexar</dt>
+<dd>A grouped release of projects related to
+OpenStack that came out in February of 2011. It
+included only Compute (nova) and Object Storage (swift).
+Bexar is the code name for the second release of
+OpenStack. The design summit took place in
+San Antonio, Texas, US, which is the county seat for Bexar county.</dd>
+<dt id="term-binary">binary</dt>
+<dd>Information that consists solely of ones and zeroes, which is
+the language of computers.</dd>
+<dt id="term-bit">bit</dt>
+<dd>A bit is a single digit number that is in base of 2 (either a
+zero or one). Bandwidth usage is measured in bits per second.</dd>
+<dt id="term-bits-per-second-bps">bits per second (BPS)</dt>
+<dd>The universal measurement of how quickly data is transferred
+from place to place.</dd>
+<dt id="term-block-device">block device</dt>
+<dd>A device that moves data in the form of blocks. These device
+nodes interface the devices, such as hard disks, CD-ROM drives, flash
+drives, and other addressable regions of memory.</dd>
+<dt id="term-block-migration">block migration</dt>
+<dd>A method of VM live migration used by KVM to evacuate instances
+from one host to another with very little downtime during a
+user-initiated switchover. Does not require shared storage. Supported
+by Compute.</dd>
+<dt id="term-block-storage-service-cinder">Block Storage service (cinder)</dt>
+<dd>The OpenStack service that implement services and libraries to provide
+on-demand, self-service access to Block Storage resources via abstraction
+and automation on top of other block storage devices.</dd>
+<dt id="term-block-storage-api">Block Storage API</dt>
+<dd>An API on a separate endpoint for attaching,
+detaching, and creating block storage for compute
+VMs.</dd>
+<dt id="term-bmc-baseboard-management-controller">BMC (Baseboard Management Controller)</dt>
+<dd>The intelligence in the IPMI architecture, which is a specialized
+micro-controller that is embedded on the motherboard of a computer
+and acts as a server. Manages the interface between system management
+software and platform hardware.</dd>
+<dt id="term-bootable-disk-image">bootable disk image</dt>
+<dd>A type of VM image that exists as a single, bootable
+file.</dd>
+<dt id="term-bootstrap-protocol-bootp">Bootstrap Protocol (BOOTP)</dt>
+<dd>A network protocol used by a network client to obtain an IP
+address from a configuration server. Provided in Compute through the
+dnsmasq daemon when using either the FlatDHCP manager or VLAN manager
+network manager.</dd>
+<dt id="term-border-gateway-protocol-bgp">Border Gateway Protocol (BGP)</dt>
+<dd>The Border Gateway Protocol is a dynamic routing protocol
+that connects autonomous systems.  Considered the
+backbone of the Internet, this protocol connects disparate
+networks to form a larger network.</dd>
+<dt id="term-browser">browser</dt>
+<dd>Any client software that enables a computer or device to access
+the Internet.</dd>
+<dt id="term-builder-file">builder file</dt>
+<dd>Contains configuration information that Object Storage uses to
+reconfigure a ring or to re-create it from scratch after a serious
+failure.</dd>
+<dt id="term-bursting">bursting</dt>
+<dd>The practice of utilizing a secondary environment to
+elastically build instances on-demand when the primary
+environment is resource constrained.</dd>
+<dt id="term-button-class">button class</dt>
+<dd>A group of related button types within horizon. Buttons to
+start, stop, and suspend VMs are in one class. Buttons to associate
+and disassociate floating IP addresses are in another class, and so
+on.</dd>
+<dt id="term-byte">byte</dt>
+<dd>Set of bits that make up a single character; there are usually 8
+bits to a byte.</dd>
+</dl>
+</div>
+<div class="section" id="c">
+<h2>C<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-cache-pruner">cache pruner</dt>
+<dd>A program that keeps the Image service VM image cache at or
+below its configured maximum size.</dd>
+<dt id="term-cactus">Cactus</dt>
+<dd>An OpenStack grouped release of projects that came out in the
+spring of 2011. It included Compute (nova), Object Storage (swift),
+and the Image service (glance).
+Cactus is a city in Texas, US and is the code name for
+the third release of OpenStack. When OpenStack releases went
+from three to six months long, the code name of the release
+changed to match a geography nearest the previous
+summit.</dd>
+<dt id="term-call">CALL</dt>
+<dd>One of the RPC primitives used by the OpenStack message queue
+software. Sends a message and waits for a response.</dd>
+<dt id="term-capability">capability</dt>
+<dd>Defines resources for a cell, including CPU, storage, and
+networking. Can apply to the specific services within a cell or a
+whole cell.</dd>
+<dt id="term-capacity-cache">capacity cache</dt>
+<dd>A Compute back-end database table that contains the current
+workload, amount of free RAM, and number of VMs running on each host.
+Used to determine on which host a VM starts.</dd>
+<dt id="term-capacity-updater">capacity updater</dt>
+<dd>A notification driver that monitors VM instances and updates the
+capacity cache as needed.</dd>
+<dt id="term-cast">CAST</dt>
+<dd>One of the RPC primitives used by the OpenStack message queue
+software. Sends a message and does not wait for a response.</dd>
+<dt id="term-catalog">catalog</dt>
+<dd>A list of API endpoints that are available to a user after
+authentication with the Identity service.</dd>
+<dt id="term-catalog-service">catalog service</dt>
+<dd>An Identity service that lists API endpoints that are available
+to a user after authentication with the Identity service.</dd>
+<dt id="term-ceilometer">ceilometer</dt>
+<dd>Part of the OpenStack <a class="reference internal" href="#term-telemetry-service-telemetry"><span class="xref std std-term">Telemetry service</span></a>; gathers and stores metrics from other
+OpenStack services.</dd>
+<dt id="term-cell">cell</dt>
+<dd>Provides logical partitioning of Compute resources in a child
+and parent relationship. Requests are passed from parent cells to
+child cells if the parent cannot provide the requested
+resource.</dd>
+<dt id="term-cell-forwarding">cell forwarding</dt>
+<dd>A Compute option that enables parent cells to pass resource
+requests to child cells if the parent cannot provide the requested
+resource.</dd>
+<dt id="term-cell-manager">cell manager</dt>
+<dd>The Compute component that contains a list of the current
+capabilities of each host within the cell and routes requests as
+appropriate.</dd>
+<dt id="term-centos">CentOS</dt>
+<dd>A Linux distribution that is compatible with OpenStack.</dd>
+<dt id="term-ceph">Ceph</dt>
+<dd>Massively scalable distributed storage system that consists of
+an object store, block store, and POSIX-compatible distributed file
+system. Compatible with OpenStack.</dd>
+<dt id="term-cephfs">CephFS</dt>
+<dd>The POSIX-compliant file system provided by Ceph.</dd>
+<dt id="term-certificate-authority-ca">certificate authority (CA)</dt>
+<dd>In cryptography, an entity that issues digital certificates. The digital
+certificate certifies the ownership of a public key by the named
+subject of the certificate. This enables others (relying parties) to
+rely upon signatures or assertions made by the private key that
+corresponds to the certified public key. In this model of trust
+relationships, a CA is a trusted third party for both the subject
+(owner) of the certificate and the party relying upon the certificate.
+CAs are characteristic of many public key infrastructure (PKI)
+schemes.
+In OpenStack, a simple certificate authority is provided by Compute for
+cloudpipe VPNs and VM image decryption.</dd>
+<dt id="term-challenge-handshake-authentication-protocol-chap">Challenge-Handshake Authentication Protocol (CHAP)</dt>
+<dd>An iSCSI authentication method supported by Compute.</dd>
+<dt id="term-chance-scheduler">chance scheduler</dt>
+<dd>A scheduling method used by Compute that randomly chooses an
+available host from the pool.</dd>
+<dt id="term-changes-since">changes since</dt>
+<dd>A Compute API parameter that downloads changes to the requested
+item since your last request, instead of downloading a new, fresh set
+of data and comparing it against the old data.</dd>
+<dt id="term-chef">Chef</dt>
+<dd>An operating system configuration management tool supporting
+OpenStack deployments.</dd>
+<dt id="term-child-cell">child cell</dt>
+<dd>If a requested resource such as CPU time, disk storage, or
+memory is not available in the parent cell, the request is forwarded
+to its associated child cells. If the child cell can fulfill the
+request, it does. Otherwise, it attempts to pass the request to any of
+its children.</dd>
+<dt id="term-cinder">cinder</dt>
+<dd>Codename for <a class="reference internal" href="#term-block-storage-service-cinder"><span class="xref std std-term">Block Storage service</span></a>.</dd>
+<dt id="term-cirros">CirrOS</dt>
+<dd>A minimal Linux distribution designed for use as a test
+image on clouds such as OpenStack.</dd>
+<dt id="term-cisco-neutron-plug-in">Cisco neutron plug-in</dt>
+<dd>A Networking plug-in for Cisco devices and technologies,
+including UCS and Nexus.</dd>
+<dt id="term-cloud-architect">cloud architect</dt>
+<dd>A person who plans, designs, and oversees the creation of
+clouds.</dd>
+<dt id="term-cloud-auditing-data-federation-cadf">Cloud Auditing Data Federation (CADF)</dt>
+<dd>Cloud Auditing Data Federation (CADF) is a
+specification for audit event data. CADF is
+supported by OpenStack Identity.</dd>
+<dt id="term-cloud-computing">cloud computing</dt>
+<dd>A model that enables access to a shared pool of configurable
+computing resources, such as networks, servers, storage, applications,
+and services, that can be rapidly provisioned and released with
+minimal management effort or service provider interaction.</dd>
+<dt id="term-cloud-controller">cloud controller</dt>
+<dd>Collection of Compute components that represent the global state
+of the cloud; talks to services, such as Identity authentication,
+Object Storage, and node/storage workers through a
+queue.</dd>
+<dt id="term-cloud-controller-node">cloud controller node</dt>
+<dd>A node that runs network, volume, API, scheduler, and image
+services. Each service may be broken out into separate nodes for
+scalability or availability.</dd>
+<dt id="term-cloud-data-management-interface-cdmi">Cloud Data Management Interface (CDMI)</dt>
+<dd>SINA standard that defines a RESTful API for managing objects in
+the cloud, currently unsupported in OpenStack.</dd>
+<dt id="term-cloud-infrastructure-management-interface-cimi">Cloud Infrastructure Management Interface (CIMI)</dt>
+<dd>An in-progress specification for cloud management. Currently
+unsupported in OpenStack.</dd>
+<dt id="term-cloud-init">cloud-init</dt>
+<dd>A package commonly installed in VM images that performs
+initialization of an instance after boot using information that it
+retrieves from the metadata service, such as the SSH public key and
+user data.</dd>
+<dt id="term-cloudadmin">cloudadmin</dt>
+<dd>One of the default roles in the Compute RBAC system. Grants
+complete system access.</dd>
+<dt id="term-cloudbase-init">Cloudbase-Init</dt>
+<dd>A Windows project providing guest initialization features,
+similar to cloud-init.</dd>
+<dt id="term-cloudpipe">cloudpipe</dt>
+<dd>A compute service that creates VPNs on a per-project
+basis.</dd>
+<dt id="term-cloudpipe-image">cloudpipe image</dt>
+<dd>A pre-made VM image that serves as a cloudpipe server.
+Essentially, OpenVPN running on Linux.</dd>
+<dt id="term-clustering-service">Clustering service</dt>
+<dd>The OpenStack project that implements
+clustering services and libraries for the management of
+groups of homogeneous objects exposed by other OpenStack
+services. The project name of Clustering service is
+senlin.</dd>
+<dt id="term-congress">congress</dt>
+<dd>OpenStack project that provides the Governance service.</dd>
+<dt id="term-command-filter">command filter</dt>
+<dd>Lists allowed commands within the Compute rootwrap
+facility.</dd>
+<dt id="term-common-internet-file-system-cifs">Common Internet File System (CIFS)</dt>
+<dd>A file sharing protocol. It is a public or open variation of the
+original Server Message Block (SMB) protocol developed and used by
+Microsoft. Like the SMB protocol, CIFS runs at a higher level and uses
+the TCP/IP protocol.</dd>
+<dt id="term-common-libraries-oslo">Common Libraries (oslo)</dt>
+<dd>The project that produces a set of python libraries containing code
+shared by OpenStack projects. The APIs provided by these libraries
+should be high quality, stable, consistent, documented and generally
+applicable.</dd>
+<dt id="term-community-project">community project</dt>
+<dd>A project that is not officially endorsed by the OpenStack
+Foundation. If the project is successful enough, it might be elevated
+to an incubated project and then to a core project, or it might be
+merged with the main code trunk.</dd>
+<dt id="term-compression">compression</dt>
+<dd>Reducing the size of files by special encoding, the file can be
+decompressed again to its original content. OpenStack supports
+compression at the Linux file system level but does not support
+compression for things such as Object Storage objects or Image service
+VM images.</dd>
+<dt id="term-compute-service-nova">Compute service (nova)</dt>
+<dd>The OpenStack core project that implements services and associated
+libraries to provide massively-scalable, on-demand, self-service
+access to compute resources, including bare metal, virtual machines,
+and containers.</dd>
+<dt id="term-compute-api-nova-api">Compute API (Nova API)</dt>
+<dd>The nova-api daemon provides access to nova services. Can communicate with
+other APIs, such as the Amazon EC2 API.</dd>
+<dt id="term-compute-controller">compute controller</dt>
+<dd>The Compute component that chooses suitable hosts on which to
+start VM instances.</dd>
+<dt id="term-compute-host">compute host</dt>
+<dd>Physical host dedicated to running compute nodes.</dd>
+<dt id="term-compute-node">compute node</dt>
+<dd>A node that runs the nova-compute daemon that manages VM
+instances that provide a wide
+range of services, such as web applications and analytics.</dd>
+<dt id="term-compute-service">Compute service</dt>
+<dd>Name for the Compute component that manages VMs.</dd>
+<dt id="term-compute-worker">compute worker</dt>
+<dd>The Compute component that runs on each compute node and manages
+the VM instance lifecycle, including run, reboot, terminate,
+attach/detach volumes, and so on. Provided by the nova-compute daemon.</dd>
+<dt id="term-concatenated-object">concatenated object</dt>
+<dd>A set of segment objects that Object Storage combines and sends
+to the client.</dd>
+<dt id="term-conductor">conductor</dt>
+<dd>In Compute, conductor is the process that proxies database
+requests from the compute process. Using conductor improves security
+because compute nodes do not need direct access to the
+database.</dd>
+<dt id="term-consistency-window">consistency window</dt>
+<dd>The amount of time it takes for a new Object Storage object to
+become accessible to all clients.</dd>
+<dt id="term-console-log">console log</dt>
+<dd>Contains the output from a Linux VM console in Compute.</dd>
+<dt id="term-container">container</dt>
+<dd>Organizes and stores objects in Object Storage. Similar to the
+concept of a Linux directory but cannot be nested. Alternative term
+for an Image service container format.</dd>
+<dt id="term-container-auditor">container auditor</dt>
+<dd>Checks for missing replicas or incorrect objects in specified
+Object Storage containers through queries to the SQLite back-end
+database.</dd>
+<dt id="term-container-database">container database</dt>
+<dd>A SQLite database that stores Object Storage containers and
+container metadata. The container server accesses this
+database.</dd>
+<dt id="term-container-format">container format</dt>
+<dd>A wrapper used by the Image service that contains a VM image and
+its associated metadata, such as machine state, OS disk size, and so
+on.</dd>
+<dt id="term-container-infrastructure-management-service-magnum">Container Infrastructure Management service (magnum)</dt>
+<dd>The project which provides a set of services for provisioning, scaling,
+and managing container orchestration engines.</dd>
+<dt id="term-container-server">container server</dt>
+<dd>An Object Storage server that manages containers.</dd>
+<dt id="term-container-service">container service</dt>
+<dd>The Object Storage component that provides container services,
+such as create, delete, list, and so on.</dd>
+<dt id="term-content-delivery-network-cdn">content delivery network (CDN)</dt>
+<dd>A content delivery network is a specialized network that is
+used to distribute content to clients, typically located
+close to the client for increased performance.</dd>
+<dt id="term-controller-node">controller node</dt>
+<dd>Alternative term for a cloud controller node.</dd>
+<dt id="term-core-api">core API</dt>
+<dd>Depending on context, the core API is either the OpenStack API
+or the main API of a specific core project, such as Compute,
+Networking, Image service, and so on.</dd>
+<dt id="term-core-service">core service</dt>
+<dd>An official OpenStack service defined as core by
+DefCore Committee. Currently, consists of
+Block Storage service (cinder), Compute service (nova),
+Identity service (keystone), Image service (glance),
+Networking service (neutron), and Object Storage service (swift).</dd>
+<dt id="term-cost">cost</dt>
+<dd>Under the Compute distributed scheduler, this is calculated by
+looking at the capabilities of each host relative to the flavor of the
+VM instance being requested.</dd>
+<dt id="term-credentials">credentials</dt>
+<dd>Data that is only known to or accessible by a user and
+used to verify that the user is who he says he is.
+Credentials are presented to the server during
+authentication. Examples include a password, secret key,
+digital certificate, and fingerprint.</dd>
+<dt id="term-cross-origin-resource-sharing-cors">Cross-Origin Resource Sharing (CORS)</dt>
+<dd>A mechanism that allows many resources (for example,
+fonts, JavaScript) on a web page to be requested from
+another domain outside the domain from which the resource
+originated. In particular, JavaScript&#8217;s AJAX calls can use
+the XMLHttpRequest mechanism.</dd>
+<dt id="term-crowbar">Crowbar</dt>
+<dd>An open source community project by Dell that aims to provide
+all necessary services to quickly deploy clouds.</dd>
+<dt id="term-current-workload">current workload</dt>
+<dd>An element of the Compute capacity cache that is calculated
+based on the number of build, snapshot, migrate, and resize operations
+currently in progress on a given host.</dd>
+<dt id="term-customer">customer</dt>
+<dd>Alternative term for project.</dd>
+<dt id="term-customization-module">customization module</dt>
+<dd>A user-created Python module that is loaded by horizon to change
+the look and feel of the dashboard.</dd>
+</dl>
+</div>
+<div class="section" id="d">
+<h2>D<a class="headerlink" href="#d" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-daemon">daemon</dt>
+<dd>A process that runs in the background and waits for requests.
+May or may not listen on a TCP or UDP port. Do not confuse with a
+worker.</dd>
+<dt id="term-dashboard-horizon">Dashboard (horizon)</dt>
+<dd>OpenStack project which provides an extensible, unified, web-based
+user interface for all OpenStack services.</dd>
+<dt id="term-data-encryption">data encryption</dt>
+<dd>Both Image service and Compute support encrypted virtual machine
+(VM) images (but not instances). In-transit data encryption is
+supported in OpenStack using technologies such as HTTPS, SSL, TLS, and
+SSH. Object Storage does not support object encryption at the
+application level but may support storage that uses disk encryption.</dd>
+<dt id="term-database-id">database ID</dt>
+<dd>A unique ID given to each replica of an Object Storage
+database.</dd>
+<dt id="term-database-replicator">database replicator</dt>
+<dd>An Object Storage component that copies changes in the account,
+container, and object databases to other nodes.</dd>
+<dt id="term-database-service-trove">Database service (trove)</dt>
+<dd>An integrated project that provides scalable and reliable
+Cloud Database-as-a-Service functionality for both
+relational and non-relational database engines.</dd>
+<dt id="term-data-loss-prevention-dlp-software">Data loss prevention (DLP) software</dt>
+<dd>Software programs used to protect sensitive information
+and prevent it from leaking outside a network boundary
+through the detection and denying of the data transportation.</dd>
+<dt id="term-data-processing-service-sahara">Data Processing service (sahara)</dt>
+<dd>OpenStack project that provides a scalable
+data-processing stack and associated management
+interfaces.</dd>
+<dt id="term-data-store">data store</dt>
+<dd>A database engine supported by the Database service.</dd>
+<dt id="term-deallocate">deallocate</dt>
+<dd>The process of removing the association between a floating IP
+address and a fixed IP address. Once this association is removed, the
+floating IP returns to the address pool.</dd>
+<dt id="term-debian">Debian</dt>
+<dd>A Linux distribution that is compatible with OpenStack.</dd>
+<dt id="term-deduplication">deduplication</dt>
+<dd>The process of finding duplicate data at the disk block, file,
+and/or object level to minimize storage use—currently unsupported
+within OpenStack.</dd>
+<dt id="term-default-panel">default panel</dt>
+<dd>The default panel that is displayed when a user accesses the
+horizon dashboard.</dd>
+<dt id="term-default-project">default project</dt>
+<dd>New users are assigned to this project if no project is specified
+when a user is created.</dd>
+<dt id="term-default-token">default token</dt>
+<dd>An Identity service token that is not associated with a specific
+project and is exchanged for a scoped token.</dd>
+<dt id="term-delayed-delete">delayed delete</dt>
+<dd>An option within Image service so that an image is deleted after
+a predefined number of seconds instead of immediately.</dd>
+<dt id="term-delivery-mode">delivery mode</dt>
+<dd>Setting for the Compute RabbitMQ message delivery mode; can be
+set to either transient or persistent.</dd>
+<dt id="term-denial-of-service-dos">denial of service (DoS)</dt>
+<dd>Denial of service (DoS) is a short form for
+denial-of-service attack. This is a malicious attempt to
+prevent legitimate users from using a service.</dd>
+<dt id="term-deprecated-auth">deprecated auth</dt>
+<dd>An option within Compute that enables administrators to create
+and manage users through the <code class="docutils literal"><span class="pre">nova-manage</span></code> command as
+opposed to using the Identity service.</dd>
+<dt id="term-designate">designate</dt>
+<dd>Code name for the DNS service project for OpenStack.</dd>
+<dt id="term-desktop-as-a-service">Desktop-as-a-Service</dt>
+<dd>A platform that provides a suite of desktop environments
+that users access to receive a desktop experience from
+any location. This may provide general use, development, or
+even homogeneous testing environments.</dd>
+<dt id="term-developer">developer</dt>
+<dd>One of the default roles in the Compute RBAC system and the
+default role assigned to a new user.</dd>
+<dt id="term-device-id">device ID</dt>
+<dd>Maps Object Storage partitions to physical storage
+devices.</dd>
+<dt id="term-device-weight">device weight</dt>
+<dd>Distributes partitions proportionately across Object Storage
+devices based on the storage capacity of each device.</dd>
+<dt id="term-devstack">DevStack</dt>
+<dd>Community project that uses shell scripts to quickly build
+complete OpenStack development environments.</dd>
+<dt id="term-dhcp-agent">DHCP agent</dt>
+<dd>OpenStack Networking agent that provides DHCP services
+for virtual networks.</dd>
+<dt id="term-diablo">Diablo</dt>
+<dd>A grouped release of projects related to OpenStack that came out
+in the fall of 2011, the fourth release of OpenStack. It included
+Compute (nova 2011.3), Object Storage (swift 1.4.3), and the Image
+service (glance).
+Diablo is the code name for the fourth release of
+OpenStack. The design summit took place in
+the Bay Area near Santa Clara,
+California, US and Diablo is a nearby city.</dd>
+<dt id="term-direct-consumer">direct consumer</dt>
+<dd>An element of the Compute RabbitMQ that comes to life when a RPC
+call is executed. It connects to a direct exchange through a unique
+exclusive queue, sends the message, and terminates.</dd>
+<dt id="term-direct-exchange">direct exchange</dt>
+<dd>A routing table that is created within the Compute RabbitMQ
+during RPC calls; one is created for each RPC call that is
+invoked.</dd>
+<dt id="term-direct-publisher">direct publisher</dt>
+<dd>Element of RabbitMQ that provides a response to an incoming MQ
+message.</dd>
+<dt id="term-disassociate">disassociate</dt>
+<dd>The process of removing the association between a floating IP
+address and fixed IP and thus returning the floating IP address to the
+address pool.</dd>
+<dt id="term-discretionary-access-control-dac">Discretionary Access Control (DAC)</dt>
+<dd>Governs the ability of subjects to access objects, while enabling
+users to make policy decisions and assign security attributes.
+The traditional UNIX system of users, groups, and read-write-execute
+permissions is an example of DAC.</dd>
+<dt id="term-disk-encryption">disk encryption</dt>
+<dd>The ability to encrypt data at the file system, disk partition,
+or whole-disk level. Supported within Compute VMs.</dd>
+<dt id="term-disk-format">disk format</dt>
+<dd>The underlying format that a disk image for a VM is stored as
+within the Image service back-end store. For example, AMI, ISO, QCOW2,
+VMDK, and so on.</dd>
+<dt id="term-dispersion">dispersion</dt>
+<dd>In Object Storage, tools to test and ensure dispersion of
+objects and containers to ensure fault tolerance.</dd>
+<dt id="term-distributed-virtual-router-dvr">distributed virtual router (DVR)</dt>
+<dd>Mechanism for highly available multi-host routing when using
+OpenStack Networking (neutron).</dd>
+<dt id="term-django">Django</dt>
+<dd>A web framework used extensively in horizon.</dd>
+<dt id="term-dns-record">DNS record</dt>
+<dd>A record that specifies information about a particular domain
+and belongs to the domain.</dd>
+<dt id="term-dns-service">DNS service</dt>
+<dd>OpenStack project that provides scalable, on demand, self
+service access to authoritative DNS services, in a
+technology-agnostic manner. The code name for the project is
+designate.</dd>
+<dt id="term-dnsmasq">dnsmasq</dt>
+<dd>Daemon that provides DNS, DHCP, BOOTP, and TFTP services for
+virtual networks.</dd>
+<dt id="term-domain">domain</dt>
+<dd>An Identity API v3 entity. Represents a collection of
+projects, groups and users that defines administrative boundaries for
+managing OpenStack Identity entities.
+On the Internet, separates a website from other sites. Often,
+the domain name has two or more parts that are separated by dots.
+For example, yahoo.com, usa.gov, harvard.edu, or
+mail.yahoo.com.
+Also, a domain is an entity or container of all DNS-related
+information containing one or more records.</dd>
+<dt id="term-domain-name-system-dns">Domain Name System (DNS)</dt>
+<dd>A system by which Internet domain name-to-address and
+address-to-name resolutions are determined.
+DNS helps navigate the Internet by translating the IP address
+into an address that is easier to remember. For example, translating
+111.111.111.1 into www.yahoo.com.
+All domains and their components, such as mail servers, utilize
+DNS to resolve to the appropriate locations. DNS servers are usually
+set up in a master-slave relationship such that failure of the master
+invokes the slave. DNS servers might also be clustered or replicated
+such that changes made to one DNS server are automatically propagated
+to other active servers.
+In Compute, the support that enables associating DNS entries
+with floating IP addresses, nodes, or cells so that hostnames are
+consistent across reboots.</dd>
+<dt id="term-download">download</dt>
+<dd>The transfer of data, usually in the form of files, from one
+computer to another.</dd>
+<dt id="term-durable-exchange">durable exchange</dt>
+<dd>The Compute RabbitMQ message exchange that remains active when
+the server restarts.</dd>
+<dt id="term-durable-queue">durable queue</dt>
+<dd>A Compute RabbitMQ message queue that remains active when the
+server restarts.</dd>
+<dt id="term-dynamic-host-configuration-protocol-dhcp">Dynamic Host Configuration Protocol (DHCP)</dt>
+<dd>A network protocol that configures devices that are connected to a
+network so that they can communicate on that network by using the
+Internet Protocol (IP). The protocol is implemented in a client-server
+model where DHCP clients request configuration data, such as an IP
+address, a default route, and one or more DNS server addresses from a
+DHCP server.
+A method to automatically configure networking for a host at
+boot time. Provided by both Networking and Compute.</dd>
+<dt id="term-dynamic-hypertext-markup-language-dhtml">Dynamic HyperText Markup Language (DHTML)</dt>
+<dd>Pages that use HTML, JavaScript, and Cascading Style Sheets to
+enable users to interact with a web page or show simple
+animation.</dd>
+</dl>
+</div>
+<div class="section" id="e">
+<h2>E<a class="headerlink" href="#e" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-east-west-traffic">east-west traffic</dt>
+<dd>Network traffic between servers in the same cloud or data center.
+See also north-south traffic.</dd>
+<dt id="term-ebs-boot-volume">EBS boot volume</dt>
+<dd>An Amazon EBS storage volume that contains a bootable VM image,
+currently unsupported in OpenStack.</dd>
+<dt id="term-ebtables">ebtables</dt>
+<dd>Filtering tool for a Linux bridging firewall, enabling
+filtering of network traffic passing through a Linux bridge.
+Used in Compute along with arptables, iptables, and ip6tables
+to ensure isolation of network communications.</dd>
+<dt id="term-ec2">EC2</dt>
+<dd>The Amazon commercial compute product, similar to
+Compute.</dd>
+<dt id="term-ec2-access-key">EC2 access key</dt>
+<dd>Used along with an EC2 secret key to access the Compute EC2
+API.</dd>
+<dt id="term-ec2-api">EC2 API</dt>
+<dd>OpenStack supports accessing the Amazon EC2 API through
+Compute.</dd>
+<dt id="term-ec2-compatibility-api">EC2 Compatibility API</dt>
+<dd>A Compute component that enables OpenStack to communicate with
+Amazon EC2.</dd>
+<dt id="term-ec2-secret-key">EC2 secret key</dt>
+<dd>Used along with an EC2 access key when communicating with the
+Compute EC2 API; used to digitally sign each request.</dd>
+<dt id="term-elastic-block-storage-ebs">Elastic Block Storage (EBS)</dt>
+<dd>The Amazon commercial block storage product.</dd>
+<dt id="term-encryption">encryption</dt>
+<dd>OpenStack supports encryption technologies such as HTTPS, SSH,
+SSL, TLS, digital certificates, and data encryption.</dd>
+<dt id="term-endpoint">endpoint</dt>
+<dd>See API endpoint.</dd>
+<dt id="term-endpoint-registry">endpoint registry</dt>
+<dd>Alternative term for an Identity service catalog.</dd>
+<dt id="term-encapsulation">encapsulation</dt>
+<dd>The practice of placing one packet type within another for
+the purposes of abstracting or securing data. Examples
+include GRE, MPLS, or IPsec.</dd>
+<dt id="term-endpoint-template">endpoint template</dt>
+<dd>A list of URL and port number endpoints that indicate where a
+service, such as Object Storage, Compute, Identity, and so on, can be
+accessed.</dd>
+<dt id="term-entity">entity</dt>
+<dd>Any piece of hardware or software that wants to connect to the
+network services provided by Networking, the network connectivity
+service. An entity can make use of Networking by implementing a
+VIF.</dd>
+<dt id="term-ephemeral-image">ephemeral image</dt>
+<dd>A VM image that does not save changes made to its volumes and
+reverts them to their original state after the instance is
+terminated.</dd>
+<dt id="term-ephemeral-volume">ephemeral volume</dt>
+<dd>Volume that does not save the changes made to it and reverts to
+its original state when the current user relinquishes control.</dd>
+<dt id="term-essex">Essex</dt>
+<dd>A grouped release of projects related to OpenStack that came out
+in April 2012, the fifth release of OpenStack. It included Compute
+(nova 2012.1), Object Storage (swift 1.4.8), Image (glance), Identity
+(keystone), and Dashboard (horizon).
+Essex is the code name for the fifth release of
+OpenStack. The design summit took place in
+Boston, Massachusetts, US and Essex is a nearby city.</dd>
+<dt id="term-esxi">ESXi</dt>
+<dd>An OpenStack-supported hypervisor.</dd>
+<dt id="term-etag">ETag</dt>
+<dd>MD5 hash of an object within Object Storage, used to ensure data
+integrity.</dd>
+<dt id="term-euca2ools">euca2ools</dt>
+<dd>A collection of command-line tools for administering VMs; most
+are compatible with OpenStack.</dd>
+<dt id="term-eucalyptus-kernel-image-eki">Eucalyptus Kernel Image (EKI)</dt>
+<dd>Used along with an ERI to create an EMI.</dd>
+<dt id="term-eucalyptus-machine-image-emi">Eucalyptus Machine Image (EMI)</dt>
+<dd>VM image container format supported by Image service.</dd>
+<dt id="term-eucalyptus-ramdisk-image-eri">Eucalyptus Ramdisk Image (ERI)</dt>
+<dd>Used along with an EKI to create an EMI.</dd>
+<dt id="term-evacuate">evacuate</dt>
+<dd>The process of migrating one or all virtual machine (VM)
+instances from one host to another, compatible with both shared
+storage live migration and block migration.</dd>
+<dt id="term-exchange">exchange</dt>
+<dd>Alternative term for a RabbitMQ message exchange.</dd>
+<dt id="term-exchange-type">exchange type</dt>
+<dd>A routing algorithm in the Compute RabbitMQ.</dd>
+<dt id="term-exclusive-queue">exclusive queue</dt>
+<dd>Connected to by a direct consumer in RabbitMQ—Compute, the
+message can be consumed only by the current connection.</dd>
+<dt id="term-extended-attributes-xattr">extended attributes (xattr)</dt>
+<dd>File system option that enables storage of additional
+information beyond owner, group, permissions, modification time, and
+so on. The underlying Object Storage file system must support extended
+attributes.</dd>
+<dt id="term-extension">extension</dt>
+<dd>Alternative term for an API extension or plug-in. In the context
+of Identity service, this is a call that is specific to the
+implementation, such as adding support for OpenID.</dd>
+<dt id="term-external-network">external network</dt>
+<dd>A network segment typically used for instance Internet
+access.</dd>
+<dt id="term-extra-specs">extra specs</dt>
+<dd>Specifies additional requirements when Compute determines where
+to start a new instance. Examples include a minimum amount of network
+bandwidth or a GPU.</dd>
+</dl>
+</div>
+<div class="section" id="f">
+<h2>F<a class="headerlink" href="#f" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-fakeldap">FakeLDAP</dt>
+<dd>An easy method to create a local LDAP directory for testing
+Identity and Compute. Requires Redis.</dd>
+<dt id="term-fan-out-exchange">fan-out exchange</dt>
+<dd>Within RabbitMQ and Compute, it is the messaging interface that
+is used by the scheduler service to receive capability messages from
+the compute, volume, and network nodes.</dd>
+<dt id="term-federated-identity">federated identity</dt>
+<dd>A method to establish trusts between identity providers and the
+OpenStack cloud.</dd>
+<dt id="term-fedora">Fedora</dt>
+<dd>A Linux distribution compatible with OpenStack.</dd>
+<dt id="term-fibre-channel">Fibre Channel</dt>
+<dd>Storage protocol similar in concept to TCP/IP; encapsulates SCSI
+commands and data.</dd>
+<dt id="term-fibre-channel-over-ethernet-fcoe">Fibre Channel over Ethernet (FCoE)</dt>
+<dd>The fibre channel protocol tunneled within Ethernet.</dd>
+<dt id="term-fill-first-scheduler">fill-first scheduler</dt>
+<dd>The Compute scheduling method that attempts to fill a host with
+VMs rather than starting new VMs on a variety of hosts.</dd>
+<dt id="term-filter">filter</dt>
+<dd>The step in the Compute scheduling process when hosts that
+cannot run VMs are eliminated and not chosen.</dd>
+<dt id="term-firewall">firewall</dt>
+<dd>Used to restrict communications between hosts and/or nodes,
+implemented in Compute using iptables, arptables, ip6tables, and
+ebtables.</dd>
+<dt id="term-firewall-as-a-service-fwaas">FireWall-as-a-Service (FWaaS)</dt>
+<dd>A Networking extension that provides perimeter firewall
+functionality.</dd>
+<dt id="term-fixed-ip-address">fixed IP address</dt>
+<dd>An IP address that is associated with the same instance each
+time that instance boots, is generally not accessible to end users or
+the public Internet, and is used for management of the
+instance.</dd>
+<dt id="term-flat-manager">Flat Manager</dt>
+<dd>The Compute component that gives IP addresses to authorized
+nodes and assumes DHCP, DNS, and routing configuration and services
+are provided by something else.</dd>
+<dt id="term-flat-mode-injection">flat mode injection</dt>
+<dd>A Compute networking method where the OS network configuration
+information is injected into the VM image before the instance
+starts.</dd>
+<dt id="term-flat-network">flat network</dt>
+<dd>Virtual network type that uses neither VLANs nor tunnels to
+segregate project traffic. Each flat network typically requires
+a separate underlying physical interface defined by bridge
+mappings. However, a flat network can contain multiple
+subnets.</dd>
+<dt id="term-flatdhcp-manager">FlatDHCP Manager</dt>
+<dd>The Compute component that provides dnsmasq (DHCP, DNS, BOOTP,
+TFTP) and radvd (routing) services.</dd>
+<dt id="term-flavor">flavor</dt>
+<dd>Alternative term for a VM instance type.</dd>
+<dt id="term-flavor-id">flavor ID</dt>
+<dd>UUID for each Compute or Image service VM flavor or instance
+type.</dd>
+<dt id="term-floating-ip-address">floating IP address</dt>
+<dd>An IP address that a project can associate with a VM so that the
+instance has the same public IP address each time that it boots. You
+create a pool of floating IP addresses and assign them to instances as
+they are launched to maintain a consistent IP address for maintaining
+DNS assignment.</dd>
+<dt id="term-folsom">Folsom</dt>
+<dd>A grouped release of projects related to OpenStack that came out
+in the fall of 2012, the sixth release of OpenStack. It includes
+Compute (nova), Object Storage (swift), Identity (keystone),
+Networking (neutron), Image service (glance), and Volumes or Block
+Storage (cinder).
+Folsom is the code name for the sixth release of
+OpenStack. The design summit took place in
+San Francisco, California, US and Folsom is a nearby city.</dd>
+<dt id="term-formpost">FormPost</dt>
+<dd>Object Storage middleware that uploads (posts) an image through
+a form on a web page.</dd>
+<dt id="term-freezer">freezer</dt>
+<dd>OpenStack project that provides backup restore and disaster
+recovery as a service.</dd>
+<dt id="term-front-end">front end</dt>
+<dd>The point where a user interacts with a service; can be an API
+endpoint, the horizon dashboard, or a command-line tool.</dd>
+</dl>
+</div>
+<div class="section" id="g">
+<h2>G<a class="headerlink" href="#g" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-gateway">gateway</dt>
+<dd>An IP address, typically assigned to a router, that
+passes network traffic between different networks.</dd>
+<dt id="term-generic-receive-offload-gro">generic receive offload (GRO)</dt>
+<dd>Feature of certain network interface drivers that
+combines many smaller received packets into a large packet
+before delivery to the kernel IP stack.</dd>
+<dt id="term-generic-routing-encapsulation-gre">generic routing encapsulation (GRE)</dt>
+<dd>Protocol that encapsulates a wide variety of network
+layer protocols inside virtual point-to-point links.</dd>
+<dt id="term-glance">glance</dt>
+<dd>Codename for the <a class="reference internal" href="#term-image-service-glance"><span class="xref std std-term">Image service</span></a>.</dd>
+<dt id="term-glance-api-server">glance API server</dt>
+<dd>Alternative name for the <a class="reference internal" href="#term-image-api"><span class="xref std std-term">Image API</span></a>.</dd>
+<dt id="term-glance-registry">glance registry</dt>
+<dd>Alternative term for the Image service <a class="reference internal" href="#term-image-registry"><span class="xref std std-term">image registry</span></a>.</dd>
+<dt id="term-global-endpoint-template">global endpoint template</dt>
+<dd>The Identity service endpoint template that contains services
+available to all projects.</dd>
+<dt id="term-glusterfs">GlusterFS</dt>
+<dd>A file system designed to aggregate NAS hosts, compatible with
+OpenStack.</dd>
+<dt id="term-gnocchi">gnocchi</dt>
+<dd>Part of the OpenStack <a class="reference internal" href="#term-telemetry-service-telemetry"><span class="xref std std-term">Telemetry service</span></a>; provides an indexer and time-series
+database.</dd>
+<dt id="term-golden-image">golden image</dt>
+<dd>A method of operating system installation where a finalized disk
+image is created and then used by all nodes without
+modification.</dd>
+<dt id="term-governance-service">Governance service</dt>
+<dd>OpenStack project to provide Governance-as-a-Service across
+any collection of cloud services in order to monitor,
+enforce, and audit policy over dynamic infrastructure. The
+code name for the project is congress.</dd>
+<dt id="term-graphic-interchange-format-gif">Graphic Interchange Format (GIF)</dt>
+<dd>A type of image file that is commonly used for animated images
+on web pages.</dd>
+<dt id="term-graphics-processing-unit-gpu">Graphics Processing Unit (GPU)</dt>
+<dd>Choosing a host based on the existence of a GPU is currently
+unsupported in OpenStack.</dd>
+<dt id="term-green-threads">Green Threads</dt>
+<dd>The cooperative threading model used by Python; reduces race
+conditions and only context switches when specific library calls are
+made. Each OpenStack service is its own thread.</dd>
+<dt id="term-grizzly">Grizzly</dt>
+<dd>The code name for the seventh release of
+OpenStack. The design summit took place in
+San Diego, California, US and Grizzly is an element of the state flag of
+California.</dd>
+<dt id="term-group">Group</dt>
+<dd>An Identity v3 API entity. Represents a collection of users that is
+owned by a specific domain.</dd>
+<dt id="term-guest-os">guest OS</dt>
+<dd>An operating system instance running under the control of a
+hypervisor.</dd>
+</dl>
+</div>
+<div class="section" id="h">
+<h2>H<a class="headerlink" href="#h" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-hadoop">Hadoop</dt>
+<dd>Apache Hadoop is an open source software framework that supports
+data-intensive distributed applications.</dd>
+<dt id="term-hadoop-distributed-file-system-hdfs">Hadoop Distributed File System (HDFS)</dt>
+<dd>A distributed, highly fault-tolerant file system designed to run
+on low-cost commodity hardware.</dd>
+<dt id="term-handover">handover</dt>
+<dd>An object state in Object Storage where a new replica of the
+object is automatically created due to a drive failure.</dd>
+<dt id="term-haproxy">HAProxy</dt>
+<dd>Provides a high availability load balancer and proxy server for
+TCP and HTTP-based applications that spreads requests across
+multiple servers.</dd>
+<dt id="term-hard-reboot">hard reboot</dt>
+<dd>A type of reboot where a physical or virtual power button is
+pressed as opposed to a graceful, proper shutdown of the operating
+system.</dd>
+<dt id="term-havana">Havana</dt>
+<dd>The code name for the eighth release of OpenStack. The
+design summit took place in Portland, Oregon, US and Havana is
+an unincorporated community in Oregon.</dd>
+<dt id="term-heat">heat</dt>
+<dd>Codename for the <a class="reference internal" href="#term-orchestration-service-heat"><span class="xref std std-term">Orchestration service</span></a>.</dd>
+<dt id="term-heat-orchestration-template-hot">Heat Orchestration Template (HOT)</dt>
+<dd>Heat input in the format native to OpenStack.</dd>
+<dt id="term-health-monitor">health monitor</dt>
+<dd>Determines whether back-end members of a VIP pool can
+process a request. A pool can have several health monitors
+associated with it. When a pool has several monitors
+associated with it, all monitors check each member of the
+pool. All monitors must declare a member to be healthy for
+it to stay active.</dd>
+<dt id="term-high-availability-ha">high availability (HA)</dt>
+<dd>A high availability system design approach and associated
+service implementation ensures that a prearranged level of
+operational performance will be met during a contractual
+measurement period. High availability systems seek to
+minimize system downtime and data loss.</dd>
+<dt id="term-horizon">horizon</dt>
+<dd>Codename for the <a class="reference internal" href="#term-dashboard-horizon"><span class="xref std std-term">Dashboard</span></a>.</dd>
+<dt id="term-horizon-plug-in">horizon plug-in</dt>
+<dd>A plug-in for the OpenStack dashboard (horizon).</dd>
+<dt id="term-host">host</dt>
+<dd>A physical computer, not a VM instance (node).</dd>
+<dt id="term-host-aggregate">host aggregate</dt>
+<dd>A method to further subdivide availability zones into hypervisor
+pools, a collection of common hosts.</dd>
+<dt id="term-host-bus-adapter-hba">Host Bus Adapter (HBA)</dt>
+<dd>Device plugged into a PCI slot, such as a fibre channel or
+network card.</dd>
+<dt id="term-hybrid-cloud">hybrid cloud</dt>
+<dd>A hybrid cloud is a composition of two or more clouds
+(private, community or public) that remain distinct entities
+but are bound together, offering the benefits of multiple
+deployment models.  Hybrid cloud can also mean the ability
+to connect colocation, managed and/or dedicated services
+with cloud resources.</dd>
+<dt id="term-hyper-v">Hyper-V</dt>
+<dd>One of the hypervisors supported by OpenStack.</dd>
+<dt id="term-hyperlink">hyperlink</dt>
+<dd>Any kind of text that contains a link to some other site,
+commonly found in documents where clicking on a word or words opens up
+a different website.</dd>
+<dt id="term-hypertext-transfer-protocol-http">Hypertext Transfer Protocol (HTTP)</dt>
+<dd>An application protocol for distributed, collaborative,
+hypermedia information systems. It is the foundation of data
+communication for the World Wide Web. Hypertext is structured
+text that uses logical links (hyperlinks) between nodes containing
+text. HTTP is the protocol to exchange or transfer hypertext.</dd>
+<dt id="term-hypertext-transfer-protocol-secure-https">Hypertext Transfer Protocol Secure (HTTPS)</dt>
+<dd>An encrypted communications protocol for secure communication
+over a computer network, with especially wide deployment on the
+Internet. Technically, it is not a protocol in and of itself;
+rather, it is the result of simply layering the Hypertext Transfer
+Protocol (HTTP) on top of the TLS or SSL protocol, thus adding the
+security capabilities of TLS or SSL to standard HTTP communications.
+Most OpenStack API endpoints and many inter-component communications
+support HTTPS communication.</dd>
+<dt id="term-hypervisor">hypervisor</dt>
+<dd>Software that arbitrates and controls VM access to the actual
+underlying hardware.</dd>
+<dt id="term-hypervisor-pool">hypervisor pool</dt>
+<dd>A collection of hypervisors grouped together through host
+aggregates.</dd>
+</dl>
+</div>
+<div class="section" id="i">
+<h2>I<a class="headerlink" href="#i" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-icehouse">Icehouse</dt>
+<dd>The code name for the ninth release of OpenStack. The
+design summit took place in Hong Kong and Ice House is a
+street in that city.</dd>
+<dt id="term-id-number">ID number</dt>
+<dd>Unique numeric ID associated with each user in Identity,
+conceptually similar to a Linux or LDAP UID.</dd>
+<dt id="term-identity-api">Identity API</dt>
+<dd>Alternative term for the Identity service API.</dd>
+<dt id="term-identity-back-end">Identity back end</dt>
+<dd>The source used by Identity service to retrieve user
+information; an OpenLDAP server, for example.</dd>
+<dt id="term-identity-provider">identity provider</dt>
+<dd>A directory service, which allows users to login with a user
+name and password. It is a typical source of authentication
+tokens.</dd>
+<dt id="term-identity-service-keystone">Identity service (keystone)</dt>
+<dd>The project that facilitates API client authentication, service
+discovery, distributed multi-tenant authorization, and auditing.
+It provides a central directory of users mapped to the OpenStack
+services they can access. It also registers endpoints for OpenStack
+services and acts as a common authentication system.</dd>
+<dt id="term-identity-service-api">Identity service API</dt>
+<dd>The API used to access the OpenStack Identity service provided
+through keystone.</dd>
+<dt id="term-image">image</dt>
+<dd>A collection of files for a specific operating system (OS) that
+you use to create or rebuild a server. OpenStack provides pre-built
+images. You can also create custom images, or snapshots, from servers
+that you have launched. Custom images can be used for data backups or
+as &#8220;gold&#8221; images for additional servers.</dd>
+<dt id="term-image-api">Image API</dt>
+<dd>The Image service API endpoint for management of VM
+images.
+Processes client requests for VMs, updates Image service
+metadata on the registry server, and communicates with the store
+adapter to upload VM images from the back-end store.</dd>
+<dt id="term-image-cache">image cache</dt>
+<dd>Used by Image service to obtain images on the local host rather
+than re-downloading them from the image server each time one is
+requested.</dd>
+<dt id="term-image-id">image ID</dt>
+<dd>Combination of a URI and UUID used to access Image service VM
+images through the image API.</dd>
+<dt id="term-image-membership">image membership</dt>
+<dd>A list of projects that can access a given VM image within Image
+service.</dd>
+<dt id="term-image-owner">image owner</dt>
+<dd>The project who owns an Image service virtual machine
+image.</dd>
+<dt id="term-image-registry">image registry</dt>
+<dd>A list of VM images that are available through Image
+service.</dd>
+<dt id="term-image-service-glance">Image service (glance)</dt>
+<dd>The OpenStack service that provide services and associated libraries
+to store, browse, share, distribute and manage bootable disk images,
+other data closely associated with initializing compute resources,
+and metadata definitions.</dd>
+<dt id="term-image-status">image status</dt>
+<dd>The current status of a VM image in Image service, not to be
+confused with the status of a running instance.</dd>
+<dt id="term-image-store">image store</dt>
+<dd>The back-end store used by Image service to store VM images,
+options include Object Storage, locally mounted file system,
+RADOS block devices, VMware datastore, or HTTP.</dd>
+<dt id="term-image-uuid">image UUID</dt>
+<dd>UUID used by Image service to uniquely identify each VM
+image.</dd>
+<dt id="term-incubated-project">incubated project</dt>
+<dd>A community project may be elevated to this status and is then
+promoted to a core project.</dd>
+<dt id="term-infrastructure-as-a-service-iaas">Infrastructure-as-a-Service (IaaS)</dt>
+<dd>IaaS is a provisioning model in which an organization outsources
+physical components of a data center, such as storage, hardware,
+servers, and networking components. A service provider owns the
+equipment and is responsible for housing, operating and maintaining
+it. The client typically pays on a per-use basis.
+IaaS is a model for providing cloud services.</dd>
+<dt id="term-ingress-filtering">ingress filtering</dt>
+<dd>The process of filtering incoming network traffic. Supported by
+Compute.</dd>
+<dt id="term-ini-format">INI format</dt>
+<dd>The OpenStack configuration files use an INI format to
+describe options and their values. It consists of sections
+and key value pairs.</dd>
+<dt id="term-injection">injection</dt>
+<dd>The process of putting a file into a virtual machine image
+before the instance is started.</dd>
+<dt id="term-input-output-operations-per-second-iops">Input/Output Operations Per Second (IOPS)</dt>
+<dd>IOPS are a common performance measurement used to benchmark computer
+storage devices like hard disk drives, solid state drives, and
+storage area networks.</dd>
+<dt id="term-instance">instance</dt>
+<dd>A running VM, or a VM in a known state such as suspended, that
+can be used like a hardware server.</dd>
+<dt id="term-instance-id">instance ID</dt>
+<dd>Alternative term for instance UUID.</dd>
+<dt id="term-instance-state">instance state</dt>
+<dd>The current state of a guest VM image.</dd>
+<dt id="term-instance-tunnels-network">instance tunnels network</dt>
+<dd>A network segment used for instance traffic tunnels
+between compute nodes and the network node.</dd>
+<dt id="term-instance-type">instance type</dt>
+<dd>Describes the parameters of the various virtual machine images
+that are available to users; includes parameters such as CPU, storage,
+and memory. Alternative term for flavor.</dd>
+<dt id="term-instance-type-id">instance type ID</dt>
+<dd>Alternative term for a flavor ID.</dd>
+<dt id="term-instance-uuid">instance UUID</dt>
+<dd>Unique ID assigned to each guest VM instance.</dd>
+<dt id="term-intelligent-platform-management-interface-ipmi">Intelligent Platform Management Interface (IPMI)</dt>
+<dd>IPMI is a standardized computer system interface used by system
+administrators for out-of-band management of computer systems and
+monitoring of their operation. In layman&#8217;s terms, it is a way to
+manage a computer using a direct network connection, whether it is
+turned on or not; connecting to the hardware rather than an operating
+system or login shell.</dd>
+<dt id="term-interface">interface</dt>
+<dd>A physical or virtual device that provides connectivity
+to another device or medium.</dd>
+<dt id="term-interface-id">interface ID</dt>
+<dd>Unique ID for a Networking VIF or vNIC in the form of a
+UUID.</dd>
+<dt id="term-internet-control-message-protocol-icmp">Internet Control Message Protocol (ICMP)</dt>
+<dd>A network protocol used by network devices for control messages.
+For example, <strong class="command">ping</strong> uses ICMP to test
+connectivity.</dd>
+<dt id="term-internet-protocol-ip">Internet protocol (IP)</dt>
+<dd>Principal communications protocol in the internet protocol
+suite for relaying datagrams across network boundaries.</dd>
+<dt id="term-internet-service-provider-isp">Internet Service Provider (ISP)</dt>
+<dd>Any business that provides Internet access to individuals or
+businesses.</dd>
+<dt id="term-internet-small-computer-system-interface-iscsi">Internet Small Computer System Interface (iSCSI)</dt>
+<dd>Storage protocol that encapsulates SCSI frames for transport
+over IP networks.
+Supported by Compute, Object Storage, and Image service.</dd>
+<dt id="term-ironic">ironic</dt>
+<dd>Codename for the <a class="reference internal" href="#term-bare-metal-service-ironic"><span class="xref std std-term">Bare Metal service</span></a>.</dd>
+<dt id="term-ip-address">IP address</dt>
+<dd>Number that is unique to every computer system on the Internet.
+Two versions of the Internet Protocol (IP) are in use for addresses:
+IPv4 and IPv6.</dd>
+<dt id="term-ip-address-management-ipam">IP Address Management (IPAM)</dt>
+<dd>The process of automating IP address allocation, deallocation,
+and management. Currently provided by Compute, melange, and
+Networking.</dd>
+<dt id="term-ip6tables">ip6tables</dt>
+<dd>Tool used to set up, maintain, and inspect the tables of IPv6
+packet filter rules in the Linux kernel. In OpenStack Compute,
+ip6tables is used along with arptables, ebtables, and iptables to
+create firewalls for both nodes and VMs.</dd>
+<dt id="term-ipset">ipset</dt>
+<dd>Extension to iptables that allows creation of firewall rules
+that match entire &#8220;sets&#8221; of IP addresses simultaneously. These
+sets reside in indexed data structures to increase efficiency,
+particularly on systems with a large quantity of rules.</dd>
+<dt id="term-iptables">iptables</dt>
+<dd>Used along with arptables and ebtables, iptables create
+firewalls in Compute. iptables are the tables provided by the Linux
+kernel firewall (implemented as different Netfilter modules) and the
+chains and rules it stores. Different kernel modules and programs are
+currently used for different protocols: iptables applies to IPv4,
+ip6tables to IPv6, arptables to ARP, and ebtables to Ethernet frames.
+Requires root privilege to manipulate.</dd>
+<dt id="term-iscsi-qualified-name-iqn">iSCSI Qualified Name (IQN)</dt>
+<dd>IQN is the format most commonly used for iSCSI names, which uniquely
+identify nodes in an iSCSI network.
+All IQNs follow the pattern iqn.yyyy-mm.domain:identifier, where
+&#8216;yyyy-mm&#8217; is the year and month in which the domain was registered,
+&#8216;domain&#8217; is the reversed domain name of the issuing organization, and
+&#8216;identifier&#8217; is an optional string which makes each IQN under the same
+domain unique. For example, &#8216;iqn.2015-10.org.openstack.408ae959bce1&#8217;.</dd>
+<dt id="term-iso9660">ISO9660</dt>
+<dd>One of the VM image disk formats supported by Image
+service.</dd>
+<dt id="term-itsec">itsec</dt>
+<dd>A default role in the Compute RBAC system that can quarantine an
+instance in any project.</dd>
+</dl>
+</div>
+<div class="section" id="j">
+<h2>J<a class="headerlink" href="#j" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-java">Java</dt>
+<dd>A programming language that is used to create systems that
+involve more than one computer by way of a network.</dd>
+<dt id="term-javascript">JavaScript</dt>
+<dd>A scripting language that is used to build web pages.</dd>
+<dt id="term-javascript-object-notation-json">JavaScript Object Notation (JSON)</dt>
+<dd>One of the supported response formats in OpenStack.</dd>
+<dt id="term-jenkins">Jenkins</dt>
+<dd>Tool used to run jobs automatically for OpenStack
+development.</dd>
+<dt id="term-jumbo-frame">jumbo frame</dt>
+<dd>Feature in modern Ethernet networks that supports frames up to
+approximately 9000 bytes.</dd>
+<dt id="term-juno">Juno</dt>
+<dd>The code name for the tenth release of OpenStack. The
+design summit took place in Atlanta, Georgia, US and Juno is
+an unincorporated community in Georgia.</dd>
+</dl>
+</div>
+<div class="section" id="k">
+<h2>K<a class="headerlink" href="#k" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-kerberos">Kerberos</dt>
+<dd>A network authentication protocol which works on the basis of
+tickets. Kerberos allows nodes communication over a non-secure
+network, and allows nodes to prove their identity to one another in a
+secure manner.</dd>
+<dt id="term-kernel-based-vm-kvm">kernel-based VM (KVM)</dt>
+<dd>An OpenStack-supported hypervisor. KVM is a full
+virtualization solution for Linux on x86 hardware containing
+virtualization extensions (Intel VT or AMD-V), ARM, IBM
+Power, and IBM zSeries. It consists of a loadable kernel
+module, that provides the core virtualization infrastructure
+and a processor specific module.</dd>
+<dt id="term-key-manager-service-barbican">Key Manager service (barbican)</dt>
+<dd>The project that produces a secret storage and
+generation system capable of providing key management for
+services wishing to enable encryption features.</dd>
+<dt id="term-keystone">keystone</dt>
+<dd>Codename of the <a class="reference internal" href="#term-identity-service-keystone"><span class="xref std std-term">Identity service</span></a>.</dd>
+<dt id="term-kickstart">Kickstart</dt>
+<dd>A tool to automate system configuration and installation on Red
+Hat, Fedora, and CentOS-based Linux distributions.</dd>
+<dt id="term-kilo">Kilo</dt>
+<dd>The code name for the eleventh release of OpenStack. The
+design summit took place in Paris, France. Due to delays in the name
+selection, the release was known only as K. Because <code class="docutils literal"><span class="pre">k</span></code> is the
+unit symbol for kilo and the reference artifact is stored near Paris
+in the Pavillon de Breteuil in Sèvres, the community chose Kilo as
+the release name.</dd>
+</dl>
+</div>
+<div class="section" id="l">
+<h2>L<a class="headerlink" href="#l" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-large-object">large object</dt>
+<dd>An object within Object Storage that is larger than 5&nbsp;GB.</dd>
+<dt id="term-launchpad">Launchpad</dt>
+<dd>The collaboration site for OpenStack.</dd>
+<dt id="term-layer-2-network">Layer-2 network</dt>
+<dd>Term used in the OSI network architecture for the data link
+layer. The data link layer is responsible for media access
+control, flow control and detecting and possibly correcting
+errors that may occur in the physical layer.</dd>
+<dt id="term-layer-3-network">Layer-3 network</dt>
+<dd>Term used in the OSI network architecture for the network
+layer. The network layer is responsible for packet
+forwarding including routing from one node to another.</dd>
+<dt id="term-layer-2-l2-agent">Layer-2 (L2) agent</dt>
+<dd>OpenStack Networking agent that provides layer-2
+connectivity for virtual networks.</dd>
+<dt id="term-layer-3-l3-agent">Layer-3 (L3) agent</dt>
+<dd>OpenStack Networking agent that provides layer-3
+(routing) services for virtual networks.</dd>
+<dt id="term-liberty">Liberty</dt>
+<dd>The code name for the twelfth release of OpenStack. The
+design summit took place in Vancouver, Canada and Liberty is
+the name of a village in the Canadian province of
+Saskatchewan.</dd>
+<dt id="term-libvirt">libvirt</dt>
+<dd>Virtualization API library used by OpenStack to interact with
+many of its supported hypervisors.</dd>
+<dt id="term-lightweight-directory-access-protocol-ldap">Lightweight Directory Access Protocol (LDAP)</dt>
+<dd>An application protocol for accessing and maintaining distributed
+directory information services over an IP network.</dd>
+<dt id="term-linux-bridge">Linux bridge</dt>
+<dd>Software that enables multiple VMs to share a single physical
+NIC within Compute.</dd>
+<dt id="term-linux-bridge-neutron-plug-in">Linux Bridge neutron plug-in</dt>
+<dd>Enables a Linux bridge to understand a Networking port,
+interface attachment, and other abstractions.</dd>
+<dt id="term-linux-containers-lxc">Linux containers (LXC)</dt>
+<dd>An OpenStack-supported hypervisor.</dd>
+<dt id="term-live-migration">live migration</dt>
+<dd>The ability within Compute to move running virtual machine
+instances from one host to another with only a small service
+interruption during switchover.</dd>
+<dt id="term-load-balancer">load balancer</dt>
+<dd>A load balancer is a logical device that belongs to a cloud
+account. It is used to distribute workloads between multiple back-end
+systems or services, based on the criteria defined as part of its
+configuration.</dd>
+<dt id="term-load-balancing">load balancing</dt>
+<dd>The process of spreading client requests between two or more
+nodes to improve performance and availability.</dd>
+<dt id="term-load-balancer-as-a-service-lbaas">Load-Balancer-as-a-Service (LBaaS)</dt>
+<dd>Enables Networking to distribute incoming requests evenly
+between designated instances.</dd>
+<dt id="term-logical-volume-manager-lvm">Logical Volume Manager (LVM)</dt>
+<dd>Provides a method of allocating space on mass-storage
+devices that is more flexible than conventional partitioning
+schemes.</dd>
+</dl>
+</div>
+<div class="section" id="m">
+<h2>M<a class="headerlink" href="#m" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-magnum">magnum</dt>
+<dd>Code name for the <a class="reference internal" href="#term-container-infrastructure-management-service-magnum"><span class="xref std std-term">Containers Infrastructure Management
+service</span></a>.</dd>
+<dt id="term-management-api">management API</dt>
+<dd>Alternative term for an admin API.</dd>
+<dt id="term-management-network">management network</dt>
+<dd>A network segment used for administration, not accessible to the
+public Internet.</dd>
+<dt id="term-manager">manager</dt>
+<dd>Logical groupings of related code, such as the Block Storage
+volume manager or network manager.</dd>
+<dt id="term-manifest">manifest</dt>
+<dd>Used to track segments of a large object within Object
+Storage.</dd>
+<dt id="term-manifest-object">manifest object</dt>
+<dd>A special Object Storage object that contains the manifest for a
+large object.</dd>
+<dt id="term-manila">manila</dt>
+<dd>Codename for OpenStack <a class="reference internal" href="#term-shared-file-systems-service-manila"><span class="xref std std-term">Shared File Systems service</span></a>.</dd>
+<dt id="term-manila-share">manila-share</dt>
+<dd>Responsible for managing Shared File System Service devices, specifically
+the back-end devices.</dd>
+<dt id="term-maximum-transmission-unit-mtu">maximum transmission unit (MTU)</dt>
+<dd>Maximum frame or packet size for a particular network
+medium. Typically 1500 bytes for Ethernet networks.</dd>
+<dt id="term-mechanism-driver">mechanism driver</dt>
+<dd>A driver for the Modular Layer 2 (ML2) neutron plug-in that
+provides layer-2 connectivity for virtual instances. A
+single OpenStack installation can use multiple mechanism
+drivers.</dd>
+<dt id="term-melange">melange</dt>
+<dd>Project name for OpenStack Network Information Service. To be
+merged with Networking.</dd>
+<dt id="term-membership">membership</dt>
+<dd>The association between an Image service VM image and a project.
+Enables images to be shared with specified projects.</dd>
+<dt id="term-membership-list">membership list</dt>
+<dd>A list of projects that can access a given VM image within Image
+service.</dd>
+<dt id="term-memcached">memcached</dt>
+<dd>A distributed memory object caching system that is used by
+Object Storage for caching.</dd>
+<dt id="term-memory-overcommit">memory overcommit</dt>
+<dd>The ability to start new VM instances based on the actual memory
+usage of a host, as opposed to basing the decision on the amount of
+RAM each running instance thinks it has available. Also known as RAM
+overcommit.</dd>
+<dt id="term-message-broker">message broker</dt>
+<dd>The software package used to provide AMQP messaging capabilities
+within Compute. Default package is RabbitMQ.</dd>
+<dt id="term-message-bus">message bus</dt>
+<dd>The main virtual communication line used by all AMQP messages
+for inter-cloud communications within Compute.</dd>
+<dt id="term-message-queue">message queue</dt>
+<dd>Passes requests from clients to the appropriate workers and
+returns the output to the client after the job completes.</dd>
+<dt id="term-message-service-zaqar">Message service (zaqar)</dt>
+<dd>The project that provides a messaging service that affords a
+variety of distributed application patterns in an efficient,
+scalable and highly available manner, and to create and maintain
+associated Python libraries and documentation.</dd>
+<dt id="term-metadata-agent">Metadata agent</dt>
+<dd>OpenStack Networking agent that provides metadata
+services for instances.</dd>
+<dt id="term-meta-data-server-mds">Meta-Data Server (MDS)</dt>
+<dd>Stores CephFS metadata.</dd>
+<dt id="term-migration">migration</dt>
+<dd>The process of moving a VM instance from one host to
+another.</dd>
+<dt id="term-mistral">mistral</dt>
+<dd>Code name for <a class="reference internal" href="#term-workflow-service-mistral"><span class="xref std std-term">Workflow service</span></a>.</dd>
+<dt id="term-mitaka">Mitaka</dt>
+<dd>The code name for the thirteenth release of OpenStack.
+The design summit took place in Tokyo, Japan. Mitaka
+is a city in Tokyo.</dd>
+<dt id="term-monasca">monasca</dt>
+<dd>Codename for OpenStack <a class="reference internal" href="#term-monitoring-monasca"><span class="xref std std-term">Monitoring</span></a>.</dd>
+<dt id="term-multi-host">multi-host</dt>
+<dd>High-availability mode for legacy (nova) networking.
+Each compute node handles NAT and DHCP and acts as a gateway
+for all of the VMs on it. A networking failure on one compute
+node doesn&#8217;t affect VMs on other compute nodes.</dd>
+<dt id="term-multinic">multinic</dt>
+<dd>Facility in Compute that allows each virtual machine instance to
+have more than one VIF connected to it.</dd>
+<dt id="term-murano">murano</dt>
+<dd>Codename for the <a class="reference internal" href="#term-application-catalog-service-murano"><span class="xref std std-term">Application Catalog service</span></a>.</dd>
+<dt id="term-modular-layer-2-ml2-neutron-plug-in">Modular Layer 2 (ML2) neutron plug-in</dt>
+<dd>Can concurrently use multiple layer-2 networking technologies,
+such as 802.1Q and VXLAN, in Networking.</dd>
+<dt id="term-monitor-lbaas">Monitor (LBaaS)</dt>
+<dd>LBaaS feature that provides availability monitoring using the
+<code class="docutils literal"><span class="pre">ping</span></code> command, TCP, and HTTP/HTTPS GET.</dd>
+<dt id="term-monitor-mon">Monitor (Mon)</dt>
+<dd>A Ceph component that communicates with external clients, checks
+data state and consistency, and performs quorum functions.</dd>
+<dt id="term-monitoring-monasca">Monitoring (monasca)</dt>
+<dd>The OpenStack service that provides a multi-tenant, highly scalable,
+performant, fault-tolerant monitoring-as-a-service solution for metrics,
+complex event processing and logging. To build an extensible platform for
+advanced monitoring services that can be used by both operators and
+tenants to gain operational insight and visibility, ensuring availability
+and stability.</dd>
+<dt id="term-multi-factor-authentication">multi-factor authentication</dt>
+<dd>Authentication method that uses two or more credentials, such as
+a password and a private key. Currently not supported in
+Identity.</dd>
+<dt id="term-413">MultiNic</dt>
+<dd>Facility in Compute that enables a virtual machine instance to
+have more than one VIF connected to it.</dd>
+</dl>
+</div>
+<div class="section" id="n">
+<h2>N<a class="headerlink" href="#n" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-nebula">Nebula</dt>
+<dd>Released as open source by NASA in 2010 and is the basis for
+Compute.</dd>
+<dt id="term-netadmin">netadmin</dt>
+<dd>One of the default roles in the Compute RBAC system. Enables the
+user to allocate publicly accessible IP addresses to instances and
+change firewall rules.</dd>
+<dt id="term-netapp-volume-driver">NetApp volume driver</dt>
+<dd>Enables Compute to communicate with NetApp storage devices
+through the NetApp OnCommand
+Provisioning Manager.</dd>
+<dt id="term-network">network</dt>
+<dd>A virtual network that provides connectivity between entities.
+For example, a collection of virtual ports that share network
+connectivity. In Networking terminology, a network is always a layer-2
+network.</dd>
+<dt id="term-network-address-translation-nat">Network Address Translation (NAT)</dt>
+<dd>Process of modifying IP address information while in transit.
+Supported by Compute and Networking.</dd>
+<dt id="term-network-controller">network controller</dt>
+<dd>A Compute daemon that orchestrates the network configuration of
+nodes, including IP addresses, VLANs, and bridging. Also manages
+routing for both public and private networks.</dd>
+<dt id="term-network-file-system-nfs">Network File System (NFS)</dt>
+<dd>A method for making file systems available over the network.
+Supported by OpenStack.</dd>
+<dt id="term-network-id">network ID</dt>
+<dd>Unique ID assigned to each network segment within Networking.
+Same as network UUID.</dd>
+<dt id="term-network-manager">network manager</dt>
+<dd>The Compute component that manages various network components,
+such as firewall rules, IP address allocation, and so on.</dd>
+<dt id="term-network-namespace">network namespace</dt>
+<dd>Linux kernel feature that provides independent virtual
+networking instances on a single host with separate routing
+tables and interfaces. Similar to virtual routing and forwarding
+(VRF) services on physical network equipment.</dd>
+<dt id="term-network-node">network node</dt>
+<dd>Any compute node that runs the network worker daemon.</dd>
+<dt id="term-network-segment">network segment</dt>
+<dd>Represents a virtual, isolated OSI layer-2 subnet in
+Networking.</dd>
+<dt id="term-network-time-protocol-ntp">Network Time Protocol (NTP)</dt>
+<dd>Method of keeping a clock for a host or node correct via
+communication with a trusted, accurate time source.</dd>
+<dt id="term-newton">Newton</dt>
+<dd>The code name for the fourteenth release of OpenStack. The
+design summit took place in Austin, Texas, US. The
+release is named after &#8220;Newton House&#8221; which is located at
+1013 E. Ninth St., Austin, TX. which is listed on the
+National Register of Historic Places.</dd>
+<dt id="term-network-uuid">network UUID</dt>
+<dd>Unique ID for a Networking network segment.</dd>
+<dt id="term-network-worker">network worker</dt>
+<dd>The <code class="docutils literal"><span class="pre">nova-network</span></code> worker daemon; provides
+services such as giving an IP address to a booting nova
+instance.</dd>
+<dt id="term-networking-service-neutron">Networking service (neutron)</dt>
+<dd>The OpenStack project which implements services and associated
+libraries to provide on-demand, scalable, and technology-agnostic
+network abstraction.</dd>
+<dt id="term-networking-api-neutron-api">Networking API (Neutron API)</dt>
+<dd>API used to access OpenStack Networking. Provides an extensible
+architecture to enable custom plug-in creation.</dd>
+<dt id="term-neutron">neutron</dt>
+<dd>Codename for OpenStack <a class="reference internal" href="#term-networking-service-neutron"><span class="xref std std-term">Networking service</span></a>.</dd>
+<dt id="term-neutron-api">neutron API</dt>
+<dd>An alternative name for <a class="reference internal" href="#term-networking-api-neutron-api"><span class="xref std std-term">Networking API</span></a>.</dd>
+<dt id="term-neutron-manager">neutron manager</dt>
+<dd>Enables Compute and Networking integration, which enables
+Networking to perform network management for guest VMs.</dd>
+<dt id="term-neutron-plug-in">neutron plug-in</dt>
+<dd>Interface within Networking that enables organizations to create
+custom plug-ins for advanced features, such as QoS, ACLs, or
+IDS.</dd>
+<dt id="term-nexenta-volume-driver">Nexenta volume driver</dt>
+<dd>Provides support for NexentaStor devices in Compute.</dd>
+<dt id="term-nginx">Nginx</dt>
+<dd>An HTTP and reverse proxy server, a mail proxy server, and a generic
+TCP/UDP proxy server.</dd>
+<dt id="term-no-ack">No ACK</dt>
+<dd>Disables server-side message acknowledgment in the Compute
+RabbitMQ. Increases performance but decreases reliability.</dd>
+<dt id="term-node">node</dt>
+<dd>A VM instance that runs on a host.</dd>
+<dt id="term-non-durable-exchange">non-durable exchange</dt>
+<dd>Message exchange that is cleared when the service restarts. Its
+data is not written to persistent storage.</dd>
+<dt id="term-non-durable-queue">non-durable queue</dt>
+<dd>Message queue that is cleared when the service restarts. Its
+data is not written to persistent storage.</dd>
+<dt id="term-non-persistent-volume">non-persistent volume</dt>
+<dd>Alternative term for an ephemeral volume.</dd>
+<dt id="term-north-south-traffic">north-south traffic</dt>
+<dd>Network traffic between a user or client (north) and a
+server (south), or traffic into the cloud (south) and
+out of the cloud (north). See also east-west traffic.</dd>
+<dt id="term-nova">nova</dt>
+<dd>Codename for OpenStack <a class="reference internal" href="#term-compute-service-nova"><span class="xref std std-term">Compute service</span></a>.</dd>
+<dt id="term-nova-api">Nova API</dt>
+<dd>Alternative term for the <a class="reference internal" href="#term-compute-api-nova-api"><span class="xref std std-term">Compute API</span></a>.</dd>
+<dt id="term-nova-network">nova-network</dt>
+<dd>A Compute component that manages IP address allocation,
+firewalls, and other network-related tasks. This is the legacy
+networking option and an alternative to Networking.</dd>
+</dl>
+</div>
+<div class="section" id="o">
+<h2>O<a class="headerlink" href="#o" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-object">object</dt>
+<dd>A BLOB of data held by Object Storage; can be in any
+format.</dd>
+<dt id="term-object-auditor">object auditor</dt>
+<dd>Opens all objects for an object server and verifies the MD5
+hash, size, and metadata for each object.</dd>
+<dt id="term-object-expiration">object expiration</dt>
+<dd>A configurable option within Object Storage to automatically
+delete objects after a specified amount of time has passed or a
+certain date is reached.</dd>
+<dt id="term-object-hash">object hash</dt>
+<dd>Unique ID for an Object Storage object.</dd>
+<dt id="term-object-path-hash">object path hash</dt>
+<dd>Used by Object Storage to determine the location of an object in
+the ring. Maps objects to partitions.</dd>
+<dt id="term-object-replicator">object replicator</dt>
+<dd>An Object Storage component that copies an object to remote
+partitions for fault tolerance.</dd>
+<dt id="term-object-server">object server</dt>
+<dd>An Object Storage component that is responsible for managing
+objects.</dd>
+<dt id="term-object-storage-service-swift">Object Storage service (swift)</dt>
+<dd>The OpenStack core project that provides eventually consistent
+and redundant storage and retrieval of fixed digital content.</dd>
+<dt id="term-object-storage-api">Object Storage API</dt>
+<dd>API used to access OpenStack <a class="reference internal" href="#term-object-storage-service-swift"><span class="xref std std-term">Object Storage</span></a>.</dd>
+<dt id="term-object-storage-device-osd">Object Storage Device (OSD)</dt>
+<dd>The Ceph storage daemon.</dd>
+<dt id="term-object-versioning">object versioning</dt>
+<dd>Allows a user to set a flag on an <a class="reference internal" href="#term-object-storage-service-swift"><span class="xref std std-term">Object Storage</span></a> container so that all objects within the container are
+versioned.</dd>
+<dt id="term-ocata">Ocata</dt>
+<dd>The code name for the fifteenth release of OpenStack. The
+design summit will take place in Barcelona, Spain. Ocata is
+a beach north of Barcelona.</dd>
+<dt id="term-octavia">Octavia</dt>
+<dd>An operator-grade open source scalable load balancer.</dd>
+<dt id="term-oldie">Oldie</dt>
+<dd>Term for an <a class="reference internal" href="#term-object-storage-service-swift"><span class="xref std std-term">Object Storage</span></a>
+process that runs for a long time.  Can indicate a hung process.</dd>
+<dt id="term-open-cloud-computing-interface-occi">Open Cloud Computing Interface (OCCI)</dt>
+<dd>A standardized interface for managing compute, data, and network
+resources, currently unsupported in OpenStack.</dd>
+<dt id="term-open-virtualization-format-ovf">Open Virtualization Format (OVF)</dt>
+<dd>Standard for packaging VM images. Supported in OpenStack.</dd>
+<dt id="term-open-vswitch">Open vSwitch</dt>
+<dd>Open vSwitch is a production quality, multilayer virtual
+switch licensed under the open source Apache 2.0 license. It
+is designed to enable massive network automation through
+programmatic extension, while still supporting standard
+management interfaces and protocols (for example NetFlow,
+sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag).</dd>
+<dt id="term-open-vswitch-ovs-agent">Open vSwitch (OVS) agent</dt>
+<dd>Provides an interface to the underlying Open vSwitch service for
+the Networking plug-in.</dd>
+<dt id="term-open-vswitch-neutron-plug-in">Open vSwitch neutron plug-in</dt>
+<dd>Provides support for Open vSwitch in Networking.</dd>
+<dt id="term-openldap">OpenLDAP</dt>
+<dd>An open source LDAP server. Supported by both Compute and
+Identity.</dd>
+<dt id="term-openstack">OpenStack</dt>
+<dd>OpenStack is a cloud operating system that controls large pools
+of compute, storage, and networking resources throughout a data
+center, all managed through a dashboard that gives administrators
+control while empowering their users to provision resources through a
+web interface. OpenStack is an open source project licensed under the
+Apache License 2.0.</dd>
+<dt id="term-openstack-code-name">OpenStack code name</dt>
+<dd>Each OpenStack release has a code name. Code names ascend in
+alphabetical order: Austin, Bexar, Cactus, Diablo, Essex,
+Folsom, Grizzly, Havana, Icehouse, Juno, Kilo, Liberty,
+Mitaka, Newton, Ocata, Pike, and Queens.
+Code names are cities or counties near where the
+corresponding OpenStack design summit took place. An
+exception, called the Waldon exception, is granted to
+elements of the state flag that sound especially cool. Code
+names are chosen by popular vote.</dd>
+<dt id="term-opensuse">openSUSE</dt>
+<dd>A Linux distribution that is compatible with OpenStack.</dd>
+<dt id="term-operator">operator</dt>
+<dd>The person responsible for planning and maintaining an OpenStack
+installation.</dd>
+<dt id="term-optional-service">optional service</dt>
+<dd>An official OpenStack service defined as optional by
+DefCore Committee. Currently, consists of
+Dashboard (horizon), Telemetry service (Telemetry),
+Orchestration service (heat), Database service (trove),
+Bare Metal service (ironic), and so on.</dd>
+<dt id="term-orchestration-service-heat">Orchestration service (heat)</dt>
+<dd>The OpenStack service which orchestrates composite cloud
+applications using a declarative template format through
+an OpenStack-native REST API.</dd>
+<dt id="term-orphan">orphan</dt>
+<dd>In the context of Object Storage, this is a process that is not
+terminated after an upgrade, restart, or reload of the service.</dd>
+<dt id="term-oslo">Oslo</dt>
+<dd>Codename for the <a class="reference internal" href="#term-common-libraries-oslo"><span class="xref std std-term">Common Libraries project</span></a>.</dd>
+</dl>
+</div>
+<div class="section" id="p">
+<h2>P<a class="headerlink" href="#p" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-panko">panko</dt>
+<dd>Part of the OpenStack <a class="reference internal" href="#term-telemetry-service-telemetry"><span class="xref std std-term">Telemetry service</span></a>; provides event storage.</dd>
+<dt id="term-parent-cell">parent cell</dt>
+<dd>If a requested resource, such as CPU time, disk storage, or
+memory, is not available in the parent cell, the request is forwarded
+to associated child cells.</dd>
+<dt id="term-partition">partition</dt>
+<dd>A unit of storage within Object Storage used to store objects.
+It exists on top of devices and is replicated for fault
+tolerance.</dd>
+<dt id="term-partition-index">partition index</dt>
+<dd>Contains the locations of all Object Storage partitions within
+the ring.</dd>
+<dt id="term-partition-shift-value">partition shift value</dt>
+<dd>Used by Object Storage to determine which partition data should
+reside on.</dd>
+<dt id="term-path-mtu-discovery-pmtud">path MTU discovery (PMTUD)</dt>
+<dd>Mechanism in IP networks to detect end-to-end MTU and adjust
+packet size accordingly.</dd>
+<dt id="term-pause">pause</dt>
+<dd>A VM state where no changes occur (no changes in memory, network
+communications stop, etc); the VM is frozen but not shut down.</dd>
+<dt id="term-pci-passthrough">PCI passthrough</dt>
+<dd>Gives guest VMs exclusive access to a PCI device. Currently
+supported in OpenStack Havana and later releases.</dd>
+<dt id="term-persistent-message">persistent message</dt>
+<dd>A message that is stored both in memory and on disk. The message
+is not lost after a failure or restart.</dd>
+<dt id="term-persistent-volume">persistent volume</dt>
+<dd>Changes to these types of disk volumes are saved.</dd>
+<dt id="term-personality-file">personality file</dt>
+<dd>A file used to customize a Compute instance. It can be used to
+inject SSH keys or a specific network configuration.</dd>
+<dt id="term-pike">Pike</dt>
+<dd>The code name for the sixteenth release of OpenStack. The design
+summit will take place in Boston, Massachusetts, US. The release
+is named after the Massachusetts Turnpike, abbreviated commonly
+as the Mass Pike, which is the eastermost stretch of
+Interstate 90.</dd>
+<dt id="term-platform-as-a-service-paas">Platform-as-a-Service (PaaS)</dt>
+<dd>Provides to the consumer the ability to deploy applications
+through a programming language or tools supported by the cloud
+platform provider. An example of Platform-as-a-Service is an
+Eclipse/Java programming platform provided with no downloads
+required.</dd>
+<dt id="term-plug-in">plug-in</dt>
+<dd>Software component providing the actual implementation for
+Networking APIs, or for Compute APIs, depending on the context.</dd>
+<dt id="term-policy-service">policy service</dt>
+<dd>Component of Identity that provides a rule-management
+interface and a rule-based authorization engine.</dd>
+<dt id="term-pool">pool</dt>
+<dd>A logical set of devices, such as web servers, that you
+group together to receive and process traffic. The load
+balancing function chooses which member of the pool handles
+the new requests or connections received on the VIP
+address. Each VIP has one pool.</dd>
+<dt id="term-pool-member">pool member</dt>
+<dd>An application that runs on the back-end server in a
+load-balancing system.</dd>
+<dt id="term-port">port</dt>
+<dd>A virtual network port within Networking; VIFs / vNICs are
+connected to a port.</dd>
+<dt id="term-port-uuid">port UUID</dt>
+<dd>Unique ID for a Networking port.</dd>
+<dt id="term-preseed">preseed</dt>
+<dd>A tool to automate system configuration and installation on
+Debian-based Linux distributions.</dd>
+<dt id="term-private-image">private image</dt>
+<dd>An Image service VM image that is only available to specified
+projects.</dd>
+<dt id="term-private-ip-address">private IP address</dt>
+<dd>An IP address used for management and administration, not
+available to the public Internet.</dd>
+<dt id="term-private-network">private network</dt>
+<dd>The Network Controller provides virtual networks to enable
+compute servers to interact with each other and with the public
+network. All machines must have a public and private network
+interface. A private network interface can be a flat or VLAN network
+interface. A flat network interface is controlled by the
+flat_interface with flat managers. A VLAN network interface is
+controlled by the <code class="docutils literal"><span class="pre">vlan_interface</span></code> option with VLAN
+managers.</dd>
+<dt id="term-project">project</dt>
+<dd>Projects represent the base unit of “ownership” in OpenStack,
+in that all resources in OpenStack should be owned by a specific project.
+In OpenStack Identity, a project must be owned by a specific domain.</dd>
+<dt id="term-project-id">project ID</dt>
+<dd>Unique ID assigned to each project by the Identity service.</dd>
+<dt id="term-project-vpn">project VPN</dt>
+<dd>Alternative term for a cloudpipe.</dd>
+<dt id="term-promiscuous-mode">promiscuous mode</dt>
+<dd>Causes the network interface to pass all traffic it
+receives to the host rather than passing only the frames
+addressed to it.</dd>
+<dt id="term-protected-property">protected property</dt>
+<dd>Generally, extra properties on an Image service image to
+which only cloud administrators have access. Limits which user
+roles can perform CRUD operations on that property. The cloud
+administrator can configure any image property as
+protected.</dd>
+<dt id="term-provider">provider</dt>
+<dd>An administrator who has access to all hosts and
+instances.</dd>
+<dt id="term-proxy-node">proxy node</dt>
+<dd>A node that provides the Object Storage proxy service.</dd>
+<dt id="term-proxy-server">proxy server</dt>
+<dd>Users of Object Storage interact with the service through the
+proxy server, which in turn looks up the location of the requested
+data within the ring and returns the results to the user.</dd>
+<dt id="term-public-api">public API</dt>
+<dd>An API endpoint used for both service-to-service communication
+and end-user interactions.</dd>
+<dt id="term-public-image">public image</dt>
+<dd>An Image service VM image that is available to all
+projects.</dd>
+<dt id="term-public-ip-address">public IP address</dt>
+<dd>An IP address that is accessible to end-users.</dd>
+<dt id="term-public-key-authentication">public key authentication</dt>
+<dd>Authentication method that uses keys rather than
+passwords.</dd>
+<dt id="term-public-network">public network</dt>
+<dd>The Network Controller provides virtual networks to enable
+compute servers to interact with each other and with the public
+network. All machines must have a public and private network
+interface. The public network interface is controlled by the
+<code class="docutils literal"><span class="pre">public_interface</span></code> option.</dd>
+<dt id="term-puppet">Puppet</dt>
+<dd>An operating system configuration-management tool supported by
+OpenStack.</dd>
+<dt id="term-python">Python</dt>
+<dd>Programming language used extensively in OpenStack.</dd>
+</dl>
+</div>
+<div class="section" id="q">
+<h2>Q<a class="headerlink" href="#q" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-qemu-copy-on-write-2-qcow2">QEMU Copy On Write 2 (QCOW2)</dt>
+<dd>One of the VM image disk formats supported by Image
+service.</dd>
+<dt id="term-qpid">Qpid</dt>
+<dd>Message queue software supported by OpenStack; an alternative to
+RabbitMQ.</dd>
+<dt id="term-quality-of-service-qos">Quality of Service (QoS)</dt>
+<dd>The ability to guarantee certain network or storage requirements to
+satisfy a Service Level Agreement (SLA) between an application provider
+and end users.
+Typically includes performance requirements like networking bandwidth,
+latency, jitter correction, and reliability as well as storage
+performance in Input/Output Operations Per Second (IOPS), throttling
+agreements, and performance expectations at peak load.</dd>
+<dt id="term-quarantine">quarantine</dt>
+<dd>If Object Storage finds objects, containers, or accounts that
+are corrupt, they are placed in this state, are not replicated, cannot
+be read by clients, and a correct copy is re-replicated.</dd>
+<dt id="term-queens">Queens</dt>
+<dd>The code name for the seventeenth release of OpenStack. The
+design summit will take place in Sydney, Australia. The release
+is named after the Queens Pound river in the South Coast region
+of New South Wales.</dd>
+<dt id="term-quick-emulator-qemu">Quick EMUlator (QEMU)</dt>
+<dd>QEMU is a generic and open source machine emulator and
+virtualizer.
+One of the hypervisors supported by OpenStack, generally used
+for development purposes.</dd>
+<dt id="term-quota">quota</dt>
+<dd>In Compute and Block Storage, the ability to set resource limits
+on a per-project basis.</dd>
+</dl>
+</div>
+<div class="section" id="r">
+<h2>R<a class="headerlink" href="#r" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-rabbitmq">RabbitMQ</dt>
+<dd>The default message queue software used by OpenStack.</dd>
+<dt id="term-rackspace-cloud-files">Rackspace Cloud Files</dt>
+<dd>Released as open source by Rackspace in 2010; the basis for
+Object Storage.</dd>
+<dt id="term-rados-block-device-rbd">RADOS Block Device (RBD)</dt>
+<dd>Ceph component that enables a Linux block device to be striped
+over multiple distributed data stores.</dd>
+<dt id="term-radvd">radvd</dt>
+<dd>The router advertisement daemon, used by the Compute VLAN
+manager and FlatDHCP manager to provide routing services for VM
+instances.</dd>
+<dt id="term-rally">rally</dt>
+<dd>Codename for the <a class="reference internal" href="#term-benchmark-service-rally"><span class="xref std std-term">Benchmark service</span></a>.</dd>
+<dt id="term-ram-filter">RAM filter</dt>
+<dd>The Compute setting that enables or disables RAM
+overcommitment.</dd>
+<dt id="term-ram-overcommit">RAM overcommit</dt>
+<dd>The ability to start new VM instances based on the actual memory
+usage of a host, as opposed to basing the decision on the amount of
+RAM each running instance thinks it has available. Also known as
+memory overcommit.</dd>
+<dt id="term-rate-limit">rate limit</dt>
+<dd>Configurable option within Object Storage to limit database
+writes on a per-account and/or per-container basis.</dd>
+<dt id="term-raw">raw</dt>
+<dd>One of the VM image disk formats supported by Image service; an
+unstructured disk image.</dd>
+<dt id="term-rebalance">rebalance</dt>
+<dd>The process of distributing Object Storage partitions across all
+drives in the ring; used during initial ring creation and after ring
+reconfiguration.</dd>
+<dt id="term-reboot">reboot</dt>
+<dd>Either a soft or hard reboot of a server. With a soft reboot,
+the operating system is signaled to restart, which enables a graceful
+shutdown of all processes. A hard reboot is the equivalent of power
+cycling the server. The virtualization platform should ensure that the
+reboot action has completed successfully, even in cases in which the
+underlying domain/VM is paused or halted/stopped.</dd>
+<dt id="term-rebuild">rebuild</dt>
+<dd>Removes all data on the server and replaces it with the
+specified image. Server ID and IP addresses remain the same.</dd>
+<dt id="term-recon">Recon</dt>
+<dd>An Object Storage component that collects meters.</dd>
+<dt id="term-record">record</dt>
+<dd>Belongs to a particular domain and is used to specify
+information about the domain.
+There are several types of DNS records. Each record type contains
+particular information used to describe the purpose of that record.
+Examples include mail exchange (MX) records, which specify the mail
+server for a particular domain; and name server (NS) records, which
+specify the authoritative name servers for a domain.</dd>
+<dt id="term-record-id">record ID</dt>
+<dd>A number within a database that is incremented each time a
+change is made. Used by Object Storage when replicating.</dd>
+<dt id="term-red-hat-enterprise-linux-rhel">Red Hat Enterprise Linux (RHEL)</dt>
+<dd>A Linux distribution that is compatible with OpenStack.</dd>
+<dt id="term-reference-architecture">reference architecture</dt>
+<dd>A recommended architecture for an OpenStack cloud.</dd>
+<dt id="term-region">region</dt>
+<dd>A discrete OpenStack environment with dedicated API endpoints
+that typically shares only the Identity (keystone) with other
+regions.</dd>
+<dt id="term-registry">registry</dt>
+<dd>Alternative term for the Image service registry.</dd>
+<dt id="term-registry-server">registry server</dt>
+<dd>An Image service that provides VM image metadata information to
+clients.</dd>
+<dt id="term-reliable-autonomic-distributed-object-store">Reliable, Autonomic Distributed Object Store</dt>
+<dd><p class="first">(RADOS)</p>
+<p class="last">A collection of components that provides object storage within
+Ceph. Similar to OpenStack Object Storage.</p>
+</dd>
+<dt id="term-remote-procedure-call-rpc">Remote Procedure Call (RPC)</dt>
+<dd>The method used by the Compute RabbitMQ for intra-service
+communications.</dd>
+<dt id="term-replica">replica</dt>
+<dd>Provides data redundancy and fault tolerance by creating copies
+of Object Storage objects, accounts, and containers so that they are
+not lost when the underlying storage fails.</dd>
+<dt id="term-replica-count">replica count</dt>
+<dd>The number of replicas of the data in an Object Storage
+ring.</dd>
+<dt id="term-replication">replication</dt>
+<dd>The process of copying data to a separate physical device for
+fault tolerance and performance.</dd>
+<dt id="term-replicator">replicator</dt>
+<dd>The Object Storage back-end process that creates and manages
+object replicas.</dd>
+<dt id="term-request-id">request ID</dt>
+<dd>Unique ID assigned to each request sent to Compute.</dd>
+<dt id="term-rescue-image">rescue image</dt>
+<dd>A special type of VM image that is booted when an instance is
+placed into rescue mode. Allows an administrator to mount the file
+systems for an instance to correct the problem.</dd>
+<dt id="term-resize">resize</dt>
+<dd>Converts an existing server to a different flavor, which scales
+the server up or down. The original server is saved to enable rollback
+if a problem occurs. All resizes must be tested and explicitly
+confirmed, at which time the original server is removed.</dd>
+<dt id="term-restful">RESTful</dt>
+<dd>A kind of web service API that uses REST, or Representational
+State Transfer. REST is the style of architecture for hypermedia
+systems that is used for the World Wide Web.</dd>
+<dt id="term-ring">ring</dt>
+<dd>An entity that maps Object Storage data to partitions. A
+separate ring exists for each service, such as account, object, and
+container.</dd>
+<dt id="term-ring-builder">ring builder</dt>
+<dd>Builds and manages rings within Object Storage, assigns
+partitions to devices, and pushes the configuration to other storage
+nodes.</dd>
+<dt id="term-role-based-access-control-rbac">Role Based Access Control (RBAC)</dt>
+<dd>Provides a predefined list of actions that the user can perform,
+such as start or stop VMs, reset passwords, and so on. Supported in
+both Identity and Compute and can be configured using the
+horizon dashboard.</dd>
+<dt id="term-role">role</dt>
+<dd>A personality that a user assumes to perform a specific set of
+operations. A role includes a set of rights and privileges. A user
+assuming that role inherits those rights and privileges.</dd>
+<dt id="term-role-id">role ID</dt>
+<dd>Alphanumeric ID assigned to each Identity service role.</dd>
+<dt id="term-rootwrap">rootwrap</dt>
+<dd>A feature of Compute that allows the unprivileged &#8220;nova&#8221; user to
+run a specified list of commands as the Linux root user.</dd>
+<dt id="term-round-robin-scheduler">round-robin scheduler</dt>
+<dd>Type of Compute scheduler that evenly distributes instances
+among available hosts.</dd>
+<dt id="term-router">router</dt>
+<dd>A physical or virtual network device that passes network
+traffic between different networks.</dd>
+<dt id="term-routing-key">routing key</dt>
+<dd>The Compute direct exchanges, fanout exchanges, and topic
+exchanges use this key to determine how to process a message;
+processing varies depending on exchange type.</dd>
+<dt id="term-rpc-driver">RPC driver</dt>
+<dd>Modular system that allows the underlying message queue software
+of Compute to be changed. For example, from RabbitMQ to ZeroMQ or
+Qpid.</dd>
+<dt id="term-rsync">rsync</dt>
+<dd>Used by Object Storage to push object replicas.</dd>
+<dt id="term-rxtx-cap">RXTX cap</dt>
+<dd>Absolute limit on the amount of network traffic a Compute VM
+instance can send and receive.</dd>
+<dt id="term-rxtx-quota">RXTX quota</dt>
+<dd>Soft limit on the amount of network traffic a Compute VM
+instance can send and receive.</dd>
+</dl>
+</div>
+<div class="section" id="s">
+<h2>S<a class="headerlink" href="#s" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-sahara">sahara</dt>
+<dd>Codename for the <a class="reference internal" href="#term-data-processing-service-sahara"><span class="xref std std-term">Data Processing service</span></a>.</dd>
+<dt id="term-saml-assertion">SAML assertion</dt>
+<dd>Contains information about a user as provided by the identity
+provider. It is an indication that a user has been authenticated.</dd>
+<dt id="term-scheduler-manager">scheduler manager</dt>
+<dd>A Compute component that determines where VM instances should
+start. Uses modular design to support a variety of scheduler
+types.</dd>
+<dt id="term-scoped-token">scoped token</dt>
+<dd>An Identity service API access token that is associated with a
+specific project.</dd>
+<dt id="term-scrubber">scrubber</dt>
+<dd>Checks for and deletes unused VMs; the component of Image
+service that implements delayed delete.</dd>
+<dt id="term-secret-key">secret key</dt>
+<dd>String of text known only by the user; used along with an access
+key to make requests to the Compute API.</dd>
+<dt id="term-secure-boot">secure boot</dt>
+<dd>Process whereby the system firmware validates the authenticity of
+the code involved in the boot process.</dd>
+<dt id="term-secure-shell-ssh">secure shell (SSH)</dt>
+<dd>Open source tool used to access remote hosts through an
+encrypted communications channel, SSH key injection is supported by
+Compute.</dd>
+<dt id="term-security-group">security group</dt>
+<dd>A set of network traffic filtering rules that are applied to a
+Compute instance.</dd>
+<dt id="term-segmented-object">segmented object</dt>
+<dd>An Object Storage large object that has been broken up into
+pieces. The re-assembled object is called a concatenated
+object.</dd>
+<dt id="term-self-service">self-service</dt>
+<dd>For IaaS, ability for a regular (non-privileged) account to
+manage a virtual infrastructure component such as networks without
+involving an administrator.</dd>
+<dt id="term-selinux">SELinux</dt>
+<dd>Linux kernel security module that provides the mechanism for
+supporting access control policies.</dd>
+<dt id="term-senlin">senlin</dt>
+<dd>OpenStack project that provides a Clustering service.</dd>
+<dt id="term-server">server</dt>
+<dd>Computer that provides explicit services to the client software
+running on that system, often managing a variety of computer
+operations.
+A server is a VM instance in the Compute system. Flavor and
+image are requisite elements when creating a server.</dd>
+<dt id="term-server-image">server image</dt>
+<dd>Alternative term for a VM image.</dd>
+<dt id="term-server-uuid">server UUID</dt>
+<dd>Unique ID assigned to each guest VM instance.</dd>
+<dt id="term-service">service</dt>
+<dd>An OpenStack service, such as Compute, Object Storage, or Image
+service. Provides one or more endpoints through which users can access
+resources and perform operations.</dd>
+<dt id="term-service-catalog">service catalog</dt>
+<dd>Alternative term for the Identity service catalog.</dd>
+<dt id="term-service-id">service ID</dt>
+<dd>Unique ID assigned to each service that is available in the
+Identity service catalog.</dd>
+<dt id="term-service-provider">service provider</dt>
+<dd>A system that provides services to other system entities. In
+case of federated identity, OpenStack Identity is the service
+provider.</dd>
+<dt id="term-service-registration">service registration</dt>
+<dd>An Identity service feature that enables services, such as
+Compute, to automatically register with the catalog.</dd>
+<dt id="term-service-project">service project</dt>
+<dd>Special project that contains all services that are listed in the
+catalog.</dd>
+<dt id="term-service-token">service token</dt>
+<dd>An administrator-defined token used by Compute to communicate
+securely with the Identity service.</dd>
+<dt id="term-session-back-end">session back end</dt>
+<dd>The method of storage used by horizon to track client sessions,
+such as local memory, cookies, a database, or memcached.</dd>
+<dt id="term-session-persistence">session persistence</dt>
+<dd>A feature of the load-balancing service. It attempts to force
+subsequent connections to a service to be redirected to the same node
+as long as it is online.</dd>
+<dt id="term-session-storage">session storage</dt>
+<dd>A horizon component that stores and tracks client session
+information. Implemented through the Django sessions framework.</dd>
+<dt id="term-share">share</dt>
+<dd>A remote, mountable file system in the context of the <a class="reference internal" href="#term-shared-file-systems-service-manila"><span class="xref std std-term">Shared
+File Systems service</span></a>. You can
+mount a share to, and access a share from, several hosts by several
+users at a time.</dd>
+<dt id="term-share-network">share network</dt>
+<dd>An entity in the context of the <a class="reference internal" href="#term-shared-file-systems-service-manila"><span class="xref std std-term">Shared File Systems
+service</span></a> that encapsulates
+interaction with the Networking service. If the driver you selected
+runs in the mode requiring such kind of interaction, you need to
+specify the share network to create a share.</dd>
+<dt id="term-shared-file-systems-api">Shared File Systems API</dt>
+<dd>A Shared File Systems service that provides a stable RESTful API.
+The service authenticates and routes requests throughout the Shared
+File Systems service. There is python-manilaclient to interact with
+the API.</dd>
+<dt id="term-shared-file-systems-service-manila">Shared File Systems service (manila)</dt>
+<dd>The service that provides a set of services for
+management of shared file systems in a multi-tenant cloud
+environment, similar to how OpenStack provides block-based storage
+management through the OpenStack <a class="reference internal" href="#term-block-storage-service-cinder"><span class="xref std std-term">Block Storage service</span></a> project.
+With the Shared File Systems service, you can create a remote file
+system and mount the file system on your instances. You can also
+read and write data from your instances to and from your file system.</dd>
+<dt id="term-shared-ip-address">shared IP address</dt>
+<dd>An IP address that can be assigned to a VM instance within the
+shared IP group. Public IP addresses can be shared across multiple
+servers for use in various high-availability scenarios. When an IP
+address is shared to another server, the cloud network restrictions
+are modified to enable each server to listen to and respond on that IP
+address. You can optionally specify that the target server network
+configuration be modified. Shared IP addresses can be used with many
+standard heartbeat facilities, such as keepalive, that monitor for
+failure and manage IP failover.</dd>
+<dt id="term-shared-ip-group">shared IP group</dt>
+<dd>A collection of servers that can share IPs with other members of
+the group. Any server in a group can share one or more public IPs with
+any other server in the group. With the exception of the first server
+in a shared IP group, servers must be launched into shared IP groups.
+A server may be a member of only one shared IP group.</dd>
+<dt id="term-shared-storage">shared storage</dt>
+<dd>Block storage that is simultaneously accessible by multiple
+clients, for example, NFS.</dd>
+<dt id="term-sheepdog">Sheepdog</dt>
+<dd>Distributed block storage system for QEMU, supported by
+OpenStack.</dd>
+<dt id="term-simple-cloud-identity-management-scim">Simple Cloud Identity Management (SCIM)</dt>
+<dd>Specification for managing identity in the cloud, currently
+unsupported by OpenStack.</dd>
+<dt id="term-single-root-i-o-virtualization-sr-iov">Single-root I/O Virtualization (SR-IOV)</dt>
+<dd>A specification that, when implemented by a physical PCIe
+device, enables it to appear as multiple separate PCIe devices. This
+enables multiple virtualized guests to share direct access to the
+physical device, offering improved performance over an equivalent
+virtual device. Currently supported in OpenStack Havana and later
+releases.</dd>
+<dt id="term-service-level-agreement-sla">Service Level Agreement (SLA)</dt>
+<dd>Contractual obligations that ensure the availability of a
+service.</dd>
+<dt id="term-smokestack">SmokeStack</dt>
+<dd>Runs automated tests against the core OpenStack API; written in
+Rails.</dd>
+<dt id="term-snapshot">snapshot</dt>
+<dd>A point-in-time copy of an OpenStack storage volume or image.
+Use storage volume snapshots to back up volumes. Use image snapshots
+to back up data, or as &#8220;gold&#8221; images for additional servers.</dd>
+<dt id="term-soft-reboot">soft reboot</dt>
+<dd>A controlled reboot where a VM instance is properly restarted
+through operating system commands.</dd>
+<dt id="term-software-development-lifecycle-automation-service">Software Development Lifecycle Automation service</dt>
+<dd>OpenStack project that aims to make cloud services easier to
+consume and integrate with application development process
+by automating the source-to-image process, and simplifying
+app-centric deployment. The project name is solum.</dd>
+<dt id="term-solidfire-volume-driver">SolidFire Volume Driver</dt>
+<dd>The Block Storage driver for the SolidFire iSCSI storage
+appliance.</dd>
+<dt id="term-solum">solum</dt>
+<dd>OpenStack project that provides a Software Development
+Lifecycle Automation service.</dd>
+<dt id="term-simple-protocol-for-independent-computing-environments-spice">Simple Protocol for Independent Computing Environments (SPICE)</dt>
+<dd>SPICE provides remote desktop access to guest virtual machines. It
+is an alternative to VNC. SPICE is supported by OpenStack.</dd>
+<dt id="term-spread-first-scheduler">spread-first scheduler</dt>
+<dd>The Compute VM scheduling algorithm that attempts to start a new
+VM on the host with the least amount of load.</dd>
+<dt id="term-sql-alchemy">SQL-Alchemy</dt>
+<dd>An open source SQL toolkit for Python, used in OpenStack.</dd>
+<dt id="term-sqlite">SQLite</dt>
+<dd>A lightweight SQL database, used as the default persistent
+storage method in many OpenStack services.</dd>
+<dt id="term-stack">stack</dt>
+<dd>A set of OpenStack resources created and managed by the
+Orchestration service according to a given template (either an
+AWS CloudFormation template or a Heat Orchestration
+Template (HOT)).</dd>
+<dt id="term-stacktach">StackTach</dt>
+<dd>Community project that captures Compute AMQP communications;
+useful for debugging.</dd>
+<dt id="term-static-ip-address">static IP address</dt>
+<dd>Alternative term for a fixed IP address.</dd>
+<dt id="term-staticweb">StaticWeb</dt>
+<dd>WSGI middleware component of Object Storage that serves
+container data as a static web page.</dd>
+<dt id="term-storage-back-end">storage back end</dt>
+<dd>The method that a service uses for persistent storage, such as
+iSCSI, NFS, or local disk.</dd>
+<dt id="term-storage-node">storage node</dt>
+<dd>An Object Storage node that provides container services, account
+services, and object services; controls the account databases,
+container databases, and object storage.</dd>
+<dt id="term-storage-manager">storage manager</dt>
+<dd>A XenAPI component that provides a pluggable interface to
+support a wide variety of persistent storage back ends.</dd>
+<dt id="term-storage-manager-back-end">storage manager back end</dt>
+<dd>A persistent storage method supported by XenAPI, such as iSCSI
+or NFS.</dd>
+<dt id="term-storage-services">storage services</dt>
+<dd>Collective name for the Object Storage object services,
+container services, and account services.</dd>
+<dt id="term-strategy">strategy</dt>
+<dd>Specifies the authentication source used by Image service or
+Identity. In the Database service, it refers to the extensions
+implemented for a data store.</dd>
+<dt id="term-subdomain">subdomain</dt>
+<dd>A domain within a parent domain. Subdomains cannot be
+registered. Subdomains enable you to delegate domains. Subdomains can
+themselves have subdomains, so third-level, fourth-level, fifth-level,
+and deeper levels of nesting are possible.</dd>
+<dt id="term-subnet">subnet</dt>
+<dd>Logical subdivision of an IP network.</dd>
+<dt id="term-suse-linux-enterprise-server-sles">SUSE Linux Enterprise Server (SLES)</dt>
+<dd>A Linux distribution that is compatible with OpenStack.</dd>
+<dt id="term-suspend">suspend</dt>
+<dd>Alternative term for a paused VM instance.</dd>
+<dt id="term-swap">swap</dt>
+<dd>Disk-based virtual memory used by operating systems to provide
+more memory than is actually available on the system.</dd>
+<dt id="term-swauth">swauth</dt>
+<dd>An authentication and authorization service for Object Storage,
+implemented through WSGI middleware; uses Object Storage itself as the
+persistent backing store.</dd>
+<dt id="term-swift">swift</dt>
+<dd>Codename for OpenStack <a class="reference internal" href="#term-object-storage-service-swift"><span class="xref std std-term">Object Storage service</span></a>.</dd>
+<dt id="term-swift-all-in-one-saio">swift All in One (SAIO)</dt>
+<dd>Creates a full Object Storage development environment within a
+single VM.</dd>
+<dt id="term-swift-middleware">swift middleware</dt>
+<dd>Collective term for Object Storage components that provide
+additional functionality.</dd>
+<dt id="term-swift-proxy-server">swift proxy server</dt>
+<dd>Acts as the gatekeeper to Object Storage and is responsible for
+authenticating the user.</dd>
+<dt id="term-swift-storage-node">swift storage node</dt>
+<dd>A node that runs Object Storage account, container, and object
+services.</dd>
+<dt id="term-sync-point">sync point</dt>
+<dd>Point in time since the last container and accounts database
+sync among nodes within Object Storage.</dd>
+<dt id="term-sysadmin">sysadmin</dt>
+<dd>One of the default roles in the Compute RBAC system. Enables a
+user to add other users to a project, interact with VM images that are
+associated with the project, and start and stop VM instances.</dd>
+<dt id="term-system-usage">system usage</dt>
+<dd>A Compute component that, along with the notification system,
+collects meters and usage information. This information can be used
+for billing.</dd>
+</dl>
+</div>
+<div class="section" id="t">
+<h2>T<a class="headerlink" href="#t" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-telemetry-service-telemetry">Telemetry service (telemetry)</dt>
+<dd>The OpenStack project which collects measurements of the utilization
+of the physical and virtual resources comprising deployed clouds,
+persists this data for subsequent retrieval and analysis, and triggers
+actions when defined criteria are met.</dd>
+<dt id="term-tempauth">TempAuth</dt>
+<dd>An authentication facility within Object Storage that enables
+Object Storage itself to perform authentication and authorization.
+Frequently used in testing and development.</dd>
+<dt id="term-tempest">Tempest</dt>
+<dd>Automated software test suite designed to run against the trunk
+of the OpenStack core project.</dd>
+<dt id="term-tempurl">TempURL</dt>
+<dd>An Object Storage middleware component that enables creation of
+URLs for temporary object access.</dd>
+<dt id="term-tenant">tenant</dt>
+<dd>A group of users; used to isolate access to Compute resources.
+An alternative term for a project.</dd>
+<dt id="term-tenant-api">Tenant API</dt>
+<dd>An API that is accessible to projects.</dd>
+<dt id="term-tenant-endpoint">tenant endpoint</dt>
+<dd>An Identity service API endpoint that is associated with one or
+more projects.</dd>
+<dt id="term-tenant-id">tenant ID</dt>
+<dd>An alternative term for <a class="reference internal" href="#term-project-id"><span class="xref std std-term">project ID</span></a>.</dd>
+<dt id="term-token">token</dt>
+<dd>An alpha-numeric string of text used to access OpenStack APIs
+and resources.</dd>
+<dt id="term-token-services">token services</dt>
+<dd>An Identity service component that manages and validates tokens
+after a user or project has been authenticated.</dd>
+<dt id="term-tombstone">tombstone</dt>
+<dd>Used to mark Object Storage objects that have been
+deleted; ensures that the object is not updated on another node after
+it has been deleted.</dd>
+<dt id="term-topic-publisher">topic publisher</dt>
+<dd>A process that is created when a RPC call is executed; used to
+push the message to the topic exchange.</dd>
+<dt id="term-torpedo">Torpedo</dt>
+<dd>Community project used to run automated tests against the
+OpenStack API.</dd>
+<dt id="term-transaction-id">transaction ID</dt>
+<dd>Unique ID assigned to each Object Storage request; used for
+debugging and tracing.</dd>
+<dt id="term-transient">transient</dt>
+<dd>Alternative term for non-durable.</dd>
+<dt id="term-transient-exchange">transient exchange</dt>
+<dd>Alternative term for a non-durable exchange.</dd>
+<dt id="term-transient-message">transient message</dt>
+<dd>A message that is stored in memory and is lost after the server
+is restarted.</dd>
+<dt id="term-transient-queue">transient queue</dt>
+<dd>Alternative term for a non-durable queue.</dd>
+<dt id="term-tripleo">TripleO</dt>
+<dd>OpenStack-on-OpenStack program. The code name for the
+OpenStack Deployment program.</dd>
+<dt id="term-trove">trove</dt>
+<dd>Codename for OpenStack <a class="reference internal" href="#term-database-service-trove"><span class="xref std std-term">Database service</span></a>.</dd>
+<dt id="term-trusted-platform-module-tpm">trusted platform module (TPM)</dt>
+<dd>Specialized microprocessor for incorporating cryptographic keys
+into devices for authenticating and securing a hardware platform.</dd>
+</dl>
+</div>
+<div class="section" id="u">
+<h2>U<a class="headerlink" href="#u" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-ubuntu">Ubuntu</dt>
+<dd>A Debian-based Linux distribution.</dd>
+<dt id="term-unscoped-token">unscoped token</dt>
+<dd>Alternative term for an Identity service default token.</dd>
+<dt id="term-updater">updater</dt>
+<dd>Collective term for a group of Object Storage components that
+processes queued and failed updates for containers and objects.</dd>
+<dt id="term-user">user</dt>
+<dd>In OpenStack Identity,  entities represent individual API
+consumers and are owned by a specific domain. In OpenStack Compute,
+a user can be associated with roles, projects, or both.</dd>
+<dt id="term-user-data">user data</dt>
+<dd>A blob of data that the user can specify when they launch
+an instance. The instance can access this data through the
+metadata service or config drive.
+Commonly used to pass a shell script that the instance runs on boot.</dd>
+<dt id="term-user-mode-linux-uml">User Mode Linux (UML)</dt>
+<dd>An OpenStack-supported hypervisor.</dd>
+</dl>
+</div>
+<div class="section" id="v">
+<h2>V<a class="headerlink" href="#v" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-vif-uuid">VIF UUID</dt>
+<dd>Unique ID assigned to each Networking VIF.</dd>
+<dt id="term-virtual-central-processing-unit-vcpu">Virtual Central Processing Unit (vCPU)</dt>
+<dd>Subdivides physical CPUs. Instances can then use those
+divisions.</dd>
+<dt id="term-virtual-disk-image-vdi">Virtual Disk Image (VDI)</dt>
+<dd>One of the VM image disk formats supported by Image
+service.</dd>
+<dt id="term-virtual-extensible-lan-vxlan">Virtual Extensible LAN (VXLAN)</dt>
+<dd>A network virtualization technology that attempts to reduce the
+scalability problems associated with large cloud computing
+deployments. It uses a VLAN-like encapsulation technique to
+encapsulate Ethernet frames within UDP packets.</dd>
+<dt id="term-virtual-hard-disk-vhd">Virtual Hard Disk (VHD)</dt>
+<dd>One of the VM image disk formats supported by Image
+service.</dd>
+<dt id="term-virtual-ip-address-vip">virtual IP address (VIP)</dt>
+<dd>An Internet Protocol (IP) address configured on the load
+balancer for use by clients connecting to a service that is load
+balanced. Incoming connections are distributed to back-end nodes based
+on the configuration of the load balancer.</dd>
+<dt id="term-virtual-machine-vm">virtual machine (VM)</dt>
+<dd>An operating system instance that runs on top of a hypervisor.
+Multiple VMs can run at the same time on the same physical
+host.</dd>
+<dt id="term-virtual-network">virtual network</dt>
+<dd>An L2 network segment within Networking.</dd>
+<dt id="term-virtual-networking">virtual networking</dt>
+<dd>A generic term for virtualization of network functions
+such as switching, routing, load balancing, and security using
+a combination of VMs and overlays on physical network
+infrastructure.</dd>
+<dt id="term-virtual-network-computing-vnc">Virtual Network Computing (VNC)</dt>
+<dd>Open source GUI and CLI tools used for remote console access to
+VMs. Supported by Compute.</dd>
+<dt id="term-virtual-network-interface-vif">Virtual Network InterFace (VIF)</dt>
+<dd>An interface that is plugged into a port in a Networking
+network. Typically a virtual network interface belonging to a
+VM.</dd>
+<dt id="term-virtual-port">virtual port</dt>
+<dd>Attachment point where a virtual interface connects to a virtual
+network.</dd>
+<dt id="term-virtual-private-network-vpn">virtual private network (VPN)</dt>
+<dd>Provided by Compute in the form of cloudpipes, specialized
+instances that are used to create VPNs on a per-project basis.</dd>
+<dt id="term-virtual-server">virtual server</dt>
+<dd>Alternative term for a VM or guest.</dd>
+<dt id="term-virtual-switch-vswitch">virtual switch (vSwitch)</dt>
+<dd>Software that runs on a host or node and provides the features
+and functions of a hardware-based network switch.</dd>
+<dt id="term-virtual-vlan">virtual VLAN</dt>
+<dd>Alternative term for a virtual network.</dd>
+<dt id="term-virtualbox">VirtualBox</dt>
+<dd>An OpenStack-supported hypervisor.</dd>
+<dt id="term-vlan-manager">VLAN manager</dt>
+<dd>A Compute component that provides dnsmasq and radvd and sets up
+forwarding to and from cloudpipe instances.</dd>
+<dt id="term-vlan-network">VLAN network</dt>
+<dd>The Network Controller provides virtual networks to enable
+compute servers to interact with each other and with the public
+network. All machines must have a public and private network
+interface. A VLAN network is a private network interface, which is
+controlled by the <code class="docutils literal"><span class="pre">vlan_interface</span></code> option with VLAN
+managers.</dd>
+<dt id="term-vm-disk-vmdk">VM disk (VMDK)</dt>
+<dd>One of the VM image disk formats supported by Image
+service.</dd>
+<dt id="term-vm-image">VM image</dt>
+<dd>Alternative term for an image.</dd>
+<dt id="term-vm-remote-control-vmrc">VM Remote Control (VMRC)</dt>
+<dd>Method to access VM instance consoles using a web browser.
+Supported by Compute.</dd>
+<dt id="term-vmware-api">VMware API</dt>
+<dd>Supports interaction with VMware products in Compute.</dd>
+<dt id="term-vmware-nsx-neutron-plug-in">VMware NSX Neutron plug-in</dt>
+<dd>Provides support for VMware NSX in Neutron.</dd>
+<dt id="term-vnc-proxy">VNC proxy</dt>
+<dd>A Compute component that provides users access to the consoles
+of their VM instances through VNC or VMRC.</dd>
+<dt id="term-volume">volume</dt>
+<dd>Disk-based data storage generally represented as an iSCSI target
+with a file system that supports extended attributes; can be
+persistent or ephemeral.</dd>
+<dt id="term-volume-api">Volume API</dt>
+<dd>Alternative name for the Block Storage API.</dd>
+<dt id="term-volume-controller">volume controller</dt>
+<dd>A Block Storage component that oversees and coordinates storage
+volume actions.</dd>
+<dt id="term-volume-driver">volume driver</dt>
+<dd>Alternative term for a volume plug-in.</dd>
+<dt id="term-volume-id">volume ID</dt>
+<dd>Unique ID applied to each storage volume under the Block Storage
+control.</dd>
+<dt id="term-volume-manager">volume manager</dt>
+<dd>A Block Storage component that creates, attaches, and detaches
+persistent storage volumes.</dd>
+<dt id="term-volume-node">volume node</dt>
+<dd>A Block Storage node that runs the cinder-volume daemon.</dd>
+<dt id="term-volume-plug-in">volume plug-in</dt>
+<dd>Provides support for new and specialized types of back-end
+storage for the Block Storage volume manager.</dd>
+<dt id="term-volume-worker">volume worker</dt>
+<dd>A cinder component that interacts with back-end storage to manage
+the creation and deletion of volumes and the creation of compute
+volumes, provided by the cinder-volume daemon.</dd>
+<dt id="term-vsphere">vSphere</dt>
+<dd>An OpenStack-supported hypervisor.</dd>
+</dl>
+</div>
+<div class="section" id="w">
+<h2>W<a class="headerlink" href="#w" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-weighting">weighting</dt>
+<dd>A Compute process that determines the suitability of the VM
+instances for a job for a particular host. For example, not enough RAM
+on the host, too many CPUs on the host, and so on.</dd>
+<dt id="term-weight">weight</dt>
+<dd>Used by Object Storage devices to determine which storage
+devices are suitable for the job. Devices are weighted by size.</dd>
+<dt id="term-weighted-cost">weighted cost</dt>
+<dd>The sum of each cost used when deciding where to start a new VM
+instance in Compute.</dd>
+<dt id="term-worker">worker</dt>
+<dd>A daemon that listens to a queue and carries out tasks in
+response to messages. For example, the cinder-volume worker manages volume
+creation and deletion on storage arrays.</dd>
+<dt id="term-workflow-service-mistral">Workflow service (mistral)</dt>
+<dd>The OpenStack service that provides a simple YAML-based language to
+write workflows (tasks and transition rules) and a service that
+allows to upload them, modify, run them at scale and in a highly
+available manner, manage and monitor workflow execution state and state
+of individual tasks.</dd>
+</dl>
+</div>
+<div class="section" id="x">
+<h2>X<a class="headerlink" href="#x" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-xen">Xen</dt>
+<dd>Xen is a hypervisor using a microkernel design, providing
+services that allow multiple computer operating systems to
+execute on the same computer hardware concurrently.</dd>
+<dt id="term-xen-api">Xen API</dt>
+<dd>The Xen administrative API, which is supported by
+Compute.</dd>
+<dt id="term-xen-cloud-platform-xcp">Xen Cloud Platform (XCP)</dt>
+<dd>An OpenStack-supported hypervisor.</dd>
+<dt id="term-xen-storage-manager-volume-driver">Xen Storage Manager Volume Driver</dt>
+<dd>A Block Storage volume plug-in that enables communication with
+the Xen Storage Manager API.</dd>
+<dt id="term-xenserver">XenServer</dt>
+<dd>An OpenStack-supported hypervisor.</dd>
+<dt id="term-xfs">XFS</dt>
+<dd>High-performance 64-bit file system created by Silicon
+Graphics. Excels in parallel I/O operations and data
+consistency.</dd>
+</dl>
+</div>
+<div class="section" id="z">
+<h2>Z<a class="headerlink" href="#z" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-zaqar">zaqar</dt>
+<dd>Codename for the <a class="reference internal" href="#term-message-service-zaqar"><span class="xref std std-term">Message service</span></a>.</dd>
+<dt id="term-zeromq">ZeroMQ</dt>
+<dd>Message queue software supported by OpenStack. An alternative to
+RabbitMQ. Also spelled 0MQ.</dd>
+<dt id="term-zuul">Zuul</dt>
+<dd>Tool used in OpenStack development to ensure correctly ordered
+testing of changes in parallel.</dd>
+</dl>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="app-support.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Community support"></i></a>
+          
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../environment.html">Environment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../keystone.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../glance.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../nova.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../neutron.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../horizon.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cinder.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../additional-services.html">Additional services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../launch-instance.html">Launch an instance</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app-support.html">Community support</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Glossary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0-9</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a">A</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#b">B</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#c">C</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#d">D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#e">E</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#f">F</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#g">G</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#h">H</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i">I</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#j">J</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#k">K</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#l">L</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#m">M</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#n">N</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#o">O</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#p">P</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q">Q</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#r">R</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#s">S</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#t">T</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#u">U</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v">V</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#w">W</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#x">X</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#z">Z</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "common/glossary" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/install-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Glossary in Installation Guide";
+    var fieldTags = "install-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.1 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/install-guide-obs/common/glossary.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:39:31 GMT -->
+</html>

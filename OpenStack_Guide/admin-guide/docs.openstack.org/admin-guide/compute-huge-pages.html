@@ -1,0 +1,620 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-huge-pages.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:00:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Huge pages</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Huge pages</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="compute-cpu-topologies.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: CPU topologies"></i></a>
+    
+    
+    <a href="support-compute.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Troubleshoot Compute"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Huge pages</a><ul>
+<li><a class="reference internal" href="#pages-the-tlb-and-huge-pages">Pages, the TLB and huge pages</a></li>
+<li><a class="reference internal" href="#enabling-huge-pages-on-the-host">Enabling huge pages on the host</a></li>
+<li><a class="reference internal" href="#customizing-instance-huge-pages-allocations">Customizing instance huge pages allocations</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="huge-pages">
+<span id="compute-huge-pages"></span><h1>Huge pages<a class="headerlink" href="#huge-pages" title="Permalink to this headline">¶</a></h1>
+<p>The huge page feature in OpenStack provides important performance improvements
+for applications that are highly memory IO-bound.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Huge pages may also be referred to hugepages or large pages, depending on
+the source. These terms are synonyms.</p>
+</div>
+<div class="section" id="pages-the-tlb-and-huge-pages">
+<h2>Pages, the TLB and huge pages<a class="headerlink" href="#pages-the-tlb-and-huge-pages" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Pages</dt>
+<dd>Physical memory is segmented into a series of contiguous regions called
+pages. Each page contains a number of bytes, referred to as the page size.
+The system retrieves memory by accessing entire pages, rather than byte by
+byte.</dd>
+<dt>Translation Lookaside Buffer (TLB)</dt>
+<dd>A TLB is used to map the virtual addresses of pages to the physical addresses
+in actual memory. The TLB is a cache and is not limitless, storing only the
+most recent or frequently accessed pages. During normal operation, processes
+will sometimes attempt to retrieve pages that are not stored in the cache.
+This is known as a TLB miss and results in a delay as the processor iterates
+through the pages themselves to find the missing address mapping.</dd>
+<dt>Huge Pages</dt>
+<dd>The standard page size in x86 systems is 4 kB. This is optimal for general
+purpose computing but larger page sizes - 2 MB and 1 GB - are also available.
+These larger page sizes are known as huge pages. Huge pages result in less
+efficient memory usage as a process will not generally use all memory
+available in each page. However, use of huge pages will result in fewer
+overall pages and a reduced risk of TLB misses. For processes that have
+significant memory requirements or are memory intensive, the benefits of huge
+pages frequently outweigh the drawbacks.</dd>
+<dt>Persistent Huge Pages</dt>
+<dd>On Linux hosts, persistent huge pages are huge pages that are reserved
+upfront. The HugeTLB provides for the mechanism for this upfront
+configuration of huge pages. The HugeTLB allows for the allocation of varying
+quantities of different huge page sizes. Allocation can be made at boot time
+or run time. Refer to the <a class="reference external" href="https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt">Linux hugetlbfs guide</a> for more information.</dd>
+<dt>Transparent Huge Pages (THP)</dt>
+<dd>On Linux hosts, transparent huge pages are huge pages that are automatically
+provisioned based on process requests. Transparent huge pages are provisioned
+on a best effort basis, attempting to provision 2 MB huge pages if available
+but falling back to 4 kB small pages if not. However, no upfront
+configuration is necessary. Refer to the <a class="reference external" href="https://www.kernel.org/doc/Documentation/vm/transhuge.txt">Linux THP guide</a> for more
+information.</dd>
+</dl>
+</div>
+<div class="section" id="enabling-huge-pages-on-the-host">
+<h2>Enabling huge pages on the host<a class="headerlink" href="#enabling-huge-pages-on-the-host" title="Permalink to this headline">¶</a></h2>
+<p>Persistent huge pages are required owing to their guaranteed availability.
+However, persistent huge pages are not enabled by default in most environments.
+The steps for enabling huge pages differ from platform to platform and only the
+steps for Linux hosts are described here. On Linux hosts, the number of
+persistent huge pages on the host can be queried by checking <code class="docutils literal"><span class="pre">/proc/meminfo</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> grep Huge /proc/meminfo
+<span class="go">AnonHugePages:         0 kB</span>
+<span class="go">ShmemHugePages:        0 kB</span>
+<span class="go">HugePages_Total:       0</span>
+<span class="go">HugePages_Free:        0</span>
+<span class="go">HugePages_Rsvd:        0</span>
+<span class="go">HugePages_Surp:        0</span>
+<span class="go">Hugepagesize:       2048 kB</span>
+</pre></div>
+</div>
+<p>In this instance, there are 0 persistent huge pages (<code class="docutils literal"><span class="pre">HugePages_Total</span></code>) and 0
+transparent huge pages (<code class="docutils literal"><span class="pre">AnonHugePages</span></code>) allocated. Huge pages can be
+allocated at boot time or run time. Huge pages require a contiguous area of
+memory - memory that gets increasingly fragmented the long a host is running.
+Identifying contiguous areas of memory is a issue for all huge page sizes, but
+it&#8217;s particularly problematic for larger huge page sizes such as 1 GB huge
+pages. Allocating huge pages at boot time will ensure the correct number of huge
+pages is always available, while allocating them at run time can fail if memory
+has become too fragmented.</p>
+<p>To allocate huge pages at run time, the kernel boot parameters must be extended
+to include some huge page-specific parameters. This can be achieved by
+modifying <code class="docutils literal"><span class="pre">/etc/default/grub</span></code> and appending the <code class="docutils literal"><span class="pre">hugepagesz</span></code>,
+<code class="docutils literal"><span class="pre">hugepages</span></code>, and <code class="docutils literal"><span class="pre">transparent_hugepages=never</span></code> arguments to
+<code class="docutils literal"><span class="pre">GRUB_CMDLINE_LINUX</span></code>. To allocate, for example, 2048 persistent 2 MB huge
+pages at boot time, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">echo</span> <span class="s1">&#39;GRUB_CMDLINE_LINUX=&quot;$GRUB_CMDLINE_LINUX hugepagesz=2M hugepages=2048 transparent_hugepage=never&quot;&#39;</span> &gt; /etc/default/grub
+<span class="gp">$</span> grep GRUB_CMDLINE_LINUX /etc/default/grub
+<span class="go">GRUB_CMDLINE_LINUX=&quot;...&quot;</span>
+<span class="go">GRUB_CMDLINE_LINUX=&quot;$GRUB_CMDLINE_LINUX hugepagesz=2M hugepages=2048 transparent_hugepage=never&quot;</span>
+</pre></div>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Persistent huge pages are not usable by standard host OS processes. Ensure
+enough free, non-huge page memory is reserved for these processes.</p>
+</div>
+<p>Reboot the host, then validate that huge pages are now available:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> grep <span class="s2">&quot;Huge&quot;</span> /proc/meminfo
+<span class="go">AnonHugePages:         0 kB</span>
+<span class="go">ShmemHugePages:        0 kB</span>
+<span class="go">HugePages_Total:    2048</span>
+<span class="go">HugePages_Free:     2048</span>
+<span class="go">HugePages_Rsvd:        0</span>
+<span class="go">HugePages_Surp:        0</span>
+<span class="go">Hugepagesize:       2048 kB</span>
+</pre></div>
+</div>
+<p>There are now 2048 2 MB huge pages totalling 4 GB of huge pages. These huge
+pages must be mounted. On most platforms, this happens automatically. To verify
+that the huge pages are mounted, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> mount <span class="p">|</span> grep huge
+<span class="go">hugetlbfs on /dev/hugepages type hugetlbfs (rw)</span>
+</pre></div>
+</div>
+<p>In this instance, the huge pages are mounted at <code class="docutils literal"><span class="pre">/dev/hugepages</span></code>. This mount
+point varies from platform to platform. If the above command did not return
+anything, the hugepages must be mounted manually. To mount the huge pages at
+<code class="docutils literal"><span class="pre">/dev/hugepages</span></code>, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> mkdir -p /dev/hugepages
+<span class="gp">#</span> mount -t hugetlbfs hugetlbfs /dev/hugepages
+</pre></div>
+</div>
+<p>There are many more ways to configure huge pages, including allocating huge
+pages at run time, specifying varying allocations for different huge page
+sizes, or allocating huge pages from memory affinitized to different NUMA
+nodes. For more information on configuring huge pages on Linux hosts, refer to
+the <a class="reference external" href="https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt">Linux hugetlbfs guide</a>.</p>
+</div>
+<div class="section" id="customizing-instance-huge-pages-allocations">
+<h2>Customizing instance huge pages allocations<a class="headerlink" href="#customizing-instance-huge-pages-allocations" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The functionality described below is currently only supported by the
+libvirt/KVM driver.</p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">For performance reasons, configuring huge pages for an instance will
+implicitly result in a NUMA topology being configured for the instance.
+Configuring a NUMA topology for an instance requires enablement of
+<code class="docutils literal"><span class="pre">NUMATopologyFilter</span></code>. Refer to <a class="reference internal" href="compute-cpu-topologies.html"><em>CPU topologies</em></a> for more
+information.</p>
+</div>
+<p>By default, an instance does not use huge pages for its underlying memory.
+However, huge pages can bring important or required performance improvements
+for some workloads. Huge pages must be requested explicitly through the use of
+flavor extra specs or image metadata. To request an instance use huge pages,
+run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:mem_page_size<span class="o">=</span>large
+</pre></div>
+</div>
+<p>Different platforms offer different huge page sizes. For example: x86-based
+platforms offer 2 MB and 1 GB huge page sizes. Specific huge page sizes can be
+also be requested, with or without a unit suffix. The unit suffix must be one
+of: Kb(it), Kib(it), Mb(it), Mib(it), Gb(it), Gib(it), Tb(it), Tib(it), KB,
+KiB, MB, MiB, GB, GiB, TB, TiB. Where a unit suffix is not provided, Kilobytes
+are assumed. To request an instance to use 2 MB huge pages, run one of:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:mem_page_size<span class="o">=</span>2Mb
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:mem_page_size<span class="o">=</span>2048
+</pre></div>
+</div>
+<p>Enabling huge pages for an instance can have negative consequences for other
+instances by consuming limited huge pages resources. To explicitly request
+an instance use small pages, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:mem_page_size<span class="o">=</span>small
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Explicitly requesting any page size will still result in a NUMA topology
+being applied to the instance, as described earlier in this document.</p>
+</div>
+<p>Finally, to leave the decision of huge or small pages to the compute driver,
+run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:mem_page_size<span class="o">=</span>any
+</pre></div>
+</div>
+<p>For more information about the syntax for <code class="docutils literal"><span class="pre">hw:mem_page_size</span></code>, refer to the
+<a class="reference external" href="compute-flavors.html">Flavors</a> guide.</p>
+<p>Applications are frequently packaged as images. For applications that require
+the IO performance improvements that huge pages provides, configure image
+metadata to ensure instances always request the specific page size regardless
+of flavor. To configure an image to use 1 GB huge pages, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image <span class="nb">set</span> <span class="o">[</span>IMAGE_ID<span class="o">]</span>  --property <span class="nv">hw_mem_page_size</span><span class="o">=</span>1GB
+</pre></div>
+</div>
+<p>Image metadata takes precedence over flavor extra specs. Thus, configuring
+competing page sizes causes an exception. By setting a <code class="docutils literal"><span class="pre">small</span></code> page size
+through image metadata, administrators can prevent users requesting huge pages
+in flavors and impacting resource utilization. To configure this page size,
+run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image <span class="nb">set</span> <span class="o">[</span>IMAGE_ID<span class="o">]</span> --property <span class="nv">hw_mem_page_size</span><span class="o">=</span>small
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Explicitly requesting any page size will still result in a NUMA topology
+being applied to the instance, as described earlier in this document.</p>
+</div>
+<p>For more information about image metadata, refer to the <a class="reference external" href="http://docs.openstack.org/image-guide/image-metadata.html">Image metadata</a>
+guide.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="compute-cpu-topologies.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: CPU topologies"></i></a>
+          
+          
+            <a href="support-compute.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Troubleshoot Compute"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="compute.html">Compute</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compute-arch.html">System architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-images-instances.html">Images and instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-networking-nova.html">Networking with nova-network</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="compute-system-admin.html">System administration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support-compute.html">Troubleshoot Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compute-huge-pages" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Huge pages in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-huge-pages.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:00:34 GMT -->
+</html>

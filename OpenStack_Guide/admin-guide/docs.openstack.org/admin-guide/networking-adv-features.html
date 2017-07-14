@@ -1,0 +1,1425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/networking-adv-features.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:04:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Advanced features through API extensions</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Advanced features through API extensions</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="networking-use.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Use Networking"></i></a>
+    
+    
+    <a href="networking-adv-operational-features.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Advanced operational features"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Advanced features through API extensions</a><ul>
+<li><a class="reference internal" href="#provider-networks">Provider networks</a><ul>
+<li><a class="reference internal" href="#terminology">Terminology</a></li>
+<li><a class="reference internal" href="#provider-attributes">Provider attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#l3-routing-and-nat">L3 routing and NAT</a><ul>
+<li><a class="reference internal" href="#basic-l3-operations">Basic L3 operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#security-groups">Security groups</a><ul>
+<li><a class="reference internal" href="#basic-security-group-operations">Basic security group operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#basic-load-balancer-as-a-service-operations">Basic Load-Balancer-as-a-Service operations</a></li>
+<li><a class="reference internal" href="#plug-in-specific-extensions">Plug-in specific extensions</a><ul>
+<li><a class="reference internal" href="#vmware-nsx-extensions">VMware NSX extensions</a><ul>
+<li><a class="reference internal" href="#vmware-nsx-qos-extension">VMware NSX QoS extension</a><ul>
+<li><a class="reference internal" href="#basic-vmware-nsx-qos-operations">Basic VMware NSX QoS operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vmware-nsx-provider-networks-extension">VMware NSX provider networks extension</a></li>
+<li><a class="reference internal" href="#vmware-nsx-l3-extension">VMware NSX L3 extension</a><ul>
+<li><a class="reference internal" href="#vmware-nsx-l3-extension-operations">VMware NSX L3 extension operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#operational-status-synchronization-in-the-vmware-nsx-plug-in">Operational status synchronization in the VMware NSX plug-in</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#big-switch-plug-in-extensions">Big Switch plug-in extensions</a><ul>
+<li><a class="reference internal" href="#big-switch-router-rules">Big Switch router rules</a><ul>
+<li><a class="reference internal" href="#router-rule-attributes">Router rule attributes</a></li>
+<li><a class="reference internal" href="#order-of-rule-processing">Order of rule processing</a></li>
+<li><a class="reference internal" href="#big-switch-router-rules-operations">Big Switch router rules operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#l3-metering">L3 metering</a><ul>
+<li><a class="reference internal" href="#basic-l3-metering-operations">Basic L3 metering operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="advanced-features-through-api-extensions">
+<span id="networking-adv-features"></span><h1>Advanced features through API extensions<a class="headerlink" href="#advanced-features-through-api-extensions" title="Permalink to this headline">¶</a></h1>
+<p>Several plug-ins implement API extensions that provide capabilities
+similar to what was available in <code class="docutils literal"><span class="pre">nova-network</span></code>. These plug-ins are likely
+to be of interest to the OpenStack community.</p>
+<div class="section" id="provider-networks">
+<h2>Provider networks<a class="headerlink" href="#provider-networks" title="Permalink to this headline">¶</a></h2>
+<p>Networks can be categorized as either project networks or provider
+networks. Project networks are created by normal users and details about
+how they are physically realized are hidden from those users. Provider
+networks are created with administrative credentials, specifying the
+details of how the network is physically realized, usually to match some
+existing network in the data center.</p>
+<p>Provider networks enable administrators to create networks that map
+directly to the physical networks in the data center.
+This is commonly used to give projects direct access to a public network
+that can be used to reach the Internet. It might also be used to
+integrate with VLANs in the network that already have a defined meaning
+(for example, enable a VM from the marketing department to be placed
+on the same VLAN as bare-metal marketing hosts in the same data center).</p>
+<p>The provider extension allows administrators to explicitly manage the
+relationship between Networking virtual networks and underlying physical
+mechanisms such as VLANs and tunnels. When this extension is supported,
+Networking client users with administrative privileges see additional
+provider attributes on all virtual networks and are able to specify
+these attributes in order to create provider networks.</p>
+<p>The provider extension is supported by the Open vSwitch and Linux Bridge
+plug-ins. Configuration of these plug-ins requires familiarity with this
+extension.</p>
+<div class="section" id="terminology">
+<h3>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h3>
+<p>A number of terms are used in the provider extension and in the
+configuration of plug-ins supporting the provider extension:</p>
+<p><strong>Provider extension terminology</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>virtual network</strong></td>
+<td>A Networking L2 network (identified by a UUID and
+optional name) whose ports can be attached as vNICs
+to Compute instances and to various Networking
+agents. The Open vSwitch and Linux Bridge plug-ins
+each support several different mechanisms to
+realize virtual networks.</td>
+</tr>
+<tr class="row-odd"><td><strong>physical network</strong></td>
+<td>A network connecting virtualization hosts (such as
+compute nodes) with each other and with other
+network resources. Each physical network might
+support multiple virtual networks. The provider
+extension and the plug-in configurations identify
+physical networks using simple string names.</td>
+</tr>
+<tr class="row-even"><td><strong>project network</strong></td>
+<td>A virtual network that a project or an administrator
+creates. The physical details of the network are not
+exposed to the project.</td>
+</tr>
+<tr class="row-odd"><td><strong>provider network</strong></td>
+<td>A virtual network administratively created to map to
+a specific network in the data center, typically to
+enable direct access to non-OpenStack resources on
+that network. Project can be given access to
+provider networks.</td>
+</tr>
+<tr class="row-even"><td><strong>VLAN network</strong></td>
+<td>A virtual network implemented as packets on a
+specific physical network containing IEEE 802.1Q
+headers with a specific VID field value. VLAN
+networks sharing the same physical network are
+isolated from each other at L2 and can even have
+overlapping IP address spaces. Each distinct
+physical network supporting VLAN networks is
+treated as a separate VLAN trunk, with a distinct
+space of VID values. Valid VID values are 1
+through 4094.</td>
+</tr>
+<tr class="row-odd"><td><strong>flat network</strong></td>
+<td>A virtual network implemented as packets on a
+specific physical network containing no IEEE 802.1Q
+header. Each physical network can realize at most
+one flat network.</td>
+</tr>
+<tr class="row-even"><td><strong>local network</strong></td>
+<td>A virtual network that allows communication within
+each host, but not across a network. Local networks
+are intended mainly for single-node test scenarios,
+but can have other uses.</td>
+</tr>
+<tr class="row-odd"><td><strong>GRE network</strong></td>
+<td>A virtual network implemented as network packets
+encapsulated using GRE. GRE networks are also
+referred to as <em>tunnels</em>. GRE tunnel packets are
+routed by the IP routing table for the host, so
+GRE networks are not associated by Networking with
+specific physical networks.</td>
+</tr>
+<tr class="row-even"><td><strong>Virtual Extensible
+LAN (VXLAN) network</strong></td>
+<td>VXLAN is a proposed encapsulation protocol for
+running an overlay network on existing Layer 3
+infrastructure. An overlay network is a virtual
+network that is built on top of existing network
+Layer 2 and Layer 3 technologies to support elastic
+compute architectures.</td>
+</tr>
+</tbody>
+</table>
+<p>The ML2, Open vSwitch, and Linux Bridge plug-ins support VLAN networks,
+flat networks, and local networks. Only the ML2 and Open vSwitch
+plug-ins currently support GRE and VXLAN networks, provided that the
+required features exist in the hosts Linux kernel, Open vSwitch, and
+iproute2 packages.</p>
+</div>
+<div class="section" id="provider-attributes">
+<h3>Provider attributes<a class="headerlink" href="#provider-attributes" title="Permalink to this headline">¶</a></h3>
+<p>The provider extension extends the Networking network resource with
+these attributes:</p>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text"><strong>Provider network attributes</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute name</th>
+<th class="head">Type</th>
+<th class="head">Default Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>provider: network_type</td>
+<td>String</td>
+<td>N/A</td>
+<td>The physical mechanism by which the virtual network is implemented.
+Possible values are <code class="docutils literal"><span class="pre">flat</span></code>, <code class="docutils literal"><span class="pre">vlan</span></code>, <code class="docutils literal"><span class="pre">local</span></code>, <code class="docutils literal"><span class="pre">gre</span></code>, and
+<code class="docutils literal"><span class="pre">vxlan</span></code>, corresponding to flat networks, VLAN networks, local
+networks, GRE networks, and VXLAN networks as defined above.
+All types of provider networks can be created by administrators,
+while project networks can be implemented as <code class="docutils literal"><span class="pre">vlan</span></code>, <code class="docutils literal"><span class="pre">gre</span></code>,
+<code class="docutils literal"><span class="pre">vxlan</span></code>, or <code class="docutils literal"><span class="pre">local</span></code> network types depending on plug-in
+configuration.</td>
+</tr>
+<tr class="row-odd"><td>provider: physical_network</td>
+<td>String</td>
+<td>If a physical network named &#8220;default&#8221; has been configured and
+if provider:network_type is <code class="docutils literal"><span class="pre">flat</span></code> or <code class="docutils literal"><span class="pre">vlan</span></code>, then &#8220;default&#8221;
+is used.</td>
+<td>The name of the physical network over which the virtual network
+is implemented for flat and VLAN networks. Not applicable to the
+<code class="docutils literal"><span class="pre">local</span></code> or <code class="docutils literal"><span class="pre">gre</span></code> network types.</td>
+</tr>
+<tr class="row-even"><td>provider:segmentation_id</td>
+<td>Integer</td>
+<td>N/A</td>
+<td>For VLAN networks, the VLAN VID on the physical network that
+realizes the virtual network. Valid VLAN VIDs are 1 through 4094.
+For GRE networks, the tunnel ID. Valid tunnel IDs are any 32 bit
+unsigned integer. Not applicable to the <code class="docutils literal"><span class="pre">flat</span></code> or <code class="docutils literal"><span class="pre">local</span></code>
+network types.</td>
+</tr>
+</tbody>
+</table>
+<p>To view or set provider extended attributes, a client must be authorized
+for the <code class="docutils literal"><span class="pre">extension:provider_network:view</span></code> and
+<code class="docutils literal"><span class="pre">extension:provider_network:set</span></code> actions in the Networking policy
+configuration. The default Networking configuration authorizes both
+actions for users with the admin role. An authorized client or an
+administrative user can view and set the provider extended attributes
+through Networking API calls. See the section called
+<a class="reference internal" href="networking-auth.html#authentication-and-authorization"><span>Authentication and authorization</span></a> for details on policy configuration.</p>
+</div>
+</div>
+<div class="section" id="l3-routing-and-nat">
+<span id="id1"></span><h2>L3 routing and NAT<a class="headerlink" href="#l3-routing-and-nat" title="Permalink to this headline">¶</a></h2>
+<p>The Networking API provides abstract L2 network segments that are
+decoupled from the technology used to implement the L2 network.
+Networking includes an API extension that provides abstract L3 routers
+that API users can dynamically provision and configure. These Networking
+routers can connect multiple L2 Networking networks and can also provide
+a gateway that connects one or more private L2 networks to a shared
+external network. For example, a public network for access to the
+Internet. See the <a class="reference external" href="http://docs.openstack.org/newton/config-reference/">OpenStack Configuration Reference</a> for details on common
+models of deploying Networking L3 routers.</p>
+<p>The L3 router provides basic NAT capabilities on gateway ports that
+uplink the router to external networks. This router SNATs all traffic by
+default and supports floating IPs, which creates a static one-to-one
+mapping from a public IP on the external network to a private IP on one
+of the other subnets attached to the router. This allows a project to
+selectively expose VMs on private networks to other hosts on the
+external network (and often to all hosts on the Internet). You can
+allocate and map floating IPs from one port to another, as needed.</p>
+<div class="section" id="basic-l3-operations">
+<h3>Basic L3 operations<a class="headerlink" href="#basic-l3-operations" title="Permalink to this headline">¶</a></h3>
+<p>External networks are visible to all users. However, the default policy
+settings enable only administrative users to create, update, and delete
+external networks.</p>
+<p>This table shows example neutron commands that enable you to complete
+basic L3 operations:</p>
+<table border="1" class="colwidths-given docutils" id="id3">
+<caption><span class="caption-text"><strong>Basic L3 Operations</strong></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="38%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Creates external networks.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network create public --external
+<span class="gp">$</span> openstack subnet create --network public --subnet-range 172.16.1.0/24 public-subnet
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Lists external networks.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network list --external
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Creates an internal-only router that connects to multiple L2 networks privately.</td>
+<td><div class="first highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network create net1
+<span class="gp">$</span> openstack subnet create --network net1 --subnet-range 10.0.0.0/24 subnet1
+<span class="gp">$</span> openstack network create net2
+<span class="gp">$</span> openstack subnet create --network net2 --subnet-range 10.0.1.0/24 subnet2
+<span class="gp">$</span> openstack router create router1
+<span class="gp">$</span> openstack router add subnet router1 SUBNET1_UUID
+<span class="gp">$</span> openstack router add subnet router1 SUBNET2_UUID
+</pre></div>
+</div>
+<p class="last">An internal router port can have only one IPv4 subnet and multiple IPv6 subnets
+that belong to the same network ID. When you call <code class="docutils literal"><span class="pre">router-interface-add</span></code> with an IPv6
+subnet, this operation adds the interface to an existing internal port with the same
+network ID. If a port with the same network ID does not exist, a new port is created.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Connects a router to an external network, which enables that router to
+act as a NAT gateway for external connectivity.</td>
+<td><div class="first highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron router-gateway-set router1 EXT_NET_ID
+</pre></div>
+</div>
+<p class="last">The router obtains an interface with the gateway_ip address of the
+subnet and this interface is attached to a port on the L2 Networking
+network associated with the subnet. The router also gets a gateway
+interface to the specified external network. This provides SNAT
+connectivity to the external network as well as support for floating
+IPs allocated on that external networks. Commonly an external network
+maps to a network in the provider.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Lists routers.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router list
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Shows information for a specified router.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router show ROUTER_ID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Shows all internal interfaces for a router.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack port list --router  ROUTER_ID
+<span class="gp">$</span> openstack port list --router  ROUTER_NAME
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Identifies the PORT_ID that represents the VM NIC to which the floating
+IP should map.</td>
+<td><div class="first highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack port list -c ID -c <span class="s2">&quot;Fixed IP Addresses&quot;</span> --server INSTANCE_ID
+</pre></div>
+</div>
+<p class="last">This port must be on a Networking subnet that is attached to
+a router uplinked to the external network used to create the floating
+IP. Conceptually, this is because the router must be able to perform the
+Destination NAT (DNAT) rewriting of packets from the floating IP address
+(chosen from a subnet on the external network) to the internal fixed
+IP (chosen from a private subnet that is behind the router).</p>
+</td>
+</tr>
+<tr class="row-even"><td>Creates a floating IP address and associates it with a port.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip create EXT_NET_ID
+<span class="gp">$</span> openstack floating ip add port FLOATING_IP_ID --port-id INTERNAL_VM_PORT_ID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Creates a floating IP on a specific subnet in the external network.</td>
+<td><div class="first highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip create EXT_NET_ID --subnet SUBNET_ID
+</pre></div>
+</div>
+<p class="last">If there are multiple subnets in the external network, you can choose a specific
+subnet based on quality and costs.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Creates a floating IP address and associates it with a port, in a single step.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip create --port INTERNAL_VM_PORT_ID EXT_NET_ID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Lists floating IPs</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip list
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Finds floating IP for a specified VM port.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip list --port INTERNAL_VM_PORT_ID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Disassociates a floating IP address.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip remove port FLOATING_IP_ID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Deletes the floating IP address.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip delete FLOATING_IP_ID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Clears the gateway.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router <span class="nb">unset</span> --external-gateway router1
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Removes the interfaces from the router.</td>
+<td><div class="first highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router remove subnet router1 SUBNET_ID
+</pre></div>
+</div>
+<p class="last">If this subnet ID is the last subnet on the port, this operation deletes the port itself.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Deletes the router.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router delete router1
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="security-groups">
+<h2>Security groups<a class="headerlink" href="#security-groups" title="Permalink to this headline">¶</a></h2>
+<p>Security groups and security group rules allow administrators and
+projects to specify the type of traffic and direction
+(ingress/egress) that is allowed to pass through a port. A security
+group is a container for security group rules.</p>
+<p>When a port is created in Networking it is associated with a security
+group. If a security group is not specified the port is associated with
+a &#8216;default&#8217; security group. By default, this group drops all ingress
+traffic and allows all egress. Rules can be added to this group in order
+to change the behavior.</p>
+<p>To use the Compute security group APIs or use Compute to orchestrate the
+creation of ports for instances on specific security groups, you must
+complete additional configuration. You must configure the
+<code class="docutils literal"><span class="pre">/etc/nova/nova.conf</span></code> file and set the <code class="docutils literal"><span class="pre">security_group_api=neutron</span></code>
+option on every node that runs nova-compute and nova-api. After you make
+this change, restart nova-api and nova-compute to pick up this change.
+Then, you can use both the Compute and OpenStack Network security group
+APIs at the same time.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>To use the Compute security group API with Networking, the
+Networking plug-in must implement the security group API. The
+following plug-ins currently implement this: ML2, Open vSwitch,
+Linux Bridge, NEC, and VMware NSX.</li>
+<li>You must configure the correct firewall driver in the
+<code class="docutils literal"><span class="pre">securitygroup</span></code> section of the plug-in/agent configuration
+file. Some plug-ins and agents, such as Linux Bridge Agent and
+Open vSwitch Agent, use the no-operation driver as the default,
+which results in non-working security groups.</li>
+<li>When using the security group API through Compute, security
+groups are applied to all ports on an instance. The reason for
+this is that Compute security group APIs are instances based and
+not port based as Networking.</li>
+</ul>
+</div>
+<div class="section" id="basic-security-group-operations">
+<h3>Basic security group operations<a class="headerlink" href="#basic-security-group-operations" title="Permalink to this headline">¶</a></h3>
+<p>This table shows example neutron commands that enable you to complete
+basic security group operations:</p>
+<table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-text"><strong>Basic security group operations</strong></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="38%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Creates a security group for our web servers.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group create webservers <span class="se">\</span>
+<span class="go"> --description &quot;security group for webservers&quot;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Lists security groups.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group list
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Creates a security group rule to allow port 80 ingress.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group rule create --ingress <span class="se">\</span>
+<span class="go">  --protocol tcp SECURITY_GROUP_UUID</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Lists security group rules.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group rule list
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Deletes a security group rule.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group rule delete SECURITY_GROUP_RULE_UUID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Deletes a security group.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group delete SECURITY_GROUP_UUID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Creates a port and associates two security groups.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack port create port1 --security-group SECURITY_GROUP_ID1 <span class="se">\</span>
+<span class="go">  --security-group SECURITY_GROUP_ID2 --network NETWORK_ID</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Removes security groups from a port.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack port <span class="nb">set</span> --no-security-group PORT_ID
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="basic-load-balancer-as-a-service-operations">
+<h2>Basic Load-Balancer-as-a-Service operations<a class="headerlink" href="#basic-load-balancer-as-a-service-operations" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Load-Balancer-as-a-Service (LBaaS) API provisions and configures
+load balancers. The reference implementation is based on the HAProxy
+software load balancer.</p>
+</div>
+<p>This list shows example neutron commands that enable you to complete
+basic LBaaS operations:</p>
+<ul>
+<li><p class="first">Creates a load balancer pool by using specific provider.</p>
+<p><code class="xref std std-option docutils literal"><span class="pre">--provider</span></code> is an optional argument. If not used, the pool is
+created with default provider for LBaaS service. You should configure
+the default provider in the <code class="docutils literal"><span class="pre">[service_providers]</span></code> section of the
+<code class="docutils literal"><span class="pre">neutron.conf</span></code> file. If no default provider is specified for LBaaS,
+the <code class="xref std std-option docutils literal"><span class="pre">--provider</span></code> parameter is required for pool creation.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron lb-pool-create --lb-method ROUND_ROBIN --name mypool <span class="se">\</span>
+<span class="go">  --protocol HTTP --subnet-id SUBNET_UUID --provider PROVIDER_NAME</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Associates two web servers with pool.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron lb-member-create --address  WEBSERVER1_IP --protocol-port <span class="m">80</span> mypool
+<span class="gp">$</span> neutron lb-member-create --address  WEBSERVER2_IP --protocol-port <span class="m">80</span> mypool
+</pre></div>
+</div>
+</li>
+<li><p class="first">Creates a health monitor that checks to make sure our instances are
+still running on the specified protocol-port.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron lb-healthmonitor-create --delay <span class="m">3</span> --type HTTP --max-retries <span class="m">3</span> <span class="se">\</span>
+<span class="go">  --timeout 3</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Associates a health monitor with pool.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron lb-healthmonitor-associate  HEALTHMONITOR_UUID mypool
+</pre></div>
+</div>
+</li>
+<li><p class="first">Creates a virtual IP (VIP) address that, when accessed through the
+load balancer, directs the requests to one of the pool members.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron lb-vip-create --name myvip --protocol-port <span class="m">80</span> --protocol <span class="se">\</span>
+<span class="go">  HTTP --subnet-id SUBNET_UUID mypool</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="plug-in-specific-extensions">
+<h2>Plug-in specific extensions<a class="headerlink" href="#plug-in-specific-extensions" title="Permalink to this headline">¶</a></h2>
+<p>Each vendor can choose to implement additional API extensions to the
+core API. This section describes the extensions for each plug-in.</p>
+<div class="section" id="vmware-nsx-extensions">
+<h3>VMware NSX extensions<a class="headerlink" href="#vmware-nsx-extensions" title="Permalink to this headline">¶</a></h3>
+<p>These sections explain NSX plug-in extensions.</p>
+<div class="section" id="vmware-nsx-qos-extension">
+<h4>VMware NSX QoS extension<a class="headerlink" href="#vmware-nsx-qos-extension" title="Permalink to this headline">¶</a></h4>
+<p>The VMware NSX QoS extension rate-limits network ports to guarantee a
+specific amount of bandwidth for each port. This extension, by default,
+is only accessible by a project with an admin role but is configurable
+through the <code class="docutils literal"><span class="pre">policy.json</span></code> file. To use this extension, create a queue
+and specify the min/max bandwidth rates (kbps) and optionally set the
+QoS Marking and DSCP value (if your network fabric uses these values to
+make forwarding decisions). Once created, you can associate a queue with
+a network. Then, when ports are created on that network they are
+automatically created and associated with the specific queue size that
+was associated with the network. Because one size queue for a every port
+on a network might not be optimal, a scaling factor from the nova flavor
+<code class="docutils literal"><span class="pre">rxtx_factor</span></code> is passed in from Compute when creating the port to scale
+the queue.</p>
+<p>Lastly, if you want to set a specific baseline QoS policy for the amount
+of bandwidth a single port can use (unless a network queue is specified
+with the network a port is created on) a default queue can be created in
+Networking which then causes ports created to be associated with a queue
+of that size times the rxtx scaling factor. Note that after a network or
+default queue is specified, queues are added to ports that are
+subsequently created but are not added to existing ports.</p>
+<div class="section" id="basic-vmware-nsx-qos-operations">
+<h5>Basic VMware NSX QoS operations<a class="headerlink" href="#basic-vmware-nsx-qos-operations" title="Permalink to this headline">¶</a></h5>
+<p>This table shows example neutron commands that enable you to complete
+basic queue operations:</p>
+<table border="1" class="colwidths-given docutils" id="id5">
+<caption><span class="caption-text"><strong>Basic VMware NSX QoS operations</strong></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="38%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Creates QoS queue (admin-only).</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron queue-create --min <span class="m">10</span> --max <span class="m">1000</span> myqueue
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Associates a queue with a network.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron net-create network --queue_id QUEUE_ID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Creates a default system queue.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron queue-create --default True --min <span class="m">10</span> --max <span class="m">2000</span> default
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Lists QoS queues.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron queue-list
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Deletes a QoS queue.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron queue-delete QUEUE_ID_OR_NAME
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="vmware-nsx-provider-networks-extension">
+<h4>VMware NSX provider networks extension<a class="headerlink" href="#vmware-nsx-provider-networks-extension" title="Permalink to this headline">¶</a></h4>
+<p>Provider networks can be implemented in different ways by the underlying
+NSX platform.</p>
+<p>The <em>FLAT</em> and <em>VLAN</em> network types use bridged transport connectors.
+These network types enable the attachment of large number of ports. To
+handle the increased scale, the NSX plug-in can back a single OpenStack
+Network with a chain of NSX logical switches. You can specify the
+maximum number of ports on each logical switch in this chain on the
+<code class="docutils literal"><span class="pre">max_lp_per_bridged_ls</span></code> parameter, which has a default value of 5,000.</p>
+<p>The recommended value for this parameter varies with the NSX version
+running in the back-end, as shown in the following table.</p>
+<p><strong>Recommended values for max_lp_per_bridged_ls</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">NSX version</th>
+<th class="head">Recommended Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>2.x</td>
+<td>64</td>
+</tr>
+<tr class="row-odd"><td>3.0.x</td>
+<td>5,000</td>
+</tr>
+<tr class="row-even"><td>3.1.x</td>
+<td>5,000</td>
+</tr>
+<tr class="row-odd"><td>3.2.x</td>
+<td>10,000</td>
+</tr>
+</tbody>
+</table>
+<p>In addition to these network types, the NSX plug-in also supports a
+special <em>l3_ext</em> network type, which maps external networks to specific
+NSX gateway services as discussed in the next section.</p>
+</div>
+<div class="section" id="vmware-nsx-l3-extension">
+<h4>VMware NSX L3 extension<a class="headerlink" href="#vmware-nsx-l3-extension" title="Permalink to this headline">¶</a></h4>
+<p>NSX exposes its L3 capabilities through gateway services which are
+usually configured out of band from OpenStack. To use NSX with L3
+capabilities, first create an L3 gateway service in the NSX Manager.
+Next, in <code class="docutils literal"><span class="pre">/etc/neutron/plugins/vmware/nsx.ini</span></code> set
+<code class="docutils literal"><span class="pre">default_l3_gw_service_uuid</span></code> to this value. By default, routers are
+mapped to this gateway service.</p>
+<div class="section" id="vmware-nsx-l3-extension-operations">
+<h5>VMware NSX L3 extension operations<a class="headerlink" href="#vmware-nsx-l3-extension-operations" title="Permalink to this headline">¶</a></h5>
+<p>Create external network and map it to a specific NSX gateway service:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network create public --external --provider-network-type l3_ext <span class="se">\</span>
+<span class="go">--provider-physical-network L3_GATEWAY_SERVICE_UUID</span>
+</pre></div>
+</div>
+<p>Terminate traffic on a specific VLAN from a NSX gateway service:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network create public --external --provider-network-type l3_ext <span class="se">\</span>
+<span class="go">--provider-physical-network L3_GATEWAY_SERVICE_UUID --provider-segment VLAN_ID</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="operational-status-synchronization-in-the-vmware-nsx-plug-in">
+<h4>Operational status synchronization in the VMware NSX plug-in<a class="headerlink" href="#operational-status-synchronization-in-the-vmware-nsx-plug-in" title="Permalink to this headline">¶</a></h4>
+<p>Starting with the Havana release, the VMware NSX plug-in provides an
+asynchronous mechanism for retrieving the operational status for neutron
+resources from the NSX back-end; this applies to <em>network</em>, <em>port</em>, and
+<em>router</em> resources.</p>
+<p>The back-end is polled periodically and the status for every resource is
+retrieved; then the status in the Networking database is updated only
+for the resources for which a status change occurred. As operational
+status is now retrieved asynchronously, performance for <code class="docutils literal"><span class="pre">GET</span></code>
+operations is consistently improved.</p>
+<p>Data to retrieve from the back-end are divided in chunks in order to
+avoid expensive API requests; this is achieved leveraging NSX APIs
+response paging capabilities. The minimum chunk size can be specified
+using a configuration option; the actual chunk size is then determined
+dynamically according to: total number of resources to retrieve,
+interval between two synchronization task runs, minimum delay between
+two subsequent requests to the NSX back-end.</p>
+<p>The operational status synchronization can be tuned or disabled using
+the configuration options reported in this table; it is however worth
+noting that the default values work fine in most cases.</p>
+<table border="1" class="colwidths-given docutils" id="id6">
+<caption><span class="caption-text"><strong>Configuration options for tuning operational status synchronization in the NSX plug-in</strong></span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="47%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option name</th>
+<th class="head">Group</th>
+<th class="head">Default value</th>
+<th class="head">Type and constraints</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">state_sync_interval</span></code></td>
+<td><code class="docutils literal"><span class="pre">nsx_sync</span></code></td>
+<td>10 seconds</td>
+<td>Integer; no constraint.</td>
+<td>Interval in seconds between two run of the synchronization task. If the
+synchronization task takes more than <code class="docutils literal"><span class="pre">state_sync_interval</span></code> seconds to
+execute, a new instance of the task is started as soon as the other is
+completed. Setting the value for this option to 0 will disable the
+synchronization task.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_random_sync_delay</span></code></td>
+<td><code class="docutils literal"><span class="pre">nsx_sync</span></code></td>
+<td>0 seconds</td>
+<td>Integer. Must not exceed <code class="docutils literal"><span class="pre">min_sync_req_delay</span></code></td>
+<td>When different from zero, a random delay between 0 and
+<code class="docutils literal"><span class="pre">max_random_sync_delay</span></code> will be added before processing the next
+chunk.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">min_sync_req_delay</span></code></td>
+<td><code class="docutils literal"><span class="pre">nsx_sync</span></code></td>
+<td>1 second</td>
+<td>Integer. Must not exceed <code class="docutils literal"><span class="pre">state_sync_interval</span></code>.</td>
+<td>The value of this option can be tuned according to the observed
+load on the NSX controllers. Lower values will result in faster
+synchronization, but might increase the load on the controller cluster.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">min_chunk_size</span></code></td>
+<td><code class="docutils literal"><span class="pre">nsx_sync</span></code></td>
+<td>500 resources</td>
+<td>Integer; no constraint.</td>
+<td>Minimum number of resources to retrieve from the back-end for each
+synchronization chunk. The expected number of synchronization chunks
+is given by the ratio between <code class="docutils literal"><span class="pre">state_sync_interval</span></code> and
+<code class="docutils literal"><span class="pre">min_sync_req_delay</span></code>. This size of a chunk might increase if the
+total number of resources is such that more than <code class="docutils literal"><span class="pre">min_chunk_size</span></code>
+resources must be fetched in one chunk with the current number of
+chunks.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">always_read_status</span></code></td>
+<td><code class="docutils literal"><span class="pre">nsx_sync</span></code></td>
+<td>False</td>
+<td>Boolean; no constraint.</td>
+<td>When this option is enabled, the operational status will always be
+retrieved from the NSX back-end ad every <code class="docutils literal"><span class="pre">GET</span></code> request. In this
+case it is advisable to disable the synchronization task.</td>
+</tr>
+</tbody>
+</table>
+<p>When running multiple OpenStack Networking server instances, the status
+synchronization task should not run on every node; doing so sends
+unnecessary traffic to the NSX back-end and performs unnecessary DB
+operations. Set the <code class="docutils literal"><span class="pre">state_sync_interval</span></code> configuration option to a
+non-zero value exclusively on a node designated for back-end status
+synchronization.</p>
+<p>The <code class="docutils literal"><span class="pre">fields=status</span></code> parameter in Networking API requests always
+triggers an explicit query to the NSX back end, even when you enable
+asynchronous state synchronization. For example, <code class="docutils literal"><span class="pre">GET</span>
+<span class="pre">/v2.0/networks/NET_ID?fields=status&amp;fields=name</span></code>.</p>
+</div>
+</div>
+<div class="section" id="big-switch-plug-in-extensions">
+<h3>Big Switch plug-in extensions<a class="headerlink" href="#big-switch-plug-in-extensions" title="Permalink to this headline">¶</a></h3>
+<p>This section explains the Big Switch neutron plug-in-specific extension.</p>
+<div class="section" id="big-switch-router-rules">
+<h4>Big Switch router rules<a class="headerlink" href="#big-switch-router-rules" title="Permalink to this headline">¶</a></h4>
+<p>Big Switch allows router rules to be added to each project router. These
+rules can be used to enforce routing policies such as denying traffic
+between subnets or traffic to external networks. By enforcing these at
+the router level, network segmentation policies can be enforced across
+many VMs that have differing security groups.</p>
+<div class="section" id="router-rule-attributes">
+<h5>Router rule attributes<a class="headerlink" href="#router-rule-attributes" title="Permalink to this headline">¶</a></h5>
+<p>Each project router has a set of router rules associated with it. Each
+router rule has the attributes in this table. Router rules and their
+attributes can be set using the <strong class="command">neutron router-update</strong> command,
+through the horizon interface or the Networking API.</p>
+<table border="1" class="colwidths-given docutils" id="id7">
+<caption><span class="caption-text"><strong>Big Switch Router rule attributes</strong></span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Attribute name</th>
+<th class="head">Required</th>
+<th class="head">Input type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>source</td>
+<td>Yes</td>
+<td>A valid CIDR or one of the keywords &#8216;any&#8217; or &#8216;external&#8217;</td>
+<td>The network that a packet&#8217;s source IP must match for the
+rule to be applied.</td>
+</tr>
+<tr class="row-odd"><td>destination</td>
+<td>Yes</td>
+<td>A valid CIDR or one of the keywords &#8216;any&#8217; or &#8216;external&#8217;</td>
+<td>The network that a packet&#8217;s destination IP must match for the rule to
+be applied.</td>
+</tr>
+<tr class="row-even"><td>action</td>
+<td>Yes</td>
+<td>&#8216;permit&#8217; or &#8216;deny&#8217;</td>
+<td>Determines whether or not the matched packets will allowed to cross the
+router.</td>
+</tr>
+<tr class="row-odd"><td>nexthop</td>
+<td>No</td>
+<td>A plus-separated (+) list of next-hop IP addresses. For example,
+<code class="docutils literal"><span class="pre">1.1.1.1+1.1.1.2</span></code>.</td>
+<td>Overrides the default virtual router used to handle traffic for packets
+that match the rule.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="order-of-rule-processing">
+<h5>Order of rule processing<a class="headerlink" href="#order-of-rule-processing" title="Permalink to this headline">¶</a></h5>
+<p>The order of router rules has no effect. Overlapping rules are evaluated
+using longest prefix matching on the source and destination fields. The
+source field is matched first so it always takes higher precedence over
+the destination field. In other words, longest prefix matching is used
+on the destination field only if there are multiple matching rules with
+the same source.</p>
+</div>
+<div class="section" id="big-switch-router-rules-operations">
+<h5>Big Switch router rules operations<a class="headerlink" href="#big-switch-router-rules-operations" title="Permalink to this headline">¶</a></h5>
+<p>Router rules are configured with a router update operation in OpenStack
+Networking. The update overrides any previous rules so all rules must be
+provided at the same time.</p>
+<p>Update a router with rules to permit traffic by default but block
+traffic from external networks to the 10.10.10.0/24 subnet:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron router-update ROUTER_UUID --router_rules <span class="nv">type</span><span class="o">=</span>dict <span class="nv">list</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+<span class="go">  source=any,destination=any,action=permit \</span>
+<span class="go">  source=external,destination=10.10.10.0/24,action=deny</span>
+</pre></div>
+</div>
+<p>Specify alternate next-hop addresses for a specific subnet:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron router-update ROUTER_UUID --router_rules <span class="nv">type</span><span class="o">=</span>dict <span class="nv">list</span><span class="o">=</span><span class="nb">true</span>  <span class="se">\</span>
+<span class="go">  source=any,destination=any,action=permit \</span>
+<span class="go">  source=10.10.10.0/24,destination=any,action=permit,nexthops=10.10.10.254+10.10.10.253</span>
+</pre></div>
+</div>
+<p>Block traffic between two subnets while allowing everything else:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron router-update ROUTER_UUID --router_rules <span class="nv">type</span><span class="o">=</span>dict <span class="nv">list</span><span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+<span class="go">  source=any,destination=any,action=permit \</span>
+<span class="go">  source=10.10.10.0/24,destination=10.20.20.20/24,action=deny</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="l3-metering">
+<h2>L3 metering<a class="headerlink" href="#l3-metering" title="Permalink to this headline">¶</a></h2>
+<p>The L3 metering API extension enables administrators to configure IP
+ranges and assign a specified label to them to be able to measure
+traffic that goes through a virtual router.</p>
+<p>The L3 metering extension is decoupled from the technology that
+implements the measurement. Two abstractions have been added: One is the
+metering label that can contain metering rules. Because a metering label
+is associated with a project, all virtual routers in this project are
+associated with this label.</p>
+<div class="section" id="basic-l3-metering-operations">
+<h3>Basic L3 metering operations<a class="headerlink" href="#basic-l3-metering-operations" title="Permalink to this headline">¶</a></h3>
+<p>Only administrators can manage the L3 metering labels and rules.</p>
+<p>This table shows example <strong class="command">neutron</strong> commands that enable you to
+complete basic L3 metering operations:</p>
+<table border="1" class="colwidths-given docutils" id="id8">
+<caption><span class="caption-text"><strong>Basic L3 operations</strong></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Creates a metering label.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label create LABEL1 <span class="se">\</span>
+<span class="go">  --description &quot;DESCRIPTION_LABEL1&quot;</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Lists metering labels.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label list
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Shows information for a specified label.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label show LABEL_UUID
+<span class="gp">$</span> openstack network meter label show LABEL1
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Deletes a metering label.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label delete LABEL_UUID
+<span class="gp">$</span> openstack network meter label delete LABEL1
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Creates a metering rule.</td>
+<td><div class="first highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label rule create LABEL_UUID <span class="se">\</span>
+<span class="go">  --remote-ip-prefix CIDR \</span>
+<span class="go">  --direction DIRECTION --exclude</span>
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label rule create label1 <span class="se">\</span>
+<span class="go">  --remote-ip-prefix 10.0.0.0/24 --direction ingress</span>
+<span class="gp">$</span> openstack network meter label rule create label1 <span class="se">\</span>
+<span class="go">  --remote-ip-prefix 20.0.0.0/24 --exclude</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Lists metering all label rules.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label rule list
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Shows information for a specified label rule.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label rule show RULE_UUID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>Deletes a metering label rule.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network meter label rule delete RULE_UUID
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>Lists the value of created metering label rules.</td>
+<td><div class="first last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ceilometer sample-list -m bandwidth -q <span class="nv">resource</span><span class="o">=</span>LABEL_UUID
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="networking-use.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Use Networking"></i></a>
+          
+          
+            <a href="networking-adv-operational-features.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Advanced operational features"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="networking.html">Networking</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="networking-introduction.html">Introduction to Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-arch.html">Networking architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-config-plugins.html">Plug-in configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-config-agents.html">Configure neutron agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-config-identity.html">Configure Identity service for Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-adv-config.html">Advanced configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-multi-dhcp-agents.html">Scalable and highly available DHCP agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-use.html">Use Networking</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Advanced features through API extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-adv-operational-features.html">Advanced operational features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-auth.html">Authentication and authorization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "networking-adv-features" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Advanced features through API extensions in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/networking-adv-features.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:04:45 GMT -->
+</html>

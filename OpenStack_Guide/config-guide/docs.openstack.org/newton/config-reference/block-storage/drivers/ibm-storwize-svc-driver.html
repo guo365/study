@@ -1,0 +1,1145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/ibm-storwize-svc-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: IBM Storwize family and SVC volume driver</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>IBM Storwize family and SVC volume driver</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="ibm-gpfs-volume-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: IBM GPFS volume driver"></i></a>
+    
+    
+    <a href="ibm-storage-volume-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: IBM Storage volume driver"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">IBM Storwize family and SVC volume driver</a><ul>
+<li><a class="reference internal" href="#supported-operations">Supported operations</a></li>
+<li><a class="reference internal" href="#configure-the-storwize-family-and-svc-system">Configure the Storwize family and SVC system</a><ul>
+<li><a class="reference internal" href="#network-configuration">Network configuration</a></li>
+<li><a class="reference internal" href="#iscsi-chap-authentication">iSCSI CHAP authentication</a></li>
+<li><a class="reference internal" href="#configure-storage-pools">Configure storage pools</a></li>
+<li><a class="reference internal" href="#configure-user-authentication-for-the-driver">Configure user authentication for the driver</a></li>
+<li><a class="reference internal" href="#create-a-ssh-key-pair-with-openssh">Create a SSH key pair with OpenSSH</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configure-the-storwize-family-and-svc-driver">Configure the Storwize family and SVC driver</a><ul>
+<li><a class="reference internal" href="#enable-the-storwize-family-and-svc-driver">Enable the Storwize family and SVC driver</a></li>
+<li><a class="reference internal" href="#replication-configuration">Replication configuration</a></li>
+<li><a class="reference internal" href="#storwize-family-and-svc-driver-options-in-cinder-conf">Storwize family and SVC driver options in cinder.conf</a></li>
+<li><a class="reference internal" href="#placement-with-volume-types">Placement with volume types</a></li>
+<li><a class="reference internal" href="#configure-per-volume-creation-options">Configure per-volume creation options</a></li>
+<li><a class="reference internal" href="#example-volume-types">Example: Volume types</a></li>
+<li><a class="reference internal" href="#qos">QOS</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#operational-notes-for-the-storwize-family-and-svc-driver">Operational notes for the Storwize family and SVC driver</a><ul>
+<li><a class="reference internal" href="#migrate-volumes">Migrate volumes</a></li>
+<li><a class="reference internal" href="#extend-volumes">Extend volumes</a></li>
+<li><a class="reference internal" href="#snapshots-and-clones">Snapshots and clones</a></li>
+<li><a class="reference internal" href="#volume-retype">Volume retype</a></li>
+<li><a class="reference internal" href="#replication-operation">Replication operation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="ibm-storwize-family-and-svc-volume-driver">
+<h1>IBM Storwize family and SVC volume driver<a class="headerlink" href="#ibm-storwize-family-and-svc-volume-driver" title="Permalink to this headline">¶</a></h1>
+<p>The volume management driver for Storwize family and SAN Volume
+Controller (SVC) provides OpenStack Compute instances with access to IBM
+Storwize family or SVC storage systems.</p>
+<div class="section" id="supported-operations">
+<h2>Supported operations<a class="headerlink" href="#supported-operations" title="Permalink to this headline">¶</a></h2>
+<p>Storwize/SVC driver supports the following Block Storage service volume
+operations:</p>
+<ul class="simple">
+<li>Create, list, delete, attach (map), and detach (unmap) volumes</li>
+<li>Create, list, and delete volume snapshots</li>
+<li>Copy an image to a volume</li>
+<li>Copy a volume to an image</li>
+<li>Clone a volume</li>
+<li>Extend a volume</li>
+<li>Retype a volume</li>
+<li>Create a volume from a snapshot</li>
+<li>Create, list, and delete consistency group</li>
+<li>Create, list, and delete consistency group snapshot</li>
+<li>Modify consistency group (add/remove volumes)</li>
+<li>Create consistency group from source (source can be a CG or CG snapshot)</li>
+<li>Manage an existing volume</li>
+<li>Failover-host for replicated back ends</li>
+<li>Failback-host for replicated back ends</li>
+</ul>
+</div>
+<div class="section" id="configure-the-storwize-family-and-svc-system">
+<h2>Configure the Storwize family and SVC system<a class="headerlink" href="#configure-the-storwize-family-and-svc-system" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="network-configuration">
+<h3>Network configuration<a class="headerlink" href="#network-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The Storwize family or SVC system must be configured for iSCSI, Fibre
+Channel, or both.</p>
+<p>If using iSCSI, each Storwize family or SVC node should have at least
+one iSCSI IP address. The IBM Storwize/SVC driver uses an iSCSI IP
+address associated with the volume&#8217;s preferred node (if available) to
+attach the volume to the instance, otherwise it uses the first available
+iSCSI IP address of the system. The driver obtains the iSCSI IP address
+directly from the storage system. You do not need to provide these iSCSI
+IP addresses directly to the driver.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If using iSCSI, ensure that the compute nodes have iSCSI network
+access to the Storwize family or SVC system.</p>
+</div>
+<p>If using Fibre Channel (FC), each Storwize family or SVC node should
+have at least one WWPN port configured. The driver uses all available
+WWPNs to attach the volume to the instance. The driver obtains the
+WWPNs directly from the storage system. You do not need to provide
+these WWPNs directly to the driver.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If using FC, ensure that the compute nodes have FC connectivity to
+the Storwize family or SVC system.</p>
+</div>
+</div>
+<div class="section" id="iscsi-chap-authentication">
+<h3>iSCSI CHAP authentication<a class="headerlink" href="#iscsi-chap-authentication" title="Permalink to this headline">¶</a></h3>
+<p>If using iSCSI for data access and the
+<code class="docutils literal"><span class="pre">storwize_svc_iscsi_chap_enabled</span></code> is set to <code class="docutils literal"><span class="pre">True</span></code>, the driver will
+associate randomly-generated CHAP secrets with all hosts on the Storwize
+family system. The compute nodes use these secrets when creating
+iSCSI connections.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">CHAP secrets are added to existing hosts as well as newly-created
+ones. If the CHAP option is enabled, hosts will not be able to
+access the storage without the generated secrets.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Not all OpenStack Compute drivers support CHAP authentication.
+Please check compatibility before using.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CHAP secrets are passed from OpenStack Block Storage to Compute in
+clear text. This communication should be secured to ensure that CHAP
+secrets are not discovered.</p>
+</div>
+</div>
+<div class="section" id="configure-storage-pools">
+<h3>Configure storage pools<a class="headerlink" href="#configure-storage-pools" title="Permalink to this headline">¶</a></h3>
+<p>The IBM Storwize/SVC driver can allocate volumes in multiple pools.
+The pools should be created in advance and be provided to the driver
+using the <code class="docutils literal"><span class="pre">storwize_svc_volpool_name</span></code> configuration flag in the form
+of a comma-separated list.
+For the complete list of configuration flags, see <a class="reference internal" href="#config-flags"><span>Storwize family and SVC driver options in cinder.conf</span></a>.</p>
+</div>
+<div class="section" id="configure-user-authentication-for-the-driver">
+<h3>Configure user authentication for the driver<a class="headerlink" href="#configure-user-authentication-for-the-driver" title="Permalink to this headline">¶</a></h3>
+<p>The driver requires access to the Storwize family or SVC system
+management interface. The driver communicates with the management using
+SSH. The driver should be provided with the Storwize family or SVC
+management IP using the <code class="docutils literal"><span class="pre">san_ip</span></code> flag, and the management port should
+be provided by the <code class="docutils literal"><span class="pre">san_ssh_port</span></code> flag. By default, the port value is
+configured to be port 22 (SSH). Also, you can set the secondary
+management IP using the <code class="docutils literal"><span class="pre">storwize_san_secondary_ip</span></code> flag.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure the compute node running the cinder-volume management
+driver has SSH network access to the storage system.</p>
+</div>
+<p>To allow the driver to communicate with the Storwize family or SVC
+system, you must provide the driver with a user on the storage system.
+The driver has two authentication methods: password-based authentication
+and SSH key pair authentication. The user should have an Administrator
+role. It is suggested to create a new user for the management driver.
+Please consult with your storage and security administrator regarding
+the preferred authentication method and how passwords or SSH keys should
+be stored in a secure manner.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When creating a new user on the Storwize or SVC system, make sure
+the user belongs to the Administrator group or to another group that
+has an Administrator role.</p>
+</div>
+<p>If using password authentication, assign a password to the user on the
+Storwize or SVC system. The driver configuration flags for the user and
+password are <code class="docutils literal"><span class="pre">san_login</span></code> and <code class="docutils literal"><span class="pre">san_password</span></code>, respectively.</p>
+<p>If you are using the SSH key pair authentication, create SSH private and
+public keys using the instructions below or by any other method.
+Associate the public key with the user by uploading the public key:
+select the <span class="guilabel">choose file</span> option in the Storwize family or SVC
+management GUI under <span class="guilabel">SSH public key</span>. Alternatively, you may
+associate the SSH public key using the command-line interface; details can
+be found in the Storwize and SVC documentation. The private key should be
+provided to the driver using the <code class="docutils literal"><span class="pre">san_private_key</span></code> configuration flag.</p>
+</div>
+<div class="section" id="create-a-ssh-key-pair-with-openssh">
+<h3>Create a SSH key pair with OpenSSH<a class="headerlink" href="#create-a-ssh-key-pair-with-openssh" title="Permalink to this headline">¶</a></h3>
+<p>You can create an SSH key pair using OpenSSH, by running:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ssh-keygen -t rsa
+</pre></div>
+</div>
+<p>The command prompts for a file to save the key pair. For example, if you
+select <code class="docutils literal"><span class="pre">key</span></code> as the filename, two files are created: <code class="docutils literal"><span class="pre">key</span></code> and
+<code class="docutils literal"><span class="pre">key.pub</span></code>. The <code class="docutils literal"><span class="pre">key</span></code> file holds the private SSH key and <code class="docutils literal"><span class="pre">key.pub</span></code>
+holds the public SSH key.</p>
+<p>The command also prompts for a pass phrase, which should be empty.</p>
+<p>The private key file should be provided to the driver using the
+<code class="docutils literal"><span class="pre">san_private_key</span></code> configuration flag. The public key should be
+uploaded to the Storwize family or SVC system using the storage
+management GUI or command-line interface.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Ensure that Cinder has read permissions on the private key file.</p>
+</div>
+</div>
+</div>
+<div class="section" id="configure-the-storwize-family-and-svc-driver">
+<h2>Configure the Storwize family and SVC driver<a class="headerlink" href="#configure-the-storwize-family-and-svc-driver" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="enable-the-storwize-family-and-svc-driver">
+<h3>Enable the Storwize family and SVC driver<a class="headerlink" href="#enable-the-storwize-family-and-svc-driver" title="Permalink to this headline">¶</a></h3>
+<p>Set the volume driver to the Storwize family and SVC driver by setting
+the <code class="docutils literal"><span class="pre">volume_driver</span></code> option in the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file as follows:</p>
+<p>iSCSI:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[svc1234]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.ibm.storwize_svc.storwize_svc_iscsi.StorwizeSVCISCSIDriver</span>
+<span class="na">san_ip</span> <span class="o">=</span> <span class="s">1.2.3.4</span>
+<span class="na">san_login</span> <span class="o">=</span> <span class="s">superuser</span>
+<span class="na">san_password</span> <span class="o">=</span> <span class="s">passw0rd</span>
+<span class="na">storwize_svc_volpool_name</span> <span class="o">=</span> <span class="s">cinder_pool1</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">svc1234</span>
+</pre></div>
+</div>
+<p>FC:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[svc1234]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.ibm.storwize_svc.storwize_svc_fc.StorwizeSVCFCDriver</span>
+<span class="na">san_ip</span> <span class="o">=</span> <span class="s">1.2.3.4</span>
+<span class="na">san_login</span> <span class="o">=</span> <span class="s">superuser</span>
+<span class="na">san_password</span> <span class="o">=</span> <span class="s">passw0rd</span>
+<span class="na">storwize_svc_volpool_name</span> <span class="o">=</span> <span class="s">cinder_pool1</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">svc1234</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="replication-configuration">
+<h3>Replication configuration<a class="headerlink" href="#replication-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Add the following to the back-end specification to specify another storage
+to replicate to:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">replication_device</span> <span class="o">=</span> <span class="s">backend_id:rep_svc,</span>
+<span class="s">                     san_ip:1.2.3.5,</span>
+<span class="s">                     san_login:superuser,</span>
+<span class="s">                     san_password:passw0rd,</span>
+<span class="s">                     pool_name:cinder_pool1</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">backend_id</span></code> is a unique name of the remote storage, the <code class="docutils literal"><span class="pre">san_ip</span></code>,
+<code class="docutils literal"><span class="pre">san_login</span></code>, and <code class="docutils literal"><span class="pre">san_password</span></code> is authentication information for the
+remote storage. The <code class="docutils literal"><span class="pre">pool_name</span></code> is the pool name for the replication
+target volume.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only one <code class="docutils literal"><span class="pre">replication_device</span></code> can be configured for one back end
+storage since only one replication target is supported now.</p>
+</div>
+</div>
+<div class="section" id="storwize-family-and-svc-driver-options-in-cinder-conf">
+<span id="config-flags"></span><h3>Storwize family and SVC driver options in cinder.conf<a class="headerlink" href="#storwize-family-and-svc-driver-options-in-cinder-conf" title="Permalink to this headline">¶</a></h3>
+<p>The following options specify default values for all volumes. Some can
+be over-ridden using volume types, which are described below.</p>
+<table border="1" class="docutils" id="id19">
+<caption><span class="caption-text">List of configuration flags for Storwize storage and SVC driver</span><a class="headerlink" href="#id19" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Flag name</th>
+<th class="head">Type</th>
+<th class="head">Default</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">san_ip</span></code></td>
+<td>Required</td>
+<td>&nbsp;</td>
+<td>Management IP or host name</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">san_ssh_port</span></code></td>
+<td>Optional</td>
+<td>22</td>
+<td>Management port</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">san_login</span></code></td>
+<td>Required</td>
+<td>&nbsp;</td>
+<td>Management login username</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">san_password</span></code></td>
+<td>Required <a class="footnote-reference" href="#id10" id="id1">[1]</a></td>
+<td>&nbsp;</td>
+<td>Management login password</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">san_private_key</span></code></td>
+<td>Required</td>
+<td>&nbsp;</td>
+<td>Management login SSH private key</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_volpool_name</span></code></td>
+<td>Required</td>
+<td>&nbsp;</td>
+<td>Default pool name for volumes</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_rsize</span></code></td>
+<td>Optional</td>
+<td>2</td>
+<td>Initial physical allocation (percentage)  <a class="footnote-reference" href="#id11" id="id2">[2]</a></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_warning</span></code></td>
+<td>Optional</td>
+<td>0 (disabled)</td>
+<td>Space allocation warning threshold (percentage)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_autoexpand</span></code></td>
+<td>Optional</td>
+<td>True</td>
+<td>Enable or disable volume auto expand  <a class="footnote-reference" href="#id12" id="id3">[3]</a></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_grainsize</span></code></td>
+<td>Optional</td>
+<td>256</td>
+<td>Volume grain size in KB</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_compression</span></code></td>
+<td>Optional</td>
+<td>False</td>
+<td>Enable or disable Real-time Compression  <a class="footnote-reference" href="#id13" id="id4">[4]</a></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_easytier</span></code></td>
+<td>Optional</td>
+<td>True</td>
+<td>Enable or disable Easy Tier  <a class="footnote-reference" href="#id14" id="id5">[5]</a></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_iogrp</span></code></td>
+<td>Optional</td>
+<td>0</td>
+<td>The I/O group in which to allocate vdisks</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_flashcopy_timeout</span></code></td>
+<td>Optional</td>
+<td>120</td>
+<td>FlashCopy timeout threshold  <a class="footnote-reference" href="#id15" id="id6">[6]</a> (seconds)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_iscsi_chap_enabled</span></code></td>
+<td>Optional</td>
+<td>True</td>
+<td>Configure CHAP authentication for iSCSI connections</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_multihost_enabled</span></code></td>
+<td>Optional</td>
+<td>True</td>
+<td>Enable mapping vdisks to multiple hosts  <a class="footnote-reference" href="#id16" id="id7">[7]</a></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_nofmtdisk</span></code></td>
+<td>Optional</td>
+<td>False</td>
+<td>Enable or disable fast format  <a class="footnote-reference" href="#id17" id="id8">[8]</a></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code></td>
+<td>Optional</td>
+<td>20.0</td>
+<td>The ratio of oversubscription when thin provisioned
+volumes are involved  <a class="footnote-reference" href="#id18" id="id9">[9]</a></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>The authentication requires either a password (<code class="docutils literal"><span class="pre">san_password</span></code>) or
+SSH private key (<code class="docutils literal"><span class="pre">san_private_key</span></code>). One must be specified. If both
+are specified, the driver uses only the SSH private key.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>The driver creates thin-provisioned volumes by default. The
+<code class="docutils literal"><span class="pre">storwize_svc_vol_rsize</span></code> flag defines the initial physical
+allocation percentage for thin-provisioned volumes, or if set to
+<code class="docutils literal"><span class="pre">-1</span></code>, the driver creates full allocated volumes. More details about
+the available options are available in the Storwize family and SVC
+documentation.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td>Defines whether thin-provisioned volumes can be auto expanded by the
+storage system, a value of <code class="docutils literal"><span class="pre">True</span></code> means that auto expansion is
+enabled, a value of <code class="docutils literal"><span class="pre">False</span></code> disables auto expansion. Details about
+this option can be found in the <code class="docutils literal"><span class="pre">–autoexpand</span></code> flag of the Storwize
+family and SVC command line interface <code class="docutils literal"><span class="pre">mkvdisk</span></code> command.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Defines whether Real-time Compression is used for the volumes created
+with OpenStack. Details on Real-time Compression can be found in the
+Storwize family and SVC documentation. The Storwize or SVC system
+must have compression enabled for this feature to work.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td>Defines whether Easy Tier is used for the volumes created with
+OpenStack. Details on EasyTier can be found in the Storwize family
+and SVC documentation. The Storwize or SVC system must have Easy Tier
+enabled for this feature to work.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[6]</a></td><td>The driver wait timeout threshold when creating an OpenStack
+snapshot. This is actually the maximum amount of time that the driver
+waits for the Storwize family or SVC system to prepare a new
+FlashCopy mapping. The driver accepts a maximum wait time of 600
+seconds (10 minutes).</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>This option allows the driver to map a vdisk to more than one host at
+a time. This scenario occurs during migration of a virtual machine
+with an attached volume; the volume is simultaneously mapped to both
+the source and destination compute hosts. If your deployment does not
+require attaching vdisks to multiple hosts, setting this flag to
+<code class="docutils literal"><span class="pre">False</span></code> will provide added safety.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id17" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[8]</a></td><td>Defines whether or not the fast formatting of thick-provisioned
+volumes is disabled at creation. The default value is <code class="docutils literal"><span class="pre">False</span></code> and a
+value of <code class="docutils literal"><span class="pre">True</span></code> means that fast format is disabled. Details about
+this option can be found in the <code class="docutils literal"><span class="pre">–nofmtdisk</span></code> flag of the Storwize
+family and SVC command-line interface <strong class="command">mkvdisk</strong> command.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id18" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id9">[9]</a></td><td>This option allows that the sum of all volume&#8217;s provisioned capacity to
+be larger than the pool’s total capacity. The default value is 20.0,
+which means that the provisioned capacity can be 20 times of the total
+physical capacity.</td></tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id20">
+<span id="cinder-storwize"></span><caption><span class="caption-text">Description of IBM Storwise driver configuration options</span><a class="headerlink" href="#id20" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_san_secondary_ip</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) Specifies secondary management IP or hostname to be used if san_ip is invalid or becomes inaccessible.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_allow_tenant_qos</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Allow tenants to specify QOS on create</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_flashcopy_rate</span></code> = <code class="docutils literal"><span class="pre">50</span></code></td>
+<td>(Integer) Specifies the Storwize FlashCopy copy rate to be used when creating a full volume copy. The default is rate is 50, and the valid rates are 1-100.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_flashcopy_timeout</span></code> = <code class="docutils literal"><span class="pre">120</span></code></td>
+<td>(Integer) Maximum number of seconds to wait for FlashCopy to be prepared.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_iscsi_chap_enabled</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>(Boolean) Configure CHAP authentication for iSCSI connections (Default: Enabled)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_multihostmap_enabled</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>(Boolean) DEPRECATED: This option no longer has any affect. It is deprecated and will be removed in the next release.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_multipath_enabled</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Connect with multipath (FC only; iSCSI multipath is controlled by Nova)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_stretched_cluster_partner</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) If operating in stretched cluster mode, specify the name of the pool in which mirrored copies are stored.Example: &#8220;pool2&#8221;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_autoexpand</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>(Boolean) Storage system autoexpand parameter for volumes (True/False)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_compression</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Storage system compression option for volumes</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_easytier</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>(Boolean) Enable Easy Tier for volumes</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_grainsize</span></code> = <code class="docutils literal"><span class="pre">256</span></code></td>
+<td>(Integer) Storage system grain size parameter for volumes (32/64/128/256)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_iogrp</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>(Integer) The I/O group in which to allocate volumes</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_nofmtdisk</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Specifies that the volume not be formatted during creation.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_rsize</span></code> = <code class="docutils literal"><span class="pre">2</span></code></td>
+<td>(Integer) Storage system space-efficiency parameter for volumes (percentage)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storwize_svc_vol_warning</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>(Integer) Storage system threshold for volume capacity warnings (percentage)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">storwize_svc_volpool_name</span></code> = <code class="docutils literal"><span class="pre">volpool</span></code></td>
+<td>(List) Comma separated list of storage system storage pools for volumes.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="placement-with-volume-types">
+<h3>Placement with volume types<a class="headerlink" href="#placement-with-volume-types" title="Permalink to this headline">¶</a></h3>
+<p>The IBM Storwize/SVC driver exposes capabilities that can be added to
+the <code class="docutils literal"><span class="pre">extra</span> <span class="pre">specs</span></code> of volume types, and used by the filter
+scheduler to determine placement of new volumes. Make sure to prefix
+these keys with <code class="docutils literal"><span class="pre">capabilities:</span></code> to indicate that the scheduler should
+use them. The following <code class="docutils literal"><span class="pre">extra</span> <span class="pre">specs</span></code> are supported:</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">capabilities:volume_back-end_name</span></code> - Specify a specific back-end
+where the volume should be created. The back-end name is a
+concatenation of the name of the IBM Storwize/SVC storage system as
+shown in <code class="docutils literal"><span class="pre">lssystem</span></code>, an underscore, and the name of the pool (mdisk
+group). For example:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">capabilities:volume_back-end_name</span><span class="o">=</span><span class="s">myV7000_openstackpool</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">capabilities:compression_support</span></code> - Specify a back-end according to
+compression support. A value of <code class="docutils literal"><span class="pre">True</span></code> should be used to request a
+back-end that supports compression, and a value of <code class="docutils literal"><span class="pre">False</span></code> will
+request a back-end that does not support compression. If you do not
+have constraints on compression support, do not set this key. Note
+that specifying <code class="docutils literal"><span class="pre">True</span></code> does not enable compression; it only
+requests that the volume be placed on a back-end that supports
+compression. Example syntax:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">capabilities:compression_support</span><span class="o">=</span><span class="s">&#39;&lt;is&gt; True&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">capabilities:easytier_support</span></code> - Similar semantics as the
+<code class="docutils literal"><span class="pre">compression_support</span></code> key, but for specifying according to support
+of the Easy Tier feature. Example syntax:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">capabilities:easytier_support</span><span class="o">=</span><span class="s">&#39;&lt;is&gt; True&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">capabilities:storage_protocol</span></code> - Specifies the connection protocol
+used to attach volumes of this type to instances. Legal values are
+<code class="docutils literal"><span class="pre">iSCSI</span></code> and <code class="docutils literal"><span class="pre">FC</span></code>. This <code class="docutils literal"><span class="pre">extra</span> <span class="pre">specs</span></code> value is used for both placement
+and setting the protocol used for this volume. In the example syntax,
+note <code class="docutils literal"><span class="pre">&lt;in&gt;</span></code> is used as opposed to <code class="docutils literal"><span class="pre">&lt;is&gt;</span></code> which is used in the
+previous examples.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">capabilities:storage_protocol</span><span class="o">=</span><span class="s">&#39;&lt;in&gt; FC&#39;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="configure-per-volume-creation-options">
+<h3>Configure per-volume creation options<a class="headerlink" href="#configure-per-volume-creation-options" title="Permalink to this headline">¶</a></h3>
+<p>Volume types can also be used to pass options to the IBM Storwize/SVC
+driver, which over-ride the default values set in the configuration
+file. Contrary to the previous examples where the <code class="docutils literal"><span class="pre">capabilities</span></code> scope
+was used to pass parameters to the Cinder scheduler, options can be
+passed to the IBM Storwize/SVC driver with the <code class="docutils literal"><span class="pre">drivers</span></code> scope.</p>
+<p>The following <code class="docutils literal"><span class="pre">extra</span> <span class="pre">specs</span></code> keys are supported by the IBM Storwize/SVC
+driver:</p>
+<ul class="simple">
+<li>rsize</li>
+<li>warning</li>
+<li>autoexpand</li>
+<li>grainsize</li>
+<li>compression</li>
+<li>easytier</li>
+<li>multipath</li>
+<li>iogrp</li>
+</ul>
+<p>These keys have the same semantics as their counterparts in the
+configuration file. They are set similarly; for example, <code class="docutils literal"><span class="pre">rsize=2</span></code> or
+<code class="docutils literal"><span class="pre">compression=False</span></code>.</p>
+</div>
+<div class="section" id="example-volume-types">
+<h3>Example: Volume types<a class="headerlink" href="#example-volume-types" title="Permalink to this headline">¶</a></h3>
+<p>In the following example, we create a volume type to specify a
+controller that supports iSCSI and compression, to use iSCSI when
+attaching the volume, and to enable compression:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create compressed
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property capabilities:storage_protocol<span class="o">=</span><span class="s1">&#39;&lt;in&gt; iSCSI&#39;</span> capabilities:compression_support<span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> drivers:compression<span class="o">=</span>True
+</pre></div>
+</div>
+<p>We can then create a 50GB volume using this type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume create <span class="s2">&quot;compressed volume&quot;</span> --type compressed --size 50
+</pre></div>
+</div>
+<p>In the following example, create a volume type that enables
+synchronous replication (metro mirror):</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder type-create <span class="s2">&quot;ReplicationType&quot;</span>
+<span class="gp">$</span> cinder type-key <span class="s2">&quot;ReplicationType&quot;</span> <span class="nb">set</span> <span class="nv">replication_type</span><span class="o">=</span><span class="s1">&#39;&lt;in&gt; metro&#39;</span> <span class="nv">replication_enabled</span><span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> <span class="nv">volume_backend_name</span><span class="o">=</span>svc234
+</pre></div>
+</div>
+<p>Volume types can be used, for example, to provide users with different</p>
+<ul class="simple">
+<li>performance levels (such as, allocating entirely on an HDD tier,
+using Easy Tier for an HDD-SDD mix, or allocating entirely on an SSD
+tier)</li>
+<li>resiliency levels (such as, allocating volumes in pools with
+different RAID levels)</li>
+<li>features (such as, enabling/disabling Real-time Compression,
+replication volume creation)</li>
+</ul>
+</div>
+<div class="section" id="qos">
+<h3>QOS<a class="headerlink" href="#qos" title="Permalink to this headline">¶</a></h3>
+<p>The Storwize driver provides QOS support for storage volumes by
+controlling the I/O amount. QOS is enabled by editing the
+<code class="docutils literal"><span class="pre">etc/cinder/cinder.conf</span></code> file and setting the
+<code class="docutils literal"><span class="pre">storwize_svc_allow_tenant_qos</span></code> to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>There are three ways to set the Storwize <code class="docutils literal"><span class="pre">IOThrotting</span></code> parameter for
+storage volumes:</p>
+<ul class="simple">
+<li>Add the <code class="docutils literal"><span class="pre">qos:IOThrottling</span></code> key into a QOS specification and
+associate it with a volume type.</li>
+<li>Add the <code class="docutils literal"><span class="pre">qos:IOThrottling</span></code> key into an extra specification with a
+volume type.</li>
+<li>Add the <code class="docutils literal"><span class="pre">qos:IOThrottling</span></code> key to the storage volume metadata.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are changing a volume type with QOS to a new volume type
+without QOS, the QOS configuration settings will be removed.</p>
+</div>
+</div>
+</div>
+<div class="section" id="operational-notes-for-the-storwize-family-and-svc-driver">
+<h2>Operational notes for the Storwize family and SVC driver<a class="headerlink" href="#operational-notes-for-the-storwize-family-and-svc-driver" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="migrate-volumes">
+<h3>Migrate volumes<a class="headerlink" href="#migrate-volumes" title="Permalink to this headline">¶</a></h3>
+<p>In the context of OpenStack Block Storage&#8217;s volume migration feature,
+the IBM Storwize/SVC driver enables the storage&#8217;s virtualization
+technology. When migrating a volume from one pool to another, the volume
+will appear in the destination pool almost immediately, while the
+storage moves the data in the background.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To enable this feature, both pools involved in a given volume
+migration must have the same values for <code class="docutils literal"><span class="pre">extent_size</span></code>. If the
+pools have different values for <code class="docutils literal"><span class="pre">extent_size</span></code>, the data will still
+be moved directly between the pools (not host-side copy), but the
+operation will be synchronous.</p>
+</div>
+</div>
+<div class="section" id="extend-volumes">
+<h3>Extend volumes<a class="headerlink" href="#extend-volumes" title="Permalink to this headline">¶</a></h3>
+<p>The IBM Storwize/SVC driver allows for extending a volume&#8217;s size, but
+only for volumes without snapshots.</p>
+</div>
+<div class="section" id="snapshots-and-clones">
+<h3>Snapshots and clones<a class="headerlink" href="#snapshots-and-clones" title="Permalink to this headline">¶</a></h3>
+<p>Snapshots are implemented using FlashCopy with no background copy
+(space-efficient). Volume clones (volumes created from existing volumes)
+are implemented with FlashCopy, but with background copy enabled. This
+means that volume clones are independent, full copies. While this
+background copy is taking place, attempting to delete or extend the
+source volume will result in that operation waiting for the copy to
+complete.</p>
+</div>
+<div class="section" id="volume-retype">
+<h3>Volume retype<a class="headerlink" href="#volume-retype" title="Permalink to this headline">¶</a></h3>
+<p>The IBM Storwize/SVC driver enables you to modify volume types. When you
+modify volume types, you can also change these extra specs properties:</p>
+<ul class="simple">
+<li>rsize</li>
+<li>warning</li>
+<li>autoexpand</li>
+<li>grainsize</li>
+<li>compression</li>
+<li>easytier</li>
+<li>iogrp</li>
+<li>nofmtdisk</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When you change the <code class="docutils literal"><span class="pre">rsize</span></code>, <code class="docutils literal"><span class="pre">grainsize</span></code> or <code class="docutils literal"><span class="pre">compression</span></code>
+properties, volume copies are asynchronously synchronized on the
+array.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To change the <code class="docutils literal"><span class="pre">iogrp</span></code> property, IBM Storwize/SVC firmware version
+6.4.0 or later is required.</p>
+</div>
+</div>
+<div class="section" id="replication-operation">
+<h3>Replication operation<a class="headerlink" href="#replication-operation" title="Permalink to this headline">¶</a></h3>
+<p>A volume is only replicated if the volume is created with a volume-type
+that has the extra spec <code class="docutils literal"><span class="pre">replication_enabled</span></code> set to <code class="docutils literal"><span class="pre">&lt;is&gt;</span> <span class="pre">True</span></code>. Two
+types of replication are supported now, async (global mirror) and
+sync (metro mirror). It can be specified by a volume-type that has the
+extra spec <code class="docutils literal"><span class="pre">replication_type</span></code> set to <code class="docutils literal"><span class="pre">&lt;in&gt;</span> <span class="pre">global</span></code> or
+<code class="docutils literal"><span class="pre">replication_type</span></code> set to <code class="docutils literal"><span class="pre">&lt;in&gt;</span> <span class="pre">metro</span></code>. If no <code class="docutils literal"><span class="pre">replication_type</span></code> is
+specified, global mirror will be created for replication.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is better to establish the partnership relationship between
+the replication source storage and the replication target
+storage manually on the storage back end before replication
+volume creation.</p>
+</div>
+<p>The <code class="docutils literal"><span class="pre">failover-host</span></code> command is designed for the case where the primary
+storage is down.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder failover-host cinder@svciscsi --backend_id target_svc_id
+</pre></div>
+</div>
+<p>If a failover command has been executed and the primary storage has
+been restored, it is possible to do a failback by simply specifying
+default as the <code class="docutils literal"><span class="pre">backend_id</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder failover-host cinder@svciscsi --backend_id default
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Before you perform a failback operation, synchronize the data
+from the replication target volume to the primary one on the
+storage back end manually, and do the failback only after the
+synchronization is done since the synchronization may take a long time.
+If the synchronization is not done manually, Storwize Block Storage
+service driver will perform the synchronization and do the failback
+after the synchronization is finished.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="ibm-gpfs-volume-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: IBM GPFS volume driver"></i></a>
+          
+          
+            <a href="ibm-storage-volume-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: IBM Storage volume driver"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../block-storage.html">Block Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../block-storage-overview.html">Introduction to the Block Storage service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../volume-drivers.html">Volume drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backup-drivers.html">Backup drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../schedulers.html">Block Storage schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Log files used by Block Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fc-zoning.html">Fibre Channel Zone Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nested-quota.html">Nested quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../volume-encryption.html">Volume encryption supported by the key manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Block Storage service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/cinder.html">New, updated, and deprecated options in Newton for Block Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "block-storage/drivers/ibm-storwize-svc-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "IBM Storwize family and SVC volume driver in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/ibm-storwize-svc-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:54 GMT -->
+</html>

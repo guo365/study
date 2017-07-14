@@ -1,0 +1,1618 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/emc-vmax-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: EMC VMAX iSCSI and FC drivers</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>EMC VMAX iSCSI and FC drivers</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="emc-scaleio-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: EMC ScaleIO Block Storage driver configuration"></i></a>
+    
+    
+    <a href="emc-vnx-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: EMC VNX driver"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">EMC VMAX iSCSI and FC drivers</a><ul>
+<li><a class="reference internal" href="#system-requirements">System requirements</a></li>
+<li><a class="reference internal" href="#required-vmax-software-suites-for-openstack">Required VMAX software suites for OpenStack</a></li>
+<li><a class="reference internal" href="#elicensing-support">eLicensing support</a></li>
+<li><a class="reference internal" href="#supported-operations">Supported operations</a></li>
+<li><a class="reference internal" href="#setup-vmax-drivers">Setup VMAX drivers</a></li>
+<li><a class="reference internal" href="#fc-zoning-with-vmax">FC Zoning with VMAX</a></li>
+<li><a class="reference internal" href="#iscsi-with-vmax">iSCSI with VMAX</a></li>
+<li><a class="reference internal" href="#vmax-masking-view-and-group-naming-info">VMAX masking view and group naming info</a><ul>
+<li><a class="reference internal" href="#masking-view-names">Masking view names</a></li>
+<li><a class="reference internal" href="#initiator-group-names">Initiator group names</a></li>
+<li><a class="reference internal" href="#fa-port-groups">FA port groups</a></li>
+<li><a class="reference internal" href="#storage-group-names">Storage group names</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vmax2-concatenated-or-striped-volumes">VMAX2 concatenated or striped volumes</a></li>
+<li><a class="reference internal" href="#ssl-support">SSL support</a></li>
+<li><a class="reference internal" href="#oversubscription-support">Oversubscription support</a><ul>
+<li><a class="reference internal" href="#scenario-1">Scenario 1</a></li>
+<li><a class="reference internal" href="#scenario-2">Scenario 2</a></li>
+<li><a class="reference internal" href="#scenario-3">Scenario 3</a></li>
+<li><a class="reference internal" href="#scenario-4">Scenario 4</a></li>
+<li><a class="reference internal" href="#scenario-5">Scenario 5</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#qos-quality-of-service-support">QoS (Quality of Service) support</a><ul>
+<li><a class="reference internal" href="#use-case-1-default-values">USE CASE 1 - Default values</a></li>
+<li><a class="reference internal" href="#use-case-2-preset-limits">USE CASE 2 - Preset limits</a></li>
+<li><a class="reference internal" href="#use-case-3-preset-limits">USE CASE 3 - Preset limits</a></li>
+<li><a class="reference internal" href="#use-case-4-preset-limits">USE CASE 4 - Preset limits</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#iscsi-multipathing-support">iSCSI multipathing support</a><ul>
+<li><a class="reference internal" href="#multipath-configuration-file">Multipath configuration file</a></li>
+<li><a class="reference internal" href="#openstack-configurations">OpenStack configurations</a></li>
+<li><a class="reference internal" href="#verify-you-have-multiple-initiators-available-on-the-compute-node-for-i-o">Verify you have multiple initiators available on the compute node for I/O</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#consistency-group-support">Consistency group support</a><ul>
+<li><a class="reference internal" href="#operations">Operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#workload-planner-wlp">Workload Planner (WLP)</a><ul>
+<li><a class="reference internal" href="#enabling-wlp-on-unisphere">Enabling WLP on Unisphere</a></li>
+<li><a class="reference internal" href="#using-testsmiprovider-to-add-statistics-access-point">Using TestSmiProvider to add statistics access point</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="emc-vmax-iscsi-and-fc-drivers">
+<h1>EMC VMAX iSCSI and FC drivers<a class="headerlink" href="#emc-vmax-iscsi-and-fc-drivers" title="Permalink to this headline">¶</a></h1>
+<p>The EMC VMAX drivers, <code class="docutils literal"><span class="pre">EMCVMAXISCSIDriver</span></code> and <code class="docutils literal"><span class="pre">EMCVMAXFCDriver</span></code>, support
+the use of EMC VMAX storage arrays with Block Storage. They both provide
+equivalent functions and differ only in support for their respective host
+attachment methods.</p>
+<p>The drivers perform volume operations by communicating with the back-end VMAX
+storage. It uses a CIM client in Python called <code class="docutils literal"><span class="pre">PyWBEM</span></code> to perform CIM
+operations over HTTP.</p>
+<p>The EMC CIM Object Manager (ECOM) is packaged with the EMC SMI-S provider. It
+is a CIM server that enables CIM clients to perform CIM operations over HTTP by
+using SMI-S in the back end for VMAX storage operations.</p>
+<p>The EMC SMI-S Provider supports the SNIA Storage Management Initiative (SMI),
+an ANSI standard for storage management. It supports the VMAX storage system.</p>
+<div class="section" id="system-requirements">
+<h2>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<p>The Cinder driver supports both VMAX-2 and VMAX-3 series.</p>
+<p>For VMAX-2 series, SMI-S version V4.6.2.29 (Solutions Enabler 7.6.2.67)
+or Solutions Enabler 8.1.2 is required.</p>
+<p>For VMAX-3 series, Solutions Enabler 8.3.0.1 or later is required. This
+is SSL only. Refer to section below <code class="docutils literal"><span class="pre">SSL</span> <span class="pre">support</span></code>.</p>
+<p>When installing Solutions Enabler, make sure you explicitly add the SMI-S
+component.</p>
+<p>You can download SMI-S from the EMC&#8217;s support web site (login is required).
+See the EMC SMI-S Provider release notes for installation instructions.</p>
+<p>Ensure that there is only one SMI-S (ECOM) server active on the same VMAX
+array.</p>
+</div>
+<div class="section" id="required-vmax-software-suites-for-openstack">
+<h2>Required VMAX software suites for OpenStack<a class="headerlink" href="#required-vmax-software-suites-for-openstack" title="Permalink to this headline">¶</a></h2>
+<p>There are five Software Suites available for the VMAX All Flash and Hybrid:</p>
+<ul class="simple">
+<li>Base Suite</li>
+<li>Advanced Suite</li>
+<li>Local Replication Suite</li>
+<li>Remote Replication Suite</li>
+<li>Total Productivity Pack</li>
+</ul>
+<p>Openstack requires the Advanced Suite and the Local Replication Suite
+or the Total Productivity Pack (it includes the Advanced Suite and the
+Local Replication Suite) for the VMAX All Flash and Hybrid.</p>
+<p>There are four bundled Software Suites for the VMAX2:</p>
+<ul class="simple">
+<li>Advanced Software Suite</li>
+<li>Base Software Suite</li>
+<li>Enginuity Suite</li>
+<li>Symmetrix Management Suite</li>
+</ul>
+<p>OpenStack requires the Advanced Software Bundle for the VMAX2.</p>
+<p>or</p>
+<p>The VMAX2 Optional Software are:</p>
+<ul class="simple">
+<li>EMC Storage Analytics (ESA)</li>
+<li>FAST VP</li>
+<li>Ionix ControlCenter and ProSphere Package</li>
+<li>Open Replicator for Symmetrix</li>
+<li>PowerPath</li>
+<li>RecoverPoint EX</li>
+<li>SRDF for VMAX 10K</li>
+<li>Storage Configuration Advisor</li>
+<li>TimeFinder for VMAX10K</li>
+</ul>
+<p>OpenStack requires TimeFinder for VMAX10K for the VMAX2.</p>
+<p>Each are licensed separately. For further details on how to get the
+relevant license(s), reference eLicensing Support below.</p>
+</div>
+<div class="section" id="elicensing-support">
+<h2>eLicensing support<a class="headerlink" href="#elicensing-support" title="Permalink to this headline">¶</a></h2>
+<p>To activate your entitlements and obtain your VMAX license files, visit the
+Service Center on <a class="reference external" href="https://support.emc.com/">https://support.emc.com</a>, as directed on your License
+Authorization Code (LAC) letter emailed to you.</p>
+<ul>
+<li><p class="first">For help with missing or incorrect entitlements after activation
+(that is, expected functionality remains unavailable because it is not
+licensed), contact your EMC account representative or authorized reseller.</p>
+</li>
+<li><p class="first">For help with any errors applying license files through Solutions Enabler,
+contact the EMC Customer Support Center.</p>
+</li>
+<li><p class="first">If you are missing a LAC letter or require further instructions on
+activating your licenses through the Online Support site, contact EMC&#8217;s
+worldwide Licensing team at <code class="docutils literal"><span class="pre">licensing&#64;emc.com</span></code> or call:</p>
+<p>North America, Latin America, APJK, Australia, New Zealand: SVC4EMC
+(800-782-4362) and follow the voice prompts.</p>
+<p>EMEA: +353 (0) 21 4879862 and follow the voice prompts.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="supported-operations">
+<h2>Supported operations<a class="headerlink" href="#supported-operations" title="Permalink to this headline">¶</a></h2>
+<p>VMAX drivers support these operations:</p>
+<ul class="simple">
+<li>Create, list, delete, attach, and detach volumes</li>
+<li>Create, list, and delete volume snapshots</li>
+<li>Copy an image to a volume</li>
+<li>Copy a volume to an image</li>
+<li>Clone a volume</li>
+<li>Extend a volume</li>
+<li>Retype a volume (Host assisted volume migration only)</li>
+<li>Create a volume from a snapshot</li>
+<li>Create and delete consistency group</li>
+<li>Create and delete consistency group snapshot</li>
+<li>Modify consistency group (add/remove volumes)</li>
+<li>Create consistency group from source (source can only be a CG snapshot)</li>
+</ul>
+<p>VMAX drivers also support the following features:</p>
+<ul class="simple">
+<li>Dynamic masking view creation</li>
+<li>Dynamic determination of the target iSCSI IP address</li>
+<li>iSCSI multipath support</li>
+<li>Oversubscription</li>
+<li>Live Migration</li>
+</ul>
+<p>VMAX2:</p>
+<ul class="simple">
+<li>FAST automated storage tiering policy</li>
+<li>Striped volume creation</li>
+</ul>
+<p>VMAX All Flash and Hybrid:</p>
+<ul class="simple">
+<li>Service Level support</li>
+<li>SnapVX support</li>
+<li>All Flash support</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">VMAX All Flash array with Solutions Enabler 8.3.0.1 or later have
+compression enabled by default when associated with Diamond Service Level.
+This means volumes added to any newly created storage groups will be
+compressed.</p>
+</div>
+</div>
+<div class="section" id="setup-vmax-drivers">
+<h2>Setup VMAX drivers<a class="headerlink" href="#setup-vmax-drivers" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-text"><strong>Pywbem Versions</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="27%" />
+<col width="16%" />
+<col width="20%" />
+<col width="16%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Pywbem
+Version</th>
+<th class="head" colspan="4">Ubuntu14.04(LTS),Ubuntu16.04(LTS),
+Red Hat Enterprise Linux, CentOS
+and Fedora</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="2">&nbsp;</td>
+<td colspan="2">Python2</td>
+<td colspan="2">Python3</td>
+</tr>
+<tr class="row-odd"><td>pip</td>
+<td>Native</td>
+<td>pip</td>
+<td>Native</td>
+</tr>
+<tr class="row-even"><td>0.9.0</td>
+<td>No</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr class="row-odd"><td>0.8.4</td>
+<td>No</td>
+<td>N/A</td>
+<td>Yes</td>
+<td>N/A</td>
+</tr>
+<tr class="row-even"><td>0.7.0</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>On Python2, use the updated distro version, for example:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> apt-get install python-pywbem
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">On Python3, use the official pywbem version (V0.9.0 or v0.8.4).</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Install the <code class="docutils literal"><span class="pre">python-pywbem</span></code> package for your distribution.</p>
+<ul>
+<li><p class="first">On Ubuntu:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> apt-get install python-pywbem
+</pre></div>
+</div>
+</li>
+<li><p class="first">On openSUSE:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> zypper install python-pywbem
+</pre></div>
+</div>
+</li>
+<li><p class="first">On Red Hat Enterprise Linux, CentOS, and Fedora:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> yum install pywbem
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Install iSCSI Utilities (for iSCSI drivers only).</p>
+<ol class="arabic">
+<li><p class="first">Download and configure the Cinder node as an iSCSI initiator.</p>
+</li>
+<li><p class="first">Install the <code class="docutils literal"><span class="pre">open-iscsi</span></code> package.</p>
+<ul>
+<li><p class="first">On Ubuntu:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> apt-get install open-iscsi
+</pre></div>
+</div>
+</li>
+<li><p class="first">On openSUSE:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> zypper install open-iscsi
+</pre></div>
+</div>
+</li>
+<li><p class="first">On Red Hat Enterprise Linux, CentOS, and Fedora:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> yum install scsi-target-utils.x86_64
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Enable the iSCSI driver to start automatically.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">Download SMI-S from <code class="docutils literal"><span class="pre">support.emc.com</span></code> and install it. Add your VMAX arrays
+to SMI-S.</p>
+<p>You can install SMI-S on a non-OpenStack host. Supported platforms include
+different flavors of Windows, Red Hat, and SUSE Linux. SMI-S can be
+installed on a physical server or a VM hosted by an ESX server. Note that
+the supported hypervisor for a VM running SMI-S is ESX only. See the EMC
+SMI-S Provider release notes for more information on supported platforms and
+installation instructions.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You must discover storage arrays on the SMI-S server before you can use
+the VMAX drivers. Follow instructions in the SMI-S release notes.</p>
+</div>
+<p>SMI-S is usually installed at <code class="docutils literal"><span class="pre">/opt/emc/ECIM/ECOM/bin</span></code> on Linux and
+<code class="docutils literal"><span class="pre">C:\Program</span> <span class="pre">Files\EMC\ECIM\ECOM\bin</span></code> on Windows. After you install and
+configure SMI-S, go to that directory and type <code class="docutils literal"><span class="pre">TestSmiProvider.exe</span></code>
+for windows and <code class="docutils literal"><span class="pre">./TestSmiProvider</span></code> for linux</p>
+<p>Use <code class="docutils literal"><span class="pre">addsys</span></code> in <code class="docutils literal"><span class="pre">TestSmiProvider</span></code> to add an array. Use <code class="docutils literal"><span class="pre">dv</span></code> and
+examine the output after the array is added. Make sure that the arrays are
+recognized by the SMI-S server before using the EMC VMAX drivers.</p>
+</li>
+<li><p class="first">Configure Block Storage</p>
+<p>Add the following entries to <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">enabled_backends</span> <span class="o">=</span> <span class="s">CONF_GROUP_ISCSI, CONF_GROUP_FC</span>
+
+<span class="k">[CONF_GROUP_ISCSI]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.emc_vmax_iscsi.EMCVMAXISCSIDriver</span>
+<span class="na">cinder_emc_config_file</span> <span class="o">=</span> <span class="s">/etc/cinder/cinder_emc_config_CONF_GROUP_ISCSI.xml</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">ISCSI_backend</span>
+
+<span class="k">[CONF_GROUP_FC]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.emc_vmax_fc.EMCVMAXFCDriver</span>
+<span class="na">cinder_emc_config_file</span> <span class="o">=</span> <span class="s">/etc/cinder/cinder_emc_config_CONF_GROUP_FC.xml</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">FC_backend</span>
+</pre></div>
+</div>
+<p>In this example, two back-end configuration groups are enabled:
+<code class="docutils literal"><span class="pre">CONF_GROUP_ISCSI</span></code> and <code class="docutils literal"><span class="pre">CONF_GROUP_FC</span></code>. Each configuration group has a
+section describing unique parameters for connections, drivers, the
+<code class="docutils literal"><span class="pre">volume_backend_name</span></code>, and the name of the EMC-specific configuration file
+containing additional settings. Note that the file name is in the format
+<code class="docutils literal"><span class="pre">/etc/cinder/cinder_emc_config_[confGroup].xml</span></code>.</p>
+<p>Once the <code class="docutils literal"><span class="pre">cinder.conf</span></code> and EMC-specific configuration files have been
+created, <strong class="command">openstack</strong> commands need to be issued in order to create and
+associate OpenStack volume types with the declared <code class="docutils literal"><span class="pre">volume_backend_names</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create VMAX_ISCSI
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>ISCSI_backend VMAX_ISCSI
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create VMAX_FC
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>FC_backend VMAX_FC
+</pre></div>
+</div>
+<p>By issuing these commands, the Block Storage volume type <code class="docutils literal"><span class="pre">VMAX_ISCSI</span></code> is
+associated with the <code class="docutils literal"><span class="pre">ISCSI_backend</span></code>, and the type <code class="docutils literal"><span class="pre">VMAX_FC</span></code> is
+associated with the <code class="docutils literal"><span class="pre">FC_backend</span></code>.</p>
+<p>Create the <code class="docutils literal"><span class="pre">/etc/cinder/cinder_emc_config_CONF_GROUP_ISCSI.xml</span></code> file.
+You do not need to restart the service for this change.</p>
+<p>Add the following lines to the XML file:</p>
+<dl class="docutils">
+<dt>VMAX2</dt>
+<dd><div class="first last highlight-xml"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;EMC&gt;</span>
+  <span class="nt">&lt;EcomServerIp&gt;</span>1.1.1.1<span class="nt">&lt;/EcomServerIp&gt;</span>
+  <span class="nt">&lt;EcomServerPort&gt;</span>00<span class="nt">&lt;/EcomServerPort&gt;</span>
+  <span class="nt">&lt;EcomUserName&gt;</span>user1<span class="nt">&lt;/EcomUserName&gt;</span>
+  <span class="nt">&lt;EcomPassword&gt;</span>password1<span class="nt">&lt;/EcomPassword&gt;</span>
+  <span class="nt">&lt;PortGroups&gt;</span>
+    <span class="nt">&lt;PortGroup&gt;</span>OS-PORTGROUP1-PG<span class="nt">&lt;/PortGroup&gt;</span>
+    <span class="nt">&lt;PortGroup&gt;</span>OS-PORTGROUP2-PG<span class="nt">&lt;/PortGroup&gt;</span>
+  <span class="nt">&lt;/PortGroups&gt;</span>
+  <span class="nt">&lt;Array&gt;</span>111111111111<span class="nt">&lt;/Array&gt;</span>
+  <span class="nt">&lt;Pool&gt;</span>FC_GOLD1<span class="nt">&lt;/Pool&gt;</span>
+  <span class="nt">&lt;FastPolicy&gt;</span>GOLD1<span class="nt">&lt;/FastPolicy&gt;</span>
+<span class="nt">&lt;/EMC&gt;</span>
+</pre></div>
+</div>
+</dd>
+<dt>VMAX All Flash and Hybrid</dt>
+<dd><div class="first last highlight-xml"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;EMC&gt;</span>
+  <span class="nt">&lt;EcomServerIp&gt;</span>1.1.1.1<span class="nt">&lt;/EcomServerIp&gt;</span>
+  <span class="nt">&lt;EcomServerPort&gt;</span>00<span class="nt">&lt;/EcomServerPort&gt;</span>
+  <span class="nt">&lt;EcomUserName&gt;</span>user1<span class="nt">&lt;/EcomUserName&gt;</span>
+  <span class="nt">&lt;EcomPassword&gt;</span>password1<span class="nt">&lt;/EcomPassword&gt;</span>
+  <span class="nt">&lt;PortGroups&gt;</span>
+    <span class="nt">&lt;PortGroup&gt;</span>OS-PORTGROUP1-PG<span class="nt">&lt;/PortGroup&gt;</span>
+    <span class="nt">&lt;PortGroup&gt;</span>OS-PORTGROUP2-PG<span class="nt">&lt;/PortGroup&gt;</span>
+  <span class="nt">&lt;/PortGroups&gt;</span>
+  <span class="nt">&lt;Array&gt;</span>111111111111<span class="nt">&lt;/Array&gt;</span>
+  <span class="nt">&lt;Pool&gt;</span>SRP_1<span class="nt">&lt;/Pool&gt;</span>
+  <span class="nt">&lt;SLO&gt;</span>Diamond<span class="nt">&lt;/SLO&gt;</span>
+  <span class="nt">&lt;Workload&gt;</span>OLTP<span class="nt">&lt;/Workload&gt;</span>
+<span class="nt">&lt;/EMC&gt;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Where:</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">VMAX Hybrid supports Optimized, Diamond, Platinum, Gold, Silver, Bronze, and
+NONE service levels. VMAX All Flash supports Diamond and NONE. Both
+support DSS_REP, DSS, OLTP_REP, OLTP, and NONE workloads.</p>
+</div>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">EcomServerIp</span></code></dt>
+<dd>IP address of the ECOM server which is packaged with SMI-S.</dd>
+<dt><code class="docutils literal"><span class="pre">EcomServerPort</span></code></dt>
+<dd>Port number of the ECOM server which is packaged with SMI-S.</dd>
+<dt><code class="docutils literal"><span class="pre">EcomUserName</span></code> and <code class="docutils literal"><span class="pre">EcomPassword</span></code></dt>
+<dd>Cedentials for the ECOM server.</dd>
+<dt><code class="docutils literal"><span class="pre">PortGroups</span></code></dt>
+<dd>Supplies the names of VMAX port groups that have been pre-configured to
+expose volumes managed by this backend. Each supplied port group should
+have sufficient number and distribution of ports (across directors and
+switches) as to ensure adequate bandwidth and failure protection for the
+volume connections. PortGroups can contain one or more port groups of
+either iSCSI or FC ports. When a dynamic masking view is created by the
+VMAX driver, the port group is chosen randomly from the PortGroup list, to
+evenly distribute load across the set of groups provided. Make sure that
+the PortGroups set contains either all FC or all iSCSI port groups (for a
+given back end), as appropriate for the configured driver (iSCSI or FC).</dd>
+<dt><code class="docutils literal"><span class="pre">Array</span></code></dt>
+<dd>Unique VMAX array serial number.</dd>
+<dt><code class="docutils literal"><span class="pre">Pool</span></code></dt>
+<dd>Unique pool name within a given array. For back ends not using FAST
+automated tiering, the pool is a single pool that has been created by the
+administrator. For back ends exposing FAST policy automated tiering, the
+pool is the bind pool to be used with the FAST policy.</dd>
+<dt><code class="docutils literal"><span class="pre">FastPolicy</span></code></dt>
+<dd>VMAX2 only. Name of the FAST Policy to be used. By including this tag,
+volumes managed by this back end are treated as under FAST control.
+Omitting the <code class="docutils literal"><span class="pre">FastPolicy</span></code> tag means FAST is not enabled on the provided
+storage pool.</dd>
+<dt><code class="docutils literal"><span class="pre">SLO</span></code></dt>
+<dd>VMAX All Flash and Hybrid only. The Service Level Objective (SLO) that
+manages the underlying storage to provide expected performance. Omitting
+the <code class="docutils literal"><span class="pre">SLO</span></code> tag means that non FAST storage groups will be created instead
+(storage groups not associated with any service level).</dd>
+<dt><code class="docutils literal"><span class="pre">Workload</span></code></dt>
+<dd>VMAX All Flash and Hybrid only. When a workload type is added, the latency
+range is reduced due to the added information. Omitting the <code class="docutils literal"><span class="pre">Workload</span></code>
+tag means the latency range will be the widest for its SLO type.</dd>
+</dl>
+</div>
+<div class="section" id="fc-zoning-with-vmax">
+<h2>FC Zoning with VMAX<a class="headerlink" href="#fc-zoning-with-vmax" title="Permalink to this headline">¶</a></h2>
+<p>Zone Manager is required when there is a fabric between the host and array.
+This is necessary for larger configurations where pre-zoning would be too
+complex and open-zoning would raise security concerns.</p>
+</div>
+<div class="section" id="iscsi-with-vmax">
+<h2>iSCSI with VMAX<a class="headerlink" href="#iscsi-with-vmax" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Make sure the <code class="docutils literal"><span class="pre">iscsi-initiator-utils</span></code> package is installed on all Compute
+nodes.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can only ping the VMAX iSCSI target ports when there is a valid masking
+view. An attach operation creates this masking view.</p>
+</div>
+</div>
+<div class="section" id="vmax-masking-view-and-group-naming-info">
+<h2>VMAX masking view and group naming info<a class="headerlink" href="#vmax-masking-view-and-group-naming-info" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="masking-view-names">
+<h3>Masking view names<a class="headerlink" href="#masking-view-names" title="Permalink to this headline">¶</a></h3>
+<p>Masking views are dynamically created by the VMAX FC and iSCSI drivers using
+the following naming conventions. <code class="docutils literal"><span class="pre">[protocol]</span></code> is either <code class="docutils literal"><span class="pre">I</span></code> for volumes
+attached over iSCSI or <code class="docutils literal"><span class="pre">F</span></code> for volumes attached over Fiber Channel.</p>
+<p>VMAX2</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>OS-[shortHostName]-[poolName]-[protocol]-MV
+</pre></div>
+</div>
+<p>VMAX2 (where FAST policy is used)</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>OS-[shortHostName]-[fastPolicy]-[protocol]-MV
+</pre></div>
+</div>
+<p>VMAX All Flash and Hybrid</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>OS-[shortHostName]-[SRP]-[SLO]-[workload]-[protocol]-MV
+</pre></div>
+</div>
+</div>
+<div class="section" id="initiator-group-names">
+<h3>Initiator group names<a class="headerlink" href="#initiator-group-names" title="Permalink to this headline">¶</a></h3>
+<p>For each host that is attached to VMAX volumes using the drivers, an initiator
+group is created or re-used (per attachment type). All initiators of the
+appropriate type known for that host are included in the group. At each new
+attach volume operation, the VMAX driver retrieves the initiators (either WWNNs
+or IQNs) from OpenStack and adds or updates the contents of the Initiator Group
+as required. Names are of the following format. <code class="docutils literal"><span class="pre">[protocol]</span></code> is either <code class="docutils literal"><span class="pre">I</span></code>
+for volumes attached over iSCSI or <code class="docutils literal"><span class="pre">F</span></code> for volumes attached over Fiber
+Channel.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>OS-[shortHostName]-[protocol]-IG
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Hosts attaching to OpenStack managed VMAX storage cannot also attach to
+storage on the same VMAX that are not managed by OpenStack.</p>
+</div>
+</div>
+<div class="section" id="fa-port-groups">
+<h3>FA port groups<a class="headerlink" href="#fa-port-groups" title="Permalink to this headline">¶</a></h3>
+<p>VMAX array FA ports to be used in a new masking view are chosen from the list
+provided in the EMC configuration file.</p>
+</div>
+<div class="section" id="storage-group-names">
+<h3>Storage group names<a class="headerlink" href="#storage-group-names" title="Permalink to this headline">¶</a></h3>
+<p>As volumes are attached to a host, they are either added to an existing storage
+group (if it exists) or a new storage group is created and the volume is then
+added. Storage groups contain volumes created from a pool (either single-pool
+or FAST-controlled), attached to a single host, over a single connection type
+(iSCSI or FC). <code class="docutils literal"><span class="pre">[protocol]</span></code> is either <code class="docutils literal"><span class="pre">I</span></code> for volumes attached over iSCSI
+or <code class="docutils literal"><span class="pre">F</span></code> for volumes attached over Fiber Channel.</p>
+<p>VMAX2</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>OS-[shortHostName]-[poolName]-[protocol]-SG
+</pre></div>
+</div>
+<p>VMAX2 (where FAST policy is used)</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>OS-[shortHostName]-[fastPolicy]-[protocol]-SG
+</pre></div>
+</div>
+<p>VMAX All Flash and Hybrid</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>OS-[shortHostName]-[SRP]-[SLO]-[Workload]-[protocol]-SG
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="vmax2-concatenated-or-striped-volumes">
+<h2>VMAX2 concatenated or striped volumes<a class="headerlink" href="#vmax2-concatenated-or-striped-volumes" title="Permalink to this headline">¶</a></h2>
+<p>In order to support later expansion of created volumes, the VMAX Block Storage
+drivers create concatenated volumes as the default layout. If later expansion
+is not required, users can opt to create striped volumes in order to optimize
+I/O performance.</p>
+<p>Below is an example of how to create striped volumes. First, create a volume
+type. Then define the extra spec for the volume type
+<code class="docutils literal"><span class="pre">storagetype:stripecount</span></code> representing the number of meta members in the
+striped volume. The example below means that each volume created under the
+<code class="docutils literal"><span class="pre">GoldStriped</span></code> volume type will be striped and made up of 4 meta members.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create GoldStriped
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>GOLD_BACKEND GoldStriped
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property storagetype:stripecount<span class="o">=</span><span class="m">4</span> GoldStriped
+</pre></div>
+</div>
+</div>
+<div class="section" id="ssl-support">
+<h2>SSL support<a class="headerlink" href="#ssl-support" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The ECOM component in Solutions Enabler enforces SSL in 8.3.0.1 or later.
+By default, this port is 5989.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Get the CA certificate of the ECOM server. This pulls the CA cert file and
+saves it as .pem file. The ECOM server IP address or hostname is <code class="docutils literal"><span class="pre">my_ecom_host</span></code>.
+The sample name of the .pem file is <code class="docutils literal"><span class="pre">ca_cert.pem</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> openssl s_client -showcerts -connect my_ecom_host:5989 &lt;/dev/null 2&gt;/dev/null<span class="p">|</span>openssl x509 -outform PEM &gt;ca_cert.pem
+</pre></div>
+</div>
+</li>
+<li><p class="first">Copy the pem file to the system certificate directory:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> cp ca_cert.pem /usr/share/ca-certificates/ca_cert.crt
+</pre></div>
+</div>
+</li>
+<li><p class="first">Update CA certificate database with the following commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> sudo dpkg-reconfigure ca-certificates
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Check that the new <code class="docutils literal"><span class="pre">ca_cert.crt</span></code> will activate by selecting
+<span class="guilabel">ask</span> on the dialog. If it is not enabled for activation, use the
+down and up keys to select, and the space key to enable or disable.</p>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> sudo update-ca-certificates
+</pre></div>
+</div>
+</li>
+<li><p class="first">Update <code class="file docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code> to reflect SSL functionality by
+adding the following to the back end block. <code class="docutils literal"><span class="pre">my_location</span></code> is the location
+of the .pem file generated in step one:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">driver_ssl_cert_verify</span> <span class="o">=</span> <span class="s">False</span>
+<span class="na">driver_use_ssl</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+<p>If you skip steps two and three, you must add the location of you .pem file.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">driver_ssl_cert_verify</span> <span class="o">=</span> <span class="s">False</span>
+<span class="na">driver_use_ssl</span> <span class="o">=</span> <span class="s">True</span>
+<span class="na">driver_ssl_cert_path</span> <span class="o">=</span> <span class="s">/my_location/ca_cert.pem</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Update EcomServerIp to ECOM host name and EcomServerPort to secure port
+(5989 by default) in <code class="file docutils literal"><span class="pre">/etc/cinder/cinder_emc_config_&lt;conf_group&gt;.xml</span></code>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="oversubscription-support">
+<h2>Oversubscription support<a class="headerlink" href="#oversubscription-support" title="Permalink to this headline">¶</a></h2>
+<p>Oversubscription support requires the <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code> to be
+updated with two additional tags <code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> and
+<code class="docutils literal"><span class="pre">reserved_percentage</span></code>. In the sample below, the value of 2.0 for
+<code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> means that the pools in oversubscribed by a
+factor of 2, or 200% oversubscribed. The <code class="docutils literal"><span class="pre">reserved_percentage</span></code> is the high
+water mark where by the physical remaining space cannot be exceeded.
+For example, if there is only 4% of physical space left and the reserve
+percentage is 5, the free space will equate to zero. This is a safety
+mechanism to prevent a scenario where a provisioning request fails due to
+insufficient raw space.</p>
+<p>The parameter <code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> and <code class="docutils literal"><span class="pre">reserved_percentage</span></code> are
+optional.</p>
+<p>To set these parameter go to the configuration group of the volume type in
+<code class="file docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code>.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[VMAX_ISCSI_SILVER]</span>
+<span class="na">cinder_emc_config_file</span> <span class="o">=</span> <span class="s">/etc/cinder/cinder_emc_config_VMAX_ISCSI_SILVER.xml</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.emc_vmax_iscsi.EMCVMAXISCSIDriver</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">VMAX_ISCSI_SILVER</span>
+<span class="na">max_over_subscription_ratio</span> <span class="o">=</span> <span class="s">2.0</span>
+<span class="na">reserved_percentage</span> <span class="o">=</span> <span class="s">10</span>
+</pre></div>
+</div>
+<p>For the second iteration of over subscription, take into account the
+EMCMaxSubscriptionPercent property on the pool. This value is the highest
+that a pool can be oversubscribed.</p>
+<div class="section" id="scenario-1">
+<h3>Scenario 1<a class="headerlink" href="#scenario-1" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">EMCMaxSubscriptionPercent</span></code> is 200 and the user defined
+<code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> is 2.5, the latter is ignored.
+Oversubscription is 200%.</p>
+</div>
+<div class="section" id="scenario-2">
+<h3>Scenario 2<a class="headerlink" href="#scenario-2" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">EMCMaxSubscriptionPercent</span></code> is 200 and the user defined
+<code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> is 1.5, 1.5 equates to 150% and is less than
+the value set on the pool. Oversubscription is 150%.</p>
+</div>
+<div class="section" id="scenario-3">
+<h3>Scenario 3<a class="headerlink" href="#scenario-3" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">EMCMaxSubscriptionPercent</span></code> is 0. This means there is no upper limit on the
+pool. The user defined <code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> is 1.5.
+Oversubscription is 150%.</p>
+</div>
+<div class="section" id="scenario-4">
+<h3>Scenario 4<a class="headerlink" href="#scenario-4" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">EMCMaxSubscriptionPercent</span></code> is 0. <code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> is not
+set by the user. We recommend to default to upper limit, this is 150%.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If FAST is set and multiple pools are associated with a FAST policy,
+then the same rules apply. The difference is, the TotalManagedSpace and
+EMCSubscribedCapacity for each pool associated with the FAST policy are
+aggregated.</p>
+</div>
+</div>
+<div class="section" id="scenario-5">
+<h3>Scenario 5<a class="headerlink" href="#scenario-5" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">EMCMaxSubscriptionPercent</span></code> is 200 on one pool. It is 300 on another pool.
+The user defined <code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> is 2.5. Oversubscription is
+200% on the first pool and 250% on the other.</p>
+</div>
+</div>
+<div class="section" id="qos-quality-of-service-support">
+<h2>QoS (Quality of Service) support<a class="headerlink" href="#qos-quality-of-service-support" title="Permalink to this headline">¶</a></h2>
+<p>Quality of service(QoS) has traditionally been associated with network
+bandwidth usage. Network administrators set limitations on certain networks
+in terms of bandwidth usage for clients. This enables them to provide a
+tiered level of service based on cost. The cinder QoS offers similar
+functionality based on volume type setting limits on host storage bandwidth
+per service offering. Each volume type is tied to specific QoS attributes
+that are unique to each storage vendor. The VMAX plugin offers limits via
+the following attributes:</p>
+<ul class="simple">
+<li>By I/O limit per second (IOPS)</li>
+<li>By limiting throughput per second (MB/S)</li>
+<li>Dynamic distribution</li>
+<li>The VMAX offers modification of QoS at the Storage Group level</li>
+</ul>
+<div class="section" id="use-case-1-default-values">
+<h3>USE CASE 1 - Default values<a class="headerlink" href="#use-case-1-default-values" title="Permalink to this headline">¶</a></h3>
+<p>Prerequisites - VMAX</p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     No Limit</li>
+<li>Host I/O Limit (IO/Sec) -     No Limit</li>
+<li>Set Dynamic Distribution -    N/A</li>
+</ul>
+<table border="1" class="docutils" id="id2">
+<caption><span class="caption-text"><strong>Prerequisites - Block Storage (cinder) back end (storage group)</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="70%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>maxIOPS</td>
+<td>4000</td>
+</tr>
+<tr class="row-odd"><td>maxMBPS</td>
+<td>4000</td>
+</tr>
+<tr class="row-even"><td>DistributionType</td>
+<td>Always</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic">
+<li><p class="first">Create QoS Specs with the prerequisite values above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos create --property <span class="nv">maxIOPS</span><span class="o">=</span><span class="m">4000</span> <span class="nv">maxMBPS</span><span class="o">=</span><span class="m">4000</span> <span class="nv">DistributionType</span><span class="o">=</span>Always SILVER
+</pre></div>
+</div>
+</li>
+<li><p class="first">Associate QoS specs with specified volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos associate SILVER VOLUME_TYPE
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create volume with the volume type indicated above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume create --size <span class="m">1</span> --type VOLUME_TYPE TEST_VOLUME
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Outcome - VMAX (storage group)</strong></p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     4000</li>
+<li>Host I/O Limit (IO/Sec) -     4000</li>
+<li>Set Dynamic Distribution -    Always</li>
+</ul>
+<p><strong>Outcome - Block Storage (cinder)</strong></p>
+<p>Volume is created against volume type and QoS is enforced with the parameters
+above.</p>
+</div>
+<div class="section" id="use-case-2-preset-limits">
+<h3>USE CASE 2 - Preset limits<a class="headerlink" href="#use-case-2-preset-limits" title="Permalink to this headline">¶</a></h3>
+<p>Prerequisites - VMAX</p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     2000</li>
+<li>Host I/O Limit (IO/Sec) -     2000</li>
+<li>Set Dynamic Distribution -    Never</li>
+</ul>
+<table border="1" class="docutils" id="id3">
+<caption><span class="caption-text"><strong>Prerequisites - Block Storage (cinder) back end (storage group)</strong></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="70%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>maxIOPS</td>
+<td>4000</td>
+</tr>
+<tr class="row-odd"><td>maxMBPS</td>
+<td>4000</td>
+</tr>
+<tr class="row-even"><td>DistributionType</td>
+<td>Always</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic">
+<li><p class="first">Create QoS specifications with the prerequisite values above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos create --property <span class="nv">maxIOPS</span><span class="o">=</span><span class="m">4000</span> <span class="nv">maxMBPS</span><span class="o">=</span><span class="m">4000</span> <span class="nv">DistributionType</span><span class="o">=</span>Always SILVER
+</pre></div>
+</div>
+</li>
+<li><p class="first">Associate QoS specifications with specified volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos associate SILVER VOLUME_TYPE
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create volume with the volume type indicated above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume create --size <span class="m">1</span> --type VOLUME_TYPE TEST_VOLUME
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Outcome - VMAX (storage group)</strong></p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     4000</li>
+<li>Host I/O Limit (IO/Sec) -     4000</li>
+<li>Set Dynamic Distribution -    Always</li>
+</ul>
+<p><strong>Outcome - Block Storage (cinder)</strong></p>
+<p>Volume is created against volume type and QoS is enforced with the parameters
+above.</p>
+</div>
+<div class="section" id="use-case-3-preset-limits">
+<h3>USE CASE 3 - Preset limits<a class="headerlink" href="#use-case-3-preset-limits" title="Permalink to this headline">¶</a></h3>
+<p>Prerequisites - VMAX</p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     No Limit</li>
+<li>Host I/O Limit (IO/Sec) -     No Limit</li>
+<li>Set Dynamic Distribution -    N/A</li>
+</ul>
+<table border="1" class="docutils" id="id4">
+<caption><span class="caption-text"><strong>Prerequisites - Block Storage (cinder) back end (storage group)</strong></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="70%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>DistributionType</td>
+<td>Always</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic">
+<li><p class="first">Create QoS specifications with the prerequisite values above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos create --property <span class="nv">DistributionType</span><span class="o">=</span>Always SILVER
+</pre></div>
+</div>
+</li>
+<li><p class="first">Associate QoS specifications with specified volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos associate SILVER VOLUME_TYPE
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create volume with the volume type indicated above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume create --size <span class="m">1</span> --type VOLUME_TYPE TEST_VOLUME
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Outcome - VMAX (storage group)</strong></p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     No Limit</li>
+<li>Host I/O Limit (IO/Sec) -     No Limit</li>
+<li>Set Dynamic Distribution -    N/A</li>
+</ul>
+<p><strong>Outcome - Block Storage (cinder)</strong></p>
+<p>Volume is created against volume type and there is no QoS change.</p>
+</div>
+<div class="section" id="use-case-4-preset-limits">
+<h3>USE CASE 4 - Preset limits<a class="headerlink" href="#use-case-4-preset-limits" title="Permalink to this headline">¶</a></h3>
+<p>Prerequisites - VMAX</p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     No Limit</li>
+<li>Host I/O Limit (IO/Sec) -     No Limit</li>
+<li>Set Dynamic Distribution -    N/A</li>
+</ul>
+<table border="1" class="docutils" id="id5">
+<caption><span class="caption-text"><strong>Prerequisites - Block Storage (cinder) back end (storage group)</strong></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="63%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Key</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>DistributionType</td>
+<td>OnFailure</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic">
+<li><p class="first">Create QoS specifications with the prerequisite values above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos create --property <span class="nv">DistributionType</span><span class="o">=</span>OnFailure SILVER
+</pre></div>
+</div>
+</li>
+<li><p class="first">Associate QoS specifications with specified volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume qos associate SILVER VOLUME_TYPE
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create volume with the volume type indicated above:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume create --size <span class="m">1</span> --type VOLUME_TYPE TEST_VOLUME
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Outcome - VMAX (storage group)</strong></p>
+<ul class="simple">
+<li>Host I/O Limit (MB/Sec) -     No Limit</li>
+<li>Host I/O Limit (IO/Sec) -     No Limit</li>
+<li>Set Dynamic Distribution -    N/A</li>
+</ul>
+<p><strong>Outcome - Block Storage (cinder)</strong></p>
+<p>Volume is created against volume type and there is no QoS change.</p>
+</div>
+</div>
+<div class="section" id="iscsi-multipathing-support">
+<h2>iSCSI multipathing support<a class="headerlink" href="#iscsi-multipathing-support" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Install open-iscsi on all nodes on your system</li>
+<li>Do not install EMC PowerPath as they cannot co-exist with native multipath
+software</li>
+<li>Multipath tools must be installed on all nova compute nodes</li>
+</ul>
+<p>On Ubuntu:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> apt-get install open-iscsi           <span class="c1">#ensure iSCSI is installed</span>
+<span class="gp">#</span> apt-get install multipath-tools      <span class="c1">#multipath modules</span>
+<span class="gp">#</span> apt-get install sysfsutils sg3-utils <span class="c1">#file system utilities</span>
+<span class="gp">#</span> apt-get install scsitools            <span class="c1">#SCSI tools</span>
+</pre></div>
+</div>
+<p>On openSUSE and SUSE Linux Enterprise Server:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> zipper install open-iscsi           <span class="c1">#ensure iSCSI is installed</span>
+<span class="gp">#</span> zipper install multipath-tools      <span class="c1">#multipath modules</span>
+<span class="gp">#</span> zipper install sysfsutils sg3-utils <span class="c1">#file system utilities</span>
+<span class="gp">#</span> zipper install scsitools            <span class="c1">#SCSI tools</span>
+</pre></div>
+</div>
+<p>On Red Hat Enterprise Linux and CentOS:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> yum install iscsi-initiator-utils   <span class="c1">#ensure iSCSI is installed</span>
+<span class="gp">#</span> yum install device-mapper-multipath <span class="c1">#multipath modules</span>
+<span class="gp">#</span> yum install sysfsutils sg3-utils    <span class="c1">#file system utilities</span>
+<span class="gp">#</span> yum install scsitools               <span class="c1">#SCSI tools</span>
+</pre></div>
+</div>
+<div class="section" id="multipath-configuration-file">
+<h3>Multipath configuration file<a class="headerlink" href="#multipath-configuration-file" title="Permalink to this headline">¶</a></h3>
+<p>The multipath configuration file may be edited for better management and
+performance. Log in as a privileged user and make the following changes to
+<code class="file docutils literal"><span class="pre">/etc/multipath.conf</span></code> on the  Compute (nova) node(s).</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>devices {
+# Device attributed for EMC VMAX
+    device {
+            vendor &quot;EMC&quot;
+            product &quot;SYMMETRIX&quot;
+            path_grouping_policy multibus
+            getuid_callout &quot;/lib/udev/scsi_id --page=pre-spc3-83 --whitelisted --device=/dev/%n&quot;
+            path_selector &quot;round-robin 0&quot;
+            path_checker tur
+            features &quot;0&quot;
+            hardware_handler &quot;0&quot;
+            prio const
+            rr_weight uniform
+            no_path_retry 6
+            rr_min_io 1000
+            rr_min_io_rq 1
+    }
+}
+</pre></div>
+</div>
+<p>You may need to reboot the host after installing the MPIO tools or restart
+iSCSI and multipath services.</p>
+<p>On Ubuntu:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> service open-iscsi restart
+<span class="gp">#</span> service multipath-tools restart
+</pre></div>
+</div>
+<p>On On openSUSE, SUSE Linux Enterprise Server, Red Hat Enterprise Linux, and
+CentOS:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> systemctl restart open-iscsi
+<span class="gp">#</span> systemctl restart multipath-tools
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> lsblk
+<span class="go">NAME                                       MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT</span>
+<span class="go">sda                                          8:0    0     1G  0 disk</span>
+<span class="go">..360000970000196701868533030303235 (dm-6) 252:6    0     1G  0 mpath</span>
+<span class="go">sdb                                          8:16   0     1G  0 disk</span>
+<span class="go">..360000970000196701868533030303235 (dm-6) 252:6    0     1G  0 mpath</span>
+<span class="go">vda                                        253:0    0     1T  0 disk</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="openstack-configurations">
+<h3>OpenStack configurations<a class="headerlink" href="#openstack-configurations" title="Permalink to this headline">¶</a></h3>
+<p>On Compute (nova) node, add the following flag in the <code class="docutils literal"><span class="pre">[libvirt]</span></code> section of
+<code class="file docutils literal"><span class="pre">/etc/nova/nova.conf</span></code>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">iscsi_use_multipath</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+<p>On cinder controller node, set the multipath flag to true in
+<code class="file docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">use_multipath_for_image_xfer</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+<p>Restart <code class="docutils literal"><span class="pre">nova-compute</span></code> and <code class="docutils literal"><span class="pre">cinder-volume</span></code> services after the change.</p>
+</div>
+<div class="section" id="verify-you-have-multiple-initiators-available-on-the-compute-node-for-i-o">
+<h3>Verify you have multiple initiators available on the compute node for I/O<a class="headerlink" href="#verify-you-have-multiple-initiators-available-on-the-compute-node-for-i-o" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Create a 3GB VMAX volume.</p>
+</li>
+<li><p class="first">Create an instance from image out of native LVM storage or from VMAX
+storage, for example, from a bootable volume</p>
+</li>
+<li><p class="first">Attach the 3GB volume to the new instance:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> multipath -ll
+<span class="go">mpath102 (360000970000196700531533030383039) dm-3 EMC,SYMMETRIX</span>
+<span class="go">size=3G features=&#39;1 queue_if_no_path&#39; hwhandler=&#39;0&#39; wp=rw</span>
+<span class="go">&#39;-+- policy=&#39;round-robin 0&#39; prio=1 status=active</span>
+<span class="go">33:0:0:1 sdb 8:16 active ready running</span>
+<span class="go">&#39;- 34:0:0:1 sdc 8:32 active ready running</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Use the <code class="docutils literal"><span class="pre">lsblk</span></code> command to see the multipath device:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> lsblk
+<span class="go">NAME                                       MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT</span>
+<span class="go">sdb                                          8:0    0     3G  0 disk</span>
+<span class="go">..360000970000196700531533030383039 (dm-6) 252:6    0     3G  0 mpath</span>
+<span class="go">sdc                                          8:16   0     3G  0 disk</span>
+<span class="go">..360000970000196700531533030383039 (dm-6) 252:6    0     3G  0 mpath</span>
+<span class="go">vda</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="consistency-group-support">
+<h2>Consistency group support<a class="headerlink" href="#consistency-group-support" title="Permalink to this headline">¶</a></h2>
+<p>Consistency Groups operations are performed through the CLI using v2 of
+the cinder API.</p>
+<p><code class="file docutils literal"><span class="pre">/etc/cinder/policy.json</span></code> may need to be updated to enable new API calls
+for Consistency groups.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Even though the terminology is &#8216;Consistency Group&#8217; in OpenStack, a Storage
+Group is created on the VMAX, and should not be confused with a VMAX
+Consistency Group which is an SRDF construct. The Storage Group is not
+associated with any FAST policy.</p>
+</div>
+<div class="section" id="operations">
+<h3>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Create a Consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder --os-volume-api-version 2 consisgroup-create [--name &lt;name&gt;]</span>
+<span class="go">[--description &lt;description&gt;] [--availability-zone &lt;availability-zone&gt;]</span>
+<span class="go">&lt;volume-types&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder --os-volume-api-version <span class="m">2</span> consisgroup-create --name bronzeCG2 volume_type_1
+</pre></div>
+</div>
+</li>
+<li><p class="first">List Consistency Groups:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder consisgroup-list [--all-tenants [&lt;0|1&gt;]]</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder consisgroup-list
+</pre></div>
+</div>
+</li>
+<li><p class="first">Show a Consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder consisgroup-show &lt;consistencygroup&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder consisgroup-show 38a604b7-06eb-4202-8651-dbf2610a0827
+</pre></div>
+</div>
+</li>
+<li><p class="first">Update a consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder consisgroup-update [--name &lt;name&gt;] [--description &lt;description&gt;]</span>
+<span class="go">[--add-volumes &lt;uuid1,uuid2,......&gt;] [--remove-volumes &lt;uuid3,uuid4,......&gt;]</span>
+<span class="go">&lt;consistencygroup&gt;</span>
+</pre></div>
+</div>
+<p>Change name:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder consisgroup-update --name updated_name 38a604b7-06eb-4202-8651-dbf2610a0827
+</pre></div>
+</div>
+<p>Add volume(s) to a Consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder consisgroup-update --add-volumes af1ae89b-564b-4c7f-92d9-c54a2243a5fe 38a604b7-06eb-4202-8651-dbf2610a0827
+</pre></div>
+</div>
+<p>Delete volume(s) from a Consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder consisgroup-update --remove-volumes af1ae89b-564b-4c7f-92d9-c54a2243a5fe 38a604b7-06eb-4202-8651-dbf2610a0827
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a snapshot of a Consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder cgsnapshot-create [--name &lt;name&gt;] [--description &lt;description&gt;]</span>
+<span class="go">&lt;consistencygroup&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder cgsnapshot-create 618d962d-2917-4cca-a3ee-9699373e6625
+</pre></div>
+</div>
+</li>
+<li><p class="first">Delete a snapshot of a Consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder cgsnapshot-delete &lt;cgsnapshot&gt; [&lt;cgsnapshot&gt; ...]</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder cgsnapshot-delete 618d962d-2917-4cca-a3ee-9699373e6625
+</pre></div>
+</div>
+</li>
+<li><p class="first">Delete a Consistency Group:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder consisgroup-delete [--force] &lt;consistencygroup&gt; [&lt;consistencygroup&gt; ...]</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder consisgroup-delete --force 618d962d-2917-4cca-a3ee-9699373e6625
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a Consistency group from source (the source can only be a CG
+snapshot):</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder consisgroup-create-from-src [--cgsnapshot &lt;cgsnapshot&gt;]</span>
+<span class="go">[--source-cg &lt;source-cg&gt;] [--name &lt;name&gt;] [--description &lt;description&gt;]</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder consisgroup-create-from-src --source-cg 25dae184-1f25-412b-b8d7-9a25698fdb6d
+</pre></div>
+</div>
+</li>
+<li><p class="first">You can also create a volume in a consistency group in one step:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">cinder create [--consisgroup-id &lt;consistencygroup-id&gt;] [--name &lt;name&gt;]</span>
+<span class="go">[--description &lt;description&gt;] [--volume-type &lt;volume-type&gt;]</span>
+<span class="go">[--availability-zone &lt;availability-zone&gt;] &lt;size&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder create --volume-type volume_type_1 --name cgBronzeVol --consisgroup-id 1de80c27-3b2f-47a6-91a7-e867cbe36462 1
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="workload-planner-wlp">
+<h2>Workload Planner (WLP)<a class="headerlink" href="#workload-planner-wlp" title="Permalink to this headline">¶</a></h2>
+<p>VMAX Hybrid allows you to manage application storage by using Service Level
+Objectives (SLO) using policy based automation rather than the tiering in the
+VMAX2. The VMAX Hybrid comes with up to 6 SLO policies defined. Each has a
+set of workload characteristics that determine the drive types and mixes
+which will be used for the SLO. All storage in the VMAX Array is virtually
+provisioned, and all of the pools are created in containers called Storage
+Resource Pools (SRP). Typically there is only one SRP, however there can be
+more. Therefore, it is the same pool we will provision to but we can provide
+different SLO/Workload combinations.</p>
+<p>The SLO capacity is retrieved by interfacing with Unisphere Workload Planner
+(WLP). If you do not set up this relationship then the capacity retrieved is
+that of the entire SRP. This can cause issues as it can never be an accurate
+representation of what storage is available for any given SLO and Workload
+combination.</p>
+<div class="section" id="enabling-wlp-on-unisphere">
+<h3>Enabling WLP on Unisphere<a class="headerlink" href="#enabling-wlp-on-unisphere" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>To enable WLP on Unisphere, click on the
+<span class="menuselection">array‣Performance‣Settings</span>.</li>
+<li>Set both the <span class="guilabel">Real Time</span> and the <span class="guilabel">Root Cause Analysis</span>.</li>
+<li>Click <span class="guilabel">Register</span>.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This should be set up ahead of time (allowing for several hours of data
+collection), so that the Unisphere for VMAX Performance Analyzer can
+collect rated metrics for each of the supported element types.</p>
+</div>
+</div>
+<div class="section" id="using-testsmiprovider-to-add-statistics-access-point">
+<h3>Using TestSmiProvider to add statistics access point<a class="headerlink" href="#using-testsmiprovider-to-add-statistics-access-point" title="Permalink to this headline">¶</a></h3>
+<p>After enabling WLP you must then enable SMI-S to gain access to the WLP data:</p>
+<ol class="arabic">
+<li><p class="first">Connect to the SMI-S Provider using TestSmiProvider.</p>
+</li>
+<li><p class="first">Navigate to the <span class="guilabel">Active</span> menu.</p>
+</li>
+<li><p class="first">Type <code class="docutils literal"><span class="pre">reg</span></code> and enter the noted responses to the questions:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">(EMCProvider:5989) ? reg</span>
+<span class="go">Current list of statistics Access Points: ?</span>
+<span class="go">Note: The current list will be empty if there are no existing Access Points.</span>
+<span class="go">Add Statistics Access Point {y|n} [n]: y</span>
+<span class="go">HostID [l2se0060.lss.emc.com]: ?</span>
+<span class="go">Note: Enter the Unisphere for VMAX location using a fully qualified Host ID.</span>
+<span class="go">Port [8443]: ?</span>
+<span class="go">Note: The Port default is the Unisphere for VMAX default secure port. If the secure port</span>
+<span class="go">is different for your Unisphere for VMAX setup, adjust this value accordingly.</span>
+<span class="go">User [smc]: ?</span>
+<span class="go">Note: Enter the Unisphere for VMAX username.</span>
+<span class="go">Password [smc]: ?</span>
+<span class="go">Note: Enter the Unisphere for VMAX password.</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Type <code class="docutils literal"><span class="pre">reg</span></code> again to view the current list:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">(EMCProvider:5988) ? reg</span>
+<span class="go">Current list of statistics Access Points:</span>
+<span class="go">HostIDs:</span>
+<span class="go">l2se0060.lss.emc.com</span>
+<span class="go">PortNumbers:</span>
+<span class="go">8443</span>
+<span class="go">Users:</span>
+<span class="go">smc</span>
+<span class="go">Add Statistics Access Point {y|n} [n]: n</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="emc-scaleio-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: EMC ScaleIO Block Storage driver configuration"></i></a>
+          
+          
+            <a href="emc-vnx-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: EMC VNX driver"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../block-storage.html">Block Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../block-storage-overview.html">Introduction to the Block Storage service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../volume-drivers.html">Volume drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backup-drivers.html">Backup drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../schedulers.html">Block Storage schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Log files used by Block Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fc-zoning.html">Fibre Channel Zone Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nested-quota.html">Nested quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../volume-encryption.html">Volume encryption supported by the key manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Block Storage service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/cinder.html">New, updated, and deprecated options in Newton for Block Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "block-storage/drivers/emc-vmax-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "EMC VMAX iSCSI and FC drivers in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/emc-vmax-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:49 GMT -->
+</html>

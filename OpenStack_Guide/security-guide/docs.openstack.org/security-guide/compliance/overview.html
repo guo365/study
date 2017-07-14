@@ -1,0 +1,555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/compliance/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:43:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Compliance overview</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Compliance overview</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="../compliance.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Compliance"></i></a>
+    
+    
+    <a href="understanding-the-audit-process.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Understanding the audit process"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Compliance overview</a><ul>
+<li><a class="reference internal" href="#security-principles">Security principles</a><ul>
+<li><a class="reference internal" href="#layered-defenses">Layered defenses</a></li>
+<li><a class="reference internal" href="#fail-securely">Fail securely</a></li>
+<li><a class="reference internal" href="#least-privilege">Least privilege</a></li>
+<li><a class="reference internal" href="#compartmentalize">Compartmentalize</a></li>
+<li><a class="reference internal" href="#promote-privacy">Promote privacy</a></li>
+<li><a class="reference internal" href="#logging-capability">Logging capability</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#common-control-frameworks">Common control frameworks</a></li>
+<li><a class="reference internal" href="#audit-reference">Audit reference</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="compliance-overview">
+<h1>Compliance overview<a class="headerlink" href="#compliance-overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="security-principles">
+<h2>Security principles<a class="headerlink" href="#security-principles" title="Permalink to this headline">¶</a></h2>
+<p>Industry standard security principles provide a baseline for compliance
+certifications and attestations. If these principles are considered and
+referenced throughout an OpenStack deployment, certification activities
+may be simplified.</p>
+<div class="section" id="layered-defenses">
+<h3>Layered defenses<a class="headerlink" href="#layered-defenses" title="Permalink to this headline">¶</a></h3>
+<p>Identify where risks exist in a cloud architecture and apply controls
+to mitigate the risks. In areas of significant concern, layered
+defenses provide multiple complementary controls to manage risk down to
+an acceptable level. For example, to ensure adequate isolation between
+cloud tenants, we recommend hardening <a class="reference internal" href="../common/glossary.html#term-quick-emulator-qemu"><span class="xref std std-term">QEMU</span></a>,
+using a hypervisor with SELinux support, enforcing mandatory access control
+policies, and reducing the overall attack surface. The foundational principle
+is to harden an area of concern with multiple layers of defense such that if
+any one layer is compromised, other layers will exist to offer
+protection and minimize exposure.</p>
+</div>
+<div class="section" id="fail-securely">
+<h3>Fail securely<a class="headerlink" href="#fail-securely" title="Permalink to this headline">¶</a></h3>
+<p>In the case of failure, systems should be configured to fail into a
+closed secure state. For example, TLS certificate verification should
+fail closed by severing the network connection if the CNAME doesn&#8217;t
+match the server&#8217;s DNS name. Software often fails open in this
+situation, allowing the connection to proceed without a CNAME match,
+which is less secure and not recommended.</p>
+</div>
+<div class="section" id="least-privilege">
+<h3>Least privilege<a class="headerlink" href="#least-privilege" title="Permalink to this headline">¶</a></h3>
+<p>Only the minimum level of access for users and system services is
+granted. This access is based upon role, responsibility and job
+function. This security principle of least privilege is written into
+several international government security policies, such as NIST 800-53
+Section AC-6 within the United States.</p>
+</div>
+<div class="section" id="compartmentalize">
+<h3>Compartmentalize<a class="headerlink" href="#compartmentalize" title="Permalink to this headline">¶</a></h3>
+<p>Systems should be segregated in such a way that if one machine, or
+system-level service, is compromised the security of the other systems
+will remain intact. Practically, the enablement and proper usage of
+SELinux helps accomplish this goal.</p>
+</div>
+<div class="section" id="promote-privacy">
+<h3>Promote privacy<a class="headerlink" href="#promote-privacy" title="Permalink to this headline">¶</a></h3>
+<p>The amount of information that can be gathered about a system and its
+users should be minimized.</p>
+</div>
+<div class="section" id="logging-capability">
+<h3>Logging capability<a class="headerlink" href="#logging-capability" title="Permalink to this headline">¶</a></h3>
+<p>Appropriate logging is implemented to monitor for unauthorized use,
+incident response and forensics. It is highly recommended that selected
+audit subsystems be Common Criteria certified, which provides
+non-attestable event records in most countries.</p>
+</div>
+</div>
+<div class="section" id="common-control-frameworks">
+<h2>Common control frameworks<a class="headerlink" href="#common-control-frameworks" title="Permalink to this headline">¶</a></h2>
+<p>The following is a list of Control Frameworks that an organization can
+use to build their security controls.</p>
+<p><a class="reference external" href="https://cloudsecurityalliance.org/media/news/csa-releases-new-ccm-caiq-v3-0-1/">Cloud Security Alliance (CSA) Common Control Matrix
+(CCM)</a></p>
+<p>The CSA CCM is specifically designed to provide fundamental security
+principles to guide cloud vendors and to assist prospective cloud
+customers in assessing the overall security risk of a cloud provider.
+The CSA CCM provides a controls framework that are aligned across 16
+security domains. The foundation of the Cloud Controls Matrix rests on
+its customized relationship to other industry standards, regulations,
+and controls frameworks such as: ISO 27001:2013, COBIT 5.0, PCI:DSS v3,
+AICPA 2014 Trust Service Principles and Criteria and augments internal
+control direction for service organization control reports attestations.</p>
+<p>The CSA CCM strengthens existing information security control
+environments by enabling the reduction of security threats and
+vulnerabilities in the cloud, provides standardized security and
+operational risk management, and seeks to normalize security
+expectations, cloud taxonomy and terminology, and security measures
+implemented in the cloud.</p>
+<p><a class="reference external" href="http://www.27000.org/iso-27001.htm">ISO 27001/2:2013</a></p>
+<p>The ISO 27001 Information Security standard and certification has been
+used for many years to evaluate and distinguish an organizations
+alignment with information Security best practices. The standard is
+comprised of two parts: Mandatory Clauses that define the Information
+Security Management System (ISMS) and Annex A which contains a list of
+controls organized by domain.</p>
+<p>The information security management system preserves the
+confidentiality, integrity, and availability of information by applying
+a risk management process and gives confidence to interested parties
+that risks are adequately managed.</p>
+<p><a class="reference external" href="http://www.aicpa.org/interestareas/informationtechnology/resources/soc/trustservices/pages/trust services principles—an overview.aspx">Trusted Security
+Principles</a></p>
+<p>Trust Services are a set of professional attestation and advisory
+services based on a core set of principles and criteria that address
+the risks and opportunities of IT-enabled systems and privacy programs.
+Commonly known as the SOC audits, the principles define what the
+requirement is and it is the organizations responsibility to define the
+control that meets the requirement.</p>
+</div>
+<div class="section" id="audit-reference">
+<h2>Audit reference<a class="headerlink" href="#audit-reference" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack is innovative in many ways however the process used to audit
+an OpenStack deployment is fairly common. Auditors will evaluate a
+process by two criteria: Is the control designed effectively and if the
+control is operating effectively. An understanding of how an auditor
+evaluates if a control is designed and operating effectively will be
+discussed in the section called <a class="reference internal" href="understanding-the-audit-process.html"><em>Understanding the audit process</em></a>.</p>
+<p>The most common frameworks for auditing and evaluating a cloud
+deployment include the previously mentioned ISO 27001/2 Information
+Security standard, ISACA&#8217;s Control Objectives for Information and
+Related Technology (COBIT) framework, Committee of Sponsoring
+Organizations of the Treadway Commission (COSO), and Information
+Technology Infrastructure Library (ITIL). It is very common for audits
+to include areas of focus from one or more of these frameworks.
+Fortunately there is a lot of overlap between the frameworks, so an
+organization that adopts one will be in a good position come audit
+time.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="../compliance.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Compliance"></i></a>
+          
+          
+            <a href="understanding-the-audit-process.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Understanding the audit process"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management.html">Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../compliance.html">Compliance</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Compliance overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="understanding-the-audit-process.html">Understanding the audit process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compliance-activities.html">Compliance activities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="certification-and-compliance-statements.html">Certification and compliance statements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="privacy.html">Privacy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case-studies.html">Case studies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compliance/overview" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Compliance overview in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/compliance/overview.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:43:19 GMT -->
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/security-review/architecture-page-guidance.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:36:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Architecture page guidance</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Architecture page guidance</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="../security-review.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Security Review"></i></a>
+    
+    
+    <a href="../checklist.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Security Checklist"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Architecture page guidance</a><ul>
+<li><a class="reference internal" href="#title-version-information-contact-details">Title, version information, contact details</a></li>
+<li><a class="reference internal" href="#project-description-and-purpose">Project description and purpose</a></li>
+<li><a class="reference internal" href="#primary-users-and-use-cases">Primary users and use-cases</a></li>
+<li><a class="reference internal" href="#external-dependencies-and-associated-security-assumptions">External dependencies and associated security assumptions</a></li>
+<li><a class="reference internal" href="#components">Components</a></li>
+<li><a class="reference internal" href="#service-architecture-diagram">Service architecture diagram</a></li>
+<li><a class="reference internal" href="#data-assets">Data assets</a></li>
+<li><a class="reference internal" href="#data-asset-impact-analysis">Data asset impact analysis</a></li>
+<li><a class="reference internal" href="#interfaces">Interfaces</a></li>
+<li><a class="reference internal" href="#resources">Resources</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="architecture-page-guidance">
+<h1>Architecture page guidance<a class="headerlink" href="#architecture-page-guidance" title="Permalink to this headline">¶</a></h1>
+<p>The purpose of an architecture page is to document the architecture, purpose
+and security controls of a service or project. It should document the best
+practice deployment of that project.</p>
+<p>There are some key sections to the architecture page, which are explained in
+more detail below:</p>
+<ul class="simple">
+<li>Title, version information, contact details</li>
+<li>Project description and purpose</li>
+<li>Primary users and use-cases</li>
+<li>External dependencies and associated security assumptions</li>
+<li>Components</li>
+<li>Architecture diagram</li>
+<li>Data assets</li>
+<li>Data asset impact analysis</li>
+<li>Interfaces</li>
+</ul>
+<div class="section" id="title-version-information-contact-details">
+<h2>Title, version information, contact details<a class="headerlink" href="#title-version-information-contact-details" title="Permalink to this headline">¶</a></h2>
+<p>This section titles the architecture page, gives the status of the review
+(draft, ready for review, reviewed) and captures the release and version of the
+project (where relevant). It also records the PTL for the project, the
+project&#8217;s architect who is responsible for producing the architecture page,
+diagrams and working through the review (this may or may not be the PTL), and
+the security reviewer(s).</p>
+</div>
+<div class="section" id="project-description-and-purpose">
+<h2>Project description and purpose<a class="headerlink" href="#project-description-and-purpose" title="Permalink to this headline">¶</a></h2>
+<p>This section will contain a brief description of the project to introduce third
+parties to the service. This should be a paragraph or two and can be cut/paste
+from wiki or other documentation. Include links to relevant presentations and
+further documentation if available.</p>
+<p>For example:</p>
+<p>&#8220;Anchor is a public key infrastructure (PKI) service, which uses automated
+certificate request validation to automate issuing decisions. Certificates are
+issued for short time periods (typically 12-48 hours) to avoid the flawed
+revocation issues associated with CRLs and OCSP.&#8221;</p>
+</div>
+<div class="section" id="primary-users-and-use-cases">
+<h2>Primary users and use-cases<a class="headerlink" href="#primary-users-and-use-cases" title="Permalink to this headline">¶</a></h2>
+<p>A list of the expected primary users of the implemented architecture and their
+use-cases. &#8216;Users&#8217; can either be actors or other services within OpenStack.</p>
+<p>For example:</p>
+<ol class="arabic simple">
+<li>End users will use the system to store sensitive data, such as passphrases
+encryption keys, etc.</li>
+<li>Cloud administrators will use the administrative APIs to manage resource
+quotas.</li>
+</ol>
+</div>
+<div class="section" id="external-dependencies-and-associated-security-assumptions">
+<h2>External dependencies and associated security assumptions<a class="headerlink" href="#external-dependencies-and-associated-security-assumptions" title="Permalink to this headline">¶</a></h2>
+<p>External dependencies are items outside of the control of the service that are
+required for its operation, and may impact the service if they were compromised
+or became unavailable. These items are usually outside the control of the
+developer but within the control of the deployer, or they may be operated by a
+third party. Appliances should be regarded as external dependencies.</p>
+<p>For example:</p>
+<ul class="simple">
+<li>Nova compute service depends on an external authentication and authorization
+service. In a typical deployment this dependency will be fulfilled by the
+keystone service.</li>
+<li>Barbican depends on the use of Hardware Security Module (HSM) appliance.</li>
+</ul>
+</div>
+<div class="section" id="components">
+<h2>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h2>
+<p>A list of the components of the deployed project excluding external entities.
+Each component should be named and have a brief description of its purpose, and
+be labeled with the primary technology used (e.g. Python, MySQL, RabbitMQ).</p>
+<p>For example:</p>
+<ul class="simple">
+<li>keystone listener process (Python): Python process that consumes keystone
+events published by the keystone service.</li>
+<li>Database (MySQL): MySQL database to store barbican state data related to its
+managed entities and their metadata.</li>
+</ul>
+</div>
+<div class="section" id="service-architecture-diagram">
+<h2>Service architecture diagram<a class="headerlink" href="#service-architecture-diagram" title="Permalink to this headline">¶</a></h2>
+<p>The architecture diagram shows the logical layout of the system so the security
+reviewers can step through the architecture with the project team. It is a
+logical diagram which shows how the components interact, how they connect to
+external entities, and where communications cross trust boundaries. Further
+information on architecture diagram, including a key of symbols, will be given
+in the upcoming architecture diagram guidance. Diagrams can be drawn in any
+tool that can produce a diagram which uses the symbols in the key, however
+<a class="reference external" href="https://draw.io/">draw.io</a> is strongly recommended.</p>
+<p>This example shows the barbican architecture diagram:</p>
+<img alt="../_images/security_review_barbican_architecture.png" src="../_images/security_review_barbican_architecture.png" />
+</div>
+<div class="section" id="data-assets">
+<h2>Data assets<a class="headerlink" href="#data-assets" title="Permalink to this headline">¶</a></h2>
+<p>Data assets are user data, high-value data, configuration items, authorization
+tokens or other items that an attacker may target. The set of data items will
+vary between projects, but in general it should be considered as classes of
+data which are vital to the intended operation of the project. The level of
+detail required is somewhat dependent on the context. Data can usually be
+grouped, such as &#8216;user data&#8217;, &#8216;secret data&#8217;, or &#8216;configuration files&#8217;, but may
+be singular, like &#8216;admin identity token&#8217; or &#8216;user identity token&#8217;, or &#8216;database
+configuration file&#8217;.</p>
+<p>Data assets should include a statement of where that asset is persisted.</p>
+<p>For example:</p>
+<ul class="simple">
+<li><em>Secret data</em> - Passphrases, Encryption Keys, RSA Keys - persisted in
+Database [PKCS#11] or HSM [KMIP] or [KMIP, Dogtag]</li>
+<li><em>RBAC rulesets</em> - persisted in policy.json</li>
+<li><em>RabbitMQ Credentials</em> - persisted in barbican.conf</li>
+<li><em>keystone Event Queue Credentials</em> - persisted in barbican.conf</li>
+<li><em>Middleware configuration</em> - persisted in paste.ini</li>
+</ul>
+</div>
+<div class="section" id="data-asset-impact-analysis">
+<h2>Data asset impact analysis<a class="headerlink" href="#data-asset-impact-analysis" title="Permalink to this headline">¶</a></h2>
+<p>The data asset impact analysis breaks down the impact of the loss of
+confidentiality, integrity or availability for each data asset. Project
+architects should attempt to complete this, as they understand their project in
+the most detail, but the OpenStack Security Project (OSSP) will work through
+this with the project during the security review and are likely to add or
+update the impact details.</p>
+<p>For example:</p>
+<ul class="simple">
+<li><em>RabbitMQ credentials</em>:<ul>
+<li>Integrity Failure Impact: barbican and Workers can no longer access the
+queue. Denial of service.</li>
+<li>Confidentiality Failure Impact: An attacker could add new tasks to the
+queue which would be executed by workers. User quotas could be exhausted by
+an attacker. DoS. User would be unable to create genuine secrets.</li>
+<li>Availability Failure Impact: barbican could no longer create new secrets
+without access to the queue.</li>
+</ul>
+</li>
+<li><em>keystone credentials</em>:<ul>
+<li>Integrity Failure Impact: barbican will not be able to validate user
+credentials and fail. DoS.</li>
+<li>Confidentially Failure Impact: A malicious user might be able to abuse
+other OpenStack services (depending on keystone role configurations) but
+barbican is unaffected. If the service account for token validation also
+has barbican admin privileges, then a malicious user could manipulate
+barbican admin functions.</li>
+<li>Availability Failure Impact: barbican will not be able to validate user
+credentials and fail. DoS.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="interfaces">
+<h2>Interfaces<a class="headerlink" href="#interfaces" title="Permalink to this headline">¶</a></h2>
+<p>The interfaces listing captures interfaces within the scope of the review. This
+includes  connections between blocks on the architecture diagram which cross a
+trust boundary or do not use an industry standard encryption protocol such as
+TLS or SSH. For each interface the following information is captured:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The protocol used</li>
+<li>Any data assets in transit across that interface</li>
+<li>Information on authentication used to connect to that interface</li>
+<li>A brief description of the purpose of the interface.</li>
+</ul>
+</div></blockquote>
+<p>This is recorded in the following format:</p>
+<p>From-&gt;To <em>[Transport]</em>:</p>
+<ul class="simple">
+<li>Assets in flight</li>
+<li>Authentication?</li>
+<li>Description</li>
+</ul>
+<p>For example:</p>
+<ol class="arabic simple">
+<li>Client-&gt;API Process <em>[TLS]</em>:<ul>
+<li>Assets in flight: User keystone credentials, plaintext secrets, HTTP verb,
+secret ID, path</li>
+<li>Access to keystone credentials or plaintext secrets is considered a total
+security failure of the system - this interface must have robust
+confidentiality and integrity controls.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="resources">
+<h2>Resources<a class="headerlink" href="#resources" title="Permalink to this headline">¶</a></h2>
+<p>List resources relevant to the project, such as wiki pages describing its
+deployment and usage, and links to code repositories and relevant
+presentations.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="../security-review.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Security Review"></i></a>
+          
+          
+            <a href="../checklist.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Security Checklist"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management.html">Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance.html">Compliance</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../security-review.html">Security Review</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Architecture page guidance</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "security-review/architecture-page-guidance" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Architecture page guidance in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/security-review/architecture-page-guidance.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:36:55 GMT -->
+</html>

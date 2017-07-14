@@ -1,0 +1,641 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/arch-design/storage-focus-operational-considerations.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 07:39:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Operational Considerations</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Operational Considerations</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="storage-focus-technical-considerations.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Technical considerations"></i></a>
+    
+    
+    <a href="storage-focus-architecture.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Architecture"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Operational Considerations</a><ul>
+<li><a class="reference internal" href="#application-awareness">Application awareness</a></li>
+<li><a class="reference internal" href="#fault-tolerance-and-availability">Fault tolerance and availability</a><ul>
+<li><a class="reference internal" href="#block-storage-fault-tolerance-and-availability">Block Storage fault tolerance and availability</a></li>
+<li><a class="reference internal" href="#object-storage-fault-tolerance-and-availability">Object Storage fault tolerance and availability</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scaling-storage-services">Scaling storage services</a><ul>
+<li><a class="reference internal" href="#scaling-block-storage">Scaling Block Storage</a></li>
+<li><a class="reference internal" href="#scaling-object-storage">Scaling Object Storage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="operational-considerations">
+<h1>Operational Considerations<a class="headerlink" href="#operational-considerations" title="Permalink to this headline">¶</a></h1>
+<p>Several operational factors affect the design choices for a general
+purpose cloud. Operations staff receive tasks regarding the maintenance
+of cloud environments for larger installations, including:</p>
+<dl class="docutils">
+<dt>Maintenance tasks</dt>
+<dd>The storage solution should take into account storage maintenance
+and the impact on underlying workloads.</dd>
+<dt>Reliability and availability</dt>
+<dd>Reliability and availability depend on wide area network
+availability and on the level of precautions taken by the service
+provider.</dd>
+<dt>Flexibility</dt>
+<dd>Organizations need to have the flexibility to choose between
+off-premise and on-premise cloud storage options. This relies on
+relevant decision criteria with potential cost savings. For example,
+continuity of operations, disaster recovery, security, records
+retention laws, regulations, and policies.</dd>
+</dl>
+<p>Monitoring and alerting services are vital in cloud environments with
+high demands on storage resources. These services provide a real-time
+view into the health and performance of the storage systems. An
+integrated management console, or other dashboards capable of
+visualizing SNMP data, is helpful when discovering and resolving issues
+that arise within the storage cluster.</p>
+<p>A storage-focused cloud design should include:</p>
+<ul class="simple">
+<li>Monitoring of physical hardware resources.</li>
+<li>Monitoring of environmental resources such as temperature and
+humidity.</li>
+<li>Monitoring of storage resources such as available storage, memory,
+and CPU.</li>
+<li>Monitoring of advanced storage performance data to ensure that
+storage systems are performing as expected.</li>
+<li>Monitoring of network resources for service disruptions which would
+affect access to storage.</li>
+<li>Centralized log collection.</li>
+<li>Log analytics capabilities.</li>
+<li>Ticketing system (or integration with a ticketing system) to track
+issues.</li>
+<li>Alerting and notification of responsible teams or automated systems
+which remediate problems with storage as they arise.</li>
+<li>Network Operations Center (NOC) staffed and always available to
+resolve issues.</li>
+</ul>
+<div class="section" id="application-awareness">
+<h2>Application awareness<a class="headerlink" href="#application-awareness" title="Permalink to this headline">¶</a></h2>
+<p>Well-designed applications should be aware of underlying storage
+subsystems in order to use cloud storage solutions effectively.</p>
+<p>If natively available replication is not available, operations personnel
+must be able to modify the application so that they can provide their
+own replication service. In the event that replication is unavailable,
+operations personnel can design applications to react such that they can
+provide their own replication services. An application designed to
+detect underlying storage systems can function in a wide variety of
+infrastructures, and still have the same basic behavior regardless of
+the differences in the underlying infrastructure.</p>
+</div>
+<div class="section" id="fault-tolerance-and-availability">
+<h2>Fault tolerance and availability<a class="headerlink" href="#fault-tolerance-and-availability" title="Permalink to this headline">¶</a></h2>
+<p>Designing for fault tolerance and availability of storage systems in an
+OpenStack cloud is vastly different when comparing the Block Storage and
+Object Storage services.</p>
+<div class="section" id="block-storage-fault-tolerance-and-availability">
+<h3>Block Storage fault tolerance and availability<a class="headerlink" href="#block-storage-fault-tolerance-and-availability" title="Permalink to this headline">¶</a></h3>
+<p>Configure Block Storage resource nodes with advanced RAID controllers
+and high performance disks to provide fault tolerance at the hardware
+level.</p>
+<p>Deploy high performing storage solutions such as SSD disk drives or
+flash storage systems for applications requiring extreme performance out
+of Block Storage devices.</p>
+<p>In environments that place extreme demands on Block Storage, we
+recommend using multiple storage pools. In this case, each pool of
+devices should have a similar hardware design and disk configuration
+across all hardware nodes in that pool. This allows for a design that
+provides applications with access to a wide variety of Block Storage
+pools, each with their own redundancy, availability, and performance
+characteristics. When deploying multiple pools of storage it is also
+important to consider the impact on the Block Storage scheduler which is
+responsible for provisioning storage across resource nodes. Ensuring
+that applications can schedule volumes in multiple regions, each with
+their own network, power, and cooling infrastructure, can give projects
+the ability to build fault tolerant applications that are distributed
+across multiple availability zones.</p>
+<p>In addition to the Block Storage resource nodes, it is important to
+design for high availability and redundancy of the APIs, and related
+services that are responsible for provisioning and providing access to
+storage. We recommend designing a layer of hardware or software load
+balancers in order to achieve high availability of the appropriate REST
+API services to provide uninterrupted service. In some cases, it may
+also be necessary to deploy an additional layer of load balancing to
+provide access to back-end database services responsible for servicing
+and storing the state of Block Storage volumes. We also recommend
+designing a highly available database solution to store the Block
+Storage databases. Leverage highly available database solutions such as
+Galera and MariaDB to help keep database services online for
+uninterrupted access, so that projects can manage Block Storage volumes.</p>
+<p>In a cloud with extreme demands on Block Storage, the network
+architecture should take into account the amount of East-West bandwidth
+required for instances to make use of the available storage resources.
+The selected network devices should support jumbo frames for
+transferring large blocks of data. In some cases, it may be necessary to
+create an additional back-end storage network dedicated to providing
+connectivity between instances and Block Storage resources so that there
+is no contention of network resources.</p>
+</div>
+<div class="section" id="object-storage-fault-tolerance-and-availability">
+<h3>Object Storage fault tolerance and availability<a class="headerlink" href="#object-storage-fault-tolerance-and-availability" title="Permalink to this headline">¶</a></h3>
+<p>While consistency and partition tolerance are both inherent features of
+the Object Storage service, it is important to design the overall
+storage architecture to ensure that the implemented system meets those
+goals. The OpenStack Object Storage service places a specific number of
+data replicas as objects on resource nodes. These replicas are
+distributed throughout the cluster based on a consistent hash ring which
+exists on all nodes in the cluster.</p>
+<p>Design the Object Storage system with a sufficient number of zones to
+provide quorum for the number of replicas defined. For example, with
+three replicas configured in the Swift cluster, the recommended number
+of zones to configure within the Object Storage cluster in order to
+achieve quorum is five. While it is possible to deploy a solution with
+fewer zones, the implied risk of doing so is that some data may not be
+available and API requests to certain objects stored in the cluster
+might fail. For this reason, ensure you properly account for the number
+of zones in the Object Storage cluster.</p>
+<p>Each Object Storage zone should be self-contained within its own
+availability zone. Each availability zone should have independent access
+to network, power and cooling infrastructure to ensure uninterrupted
+access to data. In addition, a pool of Object Storage proxy servers
+providing access to data stored on the object nodes should service each
+availability zone. Object proxies in each region should leverage local
+read and write affinity so that local storage resources facilitate
+access to objects wherever possible. We recommend deploying upstream
+load balancing to ensure that proxy services are distributed across the
+multiple zones and, in some cases, it may be necessary to make use of
+third-party solutions to aid with geographical distribution of services.</p>
+<p>A zone within an Object Storage cluster is a logical division. Any of
+the following may represent a zone:</p>
+<ul class="simple">
+<li>A disk within a single node</li>
+<li>One zone per node</li>
+<li>Zone per collection of nodes</li>
+<li>Multiple racks</li>
+<li>Multiple DCs</li>
+</ul>
+<p>Selecting the proper zone design is crucial for allowing the Object
+Storage cluster to scale while providing an available and redundant
+storage system. It may be necessary to configure storage policies that
+have different requirements with regards to replicas, retention and
+other factors that could heavily affect the design of storage in a
+specific zone.</p>
+</div>
+</div>
+<div class="section" id="scaling-storage-services">
+<h2>Scaling storage services<a class="headerlink" href="#scaling-storage-services" title="Permalink to this headline">¶</a></h2>
+<p>Adding storage capacity and bandwidth is a very different process when
+comparing the Block and Object Storage services. While adding Block
+Storage capacity is a relatively simple process, adding capacity and
+bandwidth to the Object Storage systems is a complex task that requires
+careful planning and consideration during the design phase.</p>
+<div class="section" id="scaling-block-storage">
+<h3>Scaling Block Storage<a class="headerlink" href="#scaling-block-storage" title="Permalink to this headline">¶</a></h3>
+<p>You can upgrade Block Storage pools to add storage capacity without
+interrupting the overall Block Storage service. Add nodes to the pool by
+installing and configuring the appropriate hardware and software and
+then allowing that node to report in to the proper storage pool via the
+message bus. This is because Block Storage nodes report into the
+scheduler service advertising their availability. After the node is
+online and available, projects can make use of those storage resources
+instantly.</p>
+<p>In some cases, the demand on Block Storage from instances may exhaust
+the available network bandwidth. As a result, design network
+infrastructure that services Block Storage resources in such a way that
+you can add capacity and bandwidth easily. This often involves the use
+of dynamic routing protocols or advanced networking solutions to add
+capacity to downstream devices easily. Both the front-end and back-end
+storage network designs should encompass the ability to quickly and
+easily add capacity and bandwidth.</p>
+</div>
+<div class="section" id="scaling-object-storage">
+<h3>Scaling Object Storage<a class="headerlink" href="#scaling-object-storage" title="Permalink to this headline">¶</a></h3>
+<p>Adding back-end storage capacity to an Object Storage cluster requires
+careful planning and consideration. In the design phase, it is important
+to determine the maximum partition power required by the Object Storage
+service, which determines the maximum number of partitions which can
+exist. Object Storage distributes data among all available storage, but
+a partition cannot span more than one disk, so the maximum number of
+partitions can only be as high as the number of disks.</p>
+<p>For example, a system that starts with a single disk and a partition
+power of 3 can have 8 (2^3) partitions. Adding a second disk means that
+each has 4 partitions. The one-disk-per-partition limit means that this
+system can never have more than 8 disks, limiting its scalability.
+However, a system that starts with a single disk and a partition power
+of 10 can have up to 1024 (2^10) disks.</p>
+<p>As you add back-end storage capacity to the system, the partition maps
+redistribute data amongst the storage nodes. In some cases, this
+replication consists of extremely large data sets. In these cases, we
+recommend using back-end replication links that do not contend with
+projects&#8217; access to data.</p>
+<p>As more projects begin to access data within the cluster and their data
+sets grow, it is necessary to add front-end bandwidth to service data
+access requests. Adding front-end bandwidth to an Object Storage cluster
+requires careful planning and design of the Object Storage proxies that
+projects use to gain access to the data, along with the high availability
+solutions that enable easy scaling of the proxy layer. We recommend
+designing a front-end load balancing layer that projects and consumers
+use to gain access to data stored within the cluster. This load
+balancing layer may be distributed across zones, regions or even across
+geographic boundaries, which may also require that the design encompass
+geo-location solutions.</p>
+<p>In some cases, you must add bandwidth and capacity to the network
+resources servicing requests between proxy servers and storage nodes.
+For this reason, the network architecture used for access to storage
+nodes and proxy servers should make use of a design which is scalable.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="storage-focus-technical-considerations.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Technical considerations"></i></a>
+          
+          
+            <a href="storage-focus-architecture.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Architecture"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal-security-requirements.html">Security and legal requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generalpurpose.html">General purpose</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute-focus.html">Compute focused</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="storage-focus.html">Storage focused</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="storage-focus-technical-considerations.html">Technical considerations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Operational Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage-focus-architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage-focus-prescriptive-examples.html">Prescriptive Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="network-focus.html">Network focused</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi-site.html">Multi-site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid.html">Hybrid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="massively-scalable.html">Massively scalable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="specialized.html">Specialized cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "storage-focus-operational-considerations" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/arch-design-rst/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Operational Considerations in Architecture Design Guide";
+    var fieldTags = "arch-design";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/arch-design/storage-focus-operational-considerations.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 07:39:50 GMT -->
+</html>

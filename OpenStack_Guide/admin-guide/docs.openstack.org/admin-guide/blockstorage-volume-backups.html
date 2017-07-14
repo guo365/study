@@ -1,0 +1,552 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/blockstorage-volume-backups.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:02:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Back up and restore volumes and snapshots</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Back up and restore volumes and snapshots</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="blockstorage-glusterfs-removal.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Gracefully remove a GlusterFS volume from usage"></i></a>
+    
+    
+    <a href="blockstorage-volume-backups-export-import.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Export and import backup metadata"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Back up and restore volumes and snapshots</a></li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="back-up-and-restore-volumes-and-snapshots">
+<span id="volume-backups"></span><h1>Back up and restore volumes and snapshots<a class="headerlink" href="#back-up-and-restore-volumes-and-snapshots" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal"><span class="pre">openstack</span></code> command-line interface provides the tools for creating a
+volume backup. You can restore a volume from a backup as long as the
+backup&#8217;s associated database information (or backup metadata) is intact
+in the Block Storage database.</p>
+<p>Run this command to create a backup of a volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume backup create <span class="o">[</span>--incremental<span class="o">]</span> <span class="o">[</span>--force<span class="o">]</span> VOLUME
+</pre></div>
+</div>
+<p>Where <code class="docutils literal"><span class="pre">VOLUME</span></code> is the name or ID of the volume, <code class="docutils literal"><span class="pre">incremental</span></code> is
+a flag that indicates whether an incremental backup should be performed,
+and <code class="docutils literal"><span class="pre">force</span></code> is a flag that allows or disallows backup of a volume
+when the volume is attached to an instance.</p>
+<p>Without the <code class="docutils literal"><span class="pre">incremental</span></code> flag, a full backup is created by default.
+With the <code class="docutils literal"><span class="pre">incremental</span></code> flag, an incremental backup is created.</p>
+<p>Without the <code class="docutils literal"><span class="pre">force</span></code> flag, the volume will be backed up only if its
+status is <code class="docutils literal"><span class="pre">available</span></code>. With the <code class="docutils literal"><span class="pre">force</span></code> flag, the volume will be
+backed up whether its status is <code class="docutils literal"><span class="pre">available</span></code> or <code class="docutils literal"><span class="pre">in-use</span></code>. A volume
+is <code class="docutils literal"><span class="pre">in-use</span></code> when it is attached to an instance. The backup of an
+<code class="docutils literal"><span class="pre">in-use</span></code> volume means your data is crash consistent. The <code class="docutils literal"><span class="pre">force</span></code>
+flag is False by default.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">incremental</span></code> and <code class="docutils literal"><span class="pre">force</span></code> flags are only available for block
+storage API v2. You have to specify <code class="docutils literal"><span class="pre">[--os-volume-api-version</span> <span class="pre">2]</span></code> in the
+<code class="docutils literal"><span class="pre">cinder</span></code> command-line interface to use this parameter.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">force</span></code> flag is new in OpenStack Liberty.</p>
+</div>
+<p>The incremental backup is based on a parent backup which is an existing
+backup with the latest timestamp. The parent backup can be a full backup
+or an incremental backup depending on the timestamp.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The first backup of a volume has to be a full backup. Attempting to do
+an incremental backup without any existing backups will fail.
+There is an <code class="docutils literal"><span class="pre">is_incremental</span></code> flag that indicates whether a backup is
+incremental when showing details on the backup.
+Another flag, <code class="docutils literal"><span class="pre">has_dependent_backups</span></code>, returned when showing backup
+details, will indicate whether the backup has dependent backups.
+If it is <code class="docutils literal"><span class="pre">true</span></code>, attempting to delete this backup will fail.</p>
+</div>
+<p>A new configure option <code class="docutils literal"><span class="pre">backup_swift_block_size</span></code> is introduced into
+<code class="docutils literal"><span class="pre">cinder.conf</span></code> for the default Swift backup driver. This is the size in
+bytes that changes are tracked for incremental backups. The existing
+<code class="docutils literal"><span class="pre">backup_swift_object_size</span></code> option, the size in bytes of Swift backup
+objects, has to be a multiple of <code class="docutils literal"><span class="pre">backup_swift_block_size</span></code>. The default
+is 32768 for <code class="docutils literal"><span class="pre">backup_swift_block_size</span></code>, and the default is 52428800 for
+<code class="docutils literal"><span class="pre">backup_swift_object_size</span></code>.</p>
+<p>The configuration option <code class="docutils literal"><span class="pre">backup_swift_enable_progress_timer</span></code> in
+<code class="docutils literal"><span class="pre">cinder.conf</span></code> is used when backing up the volume to Object Storage
+back end. This option enables or disables the timer. It is enabled by default
+to send the periodic progress notifications to the Telemetry service.</p>
+<p>This command also returns a backup ID. Use this backup ID when restoring
+the volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume backup restore BACKUP_ID VOLUME_ID
+</pre></div>
+</div>
+<p>When restoring from a full backup, it is a full restore.</p>
+<p>When restoring from an incremental backup, a list of backups is built based
+on the IDs of the parent backups. A full restore is performed based on the
+full backup first, then restore is done based on the incremental backup,
+laying on top of it in order.</p>
+<p>You can view a backup list with the <strong class="command">cinder backup-list</strong>
+command. Optional arguments to clarify the status of your backups
+include: running <code class="xref std std-option docutils literal"><span class="pre">--name</span></code>, <code class="xref std std-option docutils literal"><span class="pre">--status</span></code>, and
+<code class="xref std std-option docutils literal"><span class="pre">--volume-id</span></code> to filter through backups by the specified name,
+status, or volume-id. Search with <code class="xref std std-option docutils literal"><span class="pre">--all-tenants</span></code> for details of the
+projects associated with the listed backups.</p>
+<p>Because volume backups are dependent on the Block Storage database, you must
+also back up your Block Storage database regularly to ensure data recovery.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Alternatively, you can export and save the metadata of selected volume
+backups. Doing so precludes the need to back up the entire Block Storage
+database. This is useful if you need only a small subset of volumes to
+survive a catastrophic database failure.</p>
+<p>If you specify a UUID encryption key when setting up the volume
+specifications, the backup metadata ensures that the key will remain valid
+when you back up and restore the volume.</p>
+<p class="last">For more information about how to export and import volume backup metadata,
+see the section called <a class="reference internal" href="blockstorage-volume-backups-export-import.html#volume-backups-export-import"><span>Export and import backup metadata</span></a>.</p>
+</div>
+<p>By default, the swift object store is used for the backup repository.</p>
+<p>If instead you want to use an NFS export as the backup repository, add the
+following configuration options to the <code class="docutils literal"><span class="pre">[DEFAULT]</span></code> section of the
+<code class="docutils literal"><span class="pre">cinder.conf</span></code> file and restart the Block Storage services:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">backup_driver</span> <span class="o">=</span> <span class="s">cinder.backup.drivers.nfs</span>
+<span class="na">backup_share</span> <span class="o">=</span> <span class="s">HOST:EXPORT_PATH</span>
+</pre></div>
+</div>
+<p>For the <code class="docutils literal"><span class="pre">backup_share</span></code> option, replace <code class="docutils literal"><span class="pre">HOST</span></code> with the DNS resolvable
+host name or the IP address of the storage server for the NFS share, and
+<code class="docutils literal"><span class="pre">EXPORT_PATH</span></code> with the path to that share. If your environment requires
+that non-default mount options be specified for the share, set these as
+follows:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">backup_mount_options</span> <span class="o">=</span> <span class="s">MOUNT_OPTIONS</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">MOUNT_OPTIONS</span></code> is a comma-separated string of NFS mount options as detailed
+in the NFS man page.</p>
+<p>There are several other options whose default values may be overridden as
+appropriate for your environment:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">backup_compression_algorithm</span> <span class="o">=</span> <span class="s">zlib</span>
+<span class="na">backup_sha_block_size_bytes</span> <span class="o">=</span> <span class="s">32768</span>
+<span class="na">backup_file_size</span> <span class="o">=</span> <span class="s">1999994880</span>
+</pre></div>
+</div>
+<p>The option <code class="docutils literal"><span class="pre">backup_compression_algorithm</span></code> can be set to <code class="docutils literal"><span class="pre">bz2</span></code> or <code class="docutils literal"><span class="pre">None</span></code>.
+The latter can be a useful setting when the server providing the share for the
+backup repository itself performs deduplication or compression on the backup
+data.</p>
+<p>The option <code class="docutils literal"><span class="pre">backup_file_size</span></code> must be a multiple of
+<code class="docutils literal"><span class="pre">backup_sha_block_size_bytes</span></code>. It is effectively the maximum file size to be
+used, given your environment, to hold backup data. Volumes larger than this
+will be stored in multiple files in the backup repository. The
+<code class="docutils literal"><span class="pre">backup_sha_block_size_bytes</span></code> option determines the size of blocks from the
+cinder volume being backed up on which digital signatures are calculated in
+order to enable incremental backup capability.</p>
+<p>You also have the option of resetting the state of a backup. When creating or
+restoring a backup, sometimes it may get stuck in the creating or restoring
+states due to problems like the database or rabbitmq being down. In situations
+like these resetting the state of the backup can restore it to a functional
+status.</p>
+<p>Run this command to restore the state of a backup:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder backup-reset-state <span class="o">[</span>--state STATE<span class="o">]</span> BACKUP_ID-1 BACKUP_ID-2 ...
+</pre></div>
+</div>
+<p>Run this command to create a backup of a snapshot:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume backup create <span class="o">[</span>--incremental<span class="o">]</span> <span class="o">[</span>--force<span class="o">]</span> <span class="se">\</span>
+<span class="go">  [--snapshot SNAPSHOT_ID] VOLUME</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal"><span class="pre">VOLUME</span></code> is the name or ID of the volume, <code class="docutils literal"><span class="pre">SNAPSHOT_ID</span></code> is the ID of
+the volume&#8217;s snapshot.</p>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="blockstorage-glusterfs-removal.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Gracefully remove a GlusterFS volume from usage"></i></a>
+          
+          
+            <a href="blockstorage-volume-backups-export-import.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Export and import backup metadata"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="blockstorage.html">Block Storage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blockstorage-api-throughput.html">Increase Block Storage API service throughput</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="blockstorage-manage-volumes.html">Manage volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blockstorage-troubleshoot.html">Troubleshoot your installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "blockstorage-volume-backups" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Back up and restore volumes and snapshots in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/blockstorage-volume-backups.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:02:58 GMT -->
+</html>

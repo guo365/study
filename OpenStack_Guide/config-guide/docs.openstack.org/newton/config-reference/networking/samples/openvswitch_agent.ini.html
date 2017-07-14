@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/networking/samples/openvswitch_agent.ini.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:34:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: openvswitch_agent.ini</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>openvswitch_agent.ini</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="sriov_agent.ini.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: sriov_agent.ini"></i></a>
+    
+    
+    <a href="dhcp_agent.ini.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: dhcp_agent.ini"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">openvswitch_agent.ini</a></li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="openvswitch-agent-ini">
+<h1>openvswitch_agent.ini<a class="headerlink" href="#openvswitch-agent-ini" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal"><span class="pre">plugins/ml2/openvswitch_agent.ini</span></code> file contains configuration for the
+Open vSwitch (OVS) layer-2 agent.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+
+<span class="c1">#</span>
+<span class="c1"># From oslo.log</span>
+<span class="c1">#</span>
+
+<span class="c1"># If set to true, the logging level will be set to DEBUG instead of the default</span>
+<span class="c1"># INFO level. (boolean value)</span>
+<span class="c1"># Note: This option can be changed without restarting.</span>
+<span class="c1">#debug = false</span>
+
+<span class="c1"># DEPRECATED: If set to false, the logging level will be set to WARNING instead</span>
+<span class="c1"># of the default INFO level. (boolean value)</span>
+<span class="c1"># This option is deprecated for removal.</span>
+<span class="c1"># Its value may be silently ignored in the future.</span>
+<span class="c1">#verbose = true</span>
+
+<span class="c1"># The name of a logging configuration file. This file is appended to any</span>
+<span class="c1"># existing logging configuration files. For details about logging configuration</span>
+<span class="c1"># files, see the Python logging module documentation. Note that when logging</span>
+<span class="c1"># configuration files are used then all logging configuration is set in the</span>
+<span class="c1"># configuration file and other logging configuration options are ignored (for</span>
+<span class="c1"># example, logging_context_format_string). (string value)</span>
+<span class="c1"># Note: This option can be changed without restarting.</span>
+<span class="c1"># Deprecated group/name - [DEFAULT]/log_config</span>
+<span class="c1">#log_config_append = &lt;None&gt;</span>
+
+<span class="c1"># Defines the format string for %%(asctime)s in log records. Default:</span>
+<span class="c1"># %(default)s . This option is ignored if log_config_append is set. (string</span>
+<span class="c1"># value)</span>
+<span class="c1">#log_date_format = %Y-%m-%d %H:%M:%S</span>
+
+<span class="c1"># (Optional) Name of log file to send logging output to. If no default is set,</span>
+<span class="c1"># logging will go to stderr as defined by use_stderr. This option is ignored if</span>
+<span class="c1"># log_config_append is set. (string value)</span>
+<span class="c1"># Deprecated group/name - [DEFAULT]/logfile</span>
+<span class="c1">#log_file = &lt;None&gt;</span>
+
+<span class="c1"># (Optional) The base directory used for relative log_file  paths. This option</span>
+<span class="c1"># is ignored if log_config_append is set. (string value)</span>
+<span class="c1"># Deprecated group/name - [DEFAULT]/logdir</span>
+<span class="c1">#log_dir = &lt;None&gt;</span>
+
+<span class="c1"># Uses logging handler designed to watch file system. When log file is moved or</span>
+<span class="c1"># removed this handler will open a new log file with specified path</span>
+<span class="c1"># instantaneously. It makes sense only if log_file option is specified and</span>
+<span class="c1"># Linux platform is used. This option is ignored if log_config_append is set.</span>
+<span class="c1"># (boolean value)</span>
+<span class="c1">#watch_log_file = false</span>
+
+<span class="c1"># Use syslog for logging. Existing syslog format is DEPRECATED and will be</span>
+<span class="c1"># changed later to honor RFC5424. This option is ignored if log_config_append</span>
+<span class="c1"># is set. (boolean value)</span>
+<span class="c1">#use_syslog = false</span>
+
+<span class="c1"># Syslog facility to receive log lines. This option is ignored if</span>
+<span class="c1"># log_config_append is set. (string value)</span>
+<span class="c1">#syslog_log_facility = LOG_USER</span>
+
+<span class="c1"># Log output to standard error. This option is ignored if log_config_append is</span>
+<span class="c1"># set. (boolean value)</span>
+<span class="c1">#use_stderr = true</span>
+
+<span class="c1"># Format string to use for log messages with context. (string value)</span>
+<span class="c1">#logging_context_format_string = %(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [%(request_id)s %(user_identity)s] %(instance)s%(message)s</span>
+
+<span class="c1"># Format string to use for log messages when context is undefined. (string</span>
+<span class="c1"># value)</span>
+<span class="c1">#logging_default_format_string = %(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] %(instance)s%(message)s</span>
+
+<span class="c1"># Additional data to append to log message when logging level for the message</span>
+<span class="c1"># is DEBUG. (string value)</span>
+<span class="c1">#logging_debug_format_suffix = %(funcName)s %(pathname)s:%(lineno)d</span>
+
+<span class="c1"># Prefix each line of exception output with this format. (string value)</span>
+<span class="c1">#logging_exception_prefix = %(asctime)s.%(msecs)03d %(process)d ERROR %(name)s %(instance)s</span>
+
+<span class="c1"># Defines the format string for %(user_identity)s that is used in</span>
+<span class="c1"># logging_context_format_string. (string value)</span>
+<span class="c1">#logging_user_identity_format = %(user)s %(tenant)s %(domain)s %(user_domain)s %(project_domain)s</span>
+
+<span class="c1"># List of package logging levels in logger=LEVEL pairs. This option is ignored</span>
+<span class="c1"># if log_config_append is set. (list value)</span>
+<span class="c1">#default_log_levels = amqp=WARN,amqplib=WARN,boto=WARN,qpid=WARN,sqlalchemy=WARN,suds=INFO,oslo.messaging=INFO,iso8601=WARN,requests.packages.urllib3.connectionpool=WARN,urllib3.connectionpool=WARN,websocket=WARN,requests.packages.urllib3.util.retry=WARN,urllib3.util.retry=WARN,keystonemiddleware=WARN,routes.middleware=WARN,stevedore=WARN,taskflow=WARN,keystoneauth=WARN,oslo.cache=INFO,dogpile.core.dogpile=INFO</span>
+
+<span class="c1"># Enables or disables publication of error events. (boolean value)</span>
+<span class="c1">#publish_errors = false</span>
+
+<span class="c1"># The format for an instance that is passed with the log message. (string</span>
+<span class="c1"># value)</span>
+<span class="c1">#instance_format = &quot;[instance: %(uuid)s] &quot;</span>
+
+<span class="c1"># The format for an instance UUID that is passed with the log message. (string</span>
+<span class="c1"># value)</span>
+<span class="c1">#instance_uuid_format = &quot;[instance: %(uuid)s] &quot;</span>
+
+<span class="c1"># Enables or disables fatal status of deprecations. (boolean value)</span>
+<span class="c1">#fatal_deprecations = false</span>
+
+
+<span class="k">[agent]</span>
+
+<span class="c1">#</span>
+<span class="c1"># From neutron.ml2.ovs.agent</span>
+<span class="c1">#</span>
+
+<span class="c1"># The number of seconds the agent will wait between polling for local device</span>
+<span class="c1"># changes. (integer value)</span>
+<span class="c1">#polling_interval = 2</span>
+
+<span class="c1"># Minimize polling by monitoring ovsdb for interface changes. (boolean value)</span>
+<span class="c1">#minimize_polling = true</span>
+
+<span class="c1"># The number of seconds to wait before respawning the ovsdb monitor after</span>
+<span class="c1"># losing communication with it. (integer value)</span>
+<span class="c1">#ovsdb_monitor_respawn_interval = 30</span>
+
+<span class="c1"># Network types supported by the agent (gre and/or vxlan). (list value)</span>
+<span class="c1">#tunnel_types =</span>
+
+<span class="c1"># The UDP port to use for VXLAN tunnels. (port value)</span>
+<span class="c1"># Minimum value: 0</span>
+<span class="c1"># Maximum value: 65535</span>
+<span class="c1">#vxlan_udp_port = 4789</span>
+
+<span class="c1"># MTU size of veth interfaces (integer value)</span>
+<span class="c1">#veth_mtu = 9000</span>
+
+<span class="c1"># Use ML2 l2population mechanism driver to learn remote MAC and IPs and improve</span>
+<span class="c1"># tunnel scalability. (boolean value)</span>
+<span class="c1">#l2_population = false</span>
+
+<span class="c1"># Enable local ARP responder if it is supported. Requires OVS 2.1 and ML2</span>
+<span class="c1"># l2population driver. Allows the switch (when supporting an overlay) to</span>
+<span class="c1"># respond to an ARP request locally without performing a costly ARP broadcast</span>
+<span class="c1"># into the overlay. (boolean value)</span>
+<span class="c1">#arp_responder = false</span>
+
+<span class="c1"># DEPRECATED: Enable suppression of ARP responses that don&#39;t match an IP</span>
+<span class="c1"># address that belongs to the port from which they originate. Note: This</span>
+<span class="c1"># prevents the VMs attached to this agent from spoofing, it doesn&#39;t protect</span>
+<span class="c1"># them from other devices which have the capability to spoof (e.g. bare metal</span>
+<span class="c1"># or VMs attached to agents without this flag set to True). Spoofing rules will</span>
+<span class="c1"># not be added to any ports that have port security disabled. For LinuxBridge,</span>
+<span class="c1"># this requires ebtables. For OVS, it requires a version that supports matching</span>
+<span class="c1"># ARP headers. This option will be removed in Ocata so the only way to disable</span>
+<span class="c1"># protection will be via the port security extension. (boolean value)</span>
+<span class="c1"># This option is deprecated for removal.</span>
+<span class="c1"># Its value may be silently ignored in the future.</span>
+<span class="c1">#prevent_arp_spoofing = true</span>
+
+<span class="c1"># Set or un-set the don&#39;t fragment (DF) bit on outgoing IP packet carrying</span>
+<span class="c1"># GRE/VXLAN tunnel. (boolean value)</span>
+<span class="c1">#dont_fragment = true</span>
+
+<span class="c1"># Make the l2 agent run in DVR mode. (boolean value)</span>
+<span class="c1">#enable_distributed_routing = false</span>
+
+<span class="c1"># Set new timeout in seconds for new rpc calls after agent receives SIGTERM. If</span>
+<span class="c1"># value is set to 0, rpc timeout won&#39;t be changed (integer value)</span>
+<span class="c1">#quitting_rpc_timeout = 10</span>
+
+<span class="c1"># Reset flow table on start. Setting this to True will cause brief traffic</span>
+<span class="c1"># interruption. (boolean value)</span>
+<span class="c1">#drop_flows_on_start = false</span>
+
+<span class="c1"># Set or un-set the tunnel header checksum  on outgoing IP packet carrying</span>
+<span class="c1"># GRE/VXLAN tunnel. (boolean value)</span>
+<span class="c1">#tunnel_csum = false</span>
+
+<span class="c1"># DEPRECATED: Selects the Agent Type reported (string value)</span>
+<span class="c1"># This option is deprecated for removal.</span>
+<span class="c1"># Its value may be silently ignored in the future.</span>
+<span class="c1">#agent_type = Open vSwitch agent</span>
+
+<span class="c1"># Extensions list to use (list value)</span>
+<span class="c1">#extensions =</span>
+
+
+<span class="k">[ovs]</span>
+
+<span class="c1">#</span>
+<span class="c1"># From neutron.ml2.ovs.agent</span>
+<span class="c1">#</span>
+
+<span class="c1"># Integration bridge to use. Do not change this parameter unless you have a</span>
+<span class="c1"># good reason to. This is the name of the OVS integration bridge. There is one</span>
+<span class="c1"># per hypervisor. The integration bridge acts as a virtual &#39;patch bay&#39;. All VM</span>
+<span class="c1"># VIFs are attached to this bridge and then &#39;patched&#39; according to their</span>
+<span class="c1"># network connectivity. (string value)</span>
+<span class="c1">#integration_bridge = br-int</span>
+
+<span class="c1"># Tunnel bridge to use. (string value)</span>
+<span class="c1">#tunnel_bridge = br-tun</span>
+
+<span class="c1"># Peer patch port in integration bridge for tunnel bridge. (string value)</span>
+<span class="c1">#int_peer_patch_port = patch-tun</span>
+
+<span class="c1"># Peer patch port in tunnel bridge for integration bridge. (string value)</span>
+<span class="c1">#tun_peer_patch_port = patch-int</span>
+
+<span class="c1"># IP address of local overlay (tunnel) network endpoint. Use either an IPv4 or</span>
+<span class="c1"># IPv6 address that resides on one of the host network interfaces. The IP</span>
+<span class="c1"># version of this value must match the value of the &#39;overlay_ip_version&#39; option</span>
+<span class="c1"># in the ML2 plug-in configuration file on the neutron server node(s). (IP</span>
+<span class="c1"># address value)</span>
+<span class="c1">#local_ip = &lt;None&gt;</span>
+
+<span class="c1"># Comma-separated list of &lt;physical_network&gt;:&lt;bridge&gt; tuples mapping physical</span>
+<span class="c1"># network names to the agent&#39;s node-specific Open vSwitch bridge names to be</span>
+<span class="c1"># used for flat and VLAN networks. The length of bridge names should be no more</span>
+<span class="c1"># than 11. Each bridge must exist, and should have a physical network interface</span>
+<span class="c1"># configured as a port. All physical networks configured on the server should</span>
+<span class="c1"># have mappings to appropriate bridges on each agent. Note: If you remove a</span>
+<span class="c1"># bridge from this mapping, make sure to disconnect it from the integration</span>
+<span class="c1"># bridge as it won&#39;t be managed by the agent anymore. (list value)</span>
+<span class="c1">#bridge_mappings =</span>
+
+<span class="c1"># Use veths instead of patch ports to interconnect the integration bridge to</span>
+<span class="c1"># physical networks. Support kernel without Open vSwitch patch port support so</span>
+<span class="c1"># long as it is set to True. (boolean value)</span>
+<span class="c1">#use_veth_interconnection = false</span>
+
+<span class="c1"># OpenFlow interface to use. (string value)</span>
+<span class="c1"># Allowed values: ovs-ofctl, native</span>
+<span class="c1">#of_interface = native</span>
+
+<span class="c1"># OVS datapath to use. &#39;system&#39; is the default value and corresponds to the</span>
+<span class="c1"># kernel datapath. To enable the userspace datapath set this value to &#39;netdev&#39;.</span>
+<span class="c1"># (string value)</span>
+<span class="c1"># Allowed values: system, netdev</span>
+<span class="c1">#datapath_type = system</span>
+
+<span class="c1"># OVS vhost-user socket directory. (string value)</span>
+<span class="c1">#vhostuser_socket_dir = /var/run/openvswitch</span>
+
+<span class="c1"># Address to listen on for OpenFlow connections. Used only for &#39;native&#39; driver.</span>
+<span class="c1"># (IP address value)</span>
+<span class="c1">#of_listen_address = 127.0.0.1</span>
+
+<span class="c1"># Port to listen on for OpenFlow connections. Used only for &#39;native&#39; driver.</span>
+<span class="c1"># (port value)</span>
+<span class="c1"># Minimum value: 0</span>
+<span class="c1"># Maximum value: 65535</span>
+<span class="c1">#of_listen_port = 6633</span>
+
+<span class="c1"># Timeout in seconds to wait for the local switch connecting the controller.</span>
+<span class="c1"># Used only for &#39;native&#39; driver. (integer value)</span>
+<span class="c1">#of_connect_timeout = 30</span>
+
+<span class="c1"># Timeout in seconds to wait for a single OpenFlow request. Used only for</span>
+<span class="c1"># &#39;native&#39; driver. (integer value)</span>
+<span class="c1">#of_request_timeout = 10</span>
+
+<span class="c1"># The interface for interacting with the OVSDB (string value)</span>
+<span class="c1"># Allowed values: native, vsctl</span>
+<span class="c1">#ovsdb_interface = native</span>
+
+<span class="c1"># The connection string for the native OVSDB backend. Requires the native</span>
+<span class="c1"># ovsdb_interface to be enabled. (string value)</span>
+<span class="c1">#ovsdb_connection = tcp:127.0.0.1:6640</span>
+
+
+<span class="k">[securitygroup]</span>
+
+<span class="c1">#</span>
+<span class="c1"># From neutron.ml2.ovs.agent</span>
+<span class="c1">#</span>
+
+<span class="c1"># Driver for security groups firewall in the L2 agent (string value)</span>
+<span class="c1">#firewall_driver = &lt;None&gt;</span>
+
+<span class="c1"># Controls whether the neutron security group API is enabled in the server. It</span>
+<span class="c1"># should be false when using no security groups or using the nova security</span>
+<span class="c1"># group API. (boolean value)</span>
+<span class="c1">#enable_security_group = true</span>
+
+<span class="c1"># Use ipset to speed-up the iptables based security groups. Enabling ipset</span>
+<span class="c1"># support requires that ipset is installed on L2 agent node. (boolean value)</span>
+<span class="c1">#enable_ipset = true</span>
+</pre></div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="sriov_agent.ini.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: sriov_agent.ini"></i></a>
+          
+          
+            <a href="dhcp_agent.ini.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: dhcp_agent.ini"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../networking.html">Networking service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../networking_options_reference.html">Networking configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fwaas.html">Firewall-as-a-Service configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lbaas.html">Load-Balancer-as-a-Service configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vpnaas.html">VPN-as-a-Service configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Log files used by Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Networking sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced.html">Networking advanced services configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/neutron.html">New, updated, and deprecated options in Newton for Networking</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "networking/samples/openvswitch_agent.ini" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "openvswitch_agent.ini in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/networking/samples/openvswitch_agent.ini.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:34:45 GMT -->
+</html>

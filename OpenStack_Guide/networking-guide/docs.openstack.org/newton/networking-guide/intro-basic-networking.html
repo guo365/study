@@ -1,0 +1,821 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/networking-guide/intro-basic-networking.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:47:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Basic networking</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Basic networking</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="intro.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Introduction"></i></a>
+    
+    
+    <a href="intro-network-components.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Network components"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:02</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Basic networking</a><ul>
+<li><a class="reference internal" href="#ethernet">Ethernet</a></li>
+<li><a class="reference internal" href="#vlans">VLANs</a></li>
+<li><a class="reference internal" href="#subnets-and-arp">Subnets and ARP</a></li>
+<li><a class="reference internal" href="#dhcp">DHCP</a></li>
+<li><a class="reference internal" href="#ip">IP</a></li>
+<li><a class="reference internal" href="#tcp-udp-icmp">TCP/UDP/ICMP</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="basic-networking">
+<span id="intro-basic-networking"></span><h1>Basic networking<a class="headerlink" href="#basic-networking" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ethernet">
+<h2>Ethernet<a class="headerlink" href="#ethernet" title="Permalink to this headline">¶</a></h2>
+<p>Ethernet is a networking protocol, specified by the IEEE 802.3 standard. Most
+wired network interface cards (NICs) communicate using Ethernet.</p>
+<p>In the <a class="reference external" href="https://en.wikipedia.org/wiki/OSI_model">OSI model</a> of networking
+protocols, Ethernet occupies the second layer, which is known as the data
+link layer. When discussing Ethernet, you will often hear terms such as
+<em>local network</em>, <em>layer 2</em>, <em>L2</em>, <em>link layer</em> and <em>data link layer</em>.</p>
+<p>In an Ethernet network, the hosts connected to the network communicate
+by exchanging <em>frames</em>. Every host on an Ethernet network is uniquely
+identified by an address called the media access control (MAC) address.
+In particular, every virtual machine instance in an OpenStack environment
+has a unique MAC address, which is different from the MAC address of the
+compute host. A MAC address has 48 bits and is typically represented as a
+hexadecimal string, such as <code class="docutils literal"><span class="pre">08:00:27:b9:88:74</span></code>. The MAC address is
+hard-coded into the NIC by the manufacturer, although modern NICs
+allow you to change the MAC address programmatically. In Linux, you can
+retrieve the MAC address of a NIC using the <strong class="command">ip</strong> command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ip link show eth0
+<span class="go">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000</span>
+<span class="go">     link/ether 08:00:27:b9:88:74 brd ff:ff:ff:ff:ff:ff</span>
+</pre></div>
+</div>
+<p>Conceptually, you can think of an Ethernet network as a single bus
+that each of the network hosts connects to. In early implementations,
+an Ethernet network consisted of a single coaxial cable that hosts
+would tap into to connect to the network. However, network hosts in
+modern Ethernet networks connect directly to a network device called a
+<em>switch</em>. Still, this conceptual model is useful, and in network diagrams
+(including those generated by the OpenStack dashboard) an Ethernet network
+is often depicted as if it was a single bus. You&#8217;ll sometimes hear an
+Ethernet network referred to as a <em>layer 2 segment</em>.</p>
+<p>In an Ethernet network, every host on the network can send a frame directly to
+every other host. An Ethernet network also supports broadcasts so
+that one host can send a frame to every host on the network by sending to the
+special MAC address <code class="docutils literal"><span class="pre">ff:ff:ff:ff:ff:ff</span></code>. <a class="reference internal" href="#arp">ARP</a> and <a class="reference internal" href="#dhcp">DHCP</a>
+are two notable protocols that use Ethernet broadcasts. Because Ethernet
+networks support broadcasts, you will sometimes hear an Ethernet network
+referred to as a <em>broadcast domain</em>.</p>
+<p>When a NIC receives an Ethernet frame, by default the NIC checks to
+see if the destination MAC address matches the address of the NIC (or
+the broadcast address), and the Ethernet frame is discarded if the MAC
+address does not match. For a compute host, this behavior is
+undesirable because the frame may be intended for one of the
+instances. NICs can be configured for <em>promiscuous mode</em>, where they
+pass all Ethernet frames to the operating system, even if the MAC
+address does not match. Compute hosts should always have the
+appropriate NICs configured for promiscuous mode.</p>
+<p>As mentioned earlier, modern Ethernet networks use switches to
+interconnect the network hosts. A switch is a box of networking
+hardware with a large number of ports that forward Ethernet frames
+from one connected host to another. When hosts first send frames over
+the switch, the switch doesn’t know which MAC address is associated
+with which port. If an Ethernet frame is destined for an unknown MAC
+address, the switch broadcasts the frame to all ports. The switch learns
+which MAC addresses are at which ports by observing the traffic. Once
+it knows which MAC address is associated with a port, it can send
+Ethernet frames to the correct port instead of broadcasting. The
+switch maintains the mappings of MAC addresses to switch ports in a
+table called a <em>forwarding table</em> or <em>forwarding information base</em>
+(FIB). Switches can be daisy-chained together, and the resulting
+connection of switches and hosts behaves like a single network.</p>
+</div>
+<div class="section" id="vlans">
+<h2>VLANs<a class="headerlink" href="#vlans" title="Permalink to this headline">¶</a></h2>
+<p>VLAN is a networking technology that enables a single switch to act as
+if it was multiple independent switches. Specifically, two hosts that
+are connected to the same switch but on different VLANs do not see
+each other&#8217;s traffic. OpenStack is able to take advantage of VLANs to
+isolate the traffic of different projects, even if the projects happen
+to have instances running on the same compute host. Each VLAN has an
+associated numerical ID, between 1 and 4095. We say &#8220;VLAN 15&#8221; to refer
+to the VLAN with a numerical ID of 15.</p>
+<p>To understand how VLANs work, let&#8217;s consider VLAN applications in a
+traditional IT environment, where physical hosts are attached to a
+physical switch, and no virtualization is involved. Imagine a scenario
+where you want three isolated networks but you only have a single
+physical switch. The network administrator would choose three VLAN
+IDs, for example, 10, 11, and 12, and would configure the switch to
+associate switchports with VLAN IDs. For example, switchport 2 might be
+associated with VLAN 10, switchport 3 might be associated with VLAN
+11, and so forth. When a switchport is configured for a specific VLAN,
+it is called an <em>access port</em>. The switch is responsible for ensuring
+that the network traffic is isolated across the VLANs.</p>
+<p>Now consider the scenario that all of the switchports in the first
+switch become occupied, and so the organization buys a second switch
+and connects it to the first switch to expand the available number of
+switchports. The second switch is also configured to support VLAN IDs
+10, 11, and 12. Now imagine host A connected to switch 1 on a port
+configured for VLAN ID 10 sends an Ethernet frame intended for host B
+connected to switch 2 on a port configured for VLAN ID 10. When switch
+1 forwards the Ethernet frame to switch 2, it must communicate that
+the frame is associated with VLAN ID 10.</p>
+<p>If two switches are to be connected together, and the switches are configured
+for VLANs, then the switchports used for cross-connecting the switches must be
+configured to allow Ethernet frames from any VLAN to be
+forwarded to the other switch. In addition, the sending switch must tag each
+Ethernet frame with the VLAN ID so that the receiving switch can ensure that
+only hosts on the matching VLAN are eligible to receive the frame.</p>
+<p>A switchport that is configured to pass frames from all VLANs and tag them with
+the VLAN IDs is called a <em>trunk port</em>. IEEE 802.1Q is the network standard
+that describes how VLAN tags are encoded in Ethernet frames when trunking is
+being used.</p>
+<p>Note that if you are using VLANs on your physical switches to implement project
+isolation in your OpenStack cloud, you must ensure that all of your
+switchports are configured as trunk ports.</p>
+<p>It is important that you select a VLAN range not being used by your current
+network infrastructure. For example, if you estimate that your cloud must
+support a maximum of 100 projects, pick a VLAN range outside of that value,
+such as VLAN 200–299. OpenStack, and all physical network infrastructure that
+handles project networks, must then support this VLAN range.</p>
+<p>Trunking is used to connect between different switches. Each trunk uses a tag
+to identify which VLAN is in use. This ensures that switches on the same VLAN
+can communicate.</p>
+</div>
+<div class="section" id="subnets-and-arp">
+<span id="arp"></span><h2>Subnets and ARP<a class="headerlink" href="#subnets-and-arp" title="Permalink to this headline">¶</a></h2>
+<p>While NICs use MAC addresses to address network hosts, TCP/IP applications use
+IP addresses. The Address Resolution Protocol (ARP) bridges the gap between
+Ethernet and IP by translating IP addresses into MAC addresses.</p>
+<p>IP addresses are broken up into two parts: a <em>network number</em> and a <em>host
+identifier</em>. Two hosts are on the same <em>subnet</em> if they have the same network
+number. Recall that two hosts can only communicate directly over Ethernet if
+they are on the same local network. ARP assumes that all machines that are in
+the same subnet are on the same local network. Network administrators must
+take care when assigning IP addresses and netmasks to hosts so that any two
+hosts that are in the same subnet are on the same local network, otherwise ARP
+does not work properly.</p>
+<p>To calculate the network number of an IP address, you must know the <em>netmask</em>
+associated with the address. A netmask indicates how many of the bits in
+the 32-bit IP address make up the network number.</p>
+<p>There are two syntaxes for expressing a netmask:</p>
+<ul class="simple">
+<li>dotted quad</li>
+<li>classless inter-domain routing (CIDR)</li>
+</ul>
+<p>Consider an IP address of 192.168.1.5, where the first 24 bits of the
+address are the network number. In dotted quad notation, the netmask
+would be written as <code class="docutils literal"><span class="pre">255.255.255.0</span></code>. CIDR notation includes both the
+IP address and netmask, and this example would be written as
+<code class="docutils literal"><span class="pre">192.168.1.5/24</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Creating CIDR subnets including a multicast address or a loopback address
+cannot be used in an OpenStack environment. For example, creating a subnet
+using <code class="docutils literal"><span class="pre">224.0.0.0/16</span></code> or <code class="docutils literal"><span class="pre">127.0.1.0/24</span></code> is not supported.</p>
+</div>
+<p>Sometimes we want to refer to a subnet, but not any particular IP
+address on the subnet. A common convention is to set the host
+identifier to all zeros to make reference to a subnet. For example, if
+a host&#8217;s IP address is <code class="docutils literal"><span class="pre">10.10.53.24/16</span></code>, then we would say the
+subnet is <code class="docutils literal"><span class="pre">10.10.0.0/16</span></code>.</p>
+<p>To understand how ARP translates IP addresses to MAC addresses,
+consider the following example. Assume host <em>A</em> has an IP address of
+<code class="docutils literal"><span class="pre">192.168.1.5/24</span></code> and a MAC address of <code class="docutils literal"><span class="pre">fc:99:47:49:d4:a0</span></code>, and
+wants to send a packet to host <em>B</em> with an IP address of
+<code class="docutils literal"><span class="pre">192.168.1.7</span></code>. Note that the network number is the same for both
+hosts, so host <em>A</em> is able to send frames directly to host <em>B</em>.</p>
+<p>The first time host <em>A</em> attempts to communicate with host <em>B</em>, the
+destination MAC address is not known. Host <em>A</em> makes an ARP request to
+the local network. The request is a broadcast with a message like
+this:</p>
+<p><em>To: everybody (ff:ff:ff:ff:ff:ff). I am looking for the computer who
+has IP address 192.168.1.7. Signed: MAC address fc:99:47:49:d4:a0</em>.</p>
+<p>Host <em>B</em> responds with a response like this:</p>
+<p><em>To: fc:99:47:49:d4:a0. I have IP address 192.168.1.7. Signed: MAC
+address 54:78:1a:86:00:a5.</em></p>
+<p>Host <em>A</em> then sends Ethernet frames to host <em>B</em>.</p>
+<p>You can initiate an ARP request manually using the <strong class="command">arping</strong> command.
+For example, to send an ARP request to IP address <code class="docutils literal"><span class="pre">10.30.0.132</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> arping -I eth0 10.30.0.132
+<span class="go">ARPING 10.30.0.132 from 10.30.0.131 eth0</span>
+<span class="go">Unicast reply from 10.30.0.132 [54:78:1A:86:1C:0B]  0.670ms</span>
+<span class="go">Unicast reply from 10.30.0.132 [54:78:1A:86:1C:0B]  0.722ms</span>
+<span class="go">Unicast reply from 10.30.0.132 [54:78:1A:86:1C:0B]  0.723ms</span>
+<span class="go">Sent 3 probes (1 broadcast(s))</span>
+<span class="go">Received 3 response(s)</span>
+</pre></div>
+</div>
+<p>To reduce the number of ARP requests, operating systems maintain an ARP cache
+that contains the mappings of IP addresses to MAC address. On a Linux machine,
+you can view the contents of the ARP cache by using the <strong class="command">arp</strong>
+command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> arp -n
+<span class="go">Address                  HWtype  HWaddress           Flags Mask            Iface</span>
+<span class="go">10.0.2.3                 ether   52:54:00:12:35:03   C                     eth0</span>
+<span class="go">10.0.2.2                 ether   52:54:00:12:35:02   C                     eth0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dhcp">
+<span id="id1"></span><h2>DHCP<a class="headerlink" href="#dhcp" title="Permalink to this headline">¶</a></h2>
+<p>Hosts connected to a network use the <a class="reference internal" href="common/glossary.html#term-dynamic-host-configuration-protocol-dhcp"><span class="xref std std-term">Dynamic Host Configuration
+Protocol (DHCP)</span></a> to dynamically obtain IP addresses. A DHCP
+server hands out the IP addresses to network hosts, which are the DHCP
+clients.</p>
+<p>DHCP clients locate the DHCP server by sending a <a class="reference internal" href="#udp">UDP</a> packet from port
+68 to address <code class="docutils literal"><span class="pre">255.255.255.255</span></code> on port 67. Address
+<code class="docutils literal"><span class="pre">255.255.255.255</span></code> is the local network broadcast address: all hosts
+on the local network see the UDP packets sent to this address.
+However, such packets are not forwarded to other networks.
+Consequently, the DHCP server must be on the same local network as the
+client, or the server will not receive the broadcast. The DHCP server
+responds by sending a UDP packet from port 67 to port 68 on the
+client. The exchange looks like this:</p>
+<ol class="arabic simple">
+<li>The client sends a discover (&#8220;I’m a client at MAC address
+<code class="docutils literal"><span class="pre">08:00:27:b9:88:74</span></code>, I need an IP address&#8221;)</li>
+<li>The server sends an offer (&#8220;OK <code class="docutils literal"><span class="pre">08:00:27:b9:88:74</span></code>, I’m offering
+IP address <code class="docutils literal"><span class="pre">10.10.0.112</span></code>&#8221;)</li>
+<li>The client sends a request (&#8220;Server <code class="docutils literal"><span class="pre">10.10.0.131</span></code>, I would like
+to have IP <code class="docutils literal"><span class="pre">10.10.0.112</span></code>&#8221;)</li>
+<li>The server sends an acknowledgement (&#8220;OK <code class="docutils literal"><span class="pre">08:00:27:b9:88:74</span></code>, IP
+<code class="docutils literal"><span class="pre">10.10.0.112</span></code> is yours&#8221;)</li>
+</ol>
+<p>OpenStack uses a third-party program called
+<a class="reference external" href="http://www.thekelleys.org.uk/dnsmasq/doc.html">dnsmasq</a>
+to implement the DHCP server.
+Dnsmasq writes to the syslog, where you can observe the DHCP request
+and replies:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span>Apr 23 15:53:46 c100-1 dhcpd: DHCPDISCOVER from 08:00:27:b9:88:74 via eth2
+Apr 23 15:53:46 c100-1 dhcpd: DHCPOFFER on 10.10.0.112 to 08:00:27:b9:88:74 via eth2
+Apr 23 15:53:48 c100-1 dhcpd: DHCPREQUEST for 10.10.0.112 (10.10.0.131) from 08:00:27:b9:88:74 via eth2
+Apr 23 15:53:48 c100-1 dhcpd: DHCPACK on 10.10.0.112 to 08:00:27:b9:88:74 via eth2
+</pre></div>
+</div>
+<p>When troubleshooting an instance that is not reachable over the network, it can
+be helpful to examine this log to verify that all four steps of the DHCP
+protocol were carried out for the instance in question.</p>
+</div>
+<div class="section" id="ip">
+<h2>IP<a class="headerlink" href="#ip" title="Permalink to this headline">¶</a></h2>
+<p>The Internet Protocol (IP) specifies how to route packets between
+hosts that are connected to different local networks. IP relies on
+special network hosts called <em>routers</em> or <em>gateways</em>. A router is a
+host that is connected to at least two local networks and can forward
+IP packets from one local network to another. A router has multiple IP
+addresses: one for each of the networks it is connected to.</p>
+<p>In the OSI model of networking protocols IP occupies the third layer,
+known as the network layer. When discussing IP, you will often hear terms
+such as <em>layer 3</em>, <em>L3</em>, and <em>network layer</em>.</p>
+<p>A host sending a packet to an IP address consults its <em>routing table</em>
+to determine which machine on the local network(s) the packet should
+be sent to. The routing table maintains a list of the subnets
+associated with each local network that the host is directly connected
+to, as well as a list of routers that are on these local networks.</p>
+<p>On a Linux machine, any of the following commands displays the routing table:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ip route show
+<span class="gp">$</span> route -n
+<span class="gp">$</span> netstat -rn
+</pre></div>
+</div>
+<p>Here is an example of output from <strong class="command">ip route show</strong>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ip route show
+<span class="go">default via 10.0.2.2 dev eth0</span>
+<span class="go">10.0.2.0/24 dev eth0  proto kernel  scope link  src 10.0.2.15</span>
+<span class="go">192.168.27.0/24 dev eth1  proto kernel  scope link  src 192.168.27.100</span>
+<span class="go">192.168.122.0/24 dev virbr0  proto kernel  scope link  src 192.168.122.1</span>
+</pre></div>
+</div>
+<p>Line 1 of the output specifies the location of the default route,
+which is the effective routing rule if none of the other rules match.
+The router associated with the default route (<code class="docutils literal"><span class="pre">10.0.2.2</span></code> in the
+example above) is sometimes referred to as the <em>default gateway</em>. A
+<a class="reference internal" href="#dhcp">DHCP</a> server typically transmits the IP address of the default gateway
+to the DHCP client along with the client&#8217;s IP address and a netmask.</p>
+<p>Line 2 of the output specifies that IPs in the <code class="docutils literal"><span class="pre">10.0.2.0/24</span></code> subnet are on
+the local network associated with the network interface eth0.</p>
+<p>Line 3 of the output specifies that IPs in the <code class="docutils literal"><span class="pre">192.168.27.0/24</span></code> subnet
+are on the local network associated with the network interface eth1.</p>
+<p>Line 4 of the output specifies that IPs in the <code class="docutils literal"><span class="pre">192.168.122.0/24</span></code> subnet are
+on the local network associated with the network interface virbr0.</p>
+<p>The output of the <strong class="command">route -n</strong> and <strong class="command">netstat -rn</strong> commands are
+formatted in a slightly different way. This example shows how the same
+routes would be formatted using these commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> route -n
+<span class="go">Kernel IP routing table</span>
+<span class="go">Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface</span>
+<span class="go">0.0.0.0         10.0.2.2        0.0.0.0         UG        0 0          0 eth0</span>
+<span class="go">10.0.2.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0</span>
+<span class="go">192.168.27.0    0.0.0.0         255.255.255.0   U         0 0          0 eth1</span>
+<span class="go">192.168.122.0   0.0.0.0         255.255.255.0   U         0 0          0 virbr0</span>
+</pre></div>
+</div>
+<p>The <strong class="command">ip route get</strong> command outputs the route for a destination
+IP address. From the below example, destination IP address <code class="docutils literal"><span class="pre">10.0.2.14</span></code> is on
+the local network of eth0 and would be sent directly:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ip route get 10.0.2.14
+<span class="go">10.0.2.14 dev eth0  src 10.0.2.15</span>
+</pre></div>
+</div>
+<p>The destination IP address <code class="docutils literal"><span class="pre">93.184.216.34</span></code> is not on any of the connected
+local  networks and would be forwarded to the default gateway at <code class="docutils literal"><span class="pre">10.0.2.2</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ip route get 93.184.216.34
+<span class="go">93.184.216.34 via 10.0.2.2 dev eth0  src 10.0.2.15</span>
+</pre></div>
+</div>
+<p>It is common for a packet to hop across multiple routers to reach its final
+destination. On a Linux machine, the <code class="docutils literal"><span class="pre">traceroute</span></code> and more recent <code class="docutils literal"><span class="pre">mtr</span></code>
+programs prints out the IP address of each router that an IP packet
+traverses along its path to its destination.</p>
+</div>
+<div class="section" id="tcp-udp-icmp">
+<span id="udp"></span><h2>TCP/UDP/ICMP<a class="headerlink" href="#tcp-udp-icmp" title="Permalink to this headline">¶</a></h2>
+<p>For networked software applications to communicate over an IP network, they
+must use a protocol layered atop IP. These protocols occupy the fourth
+layer of the OSI model known as the <em>transport layer</em> or <em>layer 4</em>. See the
+<a class="reference external" href="http://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml">Protocol Numbers</a>
+web page maintained by the Internet Assigned Numbers
+Authority (IANA) for a list of protocols that layer atop IP and their
+associated numbers.</p>
+<p>The <em>Transmission Control Protocol</em> (TCP) is the most
+commonly used layer 4 protocol in networked applications. TCP is a
+<em>connection-oriented</em> protocol: it uses a client-server model where a client
+connects to a server, where <em>server</em> refers to the application that receives
+connections. The typical interaction in a TCP-based application proceeds as
+follows:</p>
+<ol class="arabic simple">
+<li>Client connects to server.</li>
+<li>Client and server exchange data.</li>
+<li>Client or server disconnects.</li>
+</ol>
+<p>Because a network host may have multiple TCP-based applications running, TCP
+uses an addressing scheme called <em>ports</em> to uniquely identify TCP-based
+applications. A TCP port is associated with a number in the range 1-65535, and
+only one application on a host can be associated with a TCP port at a time, a
+restriction that is enforced by the operating system.</p>
+<p>A TCP server is said to <em>listen</em> on a port. For example, an SSH server
+typically listens on port 22. For a client to connect to a server
+using TCP, the client must know both the IP address of a server&#8217;s host
+and the server&#8217;s TCP port.</p>
+<p>The operating system of the TCP client application automatically
+assigns a port number to the client. The client owns this port number
+until the TCP connection is terminated, after which the operating
+system reclaims the port number. These types of ports are referred to
+as <em>ephemeral ports</em>.</p>
+<p>IANA maintains a <a class="reference external" href="http://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml">registry of port numbers</a>
+for many TCP-based services, as well as services that use other layer 4
+protocols that employ ports. Registering a TCP port number is not required, but
+registering a port number is helpful to avoid collisions with other
+services. See <a class="reference external" href="http://docs.openstack.org/newton/config-reference/firewalls-default-ports.html">Appendix B. Firewalls and default ports</a>
+of the <a class="reference external" href="http://docs.openstack.org/newton/config-reference/">OpenStack Configuration Reference</a>
+for the default TCP ports used by various services involved in an OpenStack
+deployment.</p>
+<p>The most common application programming interface (API) for writing TCP-based
+applications is called <em>Berkeley sockets</em>, also known as <em>BSD sockets</em> or,
+simply, <em>sockets</em>. The sockets API exposes a <em>stream oriented</em> interface for
+writing TCP applications. From the perspective of a programmer, sending data
+over a TCP connection is similar to writing a stream of bytes to a file. It is
+the responsibility of the operating system&#8217;s TCP/IP implementation to break up
+the stream of data into IP packets. The operating system is also
+responsible for automatically retransmitting dropped packets, and for
+handling flow control to ensure that transmitted data does not overrun
+the sender&#8217;s data buffers, receiver&#8217;s data buffers, and network
+capacity. Finally, the operating system is responsible for
+re-assembling the packets in the correct order into a stream of data
+on the receiver&#8217;s side. Because TCP detects and retransmits lost
+packets, it is said to be a <em>reliable</em> protocol.</p>
+<p>The <em>User Datagram Protocol</em> (UDP) is another layer 4 protocol that is
+the basis of several well-known networking protocols. UDP is a
+<em>connectionless</em> protocol: two applications that communicate over UDP
+do not need to establish a connection before exchanging data. UDP is
+also an <em>unreliable</em> protocol. The operating system does not attempt
+to retransmit or even detect lost UDP packets. The operating system
+also does not provide any guarantee that the receiving application
+sees the UDP packets in the same order that they were sent in.</p>
+<p>UDP, like TCP, uses the notion of ports to distinguish between different
+applications running on the same system. Note, however, that operating systems
+treat UDP ports separately from TCP ports. For example, it is possible for one
+application to be associated with TCP port 16543 and a separate application to
+be associated with UDP port 16543.</p>
+<p>Like TCP, the sockets API is the most common API for writing UDP-based
+applications. The sockets API provides a <em>message-oriented</em> interface for
+writing UDP applications: a programmer sends data over UDP by transmitting a
+fixed-sized message. If an application requires retransmissions of lost packets
+or a well-defined ordering of received packets, the programmer is responsible
+for implementing this functionality in the application code.</p>
+<p><a class="reference internal" href="#dhcp">DHCP</a>, the Domain Name System (DNS), the Network Time Protocol (NTP), and
+<a class="reference internal" href="intro-overlay-protocols.html#vxlan"><span>Virtual extensible local area network (VXLAN)</span></a> are examples of UDP-based protocols used in OpenStack deployments.</p>
+<p>UDP has support for one-to-many communication: sending a single packet
+to multiple hosts. An application can broadcast a UDP packet to all of
+the network hosts on a local network by setting the receiver IP
+address as the special IP broadcast address <code class="docutils literal"><span class="pre">255.255.255.255</span></code>. An
+application can also send a UDP packet to a set of receivers using <em>IP
+multicast</em>. The intended receiver applications join a multicast group
+by binding a UDP socket to a special IP address that is one of the
+valid multicast group addresses. The receiving hosts do not have to be
+on the same local network as the sender, but the intervening routers
+must be configured to support IP multicast routing. VXLAN is an
+example of a UDP-based protocol that uses IP multicast.</p>
+<p>The <em>Internet Control Message Protocol</em> (ICMP) is a protocol used for sending
+control messages over an IP network. For example, a router that receives an IP
+packet may send an ICMP packet back to the source if there is no route in the
+router&#8217;s routing table that corresponds to the destination address
+(ICMP code 1, destination host unreachable) or if the IP packet is too
+large for the router to handle (ICMP code 4, fragmentation required
+and &#8220;don&#8217;t fragment&#8221; flag is set).</p>
+<p>The <strong class="command">ping</strong> and <strong class="command">mtr</strong> Linux command-line tools are two
+examples of network utilities that use ICMP.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="intro.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Introduction"></i></a>
+          
+          
+            <a href="intro-network-components.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Network components"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:02</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="intro.html">Introduction</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Basic networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro-network-components.html">Network components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro-overlay-protocols.html">Overlay (tunnel) protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro-network-namespaces.html">Network namespaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro-nat.html">Network address translation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro-os-networking.html">OpenStack Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fwaas.html">Firewall-as-a-Service (FWaaS)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploy.html">Deployment examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">Miscellaneous</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "intro-basic-networking" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/networking-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Basic networking in Networking Guide";
+    var fieldTags = "networking-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:02";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/networking-guide/intro-basic-networking.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:47:22 GMT -->
+</html>

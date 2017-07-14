@@ -1,0 +1,933 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/networking-guide/deploy-ovs-ha-dvr.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:48:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Open vSwitch: High availability using DVR</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Open vSwitch: High availability using DVR</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="deploy-ovs-ha-vrrp.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Open vSwitch: High availability using VRRP"></i></a>
+    
+    
+    <a href="ops.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Operations"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:02</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Open vSwitch: High availability using DVR</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#architecture">Architecture</a></li>
+<li><a class="reference internal" href="#example-configuration">Example configuration</a><ul>
+<li><a class="reference internal" href="#controller-node">Controller node</a></li>
+<li><a class="reference internal" href="#network-node">Network node</a></li>
+<li><a class="reference internal" href="#compute-nodes">Compute nodes</a></li>
+<li><a class="reference internal" href="#verify-service-operation">Verify service operation</a></li>
+<li><a class="reference internal" href="#create-initial-networks">Create initial networks</a></li>
+<li><a class="reference internal" href="#verify-network-operation">Verify network operation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-traffic-flow">Network traffic flow</a><ul>
+<li><a class="reference internal" href="#north-south-scenario-1-instance-with-a-fixed-ip-address">North-south scenario 1: Instance with a fixed IP address</a></li>
+<li><a class="reference internal" href="#north-south-scenario-2-instance-with-a-floating-ipv4-address">North-south scenario 2: Instance with a floating IPv4 address</a></li>
+<li><a class="reference internal" href="#east-west-scenario-1-instances-on-different-networks-on-the-same-router">East-west scenario 1: Instances on different networks on the same router</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="open-vswitch-high-availability-using-dvr">
+<span id="deploy-ovs-ha-dvr"></span><h1>Open vSwitch: High availability using DVR<a class="headerlink" href="#open-vswitch-high-availability-using-dvr" title="Permalink to this headline">¶</a></h1>
+<p>This architecture example augments the self-service deployment example
+with the Distributed Virtual Router (DVR) high-availability mechanism that
+provides connectivity between self-service and provider networks on compute
+nodes rather than network nodes for specific scenarios. For instances with a
+floating IPv4 address, routing between self-service and provider networks
+resides completely on the compute nodes to eliminate single point of
+failure and performance issues with network nodes. Routing also resides
+completely on the compute nodes for instances with a fixed or floating IPv4
+address using self-service networks on the same distributed virtual router.
+However, instances with a fixed IP address still rely on the network node for
+routing and SNAT services between self-service and provider networks.</p>
+<p>Consider the following attributes of this high-availability mechanism to
+determine practicality in your environment:</p>
+<ul class="simple">
+<li>Only provides connectivity to an instance via the compute node on which
+the instance resides if the instance resides on a self-service network
+with a floating IPv4 address. Instances on self-service networks with
+only an IPv6 address or both IPv4 and IPv6 addresses rely on the network
+node for IPv6 connectivity.</li>
+<li>The instance of a router on each compute node consumes an IPv4 address
+on the provider network on which it contains a gateway.</li>
+</ul>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>Modify the compute nodes with the following components:</p>
+<ul class="simple">
+<li>Install the OpenStack Networking layer-3 agent.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Consider adding at least one additional network node to provide
+high-availability for instances with a fixed IP address. See
+See <a class="reference internal" href="config-dvr-ha-snat.html#config-dvr-snat-ha-ovs"><span>Distributed Virtual Routing with VRRP</span></a> for more information.</p>
+</div>
+</div>
+<div class="section" id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h2>
+<img alt="High-availability using Open vSwitch with DVR - overview" src="_images/deploy-ovs-ha-dvr-overview.png" />
+<p>The following figure shows components and connectivity for one self-service
+network and one untagged (flat) network. In this particular case, the
+instance resides on the same compute node as the DHCP agent for the network.
+If the DHCP agent resides on another compute node, the latter only contains
+a DHCP namespace with a port on the OVS integration bridge.</p>
+<img alt="High-availability using Open vSwitch with DVR - components and connectivity - one network" src="_images/deploy-ovs-ha-dvr-compconn1.png" />
+</div>
+<div class="section" id="example-configuration">
+<h2>Example configuration<a class="headerlink" href="#example-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Use the following example configuration as a template to add support for
+high-availability using DVR to an existing operational environment that
+supports self-service networks.</p>
+<div class="section" id="controller-node">
+<h3>Controller node<a class="headerlink" href="#controller-node" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">In the <code class="docutils literal"><span class="pre">neutron.conf</span></code> file:</p>
+<ul>
+<li><p class="first">Enable distributed routing by default for all routers.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">router_distributed</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Restart the following services:</p>
+<ul class="simple">
+<li>Server</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="network-node">
+<h3>Network node<a class="headerlink" href="#network-node" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">In the <code class="docutils literal"><span class="pre">openswitch_agent.ini</span></code> file, enable distributed routing.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">enable_distributed_routing</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">In the <code class="docutils literal"><span class="pre">l3_agent.ini</span></code> file, configure the layer-3 agent to provide
+SNAT services.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">agent_mode</span> <span class="o">=</span> <span class="s">dvr_snat</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">external_network_bridge</span></code> option intentionally contains
+no value.</p>
+</div>
+</li>
+<li><p class="first">Restart the following services:</p>
+<ul class="simple">
+<li>Open vSwitch agent</li>
+<li>Layer-3 agent</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="section" id="compute-nodes">
+<h3>Compute nodes<a class="headerlink" href="#compute-nodes" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Install the Networking service layer-3 agent.</p>
+</li>
+<li><p class="first">In the <code class="docutils literal"><span class="pre">openswitch_agent.ini</span></code> file, enable distributed routing.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">enable_distributed_routing</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Restart the following services:</p>
+<ul class="simple">
+<li>Open vSwitch agent</li>
+</ul>
+</li>
+<li><p class="first">In the <code class="docutils literal"><span class="pre">l3_agent.ini</span></code> file, configure the layer-3 agent.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">interface_driver</span> <span class="o">=</span> <span class="s">openvswitch</span>
+<span class="na">external_network_bridge</span> <span class="o">=</span>
+<span class="na">agent_mode</span> <span class="o">=</span> <span class="s">dvr</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">external_network_bridge</span></code> option intentionally contains
+no value.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="verify-service-operation">
+<h3>Verify service operation<a class="headerlink" href="#verify-service-operation" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Source the administrative project credentials.</p>
+</li>
+<li><p class="first">Verify presence and operation of the agents.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network agent list
+<span class="go">+--------------------------------------+--------------------+----------+-------------------+-------+-------+---------------------------+</span>
+<span class="go">| ID                                   | Agent Type         | Host     | Availability Zone | Alive | State | Binary                    |</span>
+<span class="go">+--------------------------------------+--------------------+----------+-------------------+-------+-------+---------------------------+</span>
+<span class="go">| 05d980f2-a4fc-4815-91e7-a7f7e118c0db | L3 agent           | compute1 | nova              | True  | UP    | neutron-l3-agent          |</span>
+<span class="go">| 1236bbcb-e0ba-48a9-80fc-81202ca4fa51 | Metadata agent     | compute2 |                   | True  | UP    | neutron-metadata-agent    |</span>
+<span class="go">| 2a2e9a90-51b8-4163-a7d6-3e199ba2374b | L3 agent           | compute2 | nova              | True  | UP    | neutron-l3-agent          |</span>
+<span class="go">| 457d6898-b373-4bb3-b41f-59345dcfb5c5 | Open vSwitch agent | compute2 |                   | True  | UP    | neutron-openvswitch-agent |</span>
+<span class="go">| 513caa68-0391-4e53-a530-082e2c23e819 | Linux bridge agent | compute1 |                   | True  | UP    | neutron-linuxbridge-agent |</span>
+<span class="go">| 71f15e84-bc47-4c2a-b9fb-317840b2d753 | DHCP agent         | compute2 | nova              | True  | UP    | neutron-dhcp-agent        |</span>
+<span class="go">| 8805b962-de95-4e40-bdc2-7a0add7521e8 | L3 agent           | network1 | nova              | True  | UP    | neutron-l3-agent          |</span>
+<span class="go">| a33cac5a-0266-48f6-9cac-4cef4f8b0358 | Open vSwitch agent | network1 |                   | True  | UP    | neutron-openvswitch-agent |</span>
+<span class="go">| a6c69690-e7f7-4e56-9831-1282753e5007 | Metadata agent     | compute1 |                   | True  | UP    | neutron-metadata-agent    |</span>
+<span class="go">| af11f22f-a9f4-404f-9fd8-cd7ad55c0f68 | DHCP agent         | compute1 | nova              | True  | UP    | neutron-dhcp-agent        |</span>
+<span class="go">| bcfc977b-ec0e-4ba9-be62-9489b4b0e6f1 | Open vSwitch agent | compute1 |                   | True  | UP    | neutron-openvswitch-agent |</span>
+<span class="go">+--------------------------------------+--------------------+----------+-------------------+-------+-------+---------------------------+</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="create-initial-networks">
+<h3>Create initial networks<a class="headerlink" href="#create-initial-networks" title="Permalink to this headline">¶</a></h3>
+<p>Similar to the self-service deployment example, this configuration supports
+multiple VXLAN self-service networks. After enabling high-availability, all
+additional routers use distributed routing. The following procedure creates
+an additional self-service network and router. The Networking service also
+supports adding distributed routing to existing routers.</p>
+<ol class="arabic">
+<li><p class="first">Source a regular (non-administrative) project credentials.</p>
+</li>
+<li><p class="first">Create a self-service network.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network create selfservice2
+<span class="go">+-------------------------+--------------+</span>
+<span class="go">| Field                   | Value        |</span>
+<span class="go">+-------------------------+--------------+</span>
+<span class="go">| admin_state_up          | UP           |</span>
+<span class="go">| mtu                     | 1450         |</span>
+<span class="go">| name                    | selfservice2 |</span>
+<span class="go">| port_security_enabled   | True         |</span>
+<span class="go">| router:external         | Internal     |</span>
+<span class="go">| shared                  | False        |</span>
+<span class="go">| status                  | ACTIVE       |</span>
+<span class="go">+-------------------------+--------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a IPv4 subnet on the self-service network.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack subnet create --subnet-range 192.168.2.0/24 <span class="se">\</span>
+<span class="go">  --network selfservice2 --dns-nameserver 8.8.4.4 selfservice2-v4</span>
+<span class="go">+-------------------+---------------------------+</span>
+<span class="go">| Field             | Value                     |</span>
+<span class="go">+-------------------+---------------------------+</span>
+<span class="go">| allocation_pools  | 192.168.2.2-192.168.2.254 |</span>
+<span class="go">| cidr              | 192.168.2.0/24            |</span>
+<span class="go">| dns_nameservers   | 8.8.4.4                   |</span>
+<span class="go">| enable_dhcp       | True                      |</span>
+<span class="go">| gateway_ip        | 192.168.2.1               |</span>
+<span class="go">| ip_version        | 4                         |</span>
+<span class="go">| name              | selfservice2-v4           |</span>
+<span class="go">+-------------------+---------------------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a IPv6 subnet on the self-service network.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack subnet create --subnet-range fd00:192:168:2::/64 --ip-version <span class="m">6</span> <span class="se">\</span>
+<span class="go">  --ipv6-ra-mode slaac --ipv6-address-mode slaac --network selfservice2 \</span>
+<span class="go">  --dns-nameserver 2001:4860:4860::8844 selfservice2-v6</span>
+<span class="go">+-------------------+------------------------------------------------------+</span>
+<span class="go">| Field             | Value                                                |</span>
+<span class="go">+-------------------+------------------------------------------------------+</span>
+<span class="go">| allocation_pools  | fd00:192:168:2::2-fd00:192:168:2:ffff:ffff:ffff:ffff |</span>
+<span class="go">| cidr              | fd00:192:168:2::/64                                  |</span>
+<span class="go">| dns_nameservers   | 2001:4860:4860::8844                                 |</span>
+<span class="go">| enable_dhcp       | True                                                 |</span>
+<span class="go">| gateway_ip        | fd00:192:168:2::1                                    |</span>
+<span class="go">| ip_version        | 6                                                    |</span>
+<span class="go">| ipv6_address_mode | slaac                                                |</span>
+<span class="go">| ipv6_ra_mode      | slaac                                                |</span>
+<span class="go">| name              | selfservice2-v6                                      |</span>
+<span class="go">+-------------------+------------------------------------------------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a router.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router create router2
+<span class="go">+-----------------------+---------+</span>
+<span class="go">| Field                 | Value   |</span>
+<span class="go">+-----------------------+---------+</span>
+<span class="go">| admin_state_up        | UP      |</span>
+<span class="go">| name                  | router2 |</span>
+<span class="go">| status                | ACTIVE  |</span>
+<span class="go">+-----------------------+---------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add the IPv4 and IPv6 subnets as interfaces on the router.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router add subnet router2 selfservice2-v4
+<span class="gp">$</span> openstack router add subnet router2 selfservice2-v6
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These commands provide no output.</p>
+</div>
+</li>
+<li><p class="first">Add the provider network as a gateway on the router.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> neutron router-gateway-set router2 provider1
+<span class="go">Set gateway for router router2</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="verify-network-operation">
+<h3>Verify network operation<a class="headerlink" href="#verify-network-operation" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Source the administrative project credentials.</p>
+</li>
+<li><p class="first">Verify distributed routing on the router.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack router show router2
+<span class="go">+-------------------------+---------+</span>
+<span class="go">| Field                   | Value   |</span>
+<span class="go">+-------------------------+---------+</span>
+<span class="go">| admin_state_up          | UP      |</span>
+<span class="go">| distributed             | True    |</span>
+<span class="go">| ha                      | False   |</span>
+<span class="go">| name                    | router2 |</span>
+<span class="go">| status                  | ACTIVE  |</span>
+<span class="go">+-------------------------+---------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">On each compute node, verify creation of a <code class="docutils literal"><span class="pre">qrouter</span></code> namespace with
+the same ID.</p>
+<p>Compute node 1:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> ip netns
+<span class="go">qrouter-78d2f628-137c-4f26-a257-25fc20f203c1</span>
+</pre></div>
+</div>
+<p>Compute node 2:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> ip netns
+<span class="go">qrouter-78d2f628-137c-4f26-a257-25fc20f203c1</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">On the network node, verify creation of the <code class="docutils literal"><span class="pre">snat</span></code> and <code class="docutils literal"><span class="pre">qrouter</span></code>
+namespaces with the same ID.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> ip netns
+<span class="go">snat-78d2f628-137c-4f26-a257-25fc20f203c1</span>
+<span class="go">qrouter-78d2f628-137c-4f26-a257-25fc20f203c1</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The namespace for router 1 from <a class="reference internal" href="deploy-ovs-selfservice.html#deploy-ovs-selfservice"><span>Open vSwitch: Self-service networks</span></a> should
+also appear on network node 1 because of creation prior to enabling
+distributed routing.</p>
+</div>
+</li>
+<li><p class="first">Launch an instance with an interface on the addtional self-service network.
+For example, a CirrOS image using flavor ID 1.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack server create --flavor <span class="m">1</span> --image cirros --nic net-id<span class="o">=</span>NETWORK_ID selfservice-instance2
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal"><span class="pre">NETWORK_ID</span></code> with the ID of the additional self-service
+network.</p>
+</li>
+<li><p class="first">Determine the IPv4 and IPv6 addresses of the instance.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack server list
+<span class="go">+--------------------------------------+-----------------------+--------+---------------------------------------------------------------------------+</span>
+<span class="go">| ID                                   | Name                  | Status | Networks                                                                  |</span>
+<span class="go">+--------------------------------------+-----------------------+--------+---------------------------------------------------------------------------+</span>
+<span class="go">| bde64b00-77ae-41b9-b19a-cd8e378d9f8b | selfservice-instance2 | ACTIVE | selfservice2=fd00:192:168:2:f816:3eff:fe71:e93e, 192.168.2.4              |</span>
+<span class="go">+--------------------------------------+-----------------------+--------+---------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a floating IPv4 address on the provider network.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack floating ip create provider1
+<span class="go">+-------------+--------------------------------------+</span>
+<span class="go">| Field       | Value                                |</span>
+<span class="go">+-------------+--------------------------------------+</span>
+<span class="go">| fixed_ip    | None                                 |</span>
+<span class="go">| id          | 0174056a-fa56-4403-b1ea-b5151a31191f |</span>
+<span class="go">| instance_id | None                                 |</span>
+<span class="go">| ip          | 203.0.113.17                         |</span>
+<span class="go">| pool        | provider1                            |</span>
+<span class="go">+-------------+--------------------------------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Associate the floating IPv4 address with the instance.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack server add floating ip selfservice-instance2 203.0.113.17
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This command provides no output.</p>
+</div>
+</li>
+<li><p class="first">On the compute node containing the instance, verify creation of the
+<code class="docutils literal"><span class="pre">fip</span></code> namespace with the same ID as the provider network.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> ip netns
+<span class="go">fip-4bfa3075-b4b2-4f7d-b88e-df1113942d43</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="network-traffic-flow">
+<h2>Network traffic flow<a class="headerlink" href="#network-traffic-flow" title="Permalink to this headline">¶</a></h2>
+<p>The following sections describe the flow of network traffic in several
+common scenarios. <em>North-south</em> network traffic travels between an instance
+and external network such as the Internet. <em>East-west</em> network traffic
+travels between instances on the same or different networks. In all scenarios,
+the physical network infrastructure handles switching and routing among
+provider networks and external networks such as the Internet. Each case
+references one or more of the following components:</p>
+<ul class="simple">
+<li>Provider network (VLAN)<ul>
+<li>VLAN ID 101 (tagged)</li>
+</ul>
+</li>
+<li>Self-service network 1 (VXLAN)<ul>
+<li>VXLAN ID (VNI) 101</li>
+</ul>
+</li>
+<li>Self-service network 2 (VXLAN)<ul>
+<li>VXLAN ID (VNI) 102</li>
+</ul>
+</li>
+<li>Self-service router<ul>
+<li>Gateway on the provider network</li>
+<li>Interface on self-service network 1</li>
+<li>Interface on self-service network 2</li>
+</ul>
+</li>
+<li>Instance 1</li>
+<li>Instance 2</li>
+</ul>
+<p>This section only contains flow scenarios that benefit from distributed
+virtual routing or that differ from conventional operation. For other
+flow scenarios, see <a class="reference internal" href="deploy-ovs-selfservice.html#deploy-ovs-selfservice-networktrafficflow"><span>Network traffic flow</span></a>.</p>
+<div class="section" id="north-south-scenario-1-instance-with-a-fixed-ip-address">
+<h3>North-south scenario 1: Instance with a fixed IP address<a class="headerlink" href="#north-south-scenario-1-instance-with-a-fixed-ip-address" title="Permalink to this headline">¶</a></h3>
+<p>Similar to <a class="reference internal" href="deploy-ovs-selfservice.html#deploy-ovs-selfservice-networktrafficflow-ns1"><span>North-south scenario 1: Instance with a fixed IP address</span></a>, except
+the router namespace on the network node becomes the SNAT namespace. The
+network node still contains the router namespace, but it serves no purpose
+in this case.</p>
+<img alt="High-availability using Open vSwitch with DVR - network traffic flow - north/south scenario 1" src="_images/deploy-ovs-ha-dvr-flowns1.png" />
+</div>
+<div class="section" id="north-south-scenario-2-instance-with-a-floating-ipv4-address">
+<h3>North-south scenario 2: Instance with a floating IPv4 address<a class="headerlink" href="#north-south-scenario-2-instance-with-a-floating-ipv4-address" title="Permalink to this headline">¶</a></h3>
+<p>For instances with a floating IPv4 address using a self-service network
+on a distributed router, the compute node containing the instance performs
+SNAT on north-south traffic passing from the instance to external networks
+such as the Internet and DNAT on north-south traffic passing from external
+networks to the instance. Floating IP addresses and NAT do not apply to
+IPv6. Thus, the network node routes IPv6 traffic in this scenario.
+north-south traffic passing between the instance and external networks
+such as the Internet.</p>
+<ul class="simple">
+<li>Instance 1 resides on compute node 1 and uses self-service network 1.</li>
+<li>A host on the Internet sends a packet to the instance.</li>
+</ul>
+<p>The following steps involve the compute node:</p>
+<ol class="arabic simple">
+<li>The physical network infrastructure (1) forwards the packet to the
+provider physical network interface (2).</li>
+<li>The provider physical network interface forwards the packet to the
+OVS provider bridge provider network port (3).</li>
+<li>The OVS provider bridge swaps actual VLAN tag 101 with the internal
+VLAN tag.</li>
+<li>The OVS provider bridge <code class="docutils literal"><span class="pre">phy-br-provider</span></code> port (4) forwards the
+packet to the OVS integration bridge <code class="docutils literal"><span class="pre">int-br-provider</span></code> port (5).</li>
+<li>The OVS integration bridge port for the provider network (6) removes
+the internal VLAN tag and forwards the packet to the provider network
+interface (7) in the floating IP namespace. This interface responds
+to any ARP requests for the instance floating IPv4 address.</li>
+<li>The floating IP namespace routes the packet (8) to the distributed
+router namespace (9) using a pair of IP addresses on the DVR internal
+network. This namespace contains the instance floating IPv4 address.</li>
+<li>The router performs DNAT on the packet which changes the destination
+IP address to the instance IP address on the self-service network via
+the self-service network interface (10).</li>
+<li>The router forwards the packet to the OVS integration bridge port for
+the self-service network (11).</li>
+<li>The OVS integration bridge adds an internal VLAN tag to the packet.</li>
+<li>The OVS integration bridge removes the internal VLAN tag from the packet.</li>
+<li>The OVS integration bridge security group port (12) forwards the packet
+to the security group bridge OVS port (13) via <code class="docutils literal"><span class="pre">veth</span></code> pair.</li>
+<li>Security group rules (14) on the security group bridge handle firewalling
+and connection tracking for the packet.</li>
+<li>The security group bridge instance port (15) forwards the packet to the
+instance interface (16) via <code class="docutils literal"><span class="pre">veth</span></code> pair.</li>
+</ol>
+<img alt="High-availability using Open vSwitch with DVR - network traffic flow - north/south scenario 2" src="_images/deploy-ovs-ha-dvr-flowns2.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Egress traffic follows similar steps in reverse, except SNAT changes
+the source IPv4 address of the packet to the floating IPv4 address.</p>
+</div>
+</div>
+<div class="section" id="east-west-scenario-1-instances-on-different-networks-on-the-same-router">
+<h3>East-west scenario 1: Instances on different networks on the same router<a class="headerlink" href="#east-west-scenario-1-instances-on-different-networks-on-the-same-router" title="Permalink to this headline">¶</a></h3>
+<p>Instances with fixed IPv4/IPv6 address or floating IPv4 address on the
+same compute node communicate via router on the compute node. Instances
+on different compute nodes communicate via an instance of the router on
+each compute node.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This scenario places the instances on different compute nodes to
+show the most complex situation.</p>
+</div>
+<p>The following steps involve compute node 1:</p>
+<ol class="arabic simple">
+<li>The instance interface (1) forwards the packet to the security group
+bridge instance port (2) via <code class="docutils literal"><span class="pre">veth</span></code> pair.</li>
+<li>Security group rules (3) on the security group bridge handle firewalling
+and connection tracking for the packet.</li>
+<li>The security group bridge OVS port (4) forwards the packet to the OVS
+integration bridge security group port (5) via <code class="docutils literal"><span class="pre">veth</span></code> pair.</li>
+<li>The OVS integration bridge adds an internal VLAN tag to the packet.</li>
+<li>The OVS integration bridge port for self-service network 1 (6) removes the
+internal VLAN tag and forwards the packet to the self-service network 1
+interface in the distributed router namespace (6).</li>
+<li>The distributed router namespace routes the packet to self-service network
+2.</li>
+<li>The self-service network 2 interface in the distributed router namespace
+(8) forwards the packet to the OVS integration bridge port for
+self-service network 2 (9).</li>
+<li>The OVS integration bridge adds an internal VLAN tag to the packet.</li>
+<li>The OVS integration bridge exchanges the internal VLAN tag for an
+internal tunnel ID.</li>
+<li>The OVS integration bridge <code class="docutils literal"><span class="pre">patch-tun</span></code> port (10) forwards the packet
+to the OVS tunnel bridge <code class="docutils literal"><span class="pre">patch-int</span></code> port (11).</li>
+<li>The OVS tunnel bridge (12) wraps the packet using VNI 101.</li>
+<li>The underlying physical interface (13) for overlay networks forwards
+the packet to compute node 2 via the overlay network (14).</li>
+</ol>
+<p>The following steps involve compute node 2:</p>
+<ol class="arabic simple">
+<li>The underlying physical interface (15) for overlay networks forwards
+the packet to the OVS tunnel bridge (16).</li>
+<li>The OVS tunnel bridge unwraps the packet and adds an internal tunnel ID
+to it.</li>
+<li>The OVS tunnel bridge exchanges the internal tunnel ID for an internal
+VLAN tag.</li>
+<li>The OVS tunnel bridge <code class="docutils literal"><span class="pre">patch-int</span></code> patch port (17) forwards the packet
+to the OVS integration bridge <code class="docutils literal"><span class="pre">patch-tun</span></code> patch port (18).</li>
+<li>The OVS integration bridge removes the internal VLAN tag from the packet.</li>
+<li>The OVS integration bridge security group port (19) forwards the packet
+to the security group bridge OVS port (20) via <code class="docutils literal"><span class="pre">veth</span></code> pair.</li>
+<li>Security group rules (21) on the security group bridge handle firewalling
+and connection tracking for the packet.</li>
+<li>The security group bridge instance port (22) forwards the packet to the
+instance 2 interface (23) via <code class="docutils literal"><span class="pre">veth</span></code> pair.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Routing between self-service networks occurs on the compute node containing
+the instance sending the packet. In this scenario, routing occurs on
+compute node 1 for packets from instance 1 to instance 2 and on compute
+node 2 for packets from instance 2 to instance 1.</p>
+</div>
+<img alt="High-availability using Open vSwitch with DVR - network traffic flow - east/west scenario 2" src="_images/deploy-ovs-ha-dvr-flowew1.png" />
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="deploy-ovs-ha-vrrp.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Open vSwitch: High availability using VRRP"></i></a>
+          
+          
+            <a href="ops.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Operations"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:02</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="deploy.html">Deployment examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="deploy.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="deploy.html#mechanism-drivers">Mechanism drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ops.html">Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">Miscellaneous</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "deploy-ovs-ha-dvr" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/networking-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Open vSwitch: High availability using DVR in Networking Guide";
+    var fieldTags = "networking-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:02";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/networking-guide/deploy-ovs-ha-dvr.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:53:09 GMT -->
+</html>

@@ -1,0 +1,811 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/instance-management/security-services-for-instances.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:30:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Security services for instances</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Security services for instances</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="../instance-management.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Instance security management"></i></a>
+    
+    
+    <a href="case-studies.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Case studies"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Security services for instances</a><ul>
+<li><a class="reference internal" href="#entropy-to-instances">Entropy to instances</a></li>
+<li><a class="reference internal" href="#scheduling-instances-to-nodes">Scheduling instances to nodes</a></li>
+<li><a class="reference internal" href="#trusted-images">Trusted images</a><ul>
+<li><a class="reference internal" href="#image-creation-process">Image creation process</a></li>
+<li><a class="reference internal" href="#image-signature-verification">Image signature verification</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#instance-migrations">Instance migrations</a><ul>
+<li><a class="reference internal" href="#live-migration-risks">Live migration risks</a></li>
+<li><a class="reference internal" href="#live-migration-mitigations">Live migration mitigations</a></li>
+<li><a class="reference internal" href="#disable-live-migration">Disable live migration</a></li>
+<li><a class="reference internal" href="#migration-network">Migration network</a></li>
+<li><a class="reference internal" href="#encrypted-live-migration">Encrypted live migration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#monitoring-alerting-and-reporting">Monitoring, alerting, and reporting</a></li>
+<li><a class="reference internal" href="#updates-and-patches">Updates and patches</a></li>
+<li><a class="reference internal" href="#firewalls-and-other-host-based-security-controls">Firewalls and other host-based security controls</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="security-services-for-instances">
+<h1>Security services for instances<a class="headerlink" href="#security-services-for-instances" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="entropy-to-instances">
+<h2>Entropy to instances<a class="headerlink" href="#entropy-to-instances" title="Permalink to this headline">¶</a></h2>
+<p>We consider entropy to refer to the quality and source of
+random data that is available to an instance. Cryptographic
+technologies typically rely heavily on randomness, requiring a
+high quality pool of entropy to draw from. It is typically hard
+for a virtual machine to get enough entropy to support these
+operations, which is referred to as entropy starvation. Entropy
+starvation can manifest in instances as something seemingly
+unrelated. For example, slow boot time may be caused by the
+instance waiting for ssh key generation. Entropy starvation
+may also motivate users to employ poor quality entropy sources
+from within the instance, making applications running in the
+cloud less secure overall.</p>
+<p>Fortunately, a cloud architect may address these issues by
+providing a high quality source of entropy to the cloud
+instances. This can be done by having enough hardware random
+number generators (HRNG) in the cloud to support the instances.
+In this case, &#8220;enough&#8221; is somewhat domain specific. For
+everyday operations, a modern HRNG is likely to produce enough
+entropy to support 50-100 compute nodes. High bandwidth HRNGs,
+such as the RdRand instruction available with Intel Ivy Bridge
+and newer processors could potentially handle more nodes. For a
+given cloud, an architect needs to understand the application
+requirements to ensure that sufficient entropy is available.</p>
+<p>The Virtio RNG is a random number generator that uses
+<code class="docutils literal"><span class="pre">/dev/random</span></code> as the source of entropy by default, however can be
+configured to use a hardware RNG or a tool such as the entropy
+gathering daemon (<a class="reference external" href="http://egd.sourceforge.net/">EGD</a>) to provide
+a way to fairly and securely distribute entropy through a
+distributed system. The Virtio RNG is enabled using the <code class="docutils literal"><span class="pre">hw_rng</span></code>
+property of the metadata used to create the instance.</p>
+</div>
+<div class="section" id="scheduling-instances-to-nodes">
+<h2>Scheduling instances to nodes<a class="headerlink" href="#scheduling-instances-to-nodes" title="Permalink to this headline">¶</a></h2>
+<p>Before an instance is created, a host for the image
+instantiation must be selected. This selection is performed by
+the <code class="docutils literal"><span class="pre">nova-scheduler</span></code> which determines how to dispatch compute
+and volume requests.</p>
+<p>The <code class="docutils literal"><span class="pre">FilterScheduler</span></code> is the default scheduler for OpenStack
+Compute, although other schedulers exist (see the section <a class="reference external" href="http://docs.openstack.org/newton/config-reference/compute/scheduler.html">Scheduling</a>
+in the <a class="reference external" href="http://docs.openstack.org/newton/config-reference/config-overview.html">OpenStack Configuration Reference</a>
+). This works in collaboration with &#8216;filter hints&#8217; to decide where an
+instance should be started. This process of host selection allows
+administrators to fulfill many different security and compliance
+requirements. Depending on the cloud deployment type for example, one
+could choose to have tenant instances reside on the same hosts whenever
+possible if data isolation was a primary concern. Conversely one could
+attempt to have instances for a tenant reside on as many different hosts
+as possible for availability or fault tolerance reasons.</p>
+<p>Filter schedulers fall under four main categories:</p>
+<dl class="docutils">
+<dt>Resource based filters</dt>
+<dd>These filters will create an instance based on the utilizations of
+the hypervisor host sets and can trigger on free or used properties
+such as RAM, IO, or CPU utilization.</dd>
+<dt>Image based filters</dt>
+<dd>This delegates instance creation based on the image used, such as
+the operating system of the VM or type of image used.</dd>
+<dt>Environment based filters</dt>
+<dd>This filter will create an instance based on external details such
+as in a specific IP range, across availability zones, or on the
+same host as another instance.</dd>
+<dt>Custom criteria</dt>
+<dd>This filter will delegate instance creation based on user or
+administrator provided criteria such as trusts or metadata parsing.</dd>
+</dl>
+<p>Multiple filters can be applied at once, such as the
+<code class="docutils literal"><span class="pre">ServerGroupAffinity</span></code> filter to ensure an instance is created on a
+member of a specific set of hosts and <code class="docutils literal"><span class="pre">ServerGroupAntiAffinity</span></code>
+filter to ensure that same instance is not created on another specific
+set of hosts. These filters should be analyzed carefully to ensure
+they do not conflict with each other and result in rules that prevent
+the creation of instances.</p>
+<img alt="../_images/filteringWorkflow1.png" src="../_images/filteringWorkflow1.png" />
+<p>The <code class="docutils literal"><span class="pre">GroupAffinity</span></code> and <code class="docutils literal"><span class="pre">GroupAntiAffinity</span></code> filters conflict and
+should not both be enabled at the same time.</p>
+<p>The <code class="docutils literal"><span class="pre">DiskFilter</span></code> filter is capable of oversubscribing disk space.
+While not normally an issue, this can be a concern on storage devices
+that are thinly provisioned, and this filter should be used with
+well-tested quotas applied.</p>
+<p>We recommend you disable filters that parse things that are provided
+by users or are able to be manipulated such as metadata.</p>
+</div>
+<div class="section" id="trusted-images">
+<h2>Trusted images<a class="headerlink" href="#trusted-images" title="Permalink to this headline">¶</a></h2>
+<p>In a cloud environment, users work with either pre-installed images or
+images they upload themselves. In both cases, users should be able to
+ensure the image they are utilizing has not been tampered with. The
+ability to verify images is a fundamental imperative for security. A
+chain of trust is needed from the source of the image to the
+destination where it&#8217;s used. This can be accomplished by signing
+images obtained from trusted sources and by verifying the signature
+prior to use. Various ways to obtain and create verified images will
+be discussed below, followed by a description of the image signature
+verification feature.</p>
+<div class="section" id="image-creation-process">
+<h3>Image creation process<a class="headerlink" href="#image-creation-process" title="Permalink to this headline">¶</a></h3>
+<p>The OpenStack Documentation provides guidance on how to create and
+upload an image to the Image service. Additionally it is assumed that
+you have a process by which you install and harden operating systems.
+Thus, the following items will provide additional guidance on how to
+ensure your images are transferred securely into OpenStack. There are
+a variety of options for obtaining images. Each has specific steps that
+help validate the image&#8217;s provenance.</p>
+<p>The first option is to obtain boot media from a trusted source.</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span>$ mkdir -p /tmp/download_directorycd /tmp/download_directory
+$ wget http://mirror.anl.gov/pub/ubuntu-iso/CDs/precise/ubuntu-12.04.2-server-amd64.iso
+$ wget http://mirror.anl.gov/pub/ubuntu-iso/CDs/precise/SHA256SUMS
+$ wget http://mirror.anl.gov/pub/ubuntu-iso/CDs/precise/SHA256SUMS.gpg
+$ gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0xFBB75451
+$ gpg --verify SHA256SUMS.gpg SHA256SUMSsha256sum -c SHA256SUMS 2&gt;&amp;1 | grep OK
+</pre></div>
+</div>
+<p>The second option is to use the
+<a class="reference external" href="http://docs.openstack.org/image-guide/">OpenStack Virtual Machine Image Guide</a>.
+In this case, you will want to follow your organizations OS hardening
+guidelines or those provided by a trusted third-party such as the
+<a class="reference external" href="http://iase.disa.mil/stigs/os/unix-linux/Pages/index.aspx">Linux STIGs</a>.</p>
+<p>The final option is to use an automated image builder. The following
+example uses the Oz image builder. The OpenStack community has recently
+created a newer tool worth investigating: disk-image-builder. We have
+not evaluated this tool from a security perspective.</p>
+<p>Example of RHEL 6 CCE-26976-1 which will help implement NIST 800-53
+Section <em>AC-19(d)</em> in Oz.</p>
+<div class="code xml highlight-python"><div class="highlight"><pre><span></span>&lt;template&gt;
+&lt;name&gt;centos64&lt;/name&gt;
+&lt;os&gt;
+  &lt;name&gt;RHEL-6&lt;/name&gt;
+  &lt;version&gt;4&lt;/version&gt;
+  &lt;arch&gt;x86_64&lt;/arch&gt;
+  &lt;install type=&#39;iso&#39;&gt;
+  &lt;iso&gt;http://trusted_local_iso_mirror/isos/x86_64/RHEL-6.4-x86_64-bin-DVD1.iso&lt;/iso&gt;
+  &lt;/install&gt;
+  &lt;rootpw&gt;CHANGE THIS TO YOUR ROOT PASSWORD&lt;/rootpw&gt;
+&lt;/os&gt;
+&lt;description&gt;RHEL 6.4 x86_64&lt;/description&gt;
+&lt;repositories&gt;
+  &lt;repository name=&#39;epel-6&#39;&gt;
+  &lt;url&gt;http://download.fedoraproject.org/pub/epel/6/$basearch&lt;/url&gt;
+  &lt;signed&gt;no&lt;/signed&gt;
+  &lt;/repository&gt;
+&lt;/repositories&gt;
+&lt;packages&gt;
+  &lt;package name=&#39;epel-release&#39;/&gt;
+  &lt;package name=&#39;cloud-utils&#39;/&gt;
+  &lt;package name=&#39;cloud-init&#39;/&gt;
+&lt;/packages&gt;
+&lt;commands&gt;
+  &lt;command name=&#39;update&#39;&gt;
+  yum update
+  yum clean all
+  sed -i &#39;/^HWADDR/d&#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+  echo -n &gt; /etc/udev/rules.d/70-persistent-net.rules
+  echo -n &gt; /lib/udev/rules.d/75-persistent-net-generator.rules
+  chkconfig --level 0123456 autofs off
+  service autofs stop
+  &lt;/command&gt;
+&lt;/commands&gt;
+&lt;/template&gt;
+</pre></div>
+</div>
+<p>It is recommended to avoid the manual image building process as it is
+complex and prone to error. Additionally, using an automated system
+like Oz for image building or a configuration management utility like
+Chef or Puppet for post-boot image hardening gives you the ability to
+produce a consistent image as well as track compliance of your base
+image to its respective hardening guidelines over time.</p>
+<p>If subscribing to a public cloud service, you should check with the
+cloud provider for an outline of the process used to produce their
+default images. If the provider allows you to upload your own images,
+you will want to ensure that you are able to verify that your image
+was not modified before using it to create an instance. To do this,
+refer to the following section on Image Signature Verification, or
+the following paragraph if signatures cannot be used.</p>
+<p>Images come from the Image service to the Compute service on a node.
+This transfer should be protected by running over TLS. Once the image
+is on the node, it is verified with a basic checksum and then its
+disk is expanded based on the size of the instance being launched. If,
+at a later time, the same image is launched with the same instance
+size on this node, it is launched from the same expanded image.
+Since this expanded image is not re-verified by default before
+launching, it is possible that it has undergone tampering. The user
+would not be aware of tampering, unless a manual inspection of the
+files is performed in the resulting image.</p>
+</div>
+<div class="section" id="image-signature-verification">
+<h3>Image signature verification<a class="headerlink" href="#image-signature-verification" title="Permalink to this headline">¶</a></h3>
+<p>Several features related to image signing are now available in
+OpenStack. As of the Mitaka release, the Image service can verify
+these signed images, and, to provide a full chain of trust, the
+Compute service has the option to perform image signature verification
+prior to image boot. Successful signature validation before image
+boot ensures the signed image hasn&#8217;t changed. With this feature
+enabled, unauthorized modification of images (e.g., modifying the
+image to include malware or rootkits) can be detected.</p>
+<p>Administrators can enable instance signature verification by setting
+the <code class="docutils literal"><span class="pre">verify_glance_signatures</span></code> flag to <code class="docutils literal"><span class="pre">True</span></code> in the
+<code class="docutils literal"><span class="pre">/etc/nova/nova.conf</span></code> file. When enabled, the Compute service
+automatically validates the signed instance when it is retrieved from
+the Image service. If this verification fails, the boot won&#8217;t occur.
+The OpenStack Operations Guide provides guidance on how to create and
+upload a signed image, and how to use this feature. For more
+information, see <a class="reference external" href="http://docs.openstack.org/ops-guide/ops-user-facing-operations.html#adding-signed-images">Adding Signed Images</a>
+in the Operations Guide.</p>
+</div>
+</div>
+<div class="section" id="instance-migrations">
+<h2>Instance migrations<a class="headerlink" href="#instance-migrations" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack and the underlying virtualization layers provide for
+the live migration of images between OpenStack nodes, allowing
+you to seamlessly perform rolling upgrades of your OpenStack
+compute nodes without instance downtime. However, live
+migrations also carry significant risk. To understand the risks
+involved, the following are the high-level steps performed
+during a live migration:</p>
+<ol class="arabic simple">
+<li>Start instance on destination host</li>
+<li>Transfer memory</li>
+<li>Stop the guest and sync disks</li>
+<li>Transfer state</li>
+<li>Start the guest</li>
+</ol>
+<div class="section" id="live-migration-risks">
+<h3>Live migration risks<a class="headerlink" href="#live-migration-risks" title="Permalink to this headline">¶</a></h3>
+<p>At various stages of the live migration process the contents of an
+instances run time memory and disk are transmitted over the network
+in plain text. Thus there are several risks that need to be addressed
+when using live migration. The following in-exhaustive list details
+some of these risks:</p>
+<ul class="simple">
+<li><em>Denial of Service (DoS)</em>: If something fails during the migration
+process, the instance could be lost.</li>
+<li><em>Data exposure</em>: Memory or disk transfers must be handled securely.</li>
+<li><em>Data manipulation</em>: If memory or disk transfers are not handled
+securely, then an attacker could manipulate user data during the
+migration.</li>
+<li><em>Code injection</em>: If memory or disk transfers are not handled
+securely, then an attacker could manipulate executables, either on
+disk or in memory, during the migration.</li>
+</ul>
+</div>
+<div class="section" id="live-migration-mitigations">
+<h3>Live migration mitigations<a class="headerlink" href="#live-migration-mitigations" title="Permalink to this headline">¶</a></h3>
+<p>There are several methods to mitigate some of the risk associated
+with live migrations, the following list details some of these:</p>
+<ul class="simple">
+<li>Disable live migration</li>
+<li>Isolated migration network</li>
+<li>Encrypted live migration</li>
+</ul>
+</div>
+<div class="section" id="disable-live-migration">
+<h3>Disable live migration<a class="headerlink" href="#disable-live-migration" title="Permalink to this headline">¶</a></h3>
+<p>At this time, live migration is enabled in OpenStack
+by default. Live migrations can be disabled by adding the
+following lines to the nova <code class="docutils literal"><span class="pre">policy.json</span></code> file:</p>
+<div class="code json highlight-python"><div class="highlight"><pre><span></span>&quot;compute_extension:admin_actions:migrate&quot;: &quot;!&quot;,
+&quot;compute_extension:admin_actions:migrateLive&quot;: &quot;!&quot;,
+</pre></div>
+</div>
+</div>
+<div class="section" id="migration-network">
+<h3>Migration network<a class="headerlink" href="#migration-network" title="Permalink to this headline">¶</a></h3>
+<p>As a general practice, live migration traffic should be restricted
+to the management security domain, see
+<a class="reference internal" href="../introduction/security-boundaries-and-threats.html"><em>Security boundaries and threats</em></a>.
+With live migration traffic, due to its plain text nature and the fact
+that you are transferring the contents of disk and memory of a running
+instance, it is recommended you further separate live migration traffic
+onto a dedicated network. Isolating the traffic to a dedicated network
+can reduce the risk of exposure.</p>
+</div>
+<div class="section" id="encrypted-live-migration">
+<h3>Encrypted live migration<a class="headerlink" href="#encrypted-live-migration" title="Permalink to this headline">¶</a></h3>
+<p>If there is a sufficient business case for keeping live migration
+enabled, then libvirtd can provide encrypted tunnels for the live
+migrations. However, this feature is not currently exposed in either
+the OpenStack Dashboard or nova-client commands, and can only be
+accessed through manual configuration of libvirtd. The live migration
+process then changes to the following high-level steps:</p>
+<ol class="arabic simple">
+<li>Instance data is copied from the hypervisor to libvirtd.</li>
+<li>An encrypted tunnel is created between libvirtd processes on both
+source and destination hosts.</li>
+<li>Destination libvirtd host copies the instances back to an
+underlying hypervisor.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="monitoring-alerting-and-reporting">
+<h2>Monitoring, alerting, and reporting<a class="headerlink" href="#monitoring-alerting-and-reporting" title="Permalink to this headline">¶</a></h2>
+<p>As an OpenStack virtual machine is a server image able to
+be replicated across hosts, best practice in logging applies
+similarly between physical and virtual hosts. Operating
+system-level and application-level events should be logged,
+including access events to hosts and data, user additions and
+removals, changes in privilege, and others as dictated by the
+environment. Ideally, you can configure these logs to export to
+a log aggregator that collects log events, correlates them for
+analysis, and stores them for reference or further action. One
+common tool to do this is an
+<a class="reference external" href="https://www.elastic.co/">ELK stack, or Elasticsearch, Logstash, and Kibana</a>.</p>
+<p>These logs should be reviewed at a regular cadence such as
+a live view by a network operations center (NOC), or if the
+environment is not large enough to necessitate a NOC, then logs
+should undergo a regular log review process.</p>
+<p>Many times interesting events trigger an alert which is
+sent to a responder for action. Frequently this alert takes the
+form of an email with the messages of interest. An interesting
+event could be a significant failure, or known health indicator
+of a pending failure. Two common utilities for managing alerts
+are <a class="reference external" href="https://www.nagios.org/">Nagios</a> and
+<a class="reference external" href="http://www.zabbix.com/">Zabbix</a>.</p>
+</div>
+<div class="section" id="updates-and-patches">
+<h2>Updates and patches<a class="headerlink" href="#updates-and-patches" title="Permalink to this headline">¶</a></h2>
+<p>A hypervisor runs independent virtual machines. This
+hypervisor can run in an operating system or directly on the
+hardware (called baremetal). Updates to the hypervisor are not
+propagated down to the virtual machines. For example, if a
+deployment is using XenServer and has a set of Debian virtual
+machines, an update to XenServer will not update anything
+running on the Debian virtual machines.</p>
+<p>Therefore, we recommend that clear ownership of virtual
+machines be assigned, and that those owners be responsible for
+the hardening, deployment, and continued functionality of the
+virtual machines. We also recommend that updates be deployed on
+a regular schedule. These patches should be tested in an
+environment as closely resembling production as possible to
+ensure both stability and resolution of the issue behind the
+patch.</p>
+</div>
+<div class="section" id="firewalls-and-other-host-based-security-controls">
+<h2>Firewalls and other host-based security controls<a class="headerlink" href="#firewalls-and-other-host-based-security-controls" title="Permalink to this headline">¶</a></h2>
+<p>Most common operating systems include host-based firewalls
+for additional security. While we recommend that virtual
+machines run as few applications as possible (to the point of
+being single-purpose instances, if possible), all applications
+running on a virtual machine should be profiled to determine
+what system resources the application needs access to, the
+lowest level of privilege required for it to run, and what the
+expected network traffic is that will be going into and coming
+from the virtual machine. This expected traffic should be added
+to the host-based firewall as allowed traffic (or whitelisted),
+along with any necessary logging and management communication
+such as SSH or RDP. All other traffic should be explicitly
+denied in the firewall configuration.</p>
+<p>On Linux virtual machines, the application profile above
+can be used in conjunction with a tool like
+<a class="reference external" href="http://wiki.centos.org/HowTos/SELinux#head-faa96b3fdd922004cdb988c1989e56191c257c01">audit2allow</a>
+to build an SELinux policy that will further protect sensitive
+system information on most Linux distributions. SELinux uses a
+combination of users, policies and security contexts to
+compartmentalize the resources needed for an application to run,
+and segmenting it from other system resources that are not needed.</p>
+<p>OpenStack provides security groups for both hosts and the
+network to add defense in depth to the virtual machines in a
+given project. These are similar to host-based firewalls as
+they allow or deny incoming traffic based on port, protocol,
+and address, however security group rules are applied to
+incoming traffic only, while host-based firewall rules are
+able to be applied to both incoming and outgoing traffic. It
+is also possible for host and network security group rules to
+conflict and deny legitimate traffic. We recommend ensuring
+that security groups are configured correctly for the
+networking being used. See <a class="reference internal" href="../networking/services-security-best-practices.html#networking-security-groups"><span>Security groups</span></a>
+in this guide for more detail.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="../instance-management.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Instance security management"></i></a>
+          
+          
+            <a href="case-studies.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Case studies"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management.html">Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../instance-management.html">Instance security management</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Security services for instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case-studies.html">Case studies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance.html">Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "instance-management/security-services-for-instances" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Security services for instances in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/instance-management/security-services-for-instances.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:33:06 GMT -->
+</html>

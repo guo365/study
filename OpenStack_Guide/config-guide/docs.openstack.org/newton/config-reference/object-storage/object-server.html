@@ -1,0 +1,1337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/object-storage/object-server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:46:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Object server configuration</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Object server configuration</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="general-service-conf.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Object Storage general service configuration"></i></a>
+    
+    
+    <a href="object-expirer.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Object expirer configuration"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Object server configuration</a><ul>
+<li><a class="reference internal" href="#sample-object-server-configuration-file">Sample object server configuration file</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="object-server-configuration">
+<h1>Object server configuration<a class="headerlink" href="#object-server-configuration" title="Permalink to this headline">¶</a></h1>
+<p>Find an example object server configuration at
+<code class="docutils literal"><span class="pre">etc/object-server.conf-sample</span></code> in the source code repository.</p>
+<p>The available configuration options are:</p>
+<table border="1" class="config-ref-table docutils" id="id1">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[DEFAULT]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">backlog</span></code> = <code class="docutils literal"><span class="pre">4096</span></code></td>
+<td>Maximum number of allowed pending TCP connections</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">bind_ip</span></code> = <code class="docutils literal"><span class="pre">0.0.0.0</span></code></td>
+<td>IP Address for server to bind to</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">bind_port</span></code> = <code class="docutils literal"><span class="pre">6000</span></code></td>
+<td>Port for server to bind to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">bind_timeout</span></code> = <code class="docutils literal"><span class="pre">30</span></code></td>
+<td>Seconds to attempt bind before giving up</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">client_timeout</span></code> = <code class="docutils literal"><span class="pre">60</span></code></td>
+<td>Timeout to read one chunk from a client external services</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">conn_timeout</span></code> = <code class="docutils literal"><span class="pre">0.5</span></code></td>
+<td>Connection timeout to external services</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container_update_timeout</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>Time to wait while sending a container update on object update. object server. For most cases, this should be</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">devices</span></code> = <code class="docutils literal"><span class="pre">/srv/node</span></code></td>
+<td>Parent directory of where devices are mounted</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">disable_fallocate</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Disable &#8220;fast fail&#8221; fallocate checks if the underlying filesystem does not support it.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">disk_chunk_size</span></code> = <code class="docutils literal"><span class="pre">65536</span></code></td>
+<td>Size of chunks to read/write to disk</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">eventlet_debug</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If true, turn on debug logging for eventlet</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">expiring_objects_account_name</span></code> = <code class="docutils literal"><span class="pre">expiring_objects</span></code></td>
+<td>Account name for the expiring objects</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">expiring_objects_container_divisor</span></code> = <code class="docutils literal"><span class="pre">86400</span></code></td>
+<td>Divisor for the expiring objects container</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">fallocate_reserve</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>You can set fallocate_reserve to the number of bytes you&#8217;d like fallocate to reserve, whether there is space for the given file size or not. This is useful for systems that behave badly when they completely run out of space; you can make the services pretend they&#8217;re out of space early. server. For most cases, this should be</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_custom_handlers</span></code> = `` ``</td>
+<td>Comma-separated list of functions to call to setup custom log handlers.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Logging level</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_max_line_length</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>Caps the length of log lines to the value given; no limit if set to 0, the default.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">swift</span></code></td>
+<td>Label used when logging</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_statsd_default_sample_rate</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>Defines the probability of sending a sample for any given event or timing measurement.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_statsd_host</span></code> = <code class="docutils literal"><span class="pre">localhost</span></code></td>
+<td>If not set, the StatsD feature is disabled.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_statsd_metric_prefix</span></code> = `` ``</td>
+<td>Value will be prepended to every metric sent to the StatsD server.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_statsd_port</span></code> = <code class="docutils literal"><span class="pre">8125</span></code></td>
+<td>Port value for the StatsD server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_statsd_sample_rate_factor</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>Not recommended to set this to a value less than 1.0, if frequency of logging is too high, tune the log_statsd_default_sample_rate instead.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_udp_host</span></code> = `` ``</td>
+<td>If not set, the UDP receiver for syslog is disabled.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_udp_port</span></code> = <code class="docutils literal"><span class="pre">514</span></code></td>
+<td>Port value for UDP receiver, if enabled.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_clients</span></code> = <code class="docutils literal"><span class="pre">1024</span></code></td>
+<td>Maximum number of clients one worker can process simultaneously Lowering the number of clients handled per worker, and raising the number of workers can lessen the impact that a CPU intensive, or blocking, request can have on other requests served by the same worker. If the maximum number of clients is set to one, then a given worker will not perform another call while processing, allowing other workers a chance to process it.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">mount_check</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td>Whether or not check if the devices are mounted to prevent accidentally writing to the root device</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">network_chunk_size</span></code> = <code class="docutils literal"><span class="pre">65536</span></code></td>
+<td>Size of chunks to read/write over the network</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">node_timeout</span></code> = <code class="docutils literal"><span class="pre">3</span></code></td>
+<td>Request timeout to external services</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">servers_per_port</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>If each disk in each storage policy ring has unique port numbers for its &#8220;ip&#8221; value, you can use this setting to have each object-server worker only service requests for the single disk matching the port in the ring. The value of this setting determines how many worker processes run for each port (disk) in the</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">swift_dir</span></code> = <code class="docutils literal"><span class="pre">/etc/swift</span></code></td>
+<td>Swift configuration directory</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">user</span></code> = <code class="docutils literal"><span class="pre">swift</span></code></td>
+<td>User to run as</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">workers</span></code> = <code class="docutils literal"><span class="pre">auto</span></code></td>
+<td>a much higher value, one can reduce the impact of slow file system operations in one request from negatively impacting other requests.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id2">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[app-object-server]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">allowed_headers</span></code> = <code class="docutils literal"><span class="pre">Content-Disposition,</span> <span class="pre">Content-Encoding,</span> <span class="pre">X-Delete-At,</span> <span class="pre">X-Object-Manifest,</span> <span class="pre">X-Static-Large-Object</span></code></td>
+<td>Comma-separated list of headers that can be set in metadata of an object</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">auto_create_account_prefix</span></code> = <code class="docutils literal"><span class="pre">.</span></code></td>
+<td>Prefix to use when automatically creating accounts</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">keep_cache_private</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Allow non-public objects to stay in kernel&#8217;s buffer cache</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">keep_cache_size</span></code> = <code class="docutils literal"><span class="pre">5242880</span></code></td>
+<td>Largest object size to keep in buffer cache</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_upload_time</span></code> = <code class="docutils literal"><span class="pre">86400</span></code></td>
+<td>Maximum time allowed to upload an object</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">mb_per_sync</span></code> = <code class="docutils literal"><span class="pre">512</span></code></td>
+<td>On PUT requests, sync file every n MB</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">replication_concurrency</span></code> = <code class="docutils literal"><span class="pre">4</span></code></td>
+<td>Set to restrict the number of concurrent incoming REPLICATION requests; set to 0 for unlimited</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">replication_failure_ratio</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>If the value of failures / successes of REPLICATION subrequests exceeds this ratio, the overall REPLICATION request will be aborted</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">replication_failure_threshold</span></code> = <code class="docutils literal"><span class="pre">100</span></code></td>
+<td>The number of subrequest failures before the replication_failure_ratio is checked</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">replication_lock_timeout</span></code> = <code class="docutils literal"><span class="pre">15</span></code></td>
+<td>Number of seconds to wait for an existing replication device lock before giving up.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">replication_one_per_device</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Restricts incoming REPLICATION requests to one per device, replication_currency above allowing. This can help control I/O to each device, but you may wish to set this to False to allow multiple REPLICATION requests (up to the above replication_concurrency setting) per device.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">replication_server</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If defined, tells server how to handle replication verbs in requests. When set to True (or 1), only replication verbs will be accepted. When set to False, replication verbs will be rejected. When undefined, server will accept any verb in the request.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">object-server</span></code></td>
+<td>Label to use when logging</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_requests</span></code> = <code class="docutils literal"><span class="pre">true</span></code></td>
+<td>Whether or not to log requests</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">slow</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>If &gt; 0, Minimum time in seconds for a PUT or DELETE request to complete</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">splice</span></code> = <code class="docutils literal"><span class="pre">no</span></code></td>
+<td>Use splice() for zero-copy object GETs. This requires Linux kernel version 3.0 or greater. When you set &#8220;splice = yes&#8221; but the kernel does not support it, error messages will appear in the object server logs at startup, but your object servers should continue to function.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">threads_per_disk</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>Size of the per-disk thread pool used for performing disk I/O. The default of 0 means to not use a per-disk thread pool. It is recommended to keep this value small, as large values can result in high read latencies due to large queue depths. A good starting point is 4 threads per disk.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#object</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id3">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[pipeline-main]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">pipeline</span></code> = <code class="docutils literal"><span class="pre">healthcheck</span> <span class="pre">recon</span> <span class="pre">object-server</span></code></td>
+<td>Pipeline to use for processing operations.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id4">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[object-replicator]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">concurrency</span></code> = <code class="docutils literal"><span class="pre">1</span></code></td>
+<td>Number of replication workers to spawn</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">daemonize</span></code> = <code class="docutils literal"><span class="pre">on</span></code></td>
+<td>Whether or not to run replication as a daemon</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">handoff_delete</span></code> = <code class="docutils literal"><span class="pre">auto</span></code></td>
+<td>By default handoff partitions will be removed when it has successfully replicated to all the canonical nodes. If set to an integer n, it will remove the partition if it is successfully replicated to n nodes. The default setting should not be changed, except for extremem situations. This uses what&#8217;s set here, or what&#8217;s set in the DEFAULT section, or 10 (though other sections use 3 as the final default).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">handoffs_first</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>If set to True, partitions that are not supposed to be on the node will be replicated first. The default setting should not be changed, except for extreme situations.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">http_timeout</span></code> = <code class="docutils literal"><span class="pre">60</span></code></td>
+<td>Maximum duration for an HTTP request</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">interval</span></code> = <code class="docutils literal"><span class="pre">30</span></code></td>
+<td>Minimum time for a pass to take</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">lockup_timeout</span></code> = <code class="docutils literal"><span class="pre">1800</span></code></td>
+<td>Attempts to kill all workers if nothing replications for lockup_timeout seconds</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Logging level</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">object-replicator</span></code></td>
+<td>Label used when logging</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">node_timeout</span></code> = <code class="docutils literal"><span class="pre">&lt;whatever's</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">DEFAULT</span> <span class="pre">section</span> <span class="pre">or</span> <span class="pre">10&gt;</span></code></td>
+<td>Request timeout to external services</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">reclaim_age</span></code> = <code class="docutils literal"><span class="pre">604800</span></code></td>
+<td>Time elapsed in seconds before an object can be reclaimed</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">recon_cache_path</span></code> = <code class="docutils literal"><span class="pre">/var/cache/swift</span></code></td>
+<td>Directory where stats for a few items will be stored</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ring_check_interval</span></code> = <code class="docutils literal"><span class="pre">15</span></code></td>
+<td>How often (in seconds) to check the ring</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">rsync_bwlimit</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>bandwidth limit for rsync in kB/s. 0 means unlimited</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">rsync_compress</span></code> = <code class="docutils literal"><span class="pre">no</span></code></td>
+<td><p class="first">Allows rsync to compress data which is transmitted to the destination node during sync. However, this applies only when the destination node is in a different region than the local one.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Objects that are already compressed (for example: .tar.gz, .mp3) might slow down the syncing process.</p>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">rsync_error_log_line_length</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>Limits the length of the rsync error log lines. 0 will log the entire line.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">rsync_io_timeout</span></code> = <code class="docutils literal"><span class="pre">30</span></code></td>
+<td>Passed to rsync for a max duration (seconds) of an I/O op</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">rsync_module</span></code> = <code class="docutils literal"><span class="pre">{replication_ip}::object</span></code></td>
+<td>Format of the rsync module where the replicator will send data. The configuration value can include some variables that will be extracted from the ring. Variables must follow the format {NAME} where NAME is one of: ip, port, replication_ip, replication_port, region, zone, device, meta. See etc/rsyncd.conf-sample for some examples. uses what&#8217;s set here, or what&#8217;s set in the DEFAULT section, or 10 (though other sections use 3 as the final default).</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">rsync_timeout</span></code> = <code class="docutils literal"><span class="pre">900</span></code></td>
+<td>Max duration (seconds) of a partition rsync</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">run_pause</span></code> = <code class="docutils literal"><span class="pre">30</span></code></td>
+<td>Time in seconds to wait between replication passes</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">stats_interval</span></code> = <code class="docutils literal"><span class="pre">300</span></code></td>
+<td>Interval in seconds between logging replication statistics</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">sync_method</span></code> = <code class="docutils literal"><span class="pre">rsync</span></code></td>
+<td>default is rsync, alternative is ssync</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id5">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[object-updater]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">concurrency</span></code> = <code class="docutils literal"><span class="pre">1</span></code></td>
+<td>Number of replication workers to spawn</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">interval</span></code> = <code class="docutils literal"><span class="pre">300</span></code></td>
+<td>Minimum time for a pass to take</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Logging level</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">object-updater</span></code></td>
+<td>Label used when logging</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">node_timeout</span></code> = <code class="docutils literal"><span class="pre">&lt;whatever's</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">DEFAULT</span> <span class="pre">section</span> <span class="pre">or</span> <span class="pre">10&gt;</span></code></td>
+<td>Request timeout to external services</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">recon_cache_path</span></code> = <code class="docutils literal"><span class="pre">/var/cache/swift</span></code></td>
+<td>Directory where stats for a few items will be stored</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">slowdown</span></code> = <code class="docutils literal"><span class="pre">0.01</span></code></td>
+<td>Time in seconds to wait between objects</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id6">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[object-auditor]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">bytes_per_second</span></code> = <code class="docutils literal"><span class="pre">10000000</span></code></td>
+<td>Maximum bytes audited per second. Should be tuned according to individual system specs. 0 is unlimited. mounted to prevent accidentally writing to the root device process simultaneously (it will actually accept(2) N + 1). Setting this to one (1) will only handle one request at a time, without accepting another request concurrently. By increasing the number of workers to a much higher value, one can reduce the impact of slow file system operations in one request from negatively impacting other requests. underlying filesystem does not support it. to setup custom log handlers. bytes you&#8217;d like fallocate to reserve, whether there is space for the given file size or not. This is useful for systems that behave badly when they completely run out of space; you can make the services pretend they&#8217;re out of space early. container server. For most cases, this should be</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">concurrency</span></code> = <code class="docutils literal"><span class="pre">1</span></code></td>
+<td>Number of replication workers to spawn</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">disk_chunk_size</span></code> = <code class="docutils literal"><span class="pre">65536</span></code></td>
+<td>Size of chunks to read/write to disk</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">files_per_second</span></code> = <code class="docutils literal"><span class="pre">20</span></code></td>
+<td>Maximum files audited per second. Should be tuned according to individual system specs. 0 is unlimited.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Logging level</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">object-auditor</span></code></td>
+<td>Label used when logging</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_time</span></code> = <code class="docutils literal"><span class="pre">3600</span></code></td>
+<td>Frequency of status logs in seconds.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">object_size_stats</span></code> =</td>
+<td>Takes a comma-separated list of ints. When set, the object auditor will increment a counter for every object whose size is greater or equal to the given breaking points and reports the result after a full scan.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">recon_cache_path</span></code> = <code class="docutils literal"><span class="pre">/var/cache/swift</span></code></td>
+<td>Directory where stats for a few items will be stored</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">zero_byte_files_per_second</span></code> = <code class="docutils literal"><span class="pre">50</span></code></td>
+<td>Maximum zero byte files audited per second.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id7">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-healthcheck]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">disable_path</span></code> =</td>
+<td>An optional filesystem path, which if present, will cause the healthcheck URL to return &#8220;503 Service Unavailable&#8221; with a body of &#8220;DISABLED BY FILE&#8221;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#healthcheck</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id8">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-recon]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">recon_cache_path</span></code> = <code class="docutils literal"><span class="pre">/var/cache/swift</span></code></td>
+<td>Directory where stats for a few items will be stored</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">recon_lock_path</span></code> = <code class="docutils literal"><span class="pre">/var/lock</span></code></td>
+<td>Directory where lock files will be stored</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#recon</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id9">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-xprofile]</span></code> in <code class="docutils literal"><span class="pre">object-server.conf</span></code></span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dump_interval</span></code> = <code class="docutils literal"><span class="pre">5.0</span></code></td>
+<td>the profile data will be dumped to local disk based on above naming rule in this interval (seconds).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dump_timestamp</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Be careful, this option will enable the profiler to dump data into the file with a time stamp which means that there will be lots of files piled up in the directory.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">flush_at_shutdown</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>Clears the data when the wsgi server shutdowns.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_filename_prefix</span></code> = <code class="docutils literal"><span class="pre">/tmp/log/swift/profile/default.profile</span></code></td>
+<td>This prefix is used to combine the process ID and timestamp to name the profile data file.  Make sure the executing user has permission to write into this path. Any missing path segments will be created, if necessary.  When you enable profiling in more than one type of daemon, you must override it with a unique value like: /var/log/swift/profile/object.profile</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">path</span></code> = <code class="docutils literal"><span class="pre">/__profile__</span></code></td>
+<td>This is the path of the URL to access the mini web UI.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">profile_module</span></code> = <code class="docutils literal"><span class="pre">eventlet.green.profile</span></code></td>
+<td>This option enables you to switch profilers which inherit from the Python standard profiler. Currently, the supported value can be &#8216;cProfile&#8217;, &#8216;eventlet.green.profile&#8217;, etc.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">unwind</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>unwind the iterator of applications</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#xprofile</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="sample-object-server-configuration-file">
+<h2>Sample object server configuration file<a class="headerlink" href="#sample-object-server-configuration-file" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="c1"># bind_ip = 0.0.0.0</span>
+<span class="na">bind_port</span> <span class="o">=</span> <span class="s">6200</span>
+<span class="c1"># bind_timeout = 30</span>
+<span class="c1"># backlog = 4096</span>
+<span class="c1"># user = swift</span>
+<span class="c1"># swift_dir = /etc/swift</span>
+<span class="c1"># devices = /srv/node</span>
+<span class="c1"># mount_check = true</span>
+<span class="c1"># disable_fallocate = false</span>
+<span class="c1"># expiring_objects_container_divisor = 86400</span>
+<span class="c1"># expiring_objects_account_name = expiring_objects</span>
+<span class="c1">#</span>
+<span class="c1"># Use an integer to override the number of pre-forked processes that will</span>
+<span class="c1"># accept connections.  NOTE: if servers_per_port is set, this setting is</span>
+<span class="c1"># ignored.</span>
+<span class="c1"># workers = auto</span>
+<span class="c1">#</span>
+<span class="c1"># Make object-server run this many worker processes per unique port of &quot;local&quot;</span>
+<span class="c1"># ring devices across all storage policies. The default value of 0 disables this</span>
+<span class="c1"># feature.</span>
+<span class="c1"># servers_per_port = 0</span>
+<span class="c1">#</span>
+<span class="c1"># Maximum concurrent requests per worker</span>
+<span class="c1"># max_clients = 1024</span>
+<span class="c1">#</span>
+<span class="c1"># You can specify default log routing here if you want:</span>
+<span class="c1"># log_name = swift</span>
+<span class="c1"># log_facility = LOG_LOCAL0</span>
+<span class="c1"># log_level = INFO</span>
+<span class="c1"># log_address = /dev/log</span>
+<span class="c1"># The following caps the length of log lines to the value given; no limit if</span>
+<span class="c1"># set to 0, the default.</span>
+<span class="c1"># log_max_line_length = 0</span>
+<span class="c1">#</span>
+<span class="c1"># comma separated list of functions to call to setup custom log handlers.</span>
+<span class="c1"># functions get passed: conf, name, log_to_console, log_route, fmt, logger,</span>
+<span class="c1"># adapted_logger</span>
+<span class="c1"># log_custom_handlers =</span>
+<span class="c1">#</span>
+<span class="c1"># If set, log_udp_host will override log_address</span>
+<span class="c1"># log_udp_host =</span>
+<span class="c1"># log_udp_port = 514</span>
+<span class="c1">#</span>
+<span class="c1"># You can enable StatsD logging here:</span>
+<span class="c1"># log_statsd_host =</span>
+<span class="c1"># log_statsd_port = 8125</span>
+<span class="c1"># log_statsd_default_sample_rate = 1.0</span>
+<span class="c1"># log_statsd_sample_rate_factor = 1.0</span>
+<span class="c1"># log_statsd_metric_prefix =</span>
+<span class="c1">#</span>
+<span class="c1"># eventlet_debug = false</span>
+<span class="c1">#</span>
+<span class="c1"># You can set fallocate_reserve to the number of bytes or percentage of disk</span>
+<span class="c1"># space you&#39;d like fallocate to reserve, whether there is space for the given</span>
+<span class="c1"># file size or not. Percentage will be used if the value ends with a &#39;%&#39;.</span>
+<span class="c1"># fallocate_reserve = 1%</span>
+<span class="c1">#</span>
+<span class="c1"># Time to wait while attempting to connect to another backend node.</span>
+<span class="c1"># conn_timeout = 0.5</span>
+<span class="c1"># Time to wait while sending each chunk of data to another backend node.</span>
+<span class="c1"># node_timeout = 3</span>
+<span class="c1"># Time to wait while sending a container update on object update.</span>
+<span class="c1"># container_update_timeout = 1.0</span>
+<span class="c1"># Time to wait while receiving each chunk of data from a client or another</span>
+<span class="c1"># backend node.</span>
+<span class="c1"># client_timeout = 60</span>
+<span class="c1">#</span>
+<span class="c1"># network_chunk_size = 65536</span>
+<span class="c1"># disk_chunk_size = 65536</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="k">[pipeline:main]</span>
+<span class="na">pipeline</span> <span class="o">=</span> <span class="s">healthcheck recon object-server</span>
+
+<span class="k">[app:object-server]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#object</span>
+<span class="c1"># You can override the default log routing for this app here:</span>
+<span class="c1"># set log_name = object-server</span>
+<span class="c1"># set log_facility = LOG_LOCAL0</span>
+<span class="c1"># set log_level = INFO</span>
+<span class="c1"># set log_requests = true</span>
+<span class="c1"># set log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># max_upload_time = 86400</span>
+<span class="c1">#</span>
+<span class="c1"># slow is the total amount of seconds an object PUT/DELETE request takes at</span>
+<span class="c1"># least. If it is faster, the object server will sleep this amount of time minus</span>
+<span class="c1"># the already passed transaction time.  This is only useful for simulating slow</span>
+<span class="c1"># devices on storage nodes during testing and development.</span>
+<span class="c1"># slow = 0</span>
+<span class="c1">#</span>
+<span class="c1"># Objects smaller than this are not evicted from the buffercache once read</span>
+<span class="c1"># keep_cache_size = 5242880</span>
+<span class="c1">#</span>
+<span class="c1"># If true, objects for authenticated GET requests may be kept in buffer cache</span>
+<span class="c1"># if small enough</span>
+<span class="c1"># keep_cache_private = false</span>
+<span class="c1">#</span>
+<span class="c1"># on PUTs, sync data every n MB</span>
+<span class="c1"># mb_per_sync = 512</span>
+<span class="c1">#</span>
+<span class="c1"># Comma separated list of headers that can be set in metadata on an object.</span>
+<span class="c1"># This list is in addition to X-Object-Meta-* headers and cannot include</span>
+<span class="c1"># Content-Type, etag, Content-Length, or deleted</span>
+<span class="c1"># allowed_headers = Content-Disposition, Content-Encoding, X-Delete-At, X-Object-Manifest, X-Static-Large-Object</span>
+<span class="c1">#</span>
+<span class="c1"># auto_create_account_prefix = .</span>
+<span class="c1">#</span>
+<span class="c1"># Configure parameter for creating specific server</span>
+<span class="c1"># To handle all verbs, including replication verbs, do not specify</span>
+<span class="c1"># &quot;replication_server&quot; (this is the default). To only handle replication,</span>
+<span class="c1"># set to a True value (e.g. &quot;True&quot; or &quot;1&quot;). To handle only non-replication</span>
+<span class="c1"># verbs, set to &quot;False&quot;. Unless you have a separate replication network, you</span>
+<span class="c1"># should not specify any value for &quot;replication_server&quot;.</span>
+<span class="c1"># replication_server = false</span>
+<span class="c1">#</span>
+<span class="c1"># Set to restrict the number of concurrent incoming SSYNC requests</span>
+<span class="c1"># Set to 0 for unlimited</span>
+<span class="c1"># Note that SSYNC requests are only used by the object reconstructor or the</span>
+<span class="c1"># object replicator when configured to use ssync.</span>
+<span class="c1"># replication_concurrency = 4</span>
+<span class="c1">#</span>
+<span class="c1"># Restricts incoming SSYNC requests to one per device,</span>
+<span class="c1"># replication_currency above allowing. This can help control I/O to each</span>
+<span class="c1"># device, but you may wish to set this to False to allow multiple SSYNC</span>
+<span class="c1"># requests (up to the above replication_concurrency setting) per device.</span>
+<span class="c1"># replication_one_per_device = True</span>
+<span class="c1">#</span>
+<span class="c1"># Number of seconds to wait for an existing replication device lock before</span>
+<span class="c1"># giving up.</span>
+<span class="c1"># replication_lock_timeout = 15</span>
+<span class="c1">#</span>
+<span class="c1"># These next two settings control when the SSYNC subrequest handler will</span>
+<span class="c1"># abort an incoming SSYNC attempt. An abort will occur if there are at</span>
+<span class="c1"># least threshold number of failures and the value of failures / successes</span>
+<span class="c1"># exceeds the ratio. The defaults of 100 and 1.0 means that at least 100</span>
+<span class="c1"># failures have to occur and there have to be more failures than successes for</span>
+<span class="c1"># an abort to occur.</span>
+<span class="c1"># replication_failure_threshold = 100</span>
+<span class="c1"># replication_failure_ratio = 1.0</span>
+<span class="c1">#</span>
+<span class="c1"># Use splice() for zero-copy object GETs. This requires Linux kernel</span>
+<span class="c1"># version 3.0 or greater. If you set &quot;splice = yes&quot; but the kernel</span>
+<span class="c1"># does not support it, error messages will appear in the object server</span>
+<span class="c1"># logs at startup, but your object servers should continue to function.</span>
+<span class="c1">#</span>
+<span class="c1"># splice = no</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="k">[filter:healthcheck]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#healthcheck</span>
+<span class="c1"># An optional filesystem path, which if present, will cause the healthcheck</span>
+<span class="c1"># URL to return &quot;503 Service Unavailable&quot; with a body of &quot;DISABLED BY FILE&quot;</span>
+<span class="c1"># disable_path =</span>
+
+<span class="k">[filter:recon]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#recon</span>
+<span class="c1">#recon_cache_path = /var/cache/swift</span>
+<span class="c1">#recon_lock_path = /var/lock</span>
+
+<span class="k">[object-replicator]</span>
+<span class="c1"># You can override the default log routing for this app here (don&#39;t use set!):</span>
+<span class="c1"># log_name = object-replicator</span>
+<span class="c1"># log_facility = LOG_LOCAL0</span>
+<span class="c1"># log_level = INFO</span>
+<span class="c1"># log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># daemonize = on</span>
+<span class="c1">#</span>
+<span class="c1"># Time in seconds to wait between replication passes</span>
+<span class="c1"># interval = 30</span>
+<span class="c1"># run_pause is deprecated, use interval instead</span>
+<span class="c1"># run_pause = 30</span>
+<span class="c1">#</span>
+<span class="c1"># concurrency = 1</span>
+<span class="c1"># stats_interval = 300</span>
+<span class="c1">#</span>
+<span class="c1"># default is rsync, alternative is ssync</span>
+<span class="c1"># sync_method = rsync</span>
+<span class="c1">#</span>
+<span class="c1"># max duration of a partition rsync</span>
+<span class="c1"># rsync_timeout = 900</span>
+<span class="c1">#</span>
+<span class="c1"># bandwidth limit for rsync in kB/s. 0 means unlimited</span>
+<span class="c1"># rsync_bwlimit = 0</span>
+<span class="c1">#</span>
+<span class="c1"># passed to rsync for io op timeout</span>
+<span class="c1"># rsync_io_timeout = 30</span>
+<span class="c1">#</span>
+<span class="c1"># Allow rsync to compress data which is transmitted to destination node</span>
+<span class="c1"># during sync. However, this is applicable only when destination node is in</span>
+<span class="c1"># a different region than the local one.</span>
+<span class="c1"># NOTE: Objects that are already compressed (for example: .tar.gz, .mp3) might</span>
+<span class="c1"># slow down the syncing process.</span>
+<span class="c1"># rsync_compress = no</span>
+<span class="c1">#</span>
+<span class="c1"># Format of the rysnc module where the replicator will send data. See</span>
+<span class="c1"># etc/rsyncd.conf-sample for some usage examples.</span>
+<span class="c1"># rsync_module = {replication_ip}::object</span>
+<span class="c1">#</span>
+<span class="c1"># node_timeout = &lt;whatever&#39;s in the DEFAULT section or 10&gt;</span>
+<span class="c1"># max duration of an http request; this is for REPLICATE finalization calls and</span>
+<span class="c1"># so should be longer than node_timeout</span>
+<span class="c1"># http_timeout = 60</span>
+<span class="c1">#</span>
+<span class="c1"># attempts to kill all workers if nothing replicates for lockup_timeout seconds</span>
+<span class="c1"># lockup_timeout = 1800</span>
+<span class="c1">#</span>
+<span class="c1"># The replicator also performs reclamation</span>
+<span class="c1"># reclaim_age = 604800</span>
+<span class="c1">#</span>
+<span class="c1"># ring_check_interval = 15</span>
+<span class="c1"># recon_cache_path = /var/cache/swift</span>
+<span class="c1">#</span>
+<span class="c1"># limits how long rsync error log lines are</span>
+<span class="c1"># 0 means to log the entire line</span>
+<span class="c1"># rsync_error_log_line_length = 0</span>
+<span class="c1">#</span>
+<span class="c1"># handoffs_first and handoff_delete are options for a special case</span>
+<span class="c1"># such as disk full in the cluster. These two options SHOULD NOT BE</span>
+<span class="c1"># CHANGED, except for such an extreme situations. (e.g. disks filled up</span>
+<span class="c1"># or are about to fill up. Anyway, DO NOT let your drives fill up)</span>
+<span class="c1"># handoffs_first is the flag to replicate handoffs prior to canonical</span>
+<span class="c1"># partitions. It allows to force syncing and deleting handoffs quickly.</span>
+<span class="c1"># If set to a True value(e.g. &quot;True&quot; or &quot;1&quot;), partitions</span>
+<span class="c1"># that are not supposed to be on the node will be replicated first.</span>
+<span class="c1"># handoffs_first = False</span>
+<span class="c1">#</span>
+<span class="c1"># handoff_delete is the number of replicas which are ensured in swift.</span>
+<span class="c1"># If the number less than the number of replicas is set, object-replicator</span>
+<span class="c1"># could delete local handoffs even if all replicas are not ensured in the</span>
+<span class="c1"># cluster. Object-replicator would remove local handoff partition directories</span>
+<span class="c1"># after syncing partition when the number of successful responses is greater</span>
+<span class="c1"># than or equal to this number. By default(auto), handoff partitions will be</span>
+<span class="c1"># removed  when it has successfully replicated to all the canonical nodes.</span>
+<span class="c1"># handoff_delete = auto</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="k">[object-reconstructor]</span>
+<span class="c1"># You can override the default log routing for this app here (don&#39;t use set!):</span>
+<span class="c1"># Unless otherwise noted, each setting below has the same meaning as described</span>
+<span class="c1"># in the [object-replicator] section, however these settings apply to the EC</span>
+<span class="c1"># reconstructor</span>
+<span class="c1">#</span>
+<span class="c1"># log_name = object-reconstructor</span>
+<span class="c1"># log_facility = LOG_LOCAL0</span>
+<span class="c1"># log_level = INFO</span>
+<span class="c1"># log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># daemonize = on</span>
+<span class="c1">#</span>
+<span class="c1"># Time in seconds to wait between reconstruction passes</span>
+<span class="c1"># interval = 30</span>
+<span class="c1"># run_pause is deprecated, use interval instead</span>
+<span class="c1"># run_pause = 30</span>
+<span class="c1">#</span>
+<span class="c1"># concurrency = 1</span>
+<span class="c1"># stats_interval = 300</span>
+<span class="c1"># node_timeout = 10</span>
+<span class="c1"># http_timeout = 60</span>
+<span class="c1"># lockup_timeout = 1800</span>
+<span class="c1"># reclaim_age = 604800</span>
+<span class="c1"># ring_check_interval = 15</span>
+<span class="c1"># recon_cache_path = /var/cache/swift</span>
+<span class="c1"># handoffs_first = False</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="k">[object-updater]</span>
+<span class="c1"># You can override the default log routing for this app here (don&#39;t use set!):</span>
+<span class="c1"># log_name = object-updater</span>
+<span class="c1"># log_facility = LOG_LOCAL0</span>
+<span class="c1"># log_level = INFO</span>
+<span class="c1"># log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># interval = 300</span>
+<span class="c1"># concurrency = 1</span>
+<span class="c1"># node_timeout = &lt;whatever&#39;s in the DEFAULT section or 10&gt;</span>
+<span class="c1"># slowdown will sleep that amount between objects</span>
+<span class="c1"># slowdown = 0.01</span>
+<span class="c1">#</span>
+<span class="c1"># recon_cache_path = /var/cache/swift</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="k">[object-auditor]</span>
+<span class="c1"># You can override the default log routing for this app here (don&#39;t use set!):</span>
+<span class="c1"># log_name = object-auditor</span>
+<span class="c1"># log_facility = LOG_LOCAL0</span>
+<span class="c1"># log_level = INFO</span>
+<span class="c1"># log_address = /dev/log</span>
+<span class="c1">#</span>
+<span class="c1"># Time in seconds to wait between auditor passes</span>
+<span class="c1"># interval = 30</span>
+<span class="c1">#</span>
+<span class="c1"># You can set the disk chunk size that the auditor uses making it larger if</span>
+<span class="c1"># you like for more efficient local auditing of larger objects</span>
+<span class="c1"># disk_chunk_size = 65536</span>
+<span class="c1"># files_per_second = 20</span>
+<span class="c1"># concurrency = 1</span>
+<span class="c1"># bytes_per_second = 10000000</span>
+<span class="c1"># log_time = 3600</span>
+<span class="c1"># zero_byte_files_per_second = 50</span>
+<span class="c1"># recon_cache_path = /var/cache/swift</span>
+
+<span class="c1"># Takes a comma separated list of ints. If set, the object auditor will</span>
+<span class="c1"># increment a counter for every object whose size is &lt;= to the given break</span>
+<span class="c1"># points and report the result after a full scan.</span>
+<span class="c1"># object_size_stats =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set scheduling priority of processes. Niceness values range from -20</span>
+<span class="c1"># (most favorable to the process) to 19 (least favorable to the process).</span>
+<span class="c1"># nice_priority =</span>
+<span class="c1">#</span>
+<span class="c1"># You can set I/O scheduling class and priority of processes. I/O niceness</span>
+<span class="c1"># class values are IOPRIO_CLASS_RT (realtime), IOPRIO_CLASS_BE (best-effort) and</span>
+<span class="c1"># IOPRIO_CLASS_IDLE (idle). I/O niceness priority is a number which goes from</span>
+<span class="c1"># 0 to 7. The higher the value, the lower the I/O priority of the process.</span>
+<span class="c1"># Work only with ionice_class.</span>
+<span class="c1"># ionice_class =</span>
+<span class="c1"># ionice_priority =</span>
+
+<span class="c1"># The auditor will cleanup old rsync tempfiles after they are &quot;old</span>
+<span class="c1"># enough&quot; to delete.  You can configure the time elapsed in seconds</span>
+<span class="c1"># before rsync tempfiles will be unlinked, or the default value of</span>
+<span class="c1"># &quot;auto&quot; try to use object-replicator&#39;s rsync_timeout + 900 and fallback</span>
+<span class="c1"># to 86400 (1 day).</span>
+<span class="c1"># rsync_tempfile_timeout = auto</span>
+
+<span class="c1"># Note: Put it at the beginning of the pipleline to profile all middleware. But</span>
+<span class="c1"># it is safer to put this after healthcheck.</span>
+<span class="k">[filter:xprofile]</span>
+<span class="na">use</span> <span class="o">=</span> <span class="s">egg:swift#xprofile</span>
+<span class="c1"># This option enable you to switch profilers which should inherit from python</span>
+<span class="c1"># standard profiler. Currently the supported value can be &#39;cProfile&#39;,</span>
+<span class="c1"># &#39;eventlet.green.profile&#39; etc.</span>
+<span class="c1"># profile_module = eventlet.green.profile</span>
+<span class="c1">#</span>
+<span class="c1"># This prefix will be used to combine process ID and timestamp to name the</span>
+<span class="c1"># profile data file.  Make sure the executing user has permission to write</span>
+<span class="c1"># into this path (missing path segments will be created, if necessary).</span>
+<span class="c1"># If you enable profiling in more than one type of daemon, you must override</span>
+<span class="c1"># it with an unique value like: /var/log/swift/profile/object.profile</span>
+<span class="c1"># log_filename_prefix = /tmp/log/swift/profile/default.profile</span>
+<span class="c1">#</span>
+<span class="c1"># the profile data will be dumped to local disk based on above naming rule</span>
+<span class="c1"># in this interval.</span>
+<span class="c1"># dump_interval = 5.0</span>
+<span class="c1">#</span>
+<span class="c1"># Be careful, this option will enable profiler to dump data into the file with</span>
+<span class="c1"># time stamp which means there will be lots of files piled up in the directory.</span>
+<span class="c1"># dump_timestamp = false</span>
+<span class="c1">#</span>
+<span class="c1"># This is the path of the URL to access the mini web UI.</span>
+<span class="c1"># path = /__profile__</span>
+<span class="c1">#</span>
+<span class="c1"># Clear the data when the wsgi server shutdown.</span>
+<span class="c1"># flush_at_shutdown = false</span>
+<span class="c1">#</span>
+<span class="c1"># unwind the iterator of applications</span>
+<span class="c1"># unwind = false</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="general-service-conf.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Object Storage general service configuration"></i></a>
+          
+          
+            <a href="object-expirer.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Object expirer configuration"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../object-storage.html">Object Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="about.html">Introduction to Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-service-conf.html">Object Storage general service configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Object server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object-expirer.html">Object expirer configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-server.html">Container server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-sync-realms.html">Container sync realms configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-reconciler.html">Container reconciler configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="account-server.html">Account server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-server.html">Proxy server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memcache.html">Proxy server memcache configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rsyncd.html">Rsyncd configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="features.html">Configure Object Storage features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-s3.html">Configure Object Storage with the S3 API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="listendpoints.html">Endpoint listing middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logs.html">Object storage log files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tables/conf-changes/swift.html">New, updated, and deprecated options in Newton for OpenStack Object Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "object-storage/object-server" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Object server configuration in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/object-storage/object-server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:46:02 GMT -->
+</html>

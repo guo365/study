@@ -1,0 +1,612 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/ops-guide/ops-backup-recovery.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:36:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Backup and Recovery</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Backup and Recovery</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="ops-logging-monitoring-summary.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Summary"></i></a>
+    
+    
+    <a href="ops-customize.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Customization"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Backup and Recovery</a><ul>
+<li><a class="reference internal" href="#what-to-back-up">What to Back Up</a></li>
+<li><a class="reference internal" href="#database-backups">Database Backups</a></li>
+<li><a class="reference internal" href="#file-system-backups">File System Backups</a><ul>
+<li><a class="reference internal" href="#compute">Compute</a></li>
+<li><a class="reference internal" href="#image-catalog-and-delivery">Image Catalog and Delivery</a></li>
+<li><a class="reference internal" href="#identity">Identity</a></li>
+<li><a class="reference internal" href="#block-storage">Block Storage</a></li>
+<li><a class="reference internal" href="#networking">Networking</a></li>
+<li><a class="reference internal" href="#object-storage">Object Storage</a></li>
+<li><a class="reference internal" href="#telemetry">Telemetry</a></li>
+<li><a class="reference internal" href="#orchestration">Orchestration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#recovering-backups">Recovering Backups</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="backup-and-recovery">
+<h1>Backup and Recovery<a class="headerlink" href="#backup-and-recovery" title="Permalink to this headline">¶</a></h1>
+<p>Standard backup best practices apply when creating your OpenStack backup
+policy. For example, how often to back up your data is closely related
+to how quickly you need to recover from data loss.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you cannot have any data loss at all, you should also focus on a
+highly available deployment. The <a class="reference external" href="http://docs.openstack.org/ha-guide/index.html">OpenStack High Availability
+Guide</a> offers
+suggestions for elimination of a single point of failure that could
+cause system downtime. While it is not a completely prescriptive
+document, it offers methods and techniques for avoiding downtime and
+data loss.</p>
+</div>
+<p>Other backup considerations include:</p>
+<ul class="simple">
+<li>How many backups to keep?</li>
+<li>Should backups be kept off-site?</li>
+<li>How often should backups be tested?</li>
+</ul>
+<p>Just as important as a backup policy is a recovery policy (or at least
+recovery testing).</p>
+<div class="section" id="what-to-back-up">
+<h2>What to Back Up<a class="headerlink" href="#what-to-back-up" title="Permalink to this headline">¶</a></h2>
+<p>While OpenStack is composed of many components and moving parts, backing
+up the critical data is quite simple.</p>
+<p>This chapter describes only how to back up configuration files and
+databases that the various OpenStack components need to run. This
+chapter does not describe how to back up objects inside Object Storage
+or data contained inside Block Storage. Generally these areas are left
+for users to back up on their own.</p>
+</div>
+<div class="section" id="database-backups">
+<h2>Database Backups<a class="headerlink" href="#database-backups" title="Permalink to this headline">¶</a></h2>
+<p>The example OpenStack architecture designates the cloud controller as
+the MySQL server. This MySQL server hosts the databases for nova,
+glance, cinder, and keystone. With all of these databases in one place,
+it&#8217;s very easy to create a database backup:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> mysqldump --opt --all-databases &gt; openstack.sql
+</pre></div>
+</div>
+<p>If you only want to backup a single database, you can instead run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> mysqldump --opt nova &gt; nova.sql
+</pre></div>
+</div>
+<p>where <code class="docutils literal"><span class="pre">nova</span></code> is the database you want to back up.</p>
+<p>You can easily automate this process by creating a cron job that runs
+the following script once per day:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">backup_dir</span><span class="o">=</span><span class="s2">&quot;/var/lib/backups/mysql&quot;</span>
+<span class="nv">filename</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">backup_dir</span><span class="si">}</span><span class="s2">/mysql-`hostname`-`eval date +%Y%m%d`.sql.gz&quot;</span>
+<span class="c1"># Dump the entire MySQL database</span>
+/usr/bin/mysqldump --opt --all-databases <span class="p">|</span> gzip &gt; <span class="nv">$filename</span>
+<span class="c1"># Delete backups older than 7 days</span>
+find <span class="nv">$backup_dir</span> -ctime +7 -type f -delete
+</pre></div>
+</div>
+<p>This script dumps the entire MySQL database and deletes any backups
+older than seven days.</p>
+</div>
+<div class="section" id="file-system-backups">
+<h2>File System Backups<a class="headerlink" href="#file-system-backups" title="Permalink to this headline">¶</a></h2>
+<p>This section discusses which files and directories should be backed up
+regularly, organized by service.</p>
+<div class="section" id="compute">
+<h3>Compute<a class="headerlink" href="#compute" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">/etc/nova</span></code> directory on both the cloud controller and compute
+nodes should be regularly backed up.</p>
+<p><code class="docutils literal"><span class="pre">/var/log/nova</span></code> does not need to be backed up if you have all logs
+going to a central area. It is highly recommended to use a central
+logging server or back up the log directory.</p>
+<p><code class="docutils literal"><span class="pre">/var/lib/nova</span></code> is another important directory to back up. The
+exception to this is the <code class="docutils literal"><span class="pre">/var/lib/nova/instances</span></code> subdirectory on
+compute nodes. This subdirectory contains the KVM images of running
+instances. You would want to back up this directory only if you need to
+maintain backup copies of all instances. Under most circumstances, you
+do not need to do this, but this can vary from cloud to cloud and your
+service levels. Also be aware that making a backup of a live KVM
+instance can cause that instance to not boot properly if it is ever
+restored from a backup.</p>
+</div>
+<div class="section" id="image-catalog-and-delivery">
+<h3>Image Catalog and Delivery<a class="headerlink" href="#image-catalog-and-delivery" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">/etc/glance</span></code> and <code class="docutils literal"><span class="pre">/var/log/glance</span></code> follow the same rules as their
+nova counterparts.</p>
+<p><code class="docutils literal"><span class="pre">/var/lib/glance</span></code> should also be backed up. Take special notice of
+<code class="docutils literal"><span class="pre">/var/lib/glance/images</span></code>. If you are using a file-based back end of
+glance, <code class="docutils literal"><span class="pre">/var/lib/glance/images</span></code> is where the images are stored and
+care should be taken.</p>
+<p>There are two ways to ensure stability with this directory. The first is
+to make sure this directory is run on a RAID array. If a disk fails, the
+directory is available. The second way is to use a tool such as rsync to
+replicate the images to another server:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> rsync -az --progress /var/lib/glance/images backup-server:/var/lib/glance/images/
+</pre></div>
+</div>
+</div>
+<div class="section" id="identity">
+<h3>Identity<a class="headerlink" href="#identity" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">/etc/keystone</span></code> and <code class="docutils literal"><span class="pre">/var/log/keystone</span></code> follow the same rules as
+other components.</p>
+<p><code class="docutils literal"><span class="pre">/var/lib/keystone</span></code>, although it should not contain any data being
+used, can also be backed up just in case.</p>
+</div>
+<div class="section" id="block-storage">
+<h3>Block Storage<a class="headerlink" href="#block-storage" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">/etc/cinder</span></code> and <code class="docutils literal"><span class="pre">/var/log/cinder</span></code> follow the same rules as other
+components.</p>
+<p><code class="docutils literal"><span class="pre">/var/lib/cinder</span></code> should also be backed up.</p>
+</div>
+<div class="section" id="networking">
+<h3>Networking<a class="headerlink" href="#networking" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">/etc/neutron</span></code> and <code class="docutils literal"><span class="pre">/var/log/neutron</span></code> follow the same rules as other
+components.</p>
+<p><code class="docutils literal"><span class="pre">/var/lib/neutron</span></code> should also be backed up.</p>
+</div>
+<div class="section" id="object-storage">
+<h3>Object Storage<a class="headerlink" href="#object-storage" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">/etc/swift</span></code> is very important to have backed up. This directory
+contains the swift configuration files as well as the ring files and
+ring <a class="reference internal" href="common/glossary.html#term-builder-file"><span class="xref std std-term">builder files</span></a>, which if lost, render the data
+on your cluster inaccessible. A best practice is to copy the builder files
+to all storage nodes along with the ring files. Multiple backup copies are
+spread throughout your storage cluster.</p>
+</div>
+<div class="section" id="telemetry">
+<h3>Telemetry<a class="headerlink" href="#telemetry" title="Permalink to this headline">¶</a></h3>
+<p>Back up the <code class="docutils literal"><span class="pre">/etc/ceilometer</span></code> directory containing Telemetry configuration
+files.</p>
+</div>
+<div class="section" id="orchestration">
+<h3>Orchestration<a class="headerlink" href="#orchestration" title="Permalink to this headline">¶</a></h3>
+<p>Back up HOT template <code class="docutils literal"><span class="pre">yaml</span></code> files, and the <code class="docutils literal"><span class="pre">/etc/heat/</span></code> directory
+containing Orchestration configuration files.</p>
+</div>
+</div>
+<div class="section" id="recovering-backups">
+<h2>Recovering Backups<a class="headerlink" href="#recovering-backups" title="Permalink to this headline">¶</a></h2>
+<p>Recovering backups is a fairly simple process. To begin, first ensure
+that the service you are recovering is not running. For example, to do a
+full recovery of <code class="docutils literal"><span class="pre">nova</span></code> on the cloud controller, first stop all
+<code class="docutils literal"><span class="pre">nova</span></code> services:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> stop nova-api
+<span class="gp">#</span> stop nova-cert
+<span class="gp">#</span> stop nova-consoleauth
+<span class="gp">#</span> stop nova-novncproxy
+<span class="gp">#</span> stop nova-objectstore
+<span class="gp">#</span> stop nova-scheduler
+</pre></div>
+</div>
+<p>Now you can import a previously backed-up database:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> mysql nova &lt; nova.sql
+</pre></div>
+</div>
+<p>You can also restore backed-up nova directories:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> mv /etc/nova<span class="o">{</span>,.orig<span class="o">}</span>
+<span class="gp">#</span> cp -a /path/to/backup/nova /etc/
+</pre></div>
+</div>
+<p>Once the files are restored, start everything back up:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> start mysql
+<span class="gp">#</span> <span class="k">for</span> i in nova-api nova-cert nova-consoleauth nova-novncproxy <span class="se">\</span>
+<span class="go">  nova-objectstore nova-scheduler</span>
+<span class="gp">&gt;</span> <span class="k">do</span>
+<span class="gp">&gt;</span> start <span class="nv">$i</span>
+<span class="gp">&gt;</span> <span class="k">done</span>
+</pre></div>
+</div>
+<p>Other services follow the same process, with their respective
+directories and databases.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>Backup and subsequent recovery is one of the first tasks system
+administrators learn. However, each system has different items that need
+attention. By taking care of your database, image service, and
+appropriate file system locations, you can be assured that you can
+handle any event requiring recovery.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="ops-logging-monitoring-summary.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Summary"></i></a>
+          
+          
+            <a href="ops-customize.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Customization"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="operations.html">Operations</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ops-lay-of-the-land.html">Lay of the Land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-projects-users.html">Managing Projects and Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-user-facing-operations.html">User-Facing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-maintenance.html">Maintenance, Failures, and Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-network-troubleshooting.html">Network Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-logging-monitoring.html">Logging and Monitoring</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Backup and Recovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-customize.html">Customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-advanced-configuration.html">Advanced Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-upgrades.html">Upgrades</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app-usecases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-crypt.html">Tales From the Cryp^H^H^H^H Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-roadmaps.html">Working with Roadmaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "ops-backup-recovery" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/ops-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Backup and Recovery in Operations Guide";
+    var fieldTags = "ops-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/ops-guide/ops-backup-recovery.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:36:53 GMT -->
+</html>

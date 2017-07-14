@@ -1,0 +1,615 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/shared-file-systems/network-and-security-models.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:41:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Network and security models</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Network and security models</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="intro.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Introduction"></i></a>
+    
+    
+    <a href="security-services.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Security services"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Network and security models</a><ul>
+<li><a class="reference internal" href="#share-back-ends-modes">Share back ends modes</a></li>
+<li><a class="reference internal" href="#flat-vs-segmented-networking">Flat vs segmented networking</a></li>
+<li><a class="reference internal" href="#network-plug-ins">Network plug-ins</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="network-and-security-models">
+<span id="shared-fs-network-security-models"></span><h1>Network and security models<a class="headerlink" href="#network-and-security-models" title="Permalink to this headline">¶</a></h1>
+<p>A share driver in the Shared File Systems service is a Python class that can
+be set for the back end and run in it to manage share operations, some of
+which are vendor-specific. The back end is an instance of manila-share
+service. There are a big number of share drivers created by different vendors
+in the Shared File Systems service. Each share driver supports one or more back
+end modes: <em>share servers</em> and <em>no share servers</em>. An administrator
+chooses which mode is used by specifying it in <code class="docutils literal"><span class="pre">manila.conf</span></code> configuration
+file. An option <code class="docutils literal"><span class="pre">driver_handles_share_servers</span></code> is used for it.</p>
+<p>The <em>share servers</em> mode can be configured with flat network, or with segmented
+network. This depends on the network provider.</p>
+<p>It is possible to have separate drivers for different modes use the same
+hardware, if you want to have different configurations. Depending on which mode
+is chosen, an administrator may need to provide more configuration details
+through the configuration file.</p>
+<div class="section" id="share-back-ends-modes">
+<span id="share-servers-vs-no-share-servers"></span><h2>Share back ends modes<a class="headerlink" href="#share-back-ends-modes" title="Permalink to this headline">¶</a></h2>
+<p>Each share driver supports at least one of the possible driver modes:</p>
+<ul class="simple">
+<li><strong>share servers mode</strong></li>
+<li><strong>no share servers mode</strong></li>
+</ul>
+<p>The configuration option in <code class="docutils literal"><span class="pre">manila.conf</span></code> that sets <em>share servers</em> mode or
+<em>no share servers</em> mode is the <code class="docutils literal"><span class="pre">driver_handles_share_servers</span></code>
+option. It indicates whether a driver handles share servers by itself
+or it expects the Shared File Systems service to do it.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="17%" />
+<col width="33%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Mode</th>
+<th class="head">Config option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>share servers</td>
+<td>driver_handles_share_servers = True</td>
+<td>The share driver creates the share server and manages, or handles, the
+share server life cycle.</td>
+</tr>
+<tr class="row-odd"><td>no share servers</td>
+<td>driver_handles_share_servers = False</td>
+<td>An administrator rather than a share driver manages the bare metal
+storage with some net interface insteadof the presence of the share
+servers.</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>No share servers mode</dt>
+<dd>In this mode, drivers have basically no network requirements whatsoever.
+It&#8217;s assumed that storage controller being managed by the
+driver has all of the network interfaces it&#8217;s going to need. The Shared
+File Systems service will expect the driver to provision shares directly
+without creating any share server beforehand. This mode corresponds to
+what some existing drivers are already doing, but it makes the
+choice explicit for the administrator. In this mode, the share networks
+are not needed at share creation time and must not be provided.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In <em>no share servers mode</em> the Shared File Systems service will assume that
+the network interfaces through which any shares are exported are already
+reachable by all tenants.</p>
+</div>
+<p>In the <em>no share servers</em> mode a share driver does not handle storage
+life cycle. An administrator is expected to handle the storage, network
+interfaces, and other host configurations. In this mode an administrator can
+set storage as a host which exports shares. The main characteristic
+of this mode is that the storage is not handled by the Shared File Systems
+service. Users in a tenant share common network, host, processor, and
+network pipe. They can hinder each other if there is no correct balancing
+adjustment on the storage configured by admin or proxy before it. In
+public clouds it is possible that all network capacity is used by one client,
+so an administrator should care for this not to happen. Balancing
+adjustment can be done by any means, not necessarily with OpenStack tools.</p>
+<dl class="docutils">
+<dt>Share servers mode</dt>
+<dd>In this mode, a driver is able to create share servers and plug them to
+existing networks. When providing a new share server, drivers expect
+an IP address and subnet from the Shared File Systems service.</dd>
+</dl>
+<p>Unlike <em>no share servers</em> mode, in <em>share servers</em> mode users have
+a share network and a share server that is created for each share network.
+Thus all users have separate CPU, amount of CPU time, network, capacity and
+throughput.</p>
+<p>You also can configure
+<a class="reference internal" href="security-services.html#shared-fs-security-services"><span>security services</span></a> in both <em>share servers</em>
+and <em>no share servers</em> back-end modes. But with <em>no share servers</em> back-end
+mode, an administrator should set desired authentication services manually
+on the host. And in <em>share servers</em> mode the Shared File
+Systems service can be configured automatically with any existing security
+services supported by the share driver.</p>
+</div>
+<div class="section" id="flat-vs-segmented-networking">
+<h2>Flat vs segmented networking<a class="headerlink" href="#flat-vs-segmented-networking" title="Permalink to this headline">¶</a></h2>
+<p>The Shared File Systems service allows to work with different types of a
+network:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">flat</span></code></li>
+<li><code class="docutils literal"><span class="pre">GRE</span></code></li>
+<li><code class="docutils literal"><span class="pre">VLAN</span></code></li>
+<li><code class="docutils literal"><span class="pre">VXLAN</span></code></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Shared File Systems service is merely keeping the information about
+networks in the database, and real networks are provided by the
+network provider. In OpenStack it can be Legacy networking (nova-network)
+or Networking (neutron) services, but the Shared File Systems
+service can work even out of OpenStack. That is allowed by
+<code class="docutils literal"><span class="pre">StandaloneNetworkPlugin</span></code> that can be used with any network platform and
+does not require some specific network services in OpenStack like
+Networking or Legacy networking services. You can set the network
+parameters in its configuration file.</p>
+</div>
+<p>In <a class="reference internal" href="#share-servers-vs-no-share-servers"><span>share servers</span></a> back-end mode
+a share driver creates and manages a share server for each share network.
+This mode can be divided in two variations:</p>
+<ul class="simple">
+<li>Flat network in <em>share servers</em> back-end mode</li>
+<li>Segmented network in <em>share servers</em> back-end mode</li>
+</ul>
+<p>Initially, when creating a share network, you can set up either a network
+and subnet of the OpenStack Networking (neutron) or a network of Legacy
+networking (nova-network) services. The third approach is to configure the
+networking without Legacy networking and Networking services.
+<code class="docutils literal"><span class="pre">StandaloneNetworkPlugin</span></code> can be used with any network platform. You can set
+network parameters in its configuration file.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">All share drivers that use the OpenStack Compute service do not use
+network plug-ins. In Mitaka release it is Windows and Generic drivers.
+These share drives have other options and use different approach.</p>
+</div>
+<p>After a share network is created, the Shared File Systems service retrieves
+network information determined by a network provider: network type,
+segmentation identifier if the network uses segmentation and
+IP block in CIDR notation from which to allocate the network.</p>
+<p><strong>Flat network in share servers back-end mode</strong></p>
+<p>In this mode, some storage controllers can create share servers but due to
+various limitations of physical or logical network all of share servers
+have to be on a flat network. In this mode, a share driver needs something to
+provision IP addresses for share servers, but IPs will all come out of the
+same subnet and that subnet itself is assumed to be reachable by all tenants.</p>
+<p>The <a class="reference internal" href="security-services.html#shared-fs-security-services"><span>security service part</span></a> of
+share networks specify security
+requirements such as AD or LDAP domains or a Kerberos realm. The Shared File
+Systems service assumes that any hosts referred to in security service are
+reachable from a subnet where a share server is created, which limits the
+number of cases where this mode could be used.</p>
+<p><strong>Segmented network in share servers back-end mode</strong></p>
+<p>In this mode, a share driver is able to create share servers and plug them to
+an existing segmented network. Share drivers expect the Shared File Systems
+service to provide a subnet definition for every new share server. This
+definition should include segmentation type, segmentation ID, and any other
+info relevant to the segmentation type.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some share drivers may not support all types of segmentation, for details
+see specification for the driver in use.</p>
+</div>
+</div>
+<div class="section" id="network-plug-ins">
+<span id="shared-fs-network-plugins"></span><h2>Network plug-ins<a class="headerlink" href="#network-plug-ins" title="Permalink to this headline">¶</a></h2>
+<p>The Shared File Systems service architecture defines an abstraction layer for
+network resource provisioning. It allows administrators to choose from
+different options for how network resources are assigned to their tenants’
+networked storage. There are several network plug-ins that provide a variety
+of integration approaches with the network services that are available with
+OpenStack.</p>
+<p>Network plug-ins allow to use any functions, configurations of the
+OpenStack Networking and Legacy networking services. One can use
+any network segmentation that the Networking service supports, you can use
+flat networks or VLAN-segmented networks of the Legacy networking
+(nova-network) service, or you can use plug-ins for specifying networks
+independently from OpenStack networking services. For more information of how
+to use different network plug-ins, see <a class="reference external" href="http://docs.openstack.org/admin-guide/shared_file_systems_network_plugins.html#network-plug-ins">Shared File Systems service Network
+plug-ins</a>.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="intro.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Introduction"></i></a>
+          
+          
+            <a href="security-services.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Security services"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management.html">Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Network and security models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="security-services.html">Security services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="share-acl.html">Share access control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="share-type-acl.html">Share type access control</a></li>
+<li class="toctree-l2"><a class="reference internal" href="policies.html">Policies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="checklist.html">Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance.html">Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "shared-file-systems/network-and-security-models" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Network and security models in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/shared-file-systems/network-and-security-models.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:41:55 GMT -->
+</html>

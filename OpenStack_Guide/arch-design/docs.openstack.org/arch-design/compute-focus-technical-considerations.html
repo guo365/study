@@ -1,0 +1,613 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/arch-design/compute-focus-technical-considerations.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 07:35:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Technical considerations</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Technical considerations</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="compute-focus.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Compute focused"></i></a>
+    
+    
+    <a href="compute-focus-operational-considerations.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Operational considerations"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Technical considerations</a><ul>
+<li><a class="reference internal" href="#expansion-planning">Expansion planning</a></li>
+<li><a class="reference internal" href="#cpu-and-ram">CPU and RAM</a></li>
+<li><a class="reference internal" href="#additional-hardware">Additional hardware</a></li>
+<li><a class="reference internal" href="#utilization">Utilization</a></li>
+<li><a class="reference internal" href="#openstack-components">OpenStack components</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="technical-considerations">
+<h1>Technical considerations<a class="headerlink" href="#technical-considerations" title="Permalink to this headline">¶</a></h1>
+<p>In a compute-focused OpenStack cloud, the type of instance workloads you
+provision heavily influences technical decision making.</p>
+<p>Public and private clouds require deterministic capacity planning to
+support elastic growth in order to meet user SLA expectations.
+Deterministic capacity planning is the path to predicting the effort and
+expense of making a given process perform consistently. This process is
+important because, when a service becomes a critical part of a user&#8217;s
+infrastructure, the user&#8217;s experience links directly to the SLAs of the
+cloud itself.</p>
+<p>There are two aspects of capacity planning to consider:</p>
+<ul class="simple">
+<li>Planning the initial deployment footprint</li>
+<li>Planning expansion of the environment to stay ahead of cloud user demands</li>
+</ul>
+<p>Begin planning an initial OpenStack deployment footprint with
+estimations of expected uptake, and existing infrastructure workloads.</p>
+<p>The starting point is the core count of the cloud. By applying relevant
+ratios, the user can gather information about:</p>
+<ul class="simple">
+<li>The number of expected concurrent instances: (overcommit fraction ×
+cores) / virtual cores per instance</li>
+<li>Required storage: flavor disk size × number of instances</li>
+</ul>
+<p>These ratios determine the amount of additional infrastructure needed to
+support the cloud. For example, consider a situation in which you
+require 1600 instances, each with 2 vCPU and 50 GB of storage. Assuming
+the default overcommit rate of 16:1, working out the math provides an
+equation of:</p>
+<ul class="simple">
+<li>1600 = (16 × (number of physical cores)) / 2</li>
+<li>Storage required = 50 GB × 1600</li>
+</ul>
+<p>On the surface, the equations reveal the need for 200 physical cores and
+80 TB of storage for <code class="docutils literal"><span class="pre">/var/lib/nova/instances/</span></code>. However, it is also
+important to look at patterns of usage to estimate the load that the API
+services, database servers, and queue servers are likely to encounter.</p>
+<p>Aside from the creation and termination of instances, consider the
+impact of users accessing the service, particularly on nova-api and its
+associated database. Listing instances gathers a great deal of
+information and given the frequency with which users run this operation,
+a cloud with a large number of users can increase the load
+significantly. This can even occur unintentionally. For example, the
+OpenStack Dashboard instances tab refreshes the list of instances every
+30 seconds, so leaving it open in a browser window can cause unexpected
+load.</p>
+<p>Consideration of these factors can help determine how many cloud
+controller cores you require. A server with 8 CPU cores and 8 GB of RAM
+server would be sufficient for a rack of compute nodes, given the above
+caveats.</p>
+<p>Key hardware specifications are also crucial to the performance of user
+instances. Be sure to consider budget and performance needs, including
+storage performance (spindles/core), memory availability (RAM/core),
+network bandwidth (Gbps/core), and overall CPU performance (CPU/core).</p>
+<p>The cloud resource calculator is a useful tool in examining the impacts
+of different hardware and instance load outs. See <a class="reference external" href="https://github.com/noslzzp/cloud-resource-calculator/blob/master/cloud-resource-calculator.ods">cloud-resource-calculator</a>.</p>
+<div class="section" id="expansion-planning">
+<h2>Expansion planning<a class="headerlink" href="#expansion-planning" title="Permalink to this headline">¶</a></h2>
+<p>A key challenge for planning the expansion of cloud compute services is
+the elastic nature of cloud infrastructure demands.</p>
+<p>Planning for expansion is a balancing act. Planning too conservatively
+can lead to unexpected oversubscription of the cloud and dissatisfied
+users. Planning for cloud expansion too aggressively can lead to
+unexpected underuse of the cloud and funds spent unnecessarily
+on operating infrastructure.</p>
+<p>The key is to carefully monitor the trends in cloud usage over time. The
+intent is to measure the consistency with which you deliver services,
+not the average speed or capacity of the cloud. Using this information
+to model capacity performance enables users to more accurately determine
+the current and future capacity of the cloud.</p>
+</div>
+<div class="section" id="cpu-and-ram">
+<h2>CPU and RAM<a class="headerlink" href="#cpu-and-ram" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack enables users to overcommit CPU and RAM on compute nodes. This
+allows an increase in the number of instances running on the cloud at
+the cost of reducing the performance of the instances. OpenStack Compute
+uses the following ratios by default:</p>
+<ul class="simple">
+<li>CPU allocation ratio: 16:1</li>
+<li>RAM allocation ratio: 1.5:1</li>
+</ul>
+<p>The default CPU allocation ratio of 16:1 means that the scheduler
+allocates up to 16 virtual cores per physical core. For example, if a
+physical node has 12 cores, the scheduler sees 192 available virtual
+cores. With typical flavor definitions of 4 virtual cores per instance,
+this ratio would provide 48 instances on a physical node.</p>
+<p>Similarly, the default RAM allocation ratio of 1.5:1 means that the
+scheduler allocates instances to a physical node as long as the total
+amount of RAM associated with the instances is less than 1.5 times the
+amount of RAM available on the physical node.</p>
+<p>You must select the appropriate CPU and RAM allocation ratio based on
+particular use cases.</p>
+</div>
+<div class="section" id="additional-hardware">
+<h2>Additional hardware<a class="headerlink" href="#additional-hardware" title="Permalink to this headline">¶</a></h2>
+<p>Certain use cases may benefit from exposure to additional devices on the
+compute node. Examples might include:</p>
+<ul class="simple">
+<li>High performance computing jobs that benefit from the availability of
+graphics processing units (GPUs) for general-purpose computing.</li>
+<li>Cryptographic routines that benefit from the availability of hardware
+random number generators to avoid entropy starvation.</li>
+<li>Database management systems that benefit from the availability of
+SSDs for ephemeral storage to maximize read/write time.</li>
+</ul>
+<p>Host aggregates group hosts that share similar characteristics, which
+can include hardware similarities. The addition of specialized hardware
+to a cloud deployment is likely to add to the cost of each node, so
+consider carefully whether all compute nodes, or just a subset targeted
+by flavors, need the additional customization to support the desired
+workloads.</p>
+</div>
+<div class="section" id="utilization">
+<h2>Utilization<a class="headerlink" href="#utilization" title="Permalink to this headline">¶</a></h2>
+<p>Infrastructure-as-a-Service offerings, including OpenStack, use flavors
+to provide standardized views of virtual machine resource requirements
+that simplify the problem of scheduling instances while making the best
+use of the available physical resources.</p>
+<p>In order to facilitate packing of virtual machines onto physical hosts,
+the default selection of flavors provides a second largest flavor that
+is half the size of the largest flavor in every dimension. It has half
+the vCPUs, half the vRAM, and half the ephemeral disk space. The next
+largest flavor is half that size again. The following figure provides a
+visual representation of this concept for a general purpose computing
+design:</p>
+<div class="figure">
+<img alt="_images/Compute_Tech_Bin_Packing_General1.png" src="_images/Compute_Tech_Bin_Packing_General1.png" />
+</div>
+<p>The following figure displays a CPU-optimized, packed server:</p>
+<div class="figure">
+<img alt="_images/Compute_Tech_Bin_Packing_CPU_optimized1.png" src="_images/Compute_Tech_Bin_Packing_CPU_optimized1.png" />
+</div>
+<p>These default flavors are well suited to typical configurations of
+commodity server hardware. To maximize utilization, however, it may be
+necessary to customize the flavors or create new ones in order to better
+align instance sizes to the available hardware.</p>
+<p>Workload characteristics may also influence hardware choices and flavor
+configuration, particularly where they present different ratios of CPU
+versus RAM versus HDD requirements.</p>
+<p>For more information on Flavors see <a class="reference external" href="http://docs.openstack.org/ops-guide/ops-user-facing-operations.html#flavors">OpenStack Operations Guide:
+Flavors</a>.</p>
+</div>
+<div class="section" id="openstack-components">
+<h2>OpenStack components<a class="headerlink" href="#openstack-components" title="Permalink to this headline">¶</a></h2>
+<p>Due to the nature of the workloads in this scenario, a number of
+components are highly beneficial for a Compute-focused cloud. This
+includes the typical OpenStack components:</p>
+<ul class="simple">
+<li><a class="reference internal" href="common/glossary.html#term-compute-service-nova"><span class="xref std std-term">Compute service (nova)</span></a></li>
+<li><a class="reference internal" href="common/glossary.html#term-image-service-glance"><span class="xref std std-term">Image service (glance)</span></a></li>
+<li><a class="reference internal" href="common/glossary.html#term-identity-service-keystone"><span class="xref std std-term">Identity service (keystone)</span></a></li>
+</ul>
+<p>Also consider several specialized components:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="common/glossary.html#term-orchestration-service-heat"><span class="xref std std-term">Orchestration service (heat)</span></a></dt>
+<dd>Given the nature of the applications involved in this scenario, these
+are heavily automated deployments. Making use of Orchestration is
+highly beneficial in this case. You can script the deployment of a
+batch of instances and the running of tests, but it makes sense to
+use the Orchestration service to handle all these actions.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="common/glossary.html#term-telemetry-service-telemetry"><span class="xref std std-term">Telemetry service (telemetry)</span></a></dt>
+<dd>Telemetry and the alarms it generates support autoscaling of
+instances using Orchestration. Users that are not using the
+Orchestration service do not need to deploy the Telemetry service and
+may choose to use external solutions to fulfill their metering and
+monitoring requirements.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="common/glossary.html#term-block-storage-service-cinder"><span class="xref std std-term">Block Storage service (cinder)</span></a></dt>
+<dd>Due to the burst-able nature of the workloads and the applications
+and instances that perform batch processing, this cloud mainly uses
+memory or CPU, so the need for add-on storage to each instance is not
+a likely requirement. This does not mean that you do not use
+OpenStack Block Storage (cinder) in the infrastructure, but typically
+it is not a central component.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="common/glossary.html#term-networking-service-neutron"><span class="xref std std-term">Networking service (neutron)</span></a></dt>
+<dd>When choosing a networking platform, ensure that it either works with
+all desired hypervisor and container technologies and their OpenStack
+drivers, or that it includes an implementation of an ML2 mechanism
+driver. You can mix networking platforms that provide ML2 mechanisms
+drivers.</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="compute-focus.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Compute focused"></i></a>
+          
+          
+            <a href="compute-focus-operational-considerations.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Operational considerations"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal-security-requirements.html">Security and legal requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generalpurpose.html">General purpose</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="compute-focus.html">Compute focused</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Technical considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-focus-operational-considerations.html">Operational considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-focus-architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-focus-prescriptive-examples.html">Prescriptive examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="storage-focus.html">Storage focused</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-focus.html">Network focused</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi-site.html">Multi-site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid.html">Hybrid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="massively-scalable.html">Massively scalable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="specialized.html">Specialized cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compute-focus-technical-considerations" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/arch-design-rst/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Technical considerations in Architecture Design Guide";
+    var fieldTags = "arch-design";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/arch-design/compute-focus-technical-considerations.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 07:36:11 GMT -->
+</html>

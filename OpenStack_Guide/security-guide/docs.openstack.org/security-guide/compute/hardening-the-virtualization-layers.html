@@ -1,0 +1,732 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/compute/hardening-the-virtualization-layers.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:19:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Hardening the virtualization layers</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Hardening the virtualization layers</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="hypervisor-selection.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Hypervisor selection"></i></a>
+    
+    
+    <a href="hardening-deployments.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Hardening Compute deployments"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Hardening the virtualization layers</a><ul>
+<li><a class="reference internal" href="#physical-hardware-pci-passthrough">Physical hardware (PCI passthrough)</a></li>
+<li><a class="reference internal" href="#virtual-hardware-qemu">Virtual hardware (QEMU)</a></li>
+<li><a class="reference internal" href="#minimizing-the-qemu-code-base">Minimizing the QEMU code base</a></li>
+<li><a class="reference internal" href="#compiler-hardening">Compiler hardening</a></li>
+<li><a class="reference internal" href="#mandatory-access-controls">Mandatory access controls</a></li>
+<li><a class="reference internal" href="#svirt-selinux-and-virtualization">sVirt: SELinux and virtualization</a></li>
+<li><a class="reference internal" href="#labels-and-categories">Labels and categories</a></li>
+<li><a class="reference internal" href="#selinux-users-and-roles">SELinux users and roles</a></li>
+<li><a class="reference internal" href="#booleans">Booleans</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="hardening-the-virtualization-layers">
+<h1>Hardening the virtualization layers<a class="headerlink" href="#hardening-the-virtualization-layers" title="Permalink to this headline">¶</a></h1>
+<p>In the beginning of this chapter we discuss the use of both physical and
+virtual hardware by instances, the associated security risks, and some
+recommendations for mitigating those risks. We conclude the chapter with a
+discussion of sVirt, an open source project for integrating SELinux mandatory
+access controls with the virtualization components.</p>
+<div class="section" id="physical-hardware-pci-passthrough">
+<h2>Physical hardware (PCI passthrough)<a class="headerlink" href="#physical-hardware-pci-passthrough" title="Permalink to this headline">¶</a></h2>
+<p>Many hypervisors offer a functionality known as PCI passthrough. This allows an
+instance to have direct access to a piece of hardware on the node. For example,
+this could be used to allow instances to access video cards or GPUs offering
+the compute unified device architecture (CUDA) for high performance
+computation. This feature carries two types of security risks: direct memory
+access and hardware infection.</p>
+<p>Direct memory access (DMA) is a feature that permits certain hardware devices
+to access arbitrary physical memory addresses in the host computer. Often
+video cards have this capability. However, an instance should not be given
+arbitrary physical memory access because this would give it full view of both
+the host system and other instances running on the same node. Hardware vendors
+use an input/output memory management unit (IOMMU) to manage DMA access in
+these situations. Therefore, cloud architects should ensure that the hypervisor
+is configured to utilize this hardware feature.</p>
+<dl class="docutils">
+<dt>KVM:</dt>
+<dd><a class="reference external" href="http://www.linux-kvm.org/page/How_to_assign_devices_with_VT-d_in_KVM">How to assign devices with VT-d in KVM</a></dd>
+<dt>Xen:</dt>
+<dd><a class="reference external" href="http://wiki.xen.org/wiki/VTd_HowTo">Xen VTd Howto</a></dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The IOMMU feature is marketed as VT-d by Intel and AMD-Vi by AMD.</p>
+</div>
+<p>A hardware infection occurs when an instance makes a malicious modification to
+the firmware or some other part of a device. As this device is used by other
+instances or the host OS, the malicious code can spread into those systems. The
+end result is that one instance can run code outside of its security domain.
+This is a significant breach as it is harder to reset the state of physical
+hardware than virtual hardware, and can lead to additional exposure such as
+access to the management network.</p>
+<p>Solutions to the hardware infection problem are domain specific. The strategy
+is to identify how an instance can modify hardware state then determine how to
+reset any modifications when the instance is done using the hardware. For
+example, one option could be to re-flash the firmware after use. Clearly there
+is a need to balance hardware longevity with security as some firmwares will
+fail after a large number of writes. TPM technology, described in
+<a class="reference internal" href="../management/integrity-life-cycle.html#management-secure-bootstrapping"><span>Secure bootstrapping</span></a>, is a solution for detecting
+unauthorized firmware changes. Regardless of the strategy selected, it is
+important to understand the risks associated with this kind of hardware sharing
+so that they can be properly mitigated for a given deployment scenario.</p>
+<p>Additionally, due to the risk and complexities associated with PCI passthrough,
+it should be disabled by default. If enabled for a specific need, you will need
+to have appropriate processes in place to ensure the hardware is clean before
+re-issue.</p>
+</div>
+<div class="section" id="virtual-hardware-qemu">
+<h2>Virtual hardware (QEMU)<a class="headerlink" href="#virtual-hardware-qemu" title="Permalink to this headline">¶</a></h2>
+<p>When running a virtual machine, virtual hardware is a software layer that
+provides the hardware interface for the virtual machine. Instances use this
+functionality to provide network, storage, video, and other devices that may be
+needed. With this in mind, most instances in your environment will exclusively
+use virtual hardware, with a minority that will require direct hardware access.
+The major open source hypervisors use <a class="reference internal" href="../common/glossary.html#term-quick-emulator-qemu"><span class="xref std std-term">QEMU</span></a> for
+this functionality. While QEMU fills an important need for virtualization
+platforms, it has proven to be a very challenging software project to write
+and maintain. Much of the functionality in QEMU is implemented with low-level
+code that is difficult for most developers to comprehend. Furthermore, the
+hardware virtualized by QEMU includes many legacy devices that have their own
+set of quirks. Putting all of this together, QEMU has been the source of many
+security problems, including hypervisor breakout attacks.</p>
+<p>Therefore, it is important to take proactive steps to harden QEMU. Three
+specific steps are recommended: minimizing the code base, using compiler
+hardening, and using mandatory access controls such as sVirt, SELinux, or
+AppArmor.</p>
+<p>Additionally, ensure iptables has the default policy filtering network traffic,
+and consider examining the existing rule set to understand each rule and
+determine if the policy needs to be expanded upon.</p>
+</div>
+<div class="section" id="minimizing-the-qemu-code-base">
+<h2>Minimizing the QEMU code base<a class="headerlink" href="#minimizing-the-qemu-code-base" title="Permalink to this headline">¶</a></h2>
+<p>The first recommendation is to minimize the QEMU code base by removing unused
+components from the system. QEMU provides support for many different virtual
+hardware devices, however only a small number of devices are needed for a given
+instance. The most common hardware devices are the virtio devices. Some legacy
+instances will need access to specific hardware, which can be specified using
+glance metadata:</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span>$ glance image-update \
+--property hw_disk_bus=ide \
+--property hw_cdrom_bus=ide \
+--property hw_vif_model=e1000 \
+f16-x86_64-openstack-sda
+</pre></div>
+</div>
+<p>A cloud architect should decide what devices to make available to cloud users.
+Anything that is not needed should be removed from QEMU. This step requires
+recompiling QEMU after modifying the options passed to the QEMU configure
+script. For a complete list of up-to-date options simply run
+<strong class="command">./configure --help</strong> from within the QEMU source directory. Decide
+what is needed for your deployment, and disable the remaining options.</p>
+</div>
+<div class="section" id="compiler-hardening">
+<h2>Compiler hardening<a class="headerlink" href="#compiler-hardening" title="Permalink to this headline">¶</a></h2>
+<p>The next step is to harden QEMU using compiler hardening options. Modern
+compilers provide a variety of compile time options to improve the security of
+the resulting binaries. These features, which we will describe in more detail
+below, include relocation read-only (RELRO), stack canaries, never execute
+(NX), position independent executable (PIE), and address space layout
+randomization (ASLR).</p>
+<p>Many modern Linux distributions already build QEMU with compiler hardening
+enabled, so you may want to verify your existing executable before
+proceeding with the information below. One tool that can assist you with this
+verification is called
+<a class="reference external" href="http://www.trapkit.de/tools/checksec.html">checksec.sh</a></p>
+<dl class="docutils">
+<dt>RELocation Read-Only (RELRO)</dt>
+<dd>Hardens the data sections of an executable. Both full and partial RELRO
+modes are supported by gcc. For QEMU full RELRO is your best choice.
+This will make the global offset table read-only and place various
+internal data sections before the program data section in the resulting
+executable.</dd>
+<dt>Stack canaries</dt>
+<dd>Places values on the stack and verifies their presence to help prevent
+buffer overflow attacks.</dd>
+<dt>Never eXecute (NX)</dt>
+<dd>Also known as Data Execution Prevention (DEP), ensures that data sections
+of the executable can not be executed.</dd>
+<dt>Position Independent Executable (PIE)</dt>
+<dd>Produces a position independent executable, which is necessary for ASLR.</dd>
+<dt>Address Space Layout Randomization (ASLR)</dt>
+<dd>This ensures that placement of both code and data regions will be
+randomized. Enabled by the kernel (all modern Linux kernels support ASLR),
+when the executable is built with PIE.</dd>
+</dl>
+<p>The following compiler options are recommend for GCC when compiling QEMU:</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span><span class="n">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-arch x86_64 -fstack-protector-all -Wstack-protector </span><span class="se">\</span>
+<span class="s2">--param ssp-buffer-size=4 -pie -fPIE -ftrapv -D_FORTIFY_SOURCE=2 -O2 </span><span class="se">\</span>
+<span class="s2">-Wl,-z,relro,-z,now&quot;</span>
+</pre></div>
+</div>
+<p>We recommend testing your QEMU executable file after it is compiled to ensure
+that the compiler hardening worked properly.</p>
+<p>Most cloud deployments will not want to build software such as QEMU by hand. It
+is better to use packaging to ensure that the process is repeatable and to
+ensure that the end result can be easily deployed throughout the cloud. The
+references below provide some additional details on applying compiler hardening
+options to existing packages.</p>
+<dl class="docutils">
+<dt>DEB packages:</dt>
+<dd><a class="reference external" href="https://wiki.debian.org/HardeningWalkthrough">Hardening Walkthrough</a></dd>
+<dt>RPM packages:</dt>
+<dd><a class="reference external" href="http://fedoraproject.org/wiki/How_to_create_an_RPM_package">How to create an RPM package</a></dd>
+</dl>
+</div>
+<div class="section" id="mandatory-access-controls">
+<h2>Mandatory access controls<a class="headerlink" href="#mandatory-access-controls" title="Permalink to this headline">¶</a></h2>
+<p>Compiler hardening makes it more difficult to attack the QEMU process. However,
+if an attacker does succeed, we would like to limit the impact of the attack.
+Mandatory access controls accomplish this by restricting the privileges on QEMU
+process to only what is needed. This can be accomplished using sVirt / SELinux
+or AppArmor. When using sVirt, SELinux is configured to run each QEMU process
+under a separate security context. AppArmor can be configured to provide
+similar functionality. We provide more details on sVirt and instance isolation
+in the section below
+<a class="reference internal" href="#hardening-the-virtualization-layers-svirt-selinux-and-virtualization"><span>sVirt: SELinux and virtualization</span></a>.</p>
+<p>Specific SELinux policies are available for many OpenStack services. CentOS
+users can review these policies by <a class="reference external" href="https://wiki.centos.org/HowTos/RebuildSRPM">installing the selinux-policy source
+package</a>. The most up to date policies appear in <a class="reference external" href="https://github.com/fedora-selinux/selinux-policy">Fedora&#8217;s selinux-policy</a>
+repository. The <a class="reference external" href="https://github.com/fedora-selinux/selinux-policy/tree/rawhide-contrib">rawhide-contrib</a> branch has files that end in <code class="docutils literal"><span class="pre">.te</span></code>, such
+as <code class="docutils literal"><span class="pre">cinder.te</span></code>, that can be used on systems running SELinux.</p>
+<p>AppArmor profiles for OpenStack services don&#8217;t currently exist, but the
+OpenStack-Ansible project handles this by <a class="reference external" href="http://docs.openstack.org/developer/openstack-ansible/install-guide/overview-security.html#apparmor">applying AppArmor profiles to each
+container</a> that runs an OpenStack service.</p>
+</div>
+<div class="section" id="svirt-selinux-and-virtualization">
+<span id="hardening-the-virtualization-layers-svirt-selinux-and-virtualization"></span><h2>sVirt: SELinux and virtualization<a class="headerlink" href="#svirt-selinux-and-virtualization" title="Permalink to this headline">¶</a></h2>
+<p>With unique kernel-level architecture and National Security Agency (NSA)
+developed security mechanisms, KVM provides foundational isolation technologies
+for multi-tenancy. With developmental origins dating back to 2002, the Secure
+Virtualization (sVirt) technology is the application of SELinux against modern
+day virtualization. SELinux, which was designed to apply separation control
+based upon labels, has been extended to provide isolation between virtual
+machine processes, devices, data files and system processes acting upon their
+behalf.</p>
+<p>OpenStack&#8217;s sVirt implementation aspires to protect hypervisor hosts and
+virtual machines against two primary threat vectors:</p>
+<dl class="docutils">
+<dt>Hypervisor threats</dt>
+<dd>A compromised application running within a virtual machine attacks the
+hypervisor to access underlying resources. For example, when a virtual
+machine is able to access the hypervisor OS, physical devices, or other
+applications. This threat vector represents considerable risk as a
+compromise on a hypervisor can infect the physical hardware as well as
+exposing other virtual machines and network segments.</dd>
+<dt>Virtual Machine (multi-tenant) threats</dt>
+<dd>A compromised application running within a VM attacks the hypervisor to
+access or control another virtual machine and its resources. This is a
+threat vector unique to virtualization and represents considerable risk as
+a multitude of virtual machine file images could be compromised due to
+vulnerability in a single application. This virtual network attack is a
+major concern as the administrative techniques for protecting real
+networks do not directly apply to the virtual environment.</dd>
+</dl>
+<p>Each KVM-based virtual machine is a process which is labeled by SELinux,
+effectively establishing a security boundary around each virtual machine. This
+security boundary is monitored and enforced by the Linux kernel, restricting
+the virtual machine&#8217;s access to resources outside of its boundary such as host
+machine data files or other VMs.</p>
+<a class="reference internal image-reference" href="../_images/sVirt_Diagram_1.png"><img alt="../_images/sVirt_Diagram_1.png" src="../_images/sVirt_Diagram_1.png" style="width: 100%;" /></a>
+<p>As shown above, sVirt isolation is provided regardless of the guest Operating
+System running inside the virtual machine. Linux or Windows VMs can be
+used. Additionally, many Linux distributions provide SELinux within the
+operating system, allowing the virtual machine to protect internal virtual
+resources from threats.</p>
+</div>
+<div class="section" id="labels-and-categories">
+<h2>Labels and categories<a class="headerlink" href="#labels-and-categories" title="Permalink to this headline">¶</a></h2>
+<p>KVM-based virtual machine instances are labelled with their own SELinux data
+type, known as svirt_image_t. Kernel level protections prevent unauthorized
+system processes, such as malware, from manipulating the virtual machine image
+files on disk. When virtual machines are powered off, images are stored as
+svirt_image_t as shown below:</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>system_u:object_r:svirt_image_t:SystemLow image1
+system_u:object_r:svirt_image_t:SystemLow image2
+system_u:object_r:svirt_image_t:SystemLow image3
+system_u:object_r:svirt_image_t:SystemLow image4
+</pre></div>
+</div>
+<p>The <em>svirt_image_t</em> label uniquely identifies image files on disk, allowing for
+the SELinux policy to restrict access. When a KVM-based Compute image is
+powered on, sVirt appends a random numerical identifier to the image. sVirt is
+capable of assigning numeric identifiers to a maximum of 524,288 virtual
+machines per hypervisor node, however most OpenStack deployments are highly
+unlikely to encounter this limitation.</p>
+<p>This example shows the sVirt category identifier:</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>system_u:object_r:svirt_image_t:s0:c87,c520 image1
+system_u:object_r:svirt_image_t:s0:419,c172 image2
+</pre></div>
+</div>
+</div>
+<div class="section" id="selinux-users-and-roles">
+<h2>SELinux users and roles<a class="headerlink" href="#selinux-users-and-roles" title="Permalink to this headline">¶</a></h2>
+<p>SELinux can also manage user roles. These can be viewed through the <em>-Z</em> flag,
+or with the <strong class="command">semanage</strong> command. On the hypervisor, only administrators
+should be able to access the system, and should have an appropriate context
+around both the administrative users and any other users that are on the
+system.</p>
+<dl class="docutils">
+<dt>SELinux users documentation:</dt>
+<dd><a class="reference external" href="http://selinuxproject.org/page/BasicConcepts#Users">SELinux.org Users and Roles Overview</a></dd>
+</dl>
+</div>
+<div class="section" id="booleans">
+<h2>Booleans<a class="headerlink" href="#booleans" title="Permalink to this headline">¶</a></h2>
+<p>To ease the administrative burden of managing SELinux, many enterprise Linux
+platforms utilize SELinux Booleans to quickly change the security posture of
+sVirt.</p>
+<p>Red Hat Enterprise Linux-based KVM deployments utilize the following sVirt
+booleans:</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">sVirt SELinux Boolean</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>virt_use_common</td>
+<td>Allow virt to use serial/parallel communication ports.</td>
+</tr>
+<tr class="row-odd"><td>virt_use_fusefs</td>
+<td>Allow virt to read FUSE mounted files.</td>
+</tr>
+<tr class="row-even"><td>virt_use_nfs</td>
+<td>Allow virt to manage NFS mounted files.</td>
+</tr>
+<tr class="row-odd"><td>virt_use_samba</td>
+<td>Allow virt to manage CIFS mounted files.</td>
+</tr>
+<tr class="row-even"><td>virt_use_sanlock</td>
+<td>Allow confined virtual guests to interact with the sanlock.</td>
+</tr>
+<tr class="row-odd"><td>virt_use_sysfs</td>
+<td>Allow virt to manage device configuration (PCI).</td>
+</tr>
+<tr class="row-even"><td>virt_use_usb</td>
+<td>Allow virt to use USB devices.</td>
+</tr>
+<tr class="row-odd"><td>virt_use_xserver</td>
+<td>Allow virtual machine to interact with the X Window System.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="hypervisor-selection.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Hypervisor selection"></i></a>
+          
+          
+            <a href="hardening-deployments.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Hardening Compute deployments"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management.html">Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../compute.html">Compute</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hypervisor-selection.html">Hypervisor selection</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hardening the virtualization layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hardening-deployments.html">Hardening Compute deployments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vulnerability-awareness.html">Vulnerability awareness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to-select-virtual-consoles.html">How to select virtual consoles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case-studies.html">Case studies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="checklist.html">Checklist</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance.html">Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compute/hardening-the-virtualization-layers" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Hardening the virtualization layers in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/compute/hardening-the-virtualization-layers.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:19:53 GMT -->
+</html>

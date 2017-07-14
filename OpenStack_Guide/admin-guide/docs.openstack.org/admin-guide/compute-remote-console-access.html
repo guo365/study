@@ -1,0 +1,770 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-remote-console-access.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:56:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Configure remote console access</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Configure remote console access</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="compute-live-migration-usage.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Migrate instances"></i></a>
+    
+    
+    <a href="compute-service-groups.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Configure Compute service groups"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Configure remote console access</a><ul>
+<li><a class="reference internal" href="#about-nova-consoleauth">About nova-consoleauth</a></li>
+<li><a class="reference internal" href="#spice-console">SPICE console</a></li>
+<li><a class="reference internal" href="#vnc-console-proxy">VNC console proxy</a><ul>
+<li><a class="reference internal" href="#vnc-configuration-options">VNC configuration options</a></li>
+<li><a class="reference internal" href="#typical-deployment">Typical deployment</a></li>
+<li><a class="reference internal" href="#nova-novncproxy-novnc">nova-novncproxy (noVNC)</a></li>
+<li><a class="reference internal" href="#frequently-asked-questions-about-vnc-access-to-virtual-machines">Frequently asked questions about VNC access to virtual machines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="configure-remote-console-access">
+<h1>Configure remote console access<a class="headerlink" href="#configure-remote-console-access" title="Permalink to this headline">¶</a></h1>
+<p>To provide a remote console or remote desktop access to guest virtual
+machines, use VNC or SPICE HTML5 through either the OpenStack dashboard
+or the command line. Best practice is to select one or the other to run.</p>
+<div class="section" id="about-nova-consoleauth">
+<h2>About nova-consoleauth<a class="headerlink" href="#about-nova-consoleauth" title="Permalink to this headline">¶</a></h2>
+<p>Both client proxies leverage a shared service to manage token
+authentication called <code class="docutils literal"><span class="pre">nova-consoleauth</span></code>. This service must be running for
+either proxy to work. Many proxies of either type can be run against a
+single <code class="docutils literal"><span class="pre">nova-consoleauth</span></code> service in a cluster configuration.</p>
+<p>Do not confuse the <code class="docutils literal"><span class="pre">nova-consoleauth</span></code> shared service with
+<code class="docutils literal"><span class="pre">nova-console</span></code>, which is a XenAPI-specific service that most recent
+VNC proxy architectures do not use.</p>
+</div>
+<div class="section" id="spice-console">
+<h2>SPICE console<a class="headerlink" href="#spice-console" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack Compute supports VNC consoles to guests. The VNC protocol is
+fairly limited, lacking support for multiple monitors, bi-directional
+audio, reliable cut-and-paste, video streaming and more. SPICE is a new
+protocol that aims to address the limitations in VNC and provide good
+remote desktop support.</p>
+<p>SPICE support in OpenStack Compute shares a similar architecture to the
+VNC implementation. The OpenStack dashboard uses a SPICE-HTML5 widget in
+its console tab that communicates to the <code class="docutils literal"><span class="pre">nova-spicehtml5proxy</span></code> service by
+using SPICE-over-websockets. The <code class="docutils literal"><span class="pre">nova-spicehtml5proxy</span></code> service
+communicates directly with the hypervisor process by using SPICE.</p>
+<p>VNC must be explicitly disabled to get access to the SPICE console. Set
+the <code class="docutils literal"><span class="pre">vnc_enabled</span></code> option to <code class="docutils literal"><span class="pre">False</span></code> in the <code class="docutils literal"><span class="pre">[DEFAULT]</span></code> section to
+disable the VNC console.</p>
+<p>Use the following options to configure SPICE as the console for
+OpenStack Compute:</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text"><strong>Description of SPICE configuration options</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>[spice]</strong></th>
+<th class="head">&nbsp;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Spice configuration option = Default value</td>
+<td>Description</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">agent_enabled</span> <span class="pre">=</span> <span class="pre">True</span></code></td>
+<td>(BoolOpt) Enable spice guest agent support</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">enabled</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(BoolOpt) Enable spice related features</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">html5proxy_base_url</span> <span class="pre">=</span> <span class="pre">http://127.0.0.1:6082/spice_auto.html</span></code></td>
+<td>(StrOpt) Location of spice HTML5 console proxy, in the form
+&#8220;<a class="reference external" href="http://127.0.0.1:6082/spice_auto.html">http://127.0.0.1:6082/spice_auto.html</a>&#8220;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">html5proxy_host</span> <span class="pre">=</span> <span class="pre">0.0.0.0</span></code></td>
+<td>(StrOpt) Host on which to listen for incoming requests</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">html5proxy_port</span> <span class="pre">=</span> <span class="pre">6082</span></code></td>
+<td>(IntOpt) Port on which to listen for incoming requests</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">keymap</span> <span class="pre">=</span> <span class="pre">en-us</span></code></td>
+<td>(StrOpt) Keymap for spice</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">server_listen</span> <span class="pre">=</span> <span class="pre">127.0.0.1</span></code></td>
+<td>(StrOpt) IP address on which instance spice server should listen</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">server_proxyclient_address</span> <span class="pre">=</span> <span class="pre">127.0.0.1</span></code></td>
+<td>(StrOpt) The address to which proxy clients (like nova-spicehtml5proxy)
+should connect</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="vnc-console-proxy">
+<h2>VNC console proxy<a class="headerlink" href="#vnc-console-proxy" title="Permalink to this headline">¶</a></h2>
+<p>The VNC proxy is an OpenStack component that enables compute service
+users to access their instances through VNC clients.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The web proxy console URLs do not support the websocket protocol
+scheme (ws://) on python versions less than 2.7.4.</p>
+</div>
+<p>The VNC console connection works as follows:</p>
+<ol class="arabic">
+<li><p class="first">A user connects to the API and gets an <code class="docutils literal"><span class="pre">access_url</span></code> such as,
+<code class="docutils literal"><span class="pre">http://ip:port/?token=xyz</span></code>.</p>
+</li>
+<li><p class="first">The user pastes the URL in a browser or uses it as a client
+parameter.</p>
+</li>
+<li><p class="first">The browser or client connects to the proxy.</p>
+</li>
+<li><p class="first">The proxy talks to <code class="docutils literal"><span class="pre">nova-consoleauth</span></code> to authorize the token for the
+user, and maps the token to the <em>private</em> host and port of the VNC
+server for an instance.</p>
+<p>The compute host specifies the address that the proxy should use to
+connect through the <code class="docutils literal"><span class="pre">nova.conf</span></code> file option,
+<code class="docutils literal"><span class="pre">vncserver_proxyclient_address</span></code>. In this way, the VNC proxy works
+as a bridge between the public network and private host network.</p>
+</li>
+<li><p class="first">The proxy initiates the connection to VNC server and continues to
+proxy until the session ends.</p>
+</li>
+</ol>
+<p>The proxy also tunnels the VNC protocol over WebSockets so that the
+<code class="docutils literal"><span class="pre">noVNC</span></code> client can talk to VNC servers. In general, the VNC proxy:</p>
+<ul class="simple">
+<li>Bridges between the public network where the clients live and the
+private network where VNC servers live.</li>
+<li>Mediates token authentication.</li>
+<li>Transparently deals with hypervisor-specific connection details to
+provide a uniform client experience.</li>
+</ul>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/SCH_5009_V00_NUAC-VNC_OpenStack.png"><img alt="noVNC process" src="_images/SCH_5009_V00_NUAC-VNC_OpenStack.png" style="width: 95%;" /></a>
+</div>
+<div class="section" id="vnc-configuration-options">
+<h3>VNC configuration options<a class="headerlink" href="#vnc-configuration-options" title="Permalink to this headline">¶</a></h3>
+<p>To customize the VNC console, use the following configuration options in
+your <code class="docutils literal"><span class="pre">nova.conf</span></code> file:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To support <a class="reference internal" href="compute-configuring-migrations.html#section-configuring-compute-migrations"><span>live migration</span></a>,
+you cannot specify a specific IP address for <code class="docutils literal"><span class="pre">vncserver_listen</span></code>,
+because that IP address does not exist on the destination host.</p>
+</div>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text"><strong>Description of VNC configuration options</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">daemon</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(BoolOpt) Become a daemon (background process)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">key</span> <span class="pre">=</span> <span class="pre">None</span></code></td>
+<td>(StrOpt) SSL key file (if separate from cert)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">novncproxy_host</span> <span class="pre">=</span> <span class="pre">0.0.0.0</span></code></td>
+<td>(StrOpt) Host on which to listen for incoming requests</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">novncproxy_port</span> <span class="pre">=</span> <span class="pre">6080</span></code></td>
+<td>(IntOpt) Port on which to listen for incoming requests</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">record</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(BoolOpt) Record sessions to FILE.[session_number]</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">source_is_ipv6</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(BoolOpt) Source is ipv6</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ssl_only</span> <span class="pre">=</span> <span class="pre">False</span></code></td>
+<td>(BoolOpt) Disallow non-encrypted connections</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">web</span> <span class="pre">=</span> <span class="pre">/usr/share/spice-html5</span></code></td>
+<td>(StrOpt) Run webserver on same port. Serve files from DIR.</td>
+</tr>
+<tr class="row-odd"><td><strong>[vmware]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">vnc_port</span> <span class="pre">=</span> <span class="pre">5900</span></code></td>
+<td>(IntOpt) VNC starting port</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">vnc_port_total</span> <span class="pre">=</span> <span class="pre">10000</span></code></td>
+<td>vnc_port_total = 10000</td>
+</tr>
+<tr class="row-even"><td><strong>[vnc]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>enabled = True</td>
+<td>(BoolOpt) Enable VNC related features</td>
+</tr>
+<tr class="row-even"><td>novncproxy_base_url = <a class="reference external" href="http://127.0.0.1:6080/vnc_auto.html">http://127.0.0.1:6080/vnc_auto.html</a></td>
+<td>(StrOpt) Location of VNC console proxy, in the form
+&#8220;<a class="reference external" href="http://127.0.0.1:6080/vnc_auto.html">http://127.0.0.1:6080/vnc_auto.html</a>&#8220;</td>
+</tr>
+<tr class="row-odd"><td>vncserver_listen = 127.0.0.1</td>
+<td>(StrOpt) IP address on which instance vncservers should listen</td>
+</tr>
+<tr class="row-even"><td>vncserver_proxyclient_address = 127.0.0.1</td>
+<td>(StrOpt) The address to which proxy clients (like nova-xvpvncproxy)
+should connect</td>
+</tr>
+<tr class="row-odd"><td>xvpvncproxy_base_url = <a class="reference external" href="http://127.0.0.1:6081/console">http://127.0.0.1:6081/console</a></td>
+<td>(StrOpt) Location of nova xvp VNC console proxy, in the form
+&#8220;<a class="reference external" href="http://127.0.0.1:6081/console">http://127.0.0.1:6081/console</a>&#8220;</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>The <code class="docutils literal"><span class="pre">vncserver_proxyclient_address</span></code> defaults to <code class="docutils literal"><span class="pre">127.0.0.1</span></code>,
+which is the address of the compute host that Compute instructs
+proxies to use when connecting to instance servers.</li>
+<li>For all-in-one XenServer domU deployments, set this to
+<code class="docutils literal"><span class="pre">169.254.0.1.</span></code></li>
+<li>For multi-host XenServer domU deployments, set to a <code class="docutils literal"><span class="pre">dom0</span>
+<span class="pre">management</span> <span class="pre">IP</span></code> on the same network as the proxies.</li>
+<li>For multi-host libvirt deployments, set to a host management IP
+on the same network as the proxies.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="typical-deployment">
+<h3>Typical deployment<a class="headerlink" href="#typical-deployment" title="Permalink to this headline">¶</a></h3>
+<p>A typical deployment has the following components:</p>
+<ul class="simple">
+<li>A <code class="docutils literal"><span class="pre">nova-consoleauth</span></code> process. Typically runs on the controller host.</li>
+<li>One or more <code class="docutils literal"><span class="pre">nova-novncproxy</span></code> services. Supports browser-based noVNC
+clients. For simple deployments, this service typically runs on the
+same machine as <code class="docutils literal"><span class="pre">nova-api</span></code> because it operates as a proxy between the
+public network and the private compute host network.</li>
+<li>One or more <code class="docutils literal"><span class="pre">nova-xvpvncproxy</span></code> services. Supports the special Java
+client discussed here. For simple deployments, this service typically
+runs on the same machine as <code class="docutils literal"><span class="pre">nova-api</span></code> because it acts as a proxy
+between the public network and the private compute host network.</li>
+<li>One or more compute hosts. These compute hosts must have correctly
+configured options, as follows.</li>
+</ul>
+</div>
+<div class="section" id="nova-novncproxy-novnc">
+<h3>nova-novncproxy (noVNC)<a class="headerlink" href="#nova-novncproxy-novnc" title="Permalink to this headline">¶</a></h3>
+<p>You must install the noVNC package, which contains the <code class="docutils literal"><span class="pre">nova-novncproxy</span></code>
+service. As root, run the following command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> apt-get install nova-novncproxy
+</pre></div>
+</div>
+<p>The service starts automatically on installation.</p>
+<p>To restart the service, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> service nova-novncproxy restart
+</pre></div>
+</div>
+<p>The configuration option parameter should point to your <code class="docutils literal"><span class="pre">nova.conf</span></code>
+file, which includes the message queue server address and credentials.</p>
+<p>By default, <code class="docutils literal"><span class="pre">nova-novncproxy</span></code> binds on <code class="docutils literal"><span class="pre">0.0.0.0:6080</span></code>.</p>
+<p>To connect the service to your Compute deployment, add the following
+configuration options to your <code class="docutils literal"><span class="pre">nova.conf</span></code> file:</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">vncserver_listen=0.0.0.0</span></code></p>
+<p>Specifies the address on which the VNC service should bind. Make sure
+it is assigned one of the compute node interfaces. This address is
+the one used by your domain file.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">&lt;graphics type=&quot;vnc&quot; autoport=&quot;yes&quot; keymap=&quot;en-us&quot; listen=&quot;0.0.0.0&quot;/&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To use live migration, use the 0.0.0.0 address.</p>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">vncserver_proxyclient_address=127.0.0.1</span></code></p>
+<p>The address of the compute host that Compute instructs proxies to use
+when connecting to instance <code class="docutils literal"><span class="pre">vncservers</span></code>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="frequently-asked-questions-about-vnc-access-to-virtual-machines">
+<h3>Frequently asked questions about VNC access to virtual machines<a class="headerlink" href="#frequently-asked-questions-about-vnc-access-to-virtual-machines" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Q: What is the difference between ``nova-xvpvncproxy`` and
+``nova-novncproxy``?</strong></p>
+<p>A: <code class="docutils literal"><span class="pre">nova-xvpvncproxy</span></code>, which ships with OpenStack Compute, is a
+proxy that supports a simple Java client. nova-novncproxy uses noVNC
+to provide VNC support through a web browser.</p>
+</li>
+<li><p class="first"><strong>Q: I want VNC support in the OpenStack dashboard. What services do
+I need?</strong></p>
+<p>A: You need <code class="docutils literal"><span class="pre">nova-novncproxy</span></code>, <code class="docutils literal"><span class="pre">nova-consoleauth</span></code>, and correctly
+configured compute hosts.</p>
+</li>
+<li><p class="first"><strong>Q: When I use ``nova get-vnc-console`` or click on the VNC tab of
+the OpenStack dashboard, it hangs. Why?</strong></p>
+<p>A: Make sure you are running <code class="docutils literal"><span class="pre">nova-consoleauth</span></code> (in addition to
+<code class="docutils literal"><span class="pre">nova-novncproxy</span></code>). The proxies rely on <code class="docutils literal"><span class="pre">nova-consoleauth</span></code> to validate
+tokens, and waits for a reply from them until a timeout is reached.</p>
+</li>
+<li><p class="first"><strong>Q: My VNC proxy worked fine during my all-in-one test, but now it
+doesn&#8217;t work on multi host. Why?</strong></p>
+<p>A: The default options work for an all-in-one install, but changes
+must be made on your compute hosts once you start to build a cluster.
+As an example, suppose you have two servers:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>PROXYSERVER <span class="o">(</span><span class="nv">public_ip</span><span class="o">=</span>172.24.1.1, <span class="nv">management_ip</span><span class="o">=</span>192.168.1.1<span class="o">)</span>
+COMPUTESERVER <span class="o">(</span><span class="nv">management_ip</span><span class="o">=</span>192.168.1.2<span class="o">)</span>
+</pre></div>
+</div>
+<p>Your <code class="docutils literal"><span class="pre">nova-compute</span></code> configuration file must set the following values:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> These flags <span class="nb">help</span> construct a connection data structure
+<span class="go">vncserver_proxyclient_address=192.168.1.2</span>
+<span class="go">novncproxy_base_url=http://172.24.1.1:6080/vnc_auto.html</span>
+<span class="go">xvpvncproxy_base_url=http://172.24.1.1:6081/console</span>
+
+<span class="gp">#</span> This is the address where the underlying vncserver <span class="o">(</span>not the proxy<span class="o">)</span>
+<span class="gp">#</span> will listen <span class="k">for</span> connections.
+<span class="go">vncserver_listen=192.168.1.2</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">novncproxy_base_url</span></code> and <code class="docutils literal"><span class="pre">xvpvncproxy_base_url</span></code> use a public
+IP; this is the URL that is ultimately returned to clients, which
+generally do not have access to your private network. Your
+PROXYSERVER must be able to reach <code class="docutils literal"><span class="pre">vncserver_proxyclient_address</span></code>,
+because that is the address over which the VNC connection is proxied.</p>
+</div>
+</li>
+<li><p class="first"><strong>Q: My noVNC does not work with recent versions of web browsers. Why?</strong></p>
+<p>A: Make sure you have installed <code class="docutils literal"><span class="pre">python-numpy</span></code>, which is required
+to support a newer version of the WebSocket protocol (HyBi-07+).</p>
+</li>
+<li><p class="first"><strong>Q: How do I adjust the dimensions of the VNC window image in the
+OpenStack dashboard?</strong></p>
+<p>A: These values are hard-coded in a Django HTML template. To alter
+them, edit the <code class="docutils literal"><span class="pre">_detail_vnc.html</span></code> template file. The location of
+this file varies based on Linux distribution. On Ubuntu 14.04, the
+file is at
+<code class="docutils literal"><span class="pre">/usr/share/pyshared/horizon/dashboards/nova/instances/templates/instances/_detail_vnc.html</span></code>.</p>
+<p>Modify the <code class="docutils literal"><span class="pre">width</span></code> and <code class="docutils literal"><span class="pre">height</span></code> options, as follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">&lt;iframe src=&quot;{{ vnc_url }}&quot; width=&quot;720&quot; height=&quot;430&quot;&gt;&lt;/iframe&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Q: My noVNC connections failed with ValidationError: Origin header
+protocol does not match. Why?</strong></p>
+<p>A: Make sure the <code class="docutils literal"><span class="pre">base_url</span></code> match your TLS setting. If you are
+using https console connections, make sure that the value of
+<code class="docutils literal"><span class="pre">novncproxy_base_url</span></code> is set explicitly where the <code class="docutils literal"><span class="pre">nova-novncproxy</span></code>
+service is running.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="compute-live-migration-usage.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Migrate instances"></i></a>
+          
+          
+            <a href="compute-service-groups.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Configure Compute service groups"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="compute.html">Compute</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compute-arch.html">System architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-images-instances.html">Images and instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-networking-nova.html">Networking with nova-network</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="compute-system-admin.html">System administration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support-compute.html">Troubleshoot Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compute-remote-console-access" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Configure remote console access in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-remote-console-access.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:57:02 GMT -->
+</html>

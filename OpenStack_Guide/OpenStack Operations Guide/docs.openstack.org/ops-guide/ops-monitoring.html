@@ -1,0 +1,813 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/ops-guide/ops-monitoring.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:37:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Monitoring</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Monitoring</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="ops-logging-rsyslog.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: rsyslog"></i></a>
+    
+    
+    <a href="ops-logging-monitoring-summary.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Summary"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Monitoring</a><ul>
+<li><a class="reference internal" href="#process-monitoring">Process Monitoring</a></li>
+<li><a class="reference internal" href="#resource-alerting">Resource Alerting</a></li>
+<li><a class="reference internal" href="#telemetry-service">Telemetry Service</a></li>
+<li><a class="reference internal" href="#openstack-specific-resources">OpenStack Specific Resources</a></li>
+<li><a class="reference internal" href="#intelligent-alerting">Intelligent Alerting</a></li>
+<li><a class="reference internal" href="#trending">Trending</a></li>
+<li><a class="reference internal" href="#monitoring-tools">Monitoring Tools</a><ul>
+<li><a class="reference internal" href="#nagios">Nagios</a></li>
+<li><a class="reference internal" href="#stacktach">StackTach</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#logstash">Logstash</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="monitoring">
+<h1>Monitoring<a class="headerlink" href="#monitoring" title="Permalink to this headline">¶</a></h1>
+<p>There are two types of monitoring: watching for problems and watching
+usage trends. The former ensures that all services are up and running,
+creating a functional cloud. The latter involves monitoring resource
+usage over time in order to make informed decisions about potential
+bottlenecks and upgrades.</p>
+<div class="section" id="process-monitoring">
+<h2>Process Monitoring<a class="headerlink" href="#process-monitoring" title="Permalink to this headline">¶</a></h2>
+<p>A basic type of alert monitoring is to simply check and see whether a
+required process is running. For example, ensure that
+the <code class="docutils literal"><span class="pre">nova-api</span></code> service is running on the cloud controller:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> ps aux <span class="p">|</span> grep nova-api
+<span class="go">nova 12786 0.0 0.0 37952 1312 ? Ss Feb11 0:00 su -s /bin/sh -c exec nova-api</span>
+<span class="go">--config-file=/etc/nova/nova.conf nova</span>
+<span class="go">nova 12787 0.0 0.1 135764 57400 ? S Feb11 0:01 /usr/bin/python</span>
+<span class="go"> /usr/bin/nova-api --config-file=/etc/nova/nova.conf</span>
+<span class="go">nova 12792 0.0 0.0 96052 22856 ? S Feb11 0:01 /usr/bin/python</span>
+<span class="go">/usr/bin/nova-api --config-file=/etc/nova/nova.conf</span>
+<span class="go">nova 12793 0.0 0.3 290688 115516 ? S Feb11 1:23 /usr/bin/python</span>
+<span class="go">/usr/bin/nova-api --config-file=/etc/nova/nova.conf</span>
+<span class="go">nova 12794 0.0 0.2 248636 77068 ? S Feb11 0:04 /usr/bin/python</span>
+<span class="go">/usr/bin/nova-api --config-file=/etc/nova/nova.conf</span>
+<span class="go">root 24121 0.0 0.0 11688 912 pts/5 S+ 13:07 0:00 grep nova-api</span>
+</pre></div>
+</div>
+<p>The OpenStack processes that should be monitored depend on the specific
+configuration of the environment, but can include:</p>
+<p><strong>Compute service (nova)</strong></p>
+<ul class="simple">
+<li>nova-api</li>
+<li>nova-scheduler</li>
+<li>nova-conductor</li>
+<li>nova-novncproxy</li>
+<li>nova-cert</li>
+<li>nova-compute</li>
+</ul>
+<p><strong>Block Storage service (cinder)</strong></p>
+<ul class="simple">
+<li>cinder-volume</li>
+<li>cinder-api</li>
+<li>cinder-scheduler</li>
+</ul>
+<p><strong>Networking service (neutron)</strong></p>
+<ul class="simple">
+<li>neutron-api</li>
+<li>neutron-server</li>
+<li>neutron-openvswitch-agent</li>
+<li>neutron-dhcp-agent</li>
+<li>neutron-l3-agent</li>
+<li>neutron-metadata-agent</li>
+</ul>
+<p><strong>Image service (glance)</strong></p>
+<ul class="simple">
+<li>glance-api</li>
+<li>glance-registry</li>
+</ul>
+<p><strong>Identity service (keystone)</strong></p>
+<p>The keystone processes can run standalone, but are often run within Apache
+as WSGI applications.</p>
+<ul class="simple">
+<li>keystone-public</li>
+<li>keystone-admin</li>
+</ul>
+</div>
+<div class="section" id="resource-alerting">
+<h2>Resource Alerting<a class="headerlink" href="#resource-alerting" title="Permalink to this headline">¶</a></h2>
+<p>Resource alerting provides notifications when one or more resources are
+critically low. While the monitoring thresholds should be tuned to your
+specific OpenStack environment, monitoring resource usage is not
+specific to OpenStack at all—any generic type of alert will work
+fine.</p>
+<p>Some of the resources that you want to monitor include:</p>
+<ul class="simple">
+<li>Disk usage</li>
+<li>Server load</li>
+<li>Memory usage</li>
+<li>Network I/O</li>
+<li>Available vCPUs</li>
+</ul>
+</div>
+<div class="section" id="telemetry-service">
+<h2>Telemetry Service<a class="headerlink" href="#telemetry-service" title="Permalink to this headline">¶</a></h2>
+<p>The Telemetry service (<a class="reference internal" href="common/glossary.html#term-ceilometer"><span class="xref std std-term">ceilometer</span></a>) collects
+metering and event data relating to OpenStack services. Data collected
+by the Telemetry service could be used for billing. Depending on
+deployment configuration, collected data may be accessible to users
+based on the deployment configuration. The Telemetry service provides a
+REST API documented at <a class="reference external" href="http://docs.openstack.org/developer/ceilometer/webapi/v2.html">ceilometer V2 Web API</a>. You can
+read more about the module in the <a class="reference external" href="http://docs.openstack.org/admin-guide/telemetry.html">OpenStack Administrator
+Guide</a> or
+in the <a class="reference external" href="http://docs.openstack.org/developer/ceilometer">developer
+documentation</a>.</p>
+</div>
+<div class="section" id="openstack-specific-resources">
+<h2>OpenStack Specific Resources<a class="headerlink" href="#openstack-specific-resources" title="Permalink to this headline">¶</a></h2>
+<p>Resources such as memory, disk, and CPU are generic resources that all
+servers (even non-OpenStack servers) have and are important to the
+overall health of the server. When dealing with OpenStack specifically,
+these resources are important for a second reason: ensuring that enough
+are available to launch instances. There are a few ways you can see
+OpenStack resource usage.
+The first is through the <strong class="command">nova</strong> command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> openstack usage list
+</pre></div>
+</div>
+<p>This command displays a list of how many instances a tenant has running
+and some light usage statistics about the combined instances. This
+command is useful for a quick overview of your cloud, but it doesn&#8217;t
+really get into a lot of details.</p>
+<p>Next, the <code class="docutils literal"><span class="pre">nova</span></code> database contains three tables that store usage
+information.</p>
+<p>The <code class="docutils literal"><span class="pre">nova.quotas</span></code> and <code class="docutils literal"><span class="pre">nova.quota_usages</span></code> tables store quota
+information. If a tenant&#8217;s quota is different from the default quota
+settings, its quota is stored in the <code class="docutils literal"><span class="pre">nova.quotas</span></code> table. For example:</p>
+<div class="highlight-mysql"><div class="highlight"><pre><span></span><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">hard_limit</span> <span class="k">from</span> <span class="n">quotas</span><span class="p">;</span>
+<span class="o">+----------------------------------+-----------------------------+------------+</span>
+<span class="o">|</span> <span class="n">project_id</span>                       <span class="o">|</span> <span class="n">resource</span>                    <span class="o">|</span> <span class="n">hard_limit</span> <span class="o">|</span>
+<span class="o">+----------------------------------+-----------------------------+------------+</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">metadata_items</span>              <span class="o">|</span> <span class="mi">128</span>        <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">injected_file_content_bytes</span> <span class="o">|</span> <span class="mi">10240</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">injected_files</span>              <span class="o">|</span> <span class="mi">5</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">gigabytes</span>                   <span class="o">|</span> <span class="mi">1000</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">ram</span>                         <span class="o">|</span> <span class="mi">51200</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">floating_ips</span>                <span class="o">|</span> <span class="mi">10</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">instances</span>                   <span class="o">|</span> <span class="mi">10</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">volumes</span>                     <span class="o">|</span> <span class="mi">10</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">cores</span>                       <span class="o">|</span> <span class="mi">20</span>         <span class="o">|</span>
+<span class="o">+----------------------------------+-----------------------------+------------+</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">nova.quota_usages</span></code> table keeps track of how many resources the
+tenant currently has in use:</p>
+<div class="highlight-mysql"><div class="highlight"><pre><span></span><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">project_id</span><span class="p">,</span> <span class="n">resource</span><span class="p">,</span> <span class="n">in_use</span> <span class="k">from</span> <span class="n">quota_usages</span> <span class="k">where</span> <span class="n">project_id</span> <span class="k">like</span> <span class="s1">&#39;628%&#39;</span><span class="p">;</span>
+<span class="o">+----------------------------------+--------------+--------+</span>
+<span class="o">|</span> <span class="n">project_id</span>                       <span class="o">|</span> <span class="n">resource</span>     <span class="o">|</span> <span class="n">in_use</span> <span class="o">|</span>
+<span class="o">+----------------------------------+--------------+--------+</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">instances</span>    <span class="o">|</span> <span class="mi">1</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">ram</span>          <span class="o">|</span> <span class="mi">512</span>    <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">cores</span>        <span class="o">|</span> <span class="mi">1</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">floating_ips</span> <span class="o">|</span> <span class="mi">1</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">volumes</span>      <span class="o">|</span> <span class="mi">2</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">gigabytes</span>    <span class="o">|</span> <span class="mi">12</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="mi">628</span><span class="n">df59f091142399e0689a2696f5baa</span> <span class="o">|</span> <span class="n">images</span>       <span class="o">|</span> <span class="mi">1</span>      <span class="o">|</span>
+<span class="o">+----------------------------------+--------------+--------+</span>
+</pre></div>
+</div>
+<p>By comparing a tenant&#8217;s hard limit with their current resource usage,
+you can see their usage percentage. For example, if this tenant is using
+1 floating IP out of 10, then they are using 10 percent of their
+floating IP quota. Rather than doing the calculation manually, you can
+use SQL or the scripting language of your choice and create a formatted
+report:</p>
+<div class="highlight-mysql"><div class="highlight"><pre><span></span><span class="o">+----------------------------------+------------+-------------+---------------+</span>
+<span class="o">|</span> <span class="n">some_tenant</span>                                                                 <span class="o">|</span>
+<span class="o">+-----------------------------------+------------+------------+---------------+</span>
+<span class="o">|</span> <span class="n">Resource</span>                          <span class="o">|</span> <span class="n">Used</span>       <span class="o">|</span> <span class="k">Limit</span>      <span class="o">|</span>               <span class="o">|</span>
+<span class="o">+-----------------------------------+------------+------------+---------------+</span>
+<span class="o">|</span> <span class="n">cores</span>                             <span class="o">|</span> <span class="mi">1</span>          <span class="o">|</span> <span class="mi">20</span>         <span class="o">|</span>           <span class="mi">5</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">floating_ips</span>                      <span class="o">|</span> <span class="mi">1</span>          <span class="o">|</span> <span class="mi">10</span>         <span class="o">|</span>          <span class="mi">10</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">gigabytes</span>                         <span class="o">|</span> <span class="mi">12</span>         <span class="o">|</span> <span class="mi">1000</span>       <span class="o">|</span>           <span class="mi">1</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">images</span>                            <span class="o">|</span> <span class="mi">1</span>          <span class="o">|</span> <span class="mi">4</span>          <span class="o">|</span>          <span class="mi">25</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">injected_file_content_bytes</span>       <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">10240</span>      <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">injected_file_path_bytes</span>          <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">255</span>        <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">injected_files</span>                    <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">5</span>          <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">instances</span>                         <span class="o">|</span> <span class="mi">1</span>          <span class="o">|</span> <span class="mi">10</span>         <span class="o">|</span>          <span class="mi">10</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">key_pairs</span>                         <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">100</span>        <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">metadata_items</span>                    <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">128</span>        <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">ram</span>                               <span class="o">|</span> <span class="mi">512</span>        <span class="o">|</span> <span class="mi">51200</span>      <span class="o">|</span>           <span class="mi">1</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">reservation_expire</span>                <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">86400</span>      <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">security_group_rules</span>              <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">20</span>         <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">security_groups</span>                   <span class="o">|</span> <span class="mi">0</span>          <span class="o">|</span> <span class="mi">10</span>         <span class="o">|</span>           <span class="mi">0</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">volumes</span>                           <span class="o">|</span> <span class="mi">2</span>          <span class="o">|</span> <span class="mi">10</span>         <span class="o">|</span>          <span class="mi">20</span> <span class="o">%</span> <span class="o">|</span>
+<span class="o">+-----------------------------------+------------+------------+---------------+</span>
+</pre></div>
+</div>
+<p>The preceding information was generated by using a custom script that
+can be found on
+<a class="reference external" href="https://github.com/cybera/novac/blob/dev/libexec/novac-quota-report">GitHub</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This script is specific to a certain OpenStack installation and must
+be modified to fit your environment. However, the logic should
+easily be transferable.</p>
+</div>
+</div>
+<div class="section" id="intelligent-alerting">
+<h2>Intelligent Alerting<a class="headerlink" href="#intelligent-alerting" title="Permalink to this headline">¶</a></h2>
+<p>Intelligent alerting can be thought of as a form of continuous
+integration for operations. For example, you can easily check to see
+whether the Image service is up and running by ensuring that
+the&nbsp;<code class="docutils literal"><span class="pre">glance-api</span></code> and <code class="docutils literal"><span class="pre">glance-registry</span></code> processes are running or by
+seeing whether <code class="docutils literal"><span class="pre">glace-api</span></code> is responding on port 9292.</p>
+<p>But how can you tell whether images are being successfully uploaded to
+the Image service? Maybe the disk that Image service is storing the
+images on is full or the S3 back end is down. You could naturally check
+this by doing a quick image upload:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#</span>
+<span class="c1"># assumes that reasonable credentials have been stored at</span>
+<span class="c1"># /root/auth</span>
+
+
+. /root/openrc
+wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+openstack image create --name<span class="o">=</span><span class="s1">&#39;cirros image&#39;</span> --public <span class="se">\</span>
+--container-format<span class="o">=</span>bare --disk-format<span class="o">=</span>qcow2 <span class="se">\</span>
+--file cirros-0.3.4-x86_64-disk.img
+</pre></div>
+</div>
+<p>By taking this script and rolling it into an alert for your monitoring
+system (such as Nagios), you now have an automated way of ensuring that
+image uploads to the Image Catalog are working.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You must remove the image after each test. Even better, test whether
+you can successfully delete an image from the Image service.</p>
+</div>
+<p>Intelligent alerting takes considerably more time to plan and implement
+than the other alerts described in this chapter. A good outline to
+implement intelligent alerting is:</p>
+<ul class="simple">
+<li>Review common actions in your cloud.</li>
+<li>Create ways to automatically test these actions.</li>
+<li>Roll these tests into an alerting system.</li>
+</ul>
+<p>Some other examples for Intelligent Alerting include:</p>
+<ul class="simple">
+<li>Can instances launch and be destroyed?</li>
+<li>Can users be created?</li>
+<li>Can objects be stored and deleted?</li>
+<li>Can volumes be created and destroyed?</li>
+</ul>
+</div>
+<div class="section" id="trending">
+<h2>Trending<a class="headerlink" href="#trending" title="Permalink to this headline">¶</a></h2>
+<p>Trending can give you great insight into how your cloud is performing
+day to day. You can learn, for example, if a busy day was simply a rare
+occurrence or if you should start adding new compute nodes.</p>
+<p>Trending takes a slightly different approach than alerting. While
+alerting is interested in a binary result (whether a check succeeds or
+fails), trending records the current state of something at a certain
+point in time. Once enough points in time have been recorded, you can
+see how the value has changed over time.</p>
+<p>All of the alert types mentioned earlier can also be used for trend
+reporting. Some other trend examples include:</p>
+<ul class="simple">
+<li>The number of instances on each compute node</li>
+<li>The types of flavors in use</li>
+<li>The number of volumes in use</li>
+<li>The number of Object Storage requests each hour</li>
+<li>The number of <code class="docutils literal"><span class="pre">nova-api</span></code> requests each hour</li>
+<li>The I/O statistics of your storage services</li>
+</ul>
+<p>As an example, recording <code class="docutils literal"><span class="pre">nova-api</span></code> usage can allow you to track the
+need to scale your cloud controller. By keeping an eye on <code class="docutils literal"><span class="pre">nova-api</span></code>
+requests, you can determine whether you need to spawn more <code class="docutils literal"><span class="pre">nova-api</span></code>
+processes or go as far as introducing an entirely new server to run
+<code class="docutils literal"><span class="pre">nova-api</span></code>. To get an approximate count of the requests, look for
+standard INFO messages in <code class="docutils literal"><span class="pre">/var/log/nova/nova-api.log</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> grep INFO /var/log/nova/nova-api.log <span class="p">|</span> wc
+</pre></div>
+</div>
+<p>You can obtain further statistics by looking for the number of
+successful requests:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> grep <span class="s2">&quot; 200 &quot;</span> /var/log/nova/nova-api.log <span class="p">|</span> wc
+</pre></div>
+</div>
+<p>By running this command periodically and keeping a record of the result,
+you can create a trending report over time that shows whether your
+<code class="docutils literal"><span class="pre">nova-api</span></code> usage is increasing, decreasing, or keeping steady.</p>
+<p>A tool such as <strong>collectd</strong> can be used to store this information. While
+collectd is out of the scope of this book, a good starting point would
+be to use collectd to store the result as a COUNTER data type. More
+information can be found in <a class="reference external" href="https://collectd.org/wiki/index.php/Data_source">collectd&#8217;s
+documentation</a>.</p>
+</div>
+<div class="section" id="monitoring-tools">
+<h2>Monitoring Tools<a class="headerlink" href="#monitoring-tools" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nagios">
+<h3>Nagios<a class="headerlink" href="#nagios" title="Permalink to this headline">¶</a></h3>
+<p>Nagios is an open source monitoring service. It is capable of executing
+arbitrary commands to check the status of server and network services,
+remotely executing arbitrary commands directly on servers, and allowing
+servers to push notifications back in the form of passive monitoring.
+Nagios has been around since 1999. Although newer monitoring services
+are available, Nagios is a tried-and-true systems administration
+staple.</p>
+<p>You can create automated alerts for critical processes by using Nagios
+and NRPE. For example, to ensure that the <code class="docutils literal"><span class="pre">nova-compute</span></code> process is
+running on Compute nodes, create an alert on your Nagios server:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>define service {
+    host_name c01.example.com
+    check_command check_nrpe_1arg!check_nova-compute
+    use generic-service
+    notification_period 24x7
+    contact_groups sysadmins
+    service_description nova-compute
+}
+</pre></div>
+</div>
+<p>On the Compute node, create the following NRPE
+configuration:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">command[check_nova-compute]</span><span class="o">=</span><span class="s">/usr/lib/nagios/plugins/check_procs -c 1: -a nova-compute</span>
+</pre></div>
+</div>
+<p>Nagios checks that at least one <code class="docutils literal"><span class="pre">nova-compute</span></code> service is running at
+all times.</p>
+<p>For resource alerting, for example, monitor disk capacity on a compute node
+with Nagios, add the following to your Nagios configuration:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>define service {
+    host_name c01.example.com
+    check_command check_nrpe!check_all_disks!20% 10%
+    use generic-service
+    contact_groups sysadmins
+    service_description Disk
+}
+</pre></div>
+</div>
+<p>On the compute node, add the following to your NRPE configuration:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">command[check_all_disks]</span><span class="o">=</span><span class="s">/usr/lib/nagios/plugins/check_disk -w $ARG1$ -c $ARG2$ -e</span>
+</pre></div>
+</div>
+<p>Nagios alerts you with a <cite>WARNING</cite> when any disk on the compute node is 80
+percent full and <cite>CRITICAL</cite> when 90 percent is full.</p>
+</div>
+<div class="section" id="stacktach">
+<h3>StackTach<a class="headerlink" href="#stacktach" title="Permalink to this headline">¶</a></h3>
+<p>StackTach is a tool that collects and reports the notifications sent by
+nova. Notifications are essentially the same as logs but can be much
+more detailed. Nearly all OpenStack components are capable of generating
+notifications when significant events occur. Notifications are messages
+placed on the OpenStack queue (generally RabbitMQ) for consumption by
+downstream systems. An overview of notifications can be found at <a class="reference external" href="https://wiki.openstack.org/wiki/SystemUsageData">System
+Usage
+Data</a>.</p>
+<p>To enable nova to send notifications, add the following to the
+<code class="docutils literal"><span class="pre">nova.conf</span></code> configuration file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">notification_topics</span><span class="o">=</span><span class="s">monitor</span>
+<span class="na">notification_driver</span><span class="o">=</span><span class="s">messagingv2</span>
+</pre></div>
+</div>
+<p>Once nova is sending notifications, install and configure StackTach.
+StackTach works for queue consumption and pipeline processing are
+configured to read these notifications from RabbitMQ servers and store
+them in a database. Users can inquire on instances, requests, and servers
+by using the browser interface or command-line tool,
+<a class="reference external" href="https://github.com/rackerlabs/stacky">Stacky</a>. Since StackTach is
+relatively new and constantly changing, installation instructions
+quickly become outdated. Refer to the <a class="reference external" href="https://git.openstack.org/cgit/openstack/stacktach">StackTach Git
+repository</a> for
+instructions as well as a demostration video. Additional details on the latest
+developments can be discovered at the <a class="reference external" href="http://stacktach.com/">official
+page</a></p>
+</div>
+</div>
+<div class="section" id="logstash">
+<h2>Logstash<a class="headerlink" href="#logstash" title="Permalink to this headline">¶</a></h2>
+<p>Logstash is a high performance indexing and search engine for logs. Logs
+from Jenkins test runs are sent to logstash where they are indexed and
+stored. Logstash facilitates reviewing logs from multiple sources in a
+single test run, searching for errors or particular events within a test
+run, and searching for log event trends across test runs.</p>
+<p>There are four major layers in Logstash setup which are:</p>
+<ul class="simple">
+<li>Log Pusher</li>
+<li>Log Indexer</li>
+<li>ElasticSearch</li>
+<li>Kibana</li>
+</ul>
+<p>Each layer scales horizontally. As the number of logs grows you can add
+more log pushers, more Logstash indexers, and more ElasticSearch nodes.</p>
+<p>Logpusher is a pair of Python scripts that first listens to Jenkins
+build events, then converts them into Gearman jobs. Gearman provides a
+generic application framework to farm out work to other machines or
+processes that are better suited to do the work. It allows you to do
+work in parallel, to load balance processing, and to call functions
+between languages. Later, Logpusher performs Gearman jobs to push log
+files into logstash. Logstash indexer reads these log events, filters
+them to remove unwanted lines, collapse multiple events together, and
+parses useful information before shipping them to ElasticSearch for
+storage and indexing. Kibana is a logstash oriented web client for
+ElasticSearch.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="ops-logging-rsyslog.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: rsyslog"></i></a>
+          
+          
+            <a href="ops-logging-monitoring-summary.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Summary"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="operations.html">Operations</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ops-lay-of-the-land.html">Lay of the Land</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-projects-users.html">Managing Projects and Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-user-facing-operations.html">User-Facing Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-maintenance.html">Maintenance, Failures, and Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-network-troubleshooting.html">Network Troubleshooting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ops-logging-monitoring.html">Logging and Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-backup-recovery.html">Backup and Recovery</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-customize.html">Customization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-advanced-configuration.html">Advanced Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ops-upgrades.html">Upgrades</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app-usecases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-crypt.html">Tales From the Cryp^H^H^H^H Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-roadmaps.html">Working with Roadmaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "ops-monitoring" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/ops-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Monitoring in Operations Guide";
+    var fieldTags = "ops-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/ops-guide/ops-monitoring.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:37:47 GMT -->
+</html>

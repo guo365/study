@@ -1,0 +1,971 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/telemetry-data-retrieval.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:12:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Data retrieval</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Data retrieval</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="telemetry-data-pipelines.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Data collection, processing, and pipelines"></i></a>
+    
+    
+    <a href="telemetry-alarms.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Alarms"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Data retrieval</a><ul>
+<li><a class="reference internal" href="#telemetry-v2-api">Telemetry v2 API</a><ul>
+<li><a class="reference internal" href="#query">Query</a></li>
+<li><a class="reference internal" href="#statistics">Statistics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#telemetry-command-line-client-and-sdk">Telemetry command-line client and SDK</a><ul>
+<li><a class="reference internal" href="#telemetry-python-bindings">Telemetry Python bindings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#publishers">Publishers</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="data-retrieval">
+<h1>Data retrieval<a class="headerlink" href="#data-retrieval" title="Permalink to this headline">¶</a></h1>
+<p>The Telemetry service offers several mechanisms from which the persisted
+data can be accessed. As described in <a class="reference internal" href="telemetry-system-architecture.html#telemetry-system-architecture"><span>System architecture</span></a> and
+in <a class="reference internal" href="telemetry-data-collection.html#telemetry-data-collection"><span>Data collection</span></a>, the collected information can be stored in
+one or more database back ends, which are hidden by the Telemetry RESTful API.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is highly recommended not to access the database directly and
+read or modify any data in it. The API layer hides all the changes
+in the actual database schema and provides a standard interface to
+expose the samples, alarms and so forth.</p>
+</div>
+<div class="section" id="telemetry-v2-api">
+<h2>Telemetry v2 API<a class="headerlink" href="#telemetry-v2-api" title="Permalink to this headline">¶</a></h2>
+<p>The Telemetry service provides a RESTful API, from which the collected
+samples and all the related information can be retrieved, like the list
+of meters, alarm definitions and so forth.</p>
+<p>The Telemetry API URL can be retrieved from the service catalog provided
+by OpenStack Identity, which is populated during the installation
+process. The API access needs a valid token and proper permission to
+retrieve data, as described in <a class="reference internal" href="telemetry-system-architecture.html#telemetry-users-roles-projects"><span>Users, roles, and projects</span></a>.</p>
+<p>Further information about the available API endpoints can be found in
+the <a class="reference external" href="http://developer.openstack.org/api-ref-telemetry-v2.html">Telemetry API Reference</a>.</p>
+<div class="section" id="query">
+<h3>Query<a class="headerlink" href="#query" title="Permalink to this headline">¶</a></h3>
+<p>The API provides some additional functionalities, like querying the
+collected data set. For the samples and alarms API endpoints, both
+simple and complex query styles are available, whereas for the other
+endpoints only simple queries are supported.</p>
+<p>After validating the query parameters, the processing is done on the
+database side in the case of most database back ends in order to achieve
+better performance.</p>
+<p><strong>Simple query</strong></p>
+<p>Many of the API endpoints accept a query filter argument, which should
+be a list of data structures that consist of the following items:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">field</span></code></li>
+<li><code class="docutils literal"><span class="pre">op</span></code></li>
+<li><code class="docutils literal"><span class="pre">value</span></code></li>
+<li><code class="docutils literal"><span class="pre">type</span></code></li>
+</ul>
+<p>Regardless of the endpoint on which the filter is applied on, it will
+always target the fields of the <a class="reference external" href="http://docs.openstack.org/developer/ceilometer/webapi/v2.html#Sample">Sample type</a>.</p>
+<p>Several fields of the API endpoints accept shorter names than the ones
+defined in the reference. The API will do the transformation internally
+and return the output with the fields that are listed in the <a class="reference external" href="http://docs.openstack.org/developer/ceilometer/webapi/v2.html">API reference</a>.
+The fields are the following:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">project_id</span></code>: project</li>
+<li><code class="docutils literal"><span class="pre">resource_id</span></code>: resource</li>
+<li><code class="docutils literal"><span class="pre">user_id</span></code>: user</li>
+</ul>
+<p>When a filter argument contains multiple constraints of the above form,
+a logical <code class="docutils literal"><span class="pre">AND</span></code> relation between them is implied.</p>
+<p id="complex-query"><strong>Complex query</strong></p>
+<p>The filter expressions of the complex query feature operate on the
+fields of <code class="docutils literal"><span class="pre">Sample</span></code>, <code class="docutils literal"><span class="pre">Alarm</span></code> and <code class="docutils literal"><span class="pre">AlarmChange</span></code> types. The following
+comparison operators are supported:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">=</span></code></li>
+<li><code class="docutils literal"><span class="pre">!=</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;</span></code></li>
+<li><code class="docutils literal"><span class="pre">&lt;=</span></code></li>
+<li><code class="docutils literal"><span class="pre">&gt;</span></code></li>
+<li><code class="docutils literal"><span class="pre">&gt;=</span></code></li>
+</ul>
+<p>The following logical operators can be used:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">and</span></code></li>
+<li><code class="docutils literal"><span class="pre">or</span></code></li>
+<li><code class="docutils literal"><span class="pre">not</span></code></li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">not</span></code> operator has different behavior in MongoDB and in the
+SQLAlchemy-based database engines. If the <code class="docutils literal"><span class="pre">not</span></code> operator is
+applied on a non existent metadata field then the result depends on
+the database engine. In case of MongoDB, it will return every sample
+as the <code class="docutils literal"><span class="pre">not</span></code> operator is evaluated true for every sample where the
+given field does not exist. On the other hand the SQL-based database
+engine will return an empty result because of the underlying
+<code class="docutils literal"><span class="pre">join</span></code> operation.</p>
+</div>
+<p>Complex query supports specifying a list of <code class="docutils literal"><span class="pre">orderby</span></code> expressions.
+This means that the result of the query can be ordered based on the
+field names provided in this list. When multiple keys are defined for
+the ordering, these will be applied sequentially in the order of the
+specification. The second expression will be applied on the groups for
+which the values of the first expression are the same. The ordering can
+be ascending or descending.</p>
+<p>The number of returned items can be bounded using the <code class="docutils literal"><span class="pre">limit</span></code> option.</p>
+<p>The <code class="docutils literal"><span class="pre">filter</span></code>, <code class="docutils literal"><span class="pre">orderby</span></code> and <code class="docutils literal"><span class="pre">limit</span></code> fields are optional.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As opposed to the simple query, complex query is available via a
+separate API endpoint. For more information see the <a class="reference external" href="http://docs.openstack.org/developer/ceilometer/webapi/v2.html#v2-web-api">Telemetry v2 Web API
+Reference</a>.</p>
+</div>
+</div>
+<div class="section" id="statistics">
+<h3>Statistics<a class="headerlink" href="#statistics" title="Permalink to this headline">¶</a></h3>
+<p>The sample data can be used in various ways for several purposes, like
+billing or profiling. In external systems the data is often used in the
+form of aggregated statistics. The Telemetry API provides several
+built-in functions to make some basic calculations available without any
+additional coding.</p>
+<p>Telemetry supports the following statistics and aggregation functions:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">avg</span></code></dt>
+<dd>Average of the sample volumes over each period.</dd>
+<dt><code class="docutils literal"><span class="pre">cardinality</span></code></dt>
+<dd><p class="first">Count of distinct values in each period identified by a key
+specified as the parameter of this aggregate function. The supported
+parameter values are:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">project_id</span></code></li>
+<li><code class="docutils literal"><span class="pre">resource_id</span></code></li>
+<li><code class="docutils literal"><span class="pre">user_id</span></code></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">aggregate.param</span></code> option is required.</p>
+</div>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">count</span></code></dt>
+<dd>Number of samples in each period.</dd>
+<dt><code class="docutils literal"><span class="pre">max</span></code></dt>
+<dd>Maximum of the sample volumes in each period.</dd>
+<dt><code class="docutils literal"><span class="pre">min</span></code></dt>
+<dd>Minimum of the sample volumes in each period.</dd>
+<dt><code class="docutils literal"><span class="pre">stddev</span></code></dt>
+<dd>Standard deviation of the sample volumes in each period.</dd>
+<dt><code class="docutils literal"><span class="pre">sum</span></code></dt>
+<dd>Sum of the sample volumes over each period.</dd>
+</dl>
+<p>The simple query and the statistics functionality can be used together
+in a single API request.</p>
+</div>
+</div>
+<div class="section" id="telemetry-command-line-client-and-sdk">
+<h2>Telemetry command-line client and SDK<a class="headerlink" href="#telemetry-command-line-client-and-sdk" title="Permalink to this headline">¶</a></h2>
+<p>The Telemetry service provides a command-line client, with which the
+collected data is available just as the alarm definition and retrieval
+options. The client uses the Telemetry RESTful API in order to execute
+the requested operations.</p>
+<p>To be able to use the <strong class="command">ceilometer</strong> command, the
+python-ceilometerclient package needs to be installed and configured
+properly. For details about the installation process, see the <a class="reference external" href="http://docs.openstack.org/project-install-guide/telemetry/newton/">Telemetry
+chapter</a>
+in the Installation Tutorials and Guides.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The Telemetry service captures the user-visible resource usage data.
+Therefore the database will not contain any data without the
+existence of these resources, like VM images in the OpenStack Image
+service.</p>
+</div>
+<p>Similarly to other OpenStack command-line clients, the <code class="docutils literal"><span class="pre">ceilometer</span></code>
+client uses OpenStack Identity for authentication. The proper
+credentials and <code class="xref std std-option docutils literal"><span class="pre">--auth_url</span></code> parameter have to be defined via command
+line parameters or environment variables.</p>
+<p>This section provides some examples without the aim of completeness.
+These commands can be used for instance for validating an installation
+of Telemetry.</p>
+<p>To retrieve the list of collected meters, the following command should
+be used:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ceilometer meter-list
+<span class="go">+------------------------+------------+------+------------------------------------------+----------------------------------+----------------------------------+</span>
+<span class="go">| Name                   | Type       | Unit | Resource ID                              | User ID                          | Project ID                       |</span>
+<span class="go">+------------------------+------------+------+------------------------------------------+----------------------------------+----------------------------------+</span>
+<span class="go">| cpu                    | cumulative | ns   | bb52e52b-1e42-4751-b3ac-45c52d83ba07     | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| cpu                    | cumulative | ns   | c8d2e153-a48f-4cec-9e93-86e7ac6d4b0b     | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| cpu_util               | gauge      | %    | bb52e52b-1e42-4751-b3ac-45c52d83ba07     | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| cpu_util               | gauge      | %    | c8d2e153-a48f-4cec-9e93-86e7ac6d4b0b     | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.device.read.bytes | cumulative | B    | bb52e52b-1e42-4751-b3ac-45c52d83ba07-hdd | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.device.read.bytes | cumulative | B    | bb52e52b-1e42-4751-b3ac-45c52d83ba07-vda | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.device.read.bytes | cumulative | B    | c8d2e153-a48f-4cec-9e93-86e7ac6d4b0b-hdd | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.device.read.bytes | cumulative | B    | c8d2e153-a48f-4cec-9e93-86e7ac6d4b0b-vda | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| ...                                                                                                                                                         |</span>
+<span class="go">+------------------------+------------+------+------------------------------------------+----------------------------------+----------------------------------+</span>
+</pre></div>
+</div>
+<p>The <strong class="command">ceilometer</strong> command was run with <code class="docutils literal"><span class="pre">admin</span></code> rights, which means
+that all the data is accessible in the database. For more information
+about access right see <a class="reference internal" href="telemetry-system-architecture.html#telemetry-users-roles-projects"><span>Users, roles, and projects</span></a>. As it can be seen
+in the above example, there are two VM instances existing in the system, as
+there are VM instance related meters on the top of the result list. The
+existence of these meters does not indicate that these instances are running at
+the time of the request. The result contains the currently collected meters per
+resource, in an ascending order based on the name of the meter.</p>
+<p>Samples are collected for each meter that is present in the list of
+meters, except in case of instances that are not running or deleted from
+the OpenStack Compute database. If an instance no longer exists and
+there is a <code class="docutils literal"><span class="pre">time_to_live</span></code> value set in the <code class="docutils literal"><span class="pre">ceilometer.conf</span></code>
+configuration file, then a group of samples are deleted in each
+expiration cycle. When the last sample is deleted for a meter, the
+database can be cleaned up by running ceilometer-expirer and the meter
+will not be present in the list above anymore. For more information
+about the expiration procedure see <a class="reference internal" href="telemetry-data-collection.html#telemetry-storing-samples"><span>Storing samples</span></a>.</p>
+<p>The Telemetry API supports simple query on the meter endpoint. The query
+functionality has the following syntax:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">--query &lt;field1&gt;&lt;operator1&gt;&lt;value1&gt;;...;&lt;field_n&gt;&lt;operator_n&gt;&lt;value_n&gt;</span>
+</pre></div>
+</div>
+<p>The following command needs to be invoked to request the meters of one
+VM instance:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ceilometer meter-list --query <span class="nv">resource</span><span class="o">=</span>bb52e52b-1e42-4751-b3ac-45c52d83ba07
+<span class="go">+-------------------------+------------+-----------+--------------------------------------+----------------------------------+----------------------------------+</span>
+<span class="go">| Name                    | Type       | Unit      | Resource ID                          | User ID                          | Project ID                       |</span>
+<span class="go">+-------------------------+------------+-----------+--------------------------------------+----------------------------------+----------------------------------+</span>
+<span class="go">| cpu                     | cumulative | ns        | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| cpu_util                | gauge      | %         | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| cpu_l3_cache            | gauge      | B         | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.ephemeral.size     | gauge      | GB        | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.read.bytes         | cumulative | B         | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.read.bytes.rate    | gauge      | B/s       | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.read.requests      | cumulative | request   | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.read.requests.rate | gauge      | request/s | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.root.size          | gauge      | GB        | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.write.bytes        | cumulative | B         | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.write.bytes.rate   | gauge      | B/s       | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.write.requests     | cumulative | request   | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| disk.write.requests.rate| gauge      | request/s | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| instance                | gauge      | instance  | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| instance:m1.tiny        | gauge      | instance  | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| memory                  | gauge      | MB        | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">| vcpus                   | gauge      | vcpu      | bb52e52b-1e42-4751-b3ac-45c52d83ba07 | b6e62aad26174382bc3781c12fe413c8 | cbfa8e3dfab64a27a87c8e24ecd5c60f |</span>
+<span class="go">+-------------------------+------------+-----------+--------------------------------------+----------------------------------+----------------------------------+</span>
+</pre></div>
+</div>
+<p>As it was described above, the whole set of samples can be retrieved
+that are stored for a meter or filtering the result set by using one of
+the available query types. The request for all the samples of the
+<code class="docutils literal"><span class="pre">cpu</span></code> meter without any additional filtering looks like the following:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ceilometer sample-list --meter cpu
+<span class="go">+--------------------------------------+-------+------------+------------+------+---------------------+</span>
+<span class="go">| Resource ID                          | Meter | Type       | Volume     | Unit | Timestamp           |</span>
+<span class="go">+--------------------------------------+-------+------------+------------+------+---------------------+</span>
+<span class="go">| c8d2e153-a48f-4cec-9e93-86e7ac6d4b0b | cpu   | cumulative | 5.4863e+11 | ns   | 2014-08-31T11:17:03 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu   | cumulative | 5.7848e+11 | ns   | 2014-08-31T11:17:03 |</span>
+<span class="go">| c8d2e153-a48f-4cec-9e93-86e7ac6d4b0b | cpu   | cumulative | 5.4811e+11 | ns   | 2014-08-31T11:07:05 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu   | cumulative | 5.7797e+11 | ns   | 2014-08-31T11:07:05 |</span>
+<span class="go">| c8d2e153-a48f-4cec-9e93-86e7ac6d4b0b | cpu   | cumulative | 5.3589e+11 | ns   | 2014-08-31T10:27:19 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu   | cumulative | 5.6397e+11 | ns   | 2014-08-31T10:27:19 |</span>
+<span class="go">| ...                                                                                                 |</span>
+<span class="go">+--------------------------------------+-------+------------+------------+------+---------------------+</span>
+</pre></div>
+</div>
+<p>The result set of the request contains the samples for both instances
+ordered by the timestamp field in the default descending order.</p>
+<p>The simple query makes it possible to retrieve only a subset of the
+collected samples. The following command can be executed to request the
+<code class="docutils literal"><span class="pre">cpu</span></code> samples of only one of the VM instances:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ceilometer sample-list --meter cpu --query <span class="nv">resource</span><span class="o">=</span>bb52e52b-1e42-4751-
+<span class="go">  b3ac-45c52d83ba07</span>
+<span class="go">+--------------------------------------+------+------------+------------+------+---------------------+</span>
+<span class="go">| Resource ID                          | Name | Type       | Volume     | Unit | Timestamp           |</span>
+<span class="go">+--------------------------------------+------+------------+------------+------+---------------------+</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu  | cumulative | 5.7906e+11 | ns   | 2014-08-31T11:27:08 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu  | cumulative | 5.7848e+11 | ns   | 2014-08-31T11:17:03 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu  | cumulative | 5.7797e+11 | ns   | 2014-08-31T11:07:05 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu  | cumulative | 5.6397e+11 | ns   | 2014-08-31T10:27:19 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu  | cumulative | 5.6207e+11 | ns   | 2014-08-31T10:17:03 |</span>
+<span class="go">| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu  | cumulative | 5.3831e+11 | ns   | 2014-08-31T08:41:57 |</span>
+<span class="go">| ...                                                                                                |</span>
+<span class="go">+--------------------------------------+------+------------+------------+------+---------------------+</span>
+</pre></div>
+</div>
+<p>As it can be seen on the output above, the result set contains samples
+for only one instance of the two.</p>
+<p>The <strong class="command">ceilometer query-samples</strong> command is used to execute rich
+queries. This command accepts the following parameters:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">--filter</span></code></dt>
+<dd>Contains the filter expression for the query in the form of:
+<code class="docutils literal"><span class="pre">{complex_op:</span> <span class="pre">[{simple_op:</span> <span class="pre">{field_name:</span> <span class="pre">value}}]}</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">--orderby</span></code></dt>
+<dd>Contains the list of <code class="docutils literal"><span class="pre">orderby</span></code> expressions in the form of:
+<code class="docutils literal"><span class="pre">[{field_name:</span> <span class="pre">direction},</span> <span class="pre">{field_name:</span> <span class="pre">direction}]</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">--limit</span></code></dt>
+<dd>Specifies the maximum number of samples to return.</dd>
+</dl>
+<p>For more information about complex queries see
+<a class="reference internal" href="#complex-query"><span>Complex query</span></a>.</p>
+<p>As the complex query functionality provides the possibility of using
+complex operators, it is possible to retrieve a subset of samples for a
+given VM instance. To request for the first six samples for the <code class="docutils literal"><span class="pre">cpu</span></code>
+and <code class="docutils literal"><span class="pre">disk.read.bytes</span></code> meters, the following command should be invoked:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span>$ ceilometer query-samples --filter &#39;{&quot;and&quot;: \
+  [{&quot;=&quot;:{&quot;resource&quot;:&quot;bb52e52b-1e42-4751-b3ac-45c52d83ba07&quot;}},{&quot;or&quot;:[{&quot;=&quot;:{&quot;counter_name&quot;:&quot;cpu&quot;}}, \
+  {&quot;=&quot;:{&quot;counter_name&quot;:&quot;disk.read.bytes&quot;}}]}]}&#39; --orderby &#39;[{&quot;timestamp&quot;:&quot;asc&quot;}]&#39; --limit 6
++--------------------------------------+-----------------+------------+------------+------+---------------------+
+| Resource ID                          | Meter           | Type       | Volume     | Unit | Timestamp           |
++--------------------------------------+-----------------+------------+------------+------+---------------------+
+| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | disk.read.bytes | cumulative | 385334.0   | B    | 2014-08-30T13:00:46 |
+| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu             | cumulative | 1.2132e+11 | ns   | 2014-08-30T13:00:47 |
+| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu             | cumulative | 1.4295e+11 | ns   | 2014-08-30T13:10:51 |
+| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | disk.read.bytes | cumulative | 601438.0   | B    | 2014-08-30T13:10:51 |
+| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | disk.read.bytes | cumulative | 601438.0   | B    | 2014-08-30T13:20:33 |
+| bb52e52b-1e42-4751-b3ac-45c52d83ba07 | cpu             | cumulative | 1.4795e+11 | ns   | 2014-08-30T13:20:34 |
++--------------------------------------+-----------------+------------+------------+------+---------------------+
+</pre></div>
+</div>
+<p>Ceilometer also captures data as events, which represents the state of a
+resource. Refer to <code class="docutils literal"><span class="pre">/telemetry-events</span></code> for more information regarding
+Events.</p>
+<p>To retrieve a list of recent events that occurred in the system, the
+following command can be executed:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ceilometer event-list
+<span class="go">+--------------------------------------+---------------+----------------------------+-----------------------------------------------------------------+</span>
+<span class="go">| Message ID                           | Event Type    | Generated                  | Traits                                                          |</span>
+<span class="go">+--------------------------------------+---------------+----------------------------+-----------------------------------------------------------------+</span>
+<span class="go">| dfdb87b6-92c6-4d40-b9b5-ba308f304c13 | image.create  | 2015-09-24T22:17:39.498888 | +---------+--------+-----------------+                          |</span>
+<span class="go">|                                      |               |                            | |   name  |  type  |      value      |                          |</span>
+<span class="go">|                                      |               |                            | +---------+--------+-----------------+                          |</span>
+<span class="go">|                                      |               |                            | | service | string | image.localhost |                          |</span>
+<span class="go">|                                      |               |                            | +---------+--------+-----------------+                          |</span>
+<span class="go">| 84054bc6-2ae6-4b93-b5e7-06964f151cef | image.prepare | 2015-09-24T22:17:39.594192 | +---------+--------+-----------------+                          |</span>
+<span class="go">|                                      |               |                            | |   name  |  type  |      value      |                          |</span>
+<span class="go">|                                      |               |                            | +---------+--------+-----------------+                          |</span>
+<span class="go">|                                      |               |                            | | service | string | image.localhost |                          |</span>
+<span class="go">|                                      |               |                            | +---------+--------+-----------------+                          |</span>
+<span class="go">| 2ec99c2c-08ee-4079-bf80-27d4a073ded6 | image.update  | 2015-09-24T22:17:39.578336 | +-------------+--------+--------------------------------------+ |</span>
+<span class="go">|                                      |               |                            | |     name    |  type  |                value                 | |</span>
+<span class="go">|                                      |               |                            | +-------------+--------+--------------------------------------+ |</span>
+<span class="go">|                                      |               |                            | |  created_at | string |         2015-09-24T22:17:39Z         | |</span>
+<span class="go">|                                      |               |                            | |     name    | string |    cirros-0.3.4-x86_64-uec-kernel    | |</span>
+<span class="go">|                                      |               |                            | |  project_id | string |   56ffddea5b4f423496444ea36c31be23   | |</span>
+<span class="go">|                                      |               |                            | | resource_id | string | 86eb8273-edd7-4483-a07c-002ff1c5657d | |</span>
+<span class="go">|                                      |               |                            | |   service   | string |           image.localhost            | |</span>
+<span class="go">|                                      |               |                            | |    status   | string |                saving                | |</span>
+<span class="go">|                                      |               |                            | |   user_id   | string |   56ffddea5b4f423496444ea36c31be23   | |</span>
+<span class="go">|                                      |               |                            | +-------------+--------+--------------------------------------+ |</span>
+<span class="go">+--------------------------------------+---------------+----------------------------+-----------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In Liberty, the data returned corresponds to the role and user. Non-admin
+users will only return events that are scoped to them. Admin users will
+return all events related to the project they administer as well as
+all unscoped events.</p>
+</div>
+<p>Similar to querying meters, additional filter parameters can be given to
+retrieve specific events:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span>$ ceilometer event-list -q &#39;event_type=compute.instance.exists; \
+  instance_type=m1.tiny&#39;
++--------------------------------------+-------------------------+----------------------------+----------------------------------------------------------------------------------+
+| Message ID                           | Event Type              | Generated                  | Traits                                                                           |
++--------------------------------------+-------------------------+----------------------------+----------------------------------------------------------------------------------+
+| 134a2ab3-6051-496c-b82f-10a3c367439a | compute.instance.exists | 2015-09-25T03:00:02.152041 | +------------------------+----------+------------------------------------------+ |
+|                                      |                         |                            | |          name          |   type   |                  value                   | |
+|                                      |                         |                            | +------------------------+----------+------------------------------------------+ |
+|                                      |                         |                            | | audit_period_beginning | datetime |           2015-09-25T02:00:00            | |
+|                                      |                         |                            | |  audit_period_ending   | datetime |           2015-09-25T03:00:00            | |
+|                                      |                         |                            | |        disk_gb         | integer  |                    1                     | |
+|                                      |                         |                            | |      ephemeral_gb      | integer  |                    0                     | |
+|                                      |                         |                            | |          host          |  string  |          localhost.localdomain           | |
+|                                      |                         |                            | |      instance_id       |  string  |   2115f189-c7f1-4228-97bc-d742600839f2   | |
+|                                      |                         |                            | |     instance_type      |  string  |                 m1.tiny                  | |
+|                                      |                         |                            | |    instance_type_id    | integer  |                    2                     | |
+|                                      |                         |                            | |      launched_at       | datetime |           2015-09-24T22:24:56            | |
+|                                      |                         |                            | |       memory_mb        | integer  |                   512                    | |
+|                                      |                         |                            | |       project_id       |  string  |     56ffddea5b4f423496444ea36c31be23     | |
+|                                      |                         |                            | |       request_id       |  string  | req-c6292b21-bf98-4a1d-b40c-cebba4d09a67 | |
+|                                      |                         |                            | |        root_gb         | integer  |                    1                     | |
+|                                      |                         |                            | |        service         |  string  |                 compute                  | |
+|                                      |                         |                            | |         state          |  string  |                  active                  | |
+|                                      |                         |                            | |       tenant_id        |  string  |     56ffddea5b4f423496444ea36c31be23     | |
+|                                      |                         |                            | |        user_id         |  string  |     0b3d725756f94923b9d0c4db864d06a9     | |
+|                                      |                         |                            | |         vcpus          | integer  |                    1                     | |
+|                                      |                         |                            | +------------------------+----------+------------------------------------------+ |
++--------------------------------------+-------------------------+----------------------------+----------------------------------------------------------------------------------+
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As of the Liberty release, the number of items returned will be
+restricted to the value defined by <code class="docutils literal"><span class="pre">default_api_return_limit</span></code> in the
+<code class="docutils literal"><span class="pre">ceilometer.conf</span></code> configuration file. Alternatively, the value can
+be set per query by passing the <code class="docutils literal"><span class="pre">limit</span></code> option in the request.</p>
+</div>
+<div class="section" id="telemetry-python-bindings">
+<h3>Telemetry Python bindings<a class="headerlink" href="#telemetry-python-bindings" title="Permalink to this headline">¶</a></h3>
+<p>The command-line client library provides python bindings in order to use
+the Telemetry Python API directly from python programs.</p>
+<p>The first step in setting up the client is to create a client instance
+with the proper credentials:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">ceilometerclient.client</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cclient</span> <span class="o">=</span> <span class="n">ceilometerclient</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_client</span><span class="p">(</span><span class="n">VERSION</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">USERNAME</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">PASSWORD</span><span class="p">,</span> <span class="n">tenant_name</span><span class="o">=</span><span class="n">PROJECT_NAME</span><span class="p">,</span> <span class="n">auth_url</span><span class="o">=</span><span class="n">AUTH_URL</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">VERSION</span></code> parameter can be <code class="docutils literal"><span class="pre">1</span></code> or <code class="docutils literal"><span class="pre">2</span></code>, specifying the API
+version to be used.</p>
+<p>The method calls look like the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cclient</span><span class="o">.</span><span class="n">meters</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go"> [&lt;Meter ...&gt;, ...]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cclient</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+<span class="go"> [&lt;Sample ...&gt;, ...]</span>
+</pre></div>
+</div>
+<p>For further details about the python-ceilometerclient package, see the
+<a class="reference external" href="http://docs.openstack.org/developer/python-ceilometerclient/">Python bindings to the OpenStack Ceilometer
+API</a>
+reference.</p>
+</div>
+</div>
+<div class="section" id="publishers">
+<span id="telemetry-publishers"></span><h2>Publishers<a class="headerlink" href="#publishers" title="Permalink to this headline">¶</a></h2>
+<p>The Telemetry service provides several transport methods to forward the
+data collected to the <code class="docutils literal"><span class="pre">ceilometer-collector</span></code> service or to an external
+system. The consumers of this data are widely different, like monitoring
+systems, for which data loss is acceptable and billing systems, which
+require reliable data transportation. Telemetry provides methods to
+fulfill the requirements of both kind of systems, as it is described
+below.</p>
+<p>The publisher component makes it possible to persist the data into
+storage through the message bus or to send it to one or more external
+consumers. One chain can contain multiple publishers.</p>
+<p>To solve the above mentioned problem, the notion of multi-publisher can
+be configured for each datapoint within the Telemetry service, allowing
+the same technical meter or event to be published multiple times to
+multiple destinations, each potentially using a different transport.</p>
+<p>Publishers can be specified in the <code class="docutils literal"><span class="pre">publishers</span></code> section for each
+pipeline (for further details about pipelines see
+<a class="reference internal" href="telemetry-data-pipelines.html#data-collection-and-processing"><span>Data collection, processing, and pipelines</span></a>) that is defined in
+the <a class="reference external" href="https://git.openstack.org/cgit/openstack/ceilometer/plain/etc/ceilometer/pipeline.yaml">pipeline.yaml</a>
+file.</p>
+<p>The following publisher types are supported:</p>
+<dl class="docutils">
+<dt>direct</dt>
+<dd>It can be specified in the form of <code class="docutils literal"><span class="pre">direct://?dispatcher=http</span></code>. The
+dispatcher&#8217;s options include database, file, http, and gnocchi. For
+more details on dispatcher, see <a class="reference internal" href="telemetry-data-collection.html#telemetry-storing-samples"><span>Storing samples</span></a>.
+It emits data in the configured dispatcher directly, default configuration
+(the form is <code class="docutils literal"><span class="pre">direct://</span></code>) is database dispatcher.
+In the Mitaka release, this method can only emit data to the database
+dispatcher, and the form is <code class="docutils literal"><span class="pre">direct://</span></code>.</dd>
+<dt>notifier</dt>
+<dd>It can be specified in the form of
+<code class="docutils literal"><span class="pre">notifier://?option1=value1&amp;option2=value2</span></code>. It emits data over
+AMQP using oslo.messaging. This is the recommended method of
+publishing.</dd>
+<dt>rpc</dt>
+<dd>It can be specified in the form of
+<code class="docutils literal"><span class="pre">rpc://?option1=value1&amp;option2=value2</span></code>. It emits metering data
+over lossy AMQP. This method is synchronous and may experience
+performance issues. This publisher is deprecated in Liberty in favor of
+the notifier publisher.</dd>
+<dt>udp</dt>
+<dd>It can be specified in the form of <code class="docutils literal"><span class="pre">udp://&lt;host&gt;:&lt;port&gt;/</span></code>. It emits
+metering data for over UDP.</dd>
+<dt>file</dt>
+<dd>It can be specified in the form of
+<code class="docutils literal"><span class="pre">file://path?option1=value1&amp;option2=value2</span></code>. This publisher
+records metering data into a file.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If a file name and location is not specified, this publisher
+does not log any meters, instead it logs a warning message in
+the configured log file for Telemetry.</p>
+</div>
+<dl class="docutils">
+<dt>kafka</dt>
+<dd><p class="first">It can be specified in the form of:
+<code class="docutils literal"><span class="pre">kafka://kafka_broker_ip:</span> <span class="pre">kafka_broker_port?topic=kafka_topic</span>
+<span class="pre">&amp;option1=value1</span></code>.</p>
+<p class="last">This publisher sends metering data to a kafka broker.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the topic parameter is missing, this publisher brings out
+metering data under a topic name, <code class="docutils literal"><span class="pre">ceilometer</span></code>. When the port
+number is not specified, this publisher uses 9092 as the
+broker&#8217;s port.</p>
+</div>
+<p>The following options are available for <code class="docutils literal"><span class="pre">rpc</span></code> and <code class="docutils literal"><span class="pre">notifier</span></code>. The
+policy option can be used by <code class="docutils literal"><span class="pre">kafka</span></code> publisher:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">per_meter_topic</span></code></dt>
+<dd>The value of it is 1. It is used for publishing the samples on
+additional <code class="docutils literal"><span class="pre">metering_topic.sample_name</span></code> topic queue besides the
+default <code class="docutils literal"><span class="pre">metering_topic</span></code> queue.</dd>
+<dt><code class="docutils literal"><span class="pre">policy</span></code></dt>
+<dd><p class="first">It is used for configuring the behavior for the case, when the
+publisher fails to send the samples, where the possible predefined
+values are the following:</p>
+<dl class="last docutils">
+<dt>default</dt>
+<dd>Used for waiting and blocking until the samples have been sent.</dd>
+<dt>drop</dt>
+<dd>Used for dropping the samples which are failed to be sent.</dd>
+<dt>queue</dt>
+<dd>Used for creating an in-memory queue and retrying to send the
+samples on the queue on the next samples publishing period (the
+queue length can be configured with <code class="docutils literal"><span class="pre">max_queue_length</span></code>, where
+1024 is the default value).</dd>
+</dl>
+</dd>
+</dl>
+<p>The following option is additionally available for the <code class="docutils literal"><span class="pre">notifier</span></code> publisher:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">topic</span></code></dt>
+<dd>The topic name of queue to publish to. Setting this will override the
+default topic defined by <code class="docutils literal"><span class="pre">metering_topic</span></code> and <code class="docutils literal"><span class="pre">event_topic</span></code> options.
+This option can be used to support multiple consumers. Support for this
+feature was added in Kilo.</dd>
+</dl>
+<p>The following options are available for the <code class="docutils literal"><span class="pre">file</span></code> publisher:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">max_bytes</span></code></dt>
+<dd>When this option is greater than zero, it will cause a rollover.
+When the size is about to be exceeded, the file is closed and a new
+file is silently opened for output. If its value is zero, rollover
+never occurs.</dd>
+<dt><code class="docutils literal"><span class="pre">backup_count</span></code></dt>
+<dd>If this value is non-zero, an extension will be appended to the
+filename of the old log, as &#8216;.1&#8217;, &#8216;.2&#8217;, and so forth until the
+specified value is reached. The file that is written and contains
+the newest data is always the one that is specified without any
+extensions.</dd>
+</dl>
+<p>The default publisher is <code class="docutils literal"><span class="pre">notifier</span></code>, without any additional options
+specified. A sample <code class="docutils literal"><span class="pre">publishers</span></code> section in the
+<code class="docutils literal"><span class="pre">/etc/ceilometer/pipeline.yaml</span></code> looks like the following:</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">publishers</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">udp://10.0.0.2:1234</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">rpc://?per_meter_topic=1 (deprecated in Liberty)</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">notifier://?policy=drop&amp;max_queue_length=512&amp;topic=custom_target</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">direct://?dispatcher=http</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="telemetry-data-pipelines.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Data collection, processing, and pipelines"></i></a>
+          
+          
+            <a href="telemetry-alarms.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Alarms"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="telemetry.html">Telemetry</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="telemetry-system-architecture.html">System architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry-data-collection.html">Data collection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry-data-pipelines.html">Data collection, processing, and pipelines</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data retrieval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry-alarms.html">Alarms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry-measurements.html">Measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry-events.html">Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry-troubleshooting-guide.html">Troubleshoot Telemetry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="telemetry-best-practices.html">Telemetry best practices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "telemetry-data-retrieval" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Data retrieval in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/telemetry-data-retrieval.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:12:09 GMT -->
+</html>

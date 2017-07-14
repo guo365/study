@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/shared-file-systems/drivers/cephfs-native-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:34:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: CephFS Native driver</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>CephFS Native driver</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="generic-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Generic approach for share provisioning"></i></a>
+    
+    
+    <a href="glusterfs-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: GlusterFS driver"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">CephFS Native driver</a><ul>
+<li><a class="reference internal" href="#supported-shared-file-systems-and-operations">Supported shared file systems and operations</a></li>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#authorize-the-driver-to-communicate-with-ceph">Authorize the driver to communicate with Ceph</a></li>
+<li><a class="reference internal" href="#configure-cephfs-back-end-in-manila-conf">Configure CephFS back end in <code class="docutils literal"><span class="pre">manila.conf</span></code></a></li>
+<li><a class="reference internal" href="#creating-shares">Creating shares</a></li>
+<li><a class="reference internal" href="#allowing-access-to-shares">Allowing access to shares</a></li>
+<li><a class="reference internal" href="#mounting-shares-using-fuse-client">Mounting shares using FUSE client</a></li>
+<li><a class="reference internal" href="#known-restrictions">Known restrictions</a></li>
+<li><a class="reference internal" href="#security">Security</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="cephfs-native-driver">
+<h1>CephFS Native driver<a class="headerlink" href="#cephfs-native-driver" title="Permalink to this headline">¶</a></h1>
+<p>The CephFS Native driver enables the Shared File Systems service to export
+shared file systems to guests using the Ceph network protocol. Guests require a
+Ceph client in order to mount the file system.</p>
+<p>Access is controlled via Ceph&#8217;s cephx authentication system. When a user
+requests share access for an ID, Ceph creates a corresponding Ceph auth ID and
+a secret key, if they do not already exist, and authorizes the ID to access
+the share. The client can then mount the share using the ID and the secret
+key.</p>
+<p>To learn more about configuring Ceph clients to access the shares created
+using this driver, please see the Ceph documentation (
+<a class="reference external" href="http://docs.ceph.com/docs/master/cephfs/">http://docs.ceph.com/docs/master/cephfs/</a>). If you choose to use the kernel
+client rather than the FUSE client, the share size limits set in the
+Shared File Systems service may not be obeyed.</p>
+<div class="section" id="supported-shared-file-systems-and-operations">
+<h2>Supported shared file systems and operations<a class="headerlink" href="#supported-shared-file-systems-and-operations" title="Permalink to this headline">¶</a></h2>
+<p>The driver supports CephFS shares.</p>
+<p>The following operations are supported with CephFS back end:</p>
+<ul>
+<li><p class="first">Create a share.</p>
+</li>
+<li><p class="first">Delete a share.</p>
+</li>
+<li><p class="first">Allow share access.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">read-only</span></code> access level is supported.</li>
+<li><code class="docutils literal"><span class="pre">read-write</span></code> access level is supported.</li>
+</ul>
+<p>Note the following limitation for CephFS shares:</p>
+<ul class="simple">
+<li>Only <code class="docutils literal"><span class="pre">cephx</span></code> access type is supported.</li>
+</ul>
+</li>
+<li><p class="first">Deny share access.</p>
+</li>
+<li><p class="first">Create a snapshot.</p>
+</li>
+<li><p class="first">Delete a snapshot.</p>
+</li>
+<li><p class="first">Create a consistency group (CG).</p>
+</li>
+<li><p class="first">Delete a CG.</p>
+</li>
+<li><p class="first">Create a CG snapshot.</p>
+</li>
+<li><p class="first">Delete a CG snapshot.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Mitaka or later versions of manila.</li>
+<li>Jewel or later versions of Ceph.</li>
+<li>A Ceph cluster with a file system configured (
+<a class="reference external" href="http://docs.ceph.com/docs/master/cephfs/createfs/">http://docs.ceph.com/docs/master/cephfs/createfs/</a>)</li>
+<li><code class="docutils literal"><span class="pre">ceph-common</span></code> package installed in the servers running the
+<a class="reference internal" href="../../common/glossary.html#term-manila-share"><span class="xref std std-term">manila-share</span></a> service.</li>
+<li>Ceph client installed in the guest, preferably the FUSE based client,
+<code class="docutils literal"><span class="pre">ceph-fuse</span></code>.</li>
+<li>Network connectivity between your Ceph cluster&#8217;s public network and the
+servers running the <a class="reference internal" href="../../common/glossary.html#term-manila-share"><span class="xref std std-term">manila-share</span></a> service.</li>
+<li>Network connectivity between your Ceph cluster&#8217;s public network and guests.</li>
+</ul>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">A manila share backed onto CephFS is only as good as the
+underlying file system. Take care when configuring your Ceph
+cluster, and consult the latest guidance on the use of
+CephFS in the Ceph documentation (
+<a class="reference external" href="http://docs.ceph.com/docs/master/cephfs/">http://docs.ceph.com/docs/master/cephfs/</a>).</p>
+</div>
+</div>
+<div class="section" id="authorize-the-driver-to-communicate-with-ceph">
+<h2>Authorize the driver to communicate with Ceph<a class="headerlink" href="#authorize-the-driver-to-communicate-with-ceph" title="Permalink to this headline">¶</a></h2>
+<p>Run the following commands to create a Ceph identity for the Shared File
+Systems service to use:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">read -d &#39;&#39; MON_CAPS &lt;&lt; EOF</span>
+<span class="go">allow r,</span>
+<span class="go">allow command &quot;auth del&quot;,</span>
+<span class="go">allow command &quot;auth caps&quot;,</span>
+<span class="go">allow command &quot;auth get&quot;,</span>
+<span class="go">allow command &quot;auth get-or-create&quot;</span>
+<span class="go">EOF</span>
+
+<span class="go">ceph auth get-or-create client.manila -o manila.keyring \</span>
+<span class="go">mds &#39;allow *&#39; \</span>
+<span class="go">osd &#39;allow rw&#39; \</span>
+<span class="go">mon &quot;$MON_CAPS&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">manila.keyring</span></code>, along with your <code class="docutils literal"><span class="pre">ceph.conf</span></code> file, then needs to be placed
+on the server running the <a class="reference internal" href="../../common/glossary.html#term-manila-share"><span class="xref std std-term">manila-share</span></a> service.</p>
+<p>Enable snapshots in Ceph if you want to use them in the Shared File Systems
+service:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">ceph mds set allow_new_snaps true --yes-i-really-mean-it</span>
+</pre></div>
+</div>
+<p>In the server running the <a class="reference internal" href="../../common/glossary.html#term-manila-share"><span class="xref std std-term">manila-share</span></a> service, you can place the
+<code class="docutils literal"><span class="pre">ceph.conf</span></code> and <code class="docutils literal"><span class="pre">manila.keyring</span></code> files in the <code class="docutils literal"><span class="pre">/etc/ceph</span></code> directory. Set
+the same owner for the <a class="reference internal" href="../../common/glossary.html#term-manila-share"><span class="xref std std-term">manila-share</span></a> process and the <code class="docutils literal"><span class="pre">manila.keyring</span></code>
+file. Add the following section to the <code class="docutils literal"><span class="pre">ceph.conf</span></code> file.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[client.manila]</span>
+<span class="na">client mount uid</span> <span class="o">=</span> <span class="s">0</span>
+<span class="na">client mount gid</span> <span class="o">=</span> <span class="s">0</span>
+<span class="na">log file</span> <span class="o">=</span> <span class="s">/opt/stack/logs/ceph-client.manila.log</span>
+<span class="na">admin socket</span> <span class="o">=</span> <span class="s">/opt/stack/status/stack/ceph-$name.$pid.asok</span>
+<span class="na">keyring</span> <span class="o">=</span> <span class="s">/etc/ceph/manila.keyring</span>
+</pre></div>
+</div>
+<p>It is advisable to modify the Ceph client&#8217;s admin socket file and log file
+locations so that they are co-located with the Shared File Systems services&#8217;
+pid files and log files respectively.</p>
+</div>
+<div class="section" id="configure-cephfs-back-end-in-manila-conf">
+<h2>Configure CephFS back end in <code class="docutils literal"><span class="pre">manila.conf</span></code><a class="headerlink" href="#configure-cephfs-back-end-in-manila-conf" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Add CephFS to <code class="docutils literal"><span class="pre">enabled_share_protocols</span></code> (enforced at the Shared File
+Systems service&#8217;s API layer). In this example we leave NFS and CIFS enabled,
+although you can remove these if you only use CephFS:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">enabled_share_protocols</span> <span class="o">=</span> <span class="s">NFS,CIFS,CEPHFS</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Refer to the following table for the list of all the <code class="docutils literal"><span class="pre">cephfs_native</span></code>
+driver-specific configuration options.</p>
+<table border="1" class="config-ref-table docutils" id="id1">
+<span id="manila-cephfs"></span><caption><span class="caption-text">Description of CephFS Driver configuration options</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">cephfs_auth_id</span></code> = <code class="docutils literal"><span class="pre">manila</span></code></td>
+<td>(String) The name of the ceph auth identity to use.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">cephfs_cluster_name</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) The name of the cluster in use, if it is not the default (&#8216;ceph&#8217;).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">cephfs_conf_path</span></code> =</td>
+<td>(String) Fully qualified path to the ceph.conf file.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">cephfs_enable_snapshots</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Whether to enable snapshots in this driver.</td>
+</tr>
+</tbody>
+</table>
+<p>Create a section to define a CephFS back end:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[cephfs1]</span>
+<span class="na">driver_handles_share_servers</span> <span class="o">=</span> <span class="s">False</span>
+<span class="na">share_backend_name</span> <span class="o">=</span> <span class="s">CEPHFS1</span>
+<span class="na">share_driver</span> <span class="o">=</span> <span class="s">manila.share.drivers.cephfs.cephfs_native.CephFSNativeDriver</span>
+<span class="na">cephfs_conf_path</span> <span class="o">=</span> <span class="s">/etc/ceph/ceph.conf</span>
+<span class="na">cephfs_auth_id</span> <span class="o">=</span> <span class="s">manila</span>
+<span class="na">cephfs_cluster_name</span> <span class="o">=</span> <span class="s">ceph</span>
+<span class="na">cephfs_enable_snapshots</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+<p>Set <code class="docutils literal"><span class="pre">cephfs_enable_snapshots</span></code> to <code class="docutils literal"><span class="pre">True</span></code> in the section to let the driver
+perform snapshot-related operations. Also set the
+<code class="docutils literal"><span class="pre">driver-handles-share-servers</span></code> to <code class="docutils literal"><span class="pre">False</span></code> as the driver does not manage
+the lifecycle of <code class="docutils literal"><span class="pre">share-servers</span></code>.</p>
+</li>
+<li><p class="first">Edit <code class="docutils literal"><span class="pre">enabled_share_backends</span></code> to point to the driver&#8217;s back-end section
+using the section name. In this example we are also including another
+back end (<code class="docutils literal"><span class="pre">generic1</span></code>), you would include whatever other back ends you have
+configured.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">enabled_share_backends</span> <span class="o">=</span> <span class="s">generic1,cephfs1</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="creating-shares">
+<h2>Creating shares<a class="headerlink" href="#creating-shares" title="Permalink to this headline">¶</a></h2>
+<p>The default share type may have <code class="docutils literal"><span class="pre">driver_handles_share_servers</span></code> set to
+<code class="docutils literal"><span class="pre">True</span></code>. Configure a share type suitable for CephFS:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">manila type-create cephfstype false</span>
+
+<span class="go">manila type-set cephfstype set share_backend_name=&#39;CEPHFS1&#39;</span>
+</pre></div>
+</div>
+<p>Then create a share:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">manila create --share-type cephfstype --name cephshare1 cephfs 1</span>
+</pre></div>
+</div>
+<p>Note the export location of the share:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">manila share-export-location-list cephshare1</span>
+</pre></div>
+</div>
+<p>The export location of the share contains the Ceph monitor (mon) addresses and
+ports, and the path to be mounted. It is of the form,
+<code class="docutils literal"><span class="pre">{mon</span> <span class="pre">ip</span> <span class="pre">addr:port}[,{mon</span> <span class="pre">ip</span> <span class="pre">addr:port}]:{path</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">mounted}</span></code></p>
+</div>
+<div class="section" id="allowing-access-to-shares">
+<h2>Allowing access to shares<a class="headerlink" href="#allowing-access-to-shares" title="Permalink to this headline">¶</a></h2>
+<p>Allow Ceph auth ID <code class="docutils literal"><span class="pre">alice</span></code> access to the share using <code class="docutils literal"><span class="pre">cephx</span></code> access type.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">manila access-allow cephshare1 cephx alice</span>
+</pre></div>
+</div>
+<p>Note the access status and the secret access key of <code class="docutils literal"><span class="pre">alice</span></code>.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">manila access-list cephshare1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mounting-shares-using-fuse-client">
+<h2>Mounting shares using FUSE client<a class="headerlink" href="#mounting-shares-using-fuse-client" title="Permalink to this headline">¶</a></h2>
+<p>Using the secret key of the authorized ID <code class="docutils literal"><span class="pre">alice</span></code>, create a keyring file
+<code class="docutils literal"><span class="pre">alice.keyring</span></code>.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[client.alice]</span>
+        <span class="na">key</span> <span class="o">=</span> <span class="s">AQA8+ANW/4ZWNRAAOtWJMFPEihBA1unFImJczA==</span>
+</pre></div>
+</div>
+<p>Using the monitor IP addresses from the share&#8217;s export location, create a
+configuration file, <code class="docutils literal"><span class="pre">ceph.conf</span></code>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[client]</span>
+        <span class="na">client quota</span> <span class="o">=</span> <span class="s">true</span>
+<span class="s">        mon host = 192.168.1.7:6789, 192.168.1.8:6789, 192.168.1.9:6789</span>
+</pre></div>
+</div>
+<p>Finally, mount the file system, substituting the file names of the keyring and
+configuration files you just created, and substituting the path to be mounted
+from the share&#8217;s export location:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">sudo ceph-fuse ~/mnt \</span>
+<span class="go">--id=alice \</span>
+<span class="go">--conf=./ceph.conf \</span>
+<span class="go">--keyring=./alice.keyring \</span>
+<span class="go">--client-mountpoint=/volumes/_nogroup/4c55ad20-9c55-4a5e-9233-8ac64566b98c</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="known-restrictions">
+<h2>Known restrictions<a class="headerlink" href="#known-restrictions" title="Permalink to this headline">¶</a></h2>
+<p>Consider the driver as a building block for supporting multi-tenant workloads
+in the future. However, it can be used in private cloud deployments.</p>
+<ul class="simple">
+<li>The guests have direct access to Ceph&#8217;s public network.</li>
+<li>The snapshot support of the driver is disabled by default.
+<code class="docutils literal"><span class="pre">cephfs_enable_snapshots</span></code> configuration option needs to be set to <code class="docutils literal"><span class="pre">True</span></code>
+to allow snapshot operations.</li>
+<li>Snapshots are read-only. A user can read a snapshot&#8217;s contents from the
+<code class="docutils literal"><span class="pre">.snap/{manila-snapshot-id}_{unknown-id}</span></code> folder within the mounted
+share.</li>
+<li>To restrict share sizes, CephFS uses quotas that are enforced in the client
+side. The CephFS clients are relied on to respect quotas.</li>
+</ul>
+</div>
+<div class="section" id="security">
+<h2>Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Each share&#8217;s data is mapped to a distinct Ceph RADOS namespace. A guest is
+restricted to access only that particular RADOS namespace.</p>
+</li>
+<li><p class="first">An additional level of resource isolation can be provided by mapping a
+share&#8217;s contents to a separate RADOS pool. This layout would be preferred
+only for cloud deployments with a limited number of shares needing strong
+resource separation. You can do this by setting a share type specification,
+<code class="docutils literal"><span class="pre">cephfs:data_isolated</span></code> for the share type used by the cephfs driver.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">manila type-key cephfstype set cephfs:data_isolated=True</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Untrusted manila guests pose security risks to the Ceph storage cluster as
+they would have direct access to the cluster&#8217;s public network.</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="generic-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Generic approach for share provisioning"></i></a>
+          
+          
+            <a href="glusterfs-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: GlusterFS driver"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../overview.html">Introduction to the Shared File Systems service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html">Shared File Systems API configuration</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../drivers.html">Share drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../log-files.html">Log files used by Shared File Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Shared File Systems service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/manila.html">New, updated, and deprecated options in Newton for Shared File Systems service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "shared-file-systems/drivers/cephfs-native-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "CephFS Native driver in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/shared-file-systems/drivers/cephfs-native-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:34:59 GMT -->
+</html>

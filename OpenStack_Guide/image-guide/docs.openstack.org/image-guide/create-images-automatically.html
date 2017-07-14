@@ -1,0 +1,606 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/image-guide/create-images-automatically.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 11:18:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Tool support for image creation</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Tool support for image creation</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="freebsd-image.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Example: FreeBSD image"></i></a>
+    
+    
+    <a href="convert-images.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Converting between image formats"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Tool support for image creation</a><ul>
+<li><a class="reference internal" href="#diskimage-builder">Diskimage-builder</a></li>
+<li><a class="reference internal" href="#oz">Oz</a></li>
+<li><a class="reference internal" href="#veewee">VeeWee</a></li>
+<li><a class="reference internal" href="#packer">Packer</a></li>
+<li><a class="reference internal" href="#image-bootstrap">image-bootstrap</a></li>
+<li><a class="reference internal" href="#imagefactory">imagefactory</a></li>
+<li><a class="reference internal" href="#kiwi">KIWI</a></li>
+<li><a class="reference internal" href="#suse-studio">SUSE Studio</a></li>
+<li><a class="reference internal" href="#virt-builder">virt-builder</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="tool-support-for-image-creation">
+<h1>Tool support for image creation<a class="headerlink" href="#tool-support-for-image-creation" title="Permalink to this headline">¶</a></h1>
+<p>There are several tools that are designed to automate image creation.</p>
+<div class="section" id="diskimage-builder">
+<h2>Diskimage-builder<a class="headerlink" href="#diskimage-builder" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://docs.openstack.org/developer/diskimage-builder/">Diskimage-builder</a>
+is an automated disk image creation tool that supports a variety
+of distributions and architectures.
+Diskimage-builder (DIB) can build images for Fedora, Red Hat
+Enterprise Linux, Ubuntu, Debian, CentOS, and openSUSE.
+DIB is organized in a series of elements that build on top of
+each other to create specific images.</p>
+<p>To build an image, call the following script:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> disk-image-create ubuntu vm
+</pre></div>
+</div>
+<p>This example creates a generic, bootable Ubuntu image of the latest release.</p>
+<p>Further customization could be accomplished by setting environment
+variables or adding elements to the command-line:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> disk-image-create -a armhf ubuntu vm
+</pre></div>
+</div>
+<p>This example creates the image as before, but for arm architecture.
+More elements are available in the <a class="reference external" href="https://git.openstack.org/cgit/openstack/diskimage-builder/tree/elements">git source directory</a>
+and documented in the <a class="reference external" href="http://docs.openstack.org/developer/diskimage-builder/elements.html">diskimage-builder elements documentation</a>.</p>
+</div>
+<div class="section" id="oz">
+<h2>Oz<a class="headerlink" href="#oz" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/clalancette/oz/wiki">Oz</a> is a command-line tool
+that automates the process of creating a virtual machine image file.
+Oz is a Python app that interacts with KVM to step through the process
+of installing a virtual machine.
+It uses a predefined set of kickstart (Red Hat-based systems) and
+preseed files (Debian-based systems) for operating systems that it
+supports, and it can also be used to create Microsoft Windows images.
+On Fedora, install Oz with yum:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> yum install oz
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As of this writing, there are no Oz packages for Ubuntu, so you will
+need to either install from the source or build your own .deb file.</p>
+</div>
+<p>A full treatment of Oz is beyond the scope of this document,
+but we will provide an example. You can find additional examples of
+Oz template files on GitHub at <a class="reference external" href="https://github.com/rcbops/oz-image-build/tree/master/templates">rcbops/oz-image-build/tree/master/templates</a>.
+Here&#8217;s how you would create a CentOS 6.4 image with Oz.</p>
+<p>Create a template file (we&#8217;ll call it <code class="docutils literal"><span class="pre">centos64.tdl</span></code>) with
+the following contents. The only entry you will need to
+change is the <code class="docutils literal"><span class="pre">&lt;rootpw&gt;</span></code> contents.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;template&gt;</span>
+  <span class="nt">&lt;name&gt;</span>centos64<span class="nt">&lt;/name&gt;</span>
+  <span class="nt">&lt;os&gt;</span>
+    <span class="nt">&lt;name&gt;</span>CentOS-6<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;version&gt;</span>4<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;arch&gt;</span>x86_64<span class="nt">&lt;/arch&gt;</span>
+    <span class="nt">&lt;install</span> <span class="na">type=</span><span class="s">&#39;iso&#39;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;iso&gt;</span>http://mirror.rackspace.com/CentOS/6/isos/x86_64/CentOS-6.4-x86_64-bin-DVD1.iso<span class="nt">&lt;/iso&gt;</span>
+    <span class="nt">&lt;/install&gt;</span>
+    <span class="nt">&lt;rootpw&gt;</span>CHANGE THIS TO YOUR ROOT PASSWORD<span class="nt">&lt;/rootpw&gt;</span>
+  <span class="nt">&lt;/os&gt;</span>
+  <span class="nt">&lt;description&gt;</span>CentOS 6.4 x86_64<span class="nt">&lt;/description&gt;</span>
+  <span class="nt">&lt;repositories&gt;</span>
+    <span class="nt">&lt;repository</span> <span class="na">name=</span><span class="s">&#39;epel-6&#39;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;url&gt;</span>http://download.fedoraproject.org/pub/epel/6/$basearch<span class="nt">&lt;/url&gt;</span>
+      <span class="nt">&lt;signed&gt;</span>no<span class="nt">&lt;/signed&gt;</span>
+    <span class="nt">&lt;/repository&gt;</span>
+  <span class="nt">&lt;/repositories&gt;</span>
+  <span class="nt">&lt;packages&gt;</span>
+    <span class="nt">&lt;package</span> <span class="na">name=</span><span class="s">&#39;epel-release&#39;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;package</span> <span class="na">name=</span><span class="s">&#39;cloud-utils&#39;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;package</span> <span class="na">name=</span><span class="s">&#39;cloud-init&#39;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/packages&gt;</span>
+  <span class="nt">&lt;commands&gt;</span>
+    <span class="nt">&lt;command</span> <span class="na">name=</span><span class="s">&#39;update&#39;</span><span class="nt">&gt;</span>
+yum -y update
+yum clean all
+sed -i &#39;/^HWADDR/d&#39; /etc/sysconfig/network-scripts/ifcfg-eth0
+echo -n &gt; /etc/udev/rules.d/70-persistent-net.rules
+echo -n &gt; /lib/udev/rules.d/75-persistent-net-generator.rules
+    <span class="nt">&lt;/command&gt;</span>
+  <span class="nt">&lt;/commands&gt;</span>
+<span class="nt">&lt;/template&gt;</span>
+</pre></div>
+</div>
+<p>This Oz template specifies where to download the Centos 6.4 install ISO.
+Oz will use the version information to identify which kickstart file to use.
+In this case, it will be <a class="reference external" href="https://github.com/clalancette/oz/blob/master/oz/auto/RHEL6.auto">RHEL6.auto</a>.
+It adds EPEL as a repository and install the <code class="docutils literal"><span class="pre">epel-release</span></code>,
+<code class="docutils literal"><span class="pre">cloud-utils</span></code>, and <code class="docutils literal"><span class="pre">cloud-init</span></code> packages, as specified in the
+<code class="docutils literal"><span class="pre">packages</span></code> section of the file.</p>
+<p>After Oz completes the initial OS install using the kickstart file,
+it customizes the image with an update. It also removes any reference
+to the eth0 device that libvirt creates while Oz does the customizing,
+as specified in the <code class="docutils literal"><span class="pre">command</span></code> section of the XML file.</p>
+<p>To run this:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> oz-install -d3 -u centos64.tdl -x centos64-libvirt.xml
+</pre></div>
+</div>
+<ul class="simple">
+<li>The <code class="docutils literal"><span class="pre">-d3</span></code> flag tells Oz to show status information as it runs.</li>
+<li>The <code class="docutils literal"><span class="pre">-u</span></code> tells Oz to do the customization (install extra packages,
+run the commands) once it does the initial install.</li>
+<li>The <code class="docutils literal"><span class="pre">-x</span></code> flag tells Oz what filename to use to write out
+a libvirt XML file (otherwise it will default to something
+like <code class="docutils literal"><span class="pre">centos64Apr_03_2013-12:39:42</span></code>).</li>
+</ul>
+<p>If you leave out the <code class="docutils literal"><span class="pre">-u</span></code> flag, or you want to edit the file
+to do additional customizations, you can use the <strong class="command">oz-customize</strong>
+command, using the libvirt XML file that <strong class="command">oz-install</strong> creates.
+For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> oz-customize -d3 centos64.tdl centos64-libvirt.xml
+</pre></div>
+</div>
+<p>Oz will invoke libvirt to boot the image inside of KVM,
+then Oz will ssh into the instance and perform the customizations.</p>
+</div>
+<div class="section" id="veewee">
+<h2>VeeWee<a class="headerlink" href="#veewee" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/jedi4ever/veewee">VeeWee</a> is often used
+to build <a class="reference external" href="http://vagrantup.com/">Vagrant</a> boxes,
+but it can also be used to build the KVM images.</p>
+</div>
+<div class="section" id="packer">
+<h2>Packer<a class="headerlink" href="#packer" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://packer.io/">Packer</a> is a tool for creating machine
+images for multiple platforms from a single source configuration.</p>
+</div>
+<div class="section" id="image-bootstrap">
+<h2>image-bootstrap<a class="headerlink" href="#image-bootstrap" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://github.com/hartwork/image-bootstrap">image-bootstrap</a>
+is a command line tool that generates bootable virtual machine images
+with support of Arch, Debian, Gentoo, Ubuntu, and is prepared for use
+with OpenStack.</p>
+</div>
+<div class="section" id="imagefactory">
+<h2>imagefactory<a class="headerlink" href="#imagefactory" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://imgfac.org/">imagefactory</a> is a newer tool designed
+to automate the building, converting, and uploading images
+to different cloud providers. It uses Oz as its back-end and
+includes support for OpenStack-based clouds.</p>
+</div>
+<div class="section" id="kiwi">
+<h2>KIWI<a class="headerlink" href="#kiwi" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="http://github.com/openSUSE/kiwi">KIWI OS image builder</a>
+provides an operating system image builder for various Linux supported
+hardware platforms as well as for virtualization and cloud systems. It
+allows building of images based on openSUSE, SUSE Linux Enterprise,
+and Red Hat Enterprise Linux. The <a class="reference external" href="https://doc.opensuse.org/#kiwi-doc">openSUSE Documentation</a> explains how to use KIWI.</p>
+</div>
+<div class="section" id="suse-studio">
+<h2>SUSE Studio<a class="headerlink" href="#suse-studio" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://susestudio.com/">SUSE Studio</a> is a web application
+for building and testing software applications in a web browser.
+It supports the creation of physical, virtual or cloud-based
+applications and includes support for building images for OpenStack
+based clouds using SUSE Linux Enterprise and openSUSE as distributions.</p>
+</div>
+<div class="section" id="virt-builder">
+<h2>virt-builder<a class="headerlink" href="#virt-builder" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://libguestfs.org/virt-builder.1.html">Virt-builder</a> is a tool for
+quickly building new virtual machines. You can build a variety of VMs for
+local or cloud use, usually within a few minutes or less. Virt-builder also
+has many ways to customize these VMs. Everything is run from the command line
+and nothing requires root privileges, so automation and scripting is simple.</p>
+<p>To build an image, call the following script:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> virt-builder fedora-23 -o image.qcow2 --format qcow2 <span class="se">\</span>
+<span class="go">  --update --selinux-relabel --size 20G</span>
+</pre></div>
+</div>
+<p>To list the operating systems available to install:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> virt-builder --list
+</pre></div>
+</div>
+<p>To import it into libvirt with <strong class="command">virsh</strong>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> virt-install --name fedora --ram <span class="m">2048</span> <span class="se">\</span>
+<span class="go">  --disk path=image.qcow2,format=qcow2 --import</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="freebsd-image.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Example: FreeBSD image"></i></a>
+          
+          
+            <a href="convert-images.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Converting between image formats"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="obtain-images.html">Get images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openstack-images.html">Image requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modify-images.html">Modify images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create-images-manually.html">Create images manually</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tool support for image creation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#diskimage-builder">Diskimage-builder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#oz">Oz</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#veewee">VeeWee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#packer">Packer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#image-bootstrap">image-bootstrap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#imagefactory">imagefactory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kiwi">KIWI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#suse-studio">SUSE Studio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#virt-builder">virt-builder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="convert-images.html">Converting between image formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="share-images.html">Image sharing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "create-images-automatically" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/image-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Tool support for image creation in Virtual Machine Image Guide";
+    var fieldTags = "image-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/image-guide/create-images-automatically.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 11:18:19 GMT -->
+</html>

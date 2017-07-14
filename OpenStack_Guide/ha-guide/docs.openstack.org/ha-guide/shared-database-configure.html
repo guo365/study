@@ -1,0 +1,685 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/ha-guide/shared-database-configure.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:36:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Configuration</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Configuration</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="shared-database.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Database (Galera Cluster) for high availability"></i></a>
+    
+    
+    <a href="shared-database-manage.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Management"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Configuration</a><ul>
+<li><a class="reference internal" href="#configuring-the-server">Configuring the server</a><ul>
+<li><a class="reference internal" href="#firewall">Firewall</a></li>
+<li><a class="reference internal" href="#selinux">SELinux</a></li>
+<li><a class="reference internal" href="#apparmor">AppArmor</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#database-configuration">Database configuration</a><ul>
+<li><a class="reference internal" href="#configuring-mysqld">Configuring mysqld</a></li>
+<li><a class="reference internal" href="#configuring-innodb">Configuring InnoDB</a></li>
+<li><a class="reference internal" href="#configuring-wsrep-replication">Configuring wsrep replication</a><ul>
+<li><a class="reference internal" href="#additional-parameters">Additional parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<p>Before you launch Galera Cluster, you need to configure the server
+and the database to operate as part of the cluster.</p>
+<div class="section" id="configuring-the-server">
+<h2>Configuring the server<a class="headerlink" href="#configuring-the-server" title="Permalink to this headline">¶</a></h2>
+<p>Certain services running on the underlying operating system of your
+OpenStack database may block Galera Cluster from normal operation
+or prevent <code class="docutils literal"><span class="pre">mysqld</span></code> from achieving network connectivity with the cluster.</p>
+<div class="section" id="firewall">
+<h3>Firewall<a class="headerlink" href="#firewall" title="Permalink to this headline">¶</a></h3>
+<p>Galera Cluster requires that you open the following ports to network traffic:</p>
+<ul class="simple">
+<li>On <code class="docutils literal"><span class="pre">3306</span></code>, Galera Cluster uses TCP for database client connections
+and State Snapshot Transfers methods that require the client,
+(that is, <code class="docutils literal"><span class="pre">mysqldump</span></code>).</li>
+<li>On <code class="docutils literal"><span class="pre">4567</span></code>, Galera Cluster uses TCP for replication traffic. Multicast
+replication uses both TCP and UDP on this port.</li>
+<li>On <code class="docutils literal"><span class="pre">4568</span></code>, Galera Cluster uses TCP for Incremental State Transfers.</li>
+<li>On <code class="docutils literal"><span class="pre">4444</span></code>, Galera Cluster uses TCP for all other State Snapshot Transfer
+methods.</li>
+</ul>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<p class="last">For more information on firewalls, see <a class="reference external" href="http://docs.openstack.org/newton/config-reference/firewalls-default-ports.html">Firewalls and default ports</a>
+in the Configuration Reference.</p>
+</div>
+<p>This can be achieved using the <strong class="command">iptables</strong> command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> iptables --append INPUT --in-interface eth0 <span class="se">\</span>
+<span class="go">  --protocol tcp --match tcp --dport ${PORT} \</span>
+<span class="go">  --source ${NODE-IP-ADDRESS} --jump ACCEPT</span>
+</pre></div>
+</div>
+<p>Make sure to save the changes once you are done. This will vary
+depending on your distribution:</p>
+<ul class="simple">
+<li>For <a class="reference external" href="http://askubuntu.com/questions/66890/how-can-i-make-a-specific-set-of-iptables-rules-permanent#66905">Ubuntu</a></li>
+<li>For <a class="reference external" href="https://fedoraproject.org/wiki/How_to_edit_iptables_rules">Fedora</a></li>
+</ul>
+<p>Alternatively, make modifications using the <code class="docutils literal"><span class="pre">firewall-cmd</span></code> utility for
+FirewallD that is available on many Linux distributions:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> firewall-cmd --add-service<span class="o">=</span>mysql --permanent
+<span class="gp">#</span> firewall-cmd --add-port<span class="o">=</span>3306/tcp --permanent
+</pre></div>
+</div>
+</div>
+<div class="section" id="selinux">
+<h3>SELinux<a class="headerlink" href="#selinux" title="Permalink to this headline">¶</a></h3>
+<p>Security-Enhanced Linux is a kernel module for improving security on Linux
+operating systems. It is commonly enabled and configured by default on
+Red Hat-based distributions. In the context of Galera Cluster, systems with
+SELinux may block the database service, keep it from starting, or prevent it
+from establishing network connections with the cluster.</p>
+<p>To configure SELinux to permit Galera Cluster to operate, you may need
+to use the <code class="docutils literal"><span class="pre">semanage</span></code> utility to open the ports it uses. For
+example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> semanage port -a -t mysqld_port_t -p tcp 3306
+</pre></div>
+</div>
+<p>Older versions of some distributions, which do not have an up-to-date
+policy for securing Galera, may also require SELinux to be more
+relaxed about database access and actions:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> semanage permissive -a mysqld_t
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Bear in mind, leaving SELinux in permissive mode is not a good
+security practice. Over the longer term, you need to develop a
+security policy for Galera Cluster and then switch SELinux back
+into enforcing mode.</p>
+<blockquote class="last">
+<div>For more information on configuring SELinux to work with
+Galera Cluster, see the <a class="reference external" href="http://galeracluster.com/documentation-webpages/selinux.html">SELinux Documentation</a></div></blockquote>
+</div>
+</div>
+<div class="section" id="apparmor">
+<h3>AppArmor<a class="headerlink" href="#apparmor" title="Permalink to this headline">¶</a></h3>
+<p>Application Armor is a kernel module for improving security on Linux
+operating systems. It is developed by Canonical and commonly used on
+Ubuntu-based distributions. In the context of Galera Cluster, systems
+with AppArmor may block the database service from operating normally.</p>
+<p>To configure AppArmor to work with Galera Cluster, complete the
+following steps on each cluster node:</p>
+<ol class="arabic">
+<li><p class="first">Create a symbolic link for the database server in the <code class="docutils literal"><span class="pre">disable</span></code> directory:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> ln -s /etc/apparmor.d/usr /etc/apparmor.d/disable/.sbin.mysqld
+</pre></div>
+</div>
+</li>
+<li><p class="first">Restart AppArmor. For servers that use <code class="docutils literal"><span class="pre">init</span></code>, run the following command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> service apparmor restart
+</pre></div>
+</div>
+<p>For servers that use <code class="docutils literal"><span class="pre">systemd</span></code>, run the following command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> systemctl restart apparmor
+</pre></div>
+</div>
+</li>
+</ol>
+<p>AppArmor now permits Galera Cluster to operate.</p>
+</div>
+</div>
+<div class="section" id="database-configuration">
+<h2>Database configuration<a class="headerlink" href="#database-configuration" title="Permalink to this headline">¶</a></h2>
+<p>MySQL databases, including MariaDB and Percona XtraDB, manage their
+configurations using a <code class="docutils literal"><span class="pre">my.cnf</span></code> file, which is typically located in the
+<code class="docutils literal"><span class="pre">/etc</span></code> directory. Configuration options available in these databases are
+also available in Galera Cluster, with some restrictions and several
+additions.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[mysqld]</span>
+<span class="na">datadir</span><span class="o">=</span><span class="s">/var/lib/mysql</span>
+<span class="na">socket</span><span class="o">=</span><span class="s">/var/lib/mysql/mysql.sock</span>
+<span class="na">user</span><span class="o">=</span><span class="s">mysql</span>
+<span class="na">binlog_format</span><span class="o">=</span><span class="s">ROW</span>
+<span class="na">bind-address</span><span class="o">=</span><span class="s">10.0.0.12</span>
+
+<span class="c1"># InnoDB Configuration</span>
+<span class="na">default_storage_engine</span><span class="o">=</span><span class="s">innodb</span>
+<span class="na">innodb_autoinc_lock_mode</span><span class="o">=</span><span class="s">2</span>
+<span class="na">innodb_flush_log_at_trx_commit</span><span class="o">=</span><span class="s">0</span>
+<span class="na">innodb_buffer_pool_size</span><span class="o">=</span><span class="s">122M</span>
+
+<span class="c1"># Galera Cluster Configuration</span>
+<span class="na">wsrep_provider</span><span class="o">=</span><span class="s">/usr/lib/libgalera_smm.so</span>
+<span class="na">wsrep_provider_options</span><span class="o">=</span><span class="s">&quot;pc.recovery=TRUE;gcache.size=300M&quot;</span>
+<span class="na">wsrep_cluster_name</span><span class="o">=</span><span class="s">&quot;my_example_cluster&quot;</span>
+<span class="na">wsrep_cluster_address</span><span class="o">=</span><span class="s">&quot;gcomm://GALERA1-IP,GALERA2-IP,GALERA3-IP&quot;</span>
+<span class="na">wsrep_sst_method</span><span class="o">=</span><span class="s">rsync</span>
+</pre></div>
+</div>
+<div class="section" id="configuring-mysqld">
+<h3>Configuring mysqld<a class="headerlink" href="#configuring-mysqld" title="Permalink to this headline">¶</a></h3>
+<p>While all of the configuration parameters available to the standard MySQL,
+MariaDB, or Percona XtraDB database servers are available in Galera Cluster,
+there are some that you must define an outset to avoid conflict or
+unexpected behavior.</p>
+<ul>
+<li><p class="first">Ensure that the database server is not bound only to the localhost:
+<code class="docutils literal"><span class="pre">127.0.0.1</span></code>. Also, do not bind it to <code class="docutils literal"><span class="pre">0.0.0.0</span></code>. Binding to the localhost
+or <code class="docutils literal"><span class="pre">0.0.0.0</span></code> makes <code class="docutils literal"><span class="pre">mySQL</span></code> bind to all IP addresses on the machine,
+including the virtual IP address causing <code class="docutils literal"><span class="pre">HAProxy</span></code> not to start. Instead,
+bind to the management IP address of the controller node to enable access by
+other nodes through the management network:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">bind-address</span><span class="o">=</span><span class="s">10.0.0.12</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Ensure that the binary log format is set to use row-level replication,
+as opposed to statement-level replication:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">binlog_format</span><span class="o">=</span><span class="s">ROW</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="configuring-innodb">
+<h3>Configuring InnoDB<a class="headerlink" href="#configuring-innodb" title="Permalink to this headline">¶</a></h3>
+<p>Galera Cluster does not support non-transactional storage engines and
+requires that you use InnoDB by default. There are some additional
+parameters that you must define to avoid conflicts.</p>
+<ul>
+<li><p class="first">Ensure that the default storage engine is set to InnoDB:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">default_storage_engine</span><span class="o">=</span><span class="s">InnoDB</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Ensure that the InnoDB locking mode for generating auto-increment values
+is set to <code class="docutils literal"><span class="pre">2</span></code>, which is the interleaved locking mode:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">innodb_autoinc_lock_mode</span><span class="o">=</span><span class="s">2</span>
+</pre></div>
+</div>
+<p>Do not change this value. Other modes may cause <code class="docutils literal"><span class="pre">INSERT</span></code> statements
+on tables with auto-increment columns to fail as well as unresolved
+deadlocks that leave the system unresponsive.</p>
+</li>
+<li><p class="first">Ensure that the InnoDB log buffer is written to file once per second,
+rather than on each commit, to improve performance:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">innodb_flush_log_at_trx_commit</span><span class="o">=</span><span class="s">0</span>
+</pre></div>
+</div>
+<p>Setting this parameter to <code class="docutils literal"><span class="pre">1</span></code> or <code class="docutils literal"><span class="pre">2</span></code> can improve
+performance, but it introduces certain dangers. Operating system failures can
+erase the last second of transactions. While you can recover this data
+from another node, if the cluster goes down at the same time
+(in the event of a data center power outage), you lose this data permanently.</p>
+</li>
+<li><p class="first">Define the InnoDB memory buffer pool size. The default value is 128 MB,
+but to compensate for Galera Cluster&#8217;s additional memory usage, scale
+your usual value back by 5%:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">innodb_buffer_pool_size</span><span class="o">=</span><span class="s">122M</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="configuring-wsrep-replication">
+<h3>Configuring wsrep replication<a class="headerlink" href="#configuring-wsrep-replication" title="Permalink to this headline">¶</a></h3>
+<p>Galera Cluster configuration parameters all have the <code class="docutils literal"><span class="pre">wsrep_</span></code> prefix.
+You must define the following parameters for each cluster node in your
+OpenStack database.</p>
+<ul>
+<li><p class="first"><strong>wsrep Provider</strong>: The Galera Replication Plugin serves as the <code class="docutils literal"><span class="pre">wsrep</span></code>
+provider for Galera Cluster. It is installed on your system as the
+<code class="docutils literal"><span class="pre">libgalera_smm.so</span></code> file. Define the path to this file in
+your <code class="docutils literal"><span class="pre">my.cnf</span></code>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">wsrep_provider</span><span class="o">=</span><span class="s">&quot;/usr/lib/libgalera_smm.so&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Cluster Name</strong>: Define an arbitrary name for your cluster.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">wsrep_cluster_name</span><span class="o">=</span><span class="s">&quot;my_example_cluster&quot;</span>
+</pre></div>
+</div>
+<p>You must use the same name on every cluster node. The connection fails
+when this value does not match.</p>
+</li>
+<li><p class="first"><strong>Cluster Address</strong>: List the IP addresses for each cluster node.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">wsrep_cluster_address</span><span class="o">=</span><span class="s">&quot;gcomm://192.168.1.1,192.168.1.2,192.168.1.3&quot;</span>
+</pre></div>
+</div>
+<p>Replace the IP addresses given here with comma-separated list of each
+OpenStack database in your cluster.</p>
+</li>
+<li><p class="first"><strong>Node Name</strong>: Define the logical name of the cluster node.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">wsrep_node_name</span><span class="o">=</span><span class="s">&quot;Galera1&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>Node Address</strong>: Define the IP address of the cluster node.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">wsrep_node_address</span><span class="o">=</span><span class="s">&quot;192.168.1.1&quot;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="section" id="additional-parameters">
+<h4>Additional parameters<a class="headerlink" href="#additional-parameters" title="Permalink to this headline">¶</a></h4>
+<p>For a complete list of the available parameters, run the
+<code class="docutils literal"><span class="pre">SHOW</span> <span class="pre">VARIABLES</span></code> command from within the database client:</p>
+<div class="highlight-mysql"><div class="highlight"><pre><span></span><span class="k">SHOW</span> <span class="n">VARIABLES</span> <span class="k">LIKE</span> <span class="s1">&#39;wsrep_%&#39;</span><span class="p">;</span>
+
+<span class="o">+------------------------------+-------+</span>
+<span class="o">|</span> <span class="n">Variable_name</span>                <span class="o">|</span> <span class="n">Value</span> <span class="o">|</span>
+<span class="o">+------------------------------+-------+</span>
+<span class="o">|</span> <span class="n">wsrep_auto_increment_control</span> <span class="o">|</span> <span class="k">ON</span>    <span class="o">|</span>
+<span class="o">+------------------------------+-------+</span>
+<span class="o">|</span> <span class="n">wsrep_causal_reads</span>           <span class="o">|</span> <span class="n">OFF</span>   <span class="o">|</span>
+<span class="o">+------------------------------+-------+</span>
+<span class="o">|</span> <span class="n">wsrep_certify_nonPK</span>          <span class="o">|</span> <span class="k">ON</span>    <span class="o">|</span>
+<span class="o">+------------------------------+-------+</span>
+<span class="o">|</span> <span class="p">...</span>                          <span class="o">|</span> <span class="p">...</span>   <span class="o">|</span>
+<span class="o">+------------------------------+-------+</span>
+<span class="o">|</span> <span class="n">wsrep_sync_wait</span>              <span class="o">|</span> <span class="mi">0</span>     <span class="o">|</span>
+<span class="o">+------------------------------+-------+</span>
+</pre></div>
+</div>
+<p>For documentation about these parameters, <code class="docutils literal"><span class="pre">wsrep</span></code> provider option, and status
+variables available in Galera Cluster, see the Galera cluster <a class="reference external" href="http://galeracluster.com/documentation-webpages/reference.html">Reference</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="shared-database.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Database (Galera Cluster) for high availability"></i></a>
+          
+          
+            <a href="shared-database-manage.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Management"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro-ha.html">Introduction to OpenStack high availability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="environment.html">Configuring the basic environment</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="shared-services.html">Configuring the shared services</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="shared-database.html">Database (Galera Cluster) for high availability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shared-messaging.html">Messaging service for high availability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="controller-ha.html">Configuring the controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking-ha.html">Configuring the networking services</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage-ha.html">Configuring storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute-node-ha.html">Configuring the compute node</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ha-community.html">HA community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "shared-database-configure" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/ha-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Configuration in High Availability Guide";
+    var fieldTags = "ha-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/ha-guide/shared-database-configure.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:36:56 GMT -->
+</html>

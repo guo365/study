@@ -1,0 +1,1040 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/common/cli-manage-volumes.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:46:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Manage volumes</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Manage volumes</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="cli-manage-images.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Manage images"></i></a>
+    
+    
+    <a href="../cli-manage-shares.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Manage shares"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Manage volumes</a><ul>
+<li><a class="reference internal" href="#migrate-a-volume">Migrate a volume</a></li>
+<li><a class="reference internal" href="#create-a-volume">Create a volume</a></li>
+<li><a class="reference internal" href="#create-a-volume-from-specified-volume-type">Create a volume from specified volume type</a><ul>
+<li><a class="reference internal" href="#volume-type">volume_type</a></li>
+<li><a class="reference internal" href="#cinder-img-volume-type">cinder_img_volume_type</a></li>
+<li><a class="reference internal" href="#default-volume-type">default_volume_type</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#attach-a-volume-to-an-instance">Attach a volume to an instance</a></li>
+<li><a class="reference internal" href="#resize-a-volume">Resize a volume</a></li>
+<li><a class="reference internal" href="#delete-a-volume">Delete a volume</a></li>
+<li><a class="reference internal" href="#transfer-a-volume">Transfer a volume</a><ul>
+<li><a class="reference internal" href="#create-a-volume-transfer-request">Create a volume transfer request</a></li>
+<li><a class="reference internal" href="#accept-a-volume-transfer-request">Accept a volume transfer request</a></li>
+<li><a class="reference internal" href="#delete-a-volume-transfer">Delete a volume transfer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#manage-and-unmanage-a-snapshot">Manage and unmanage a snapshot</a><ul>
+<li><a class="reference internal" href="#manage-a-snapshot">Manage a snapshot</a></li>
+<li><a class="reference internal" href="#unmanage-a-snapshot">Unmanage a snapshot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="manage-volumes">
+<span id="volume"></span><h1>Manage volumes<a class="headerlink" href="#manage-volumes" title="Permalink to this headline">¶</a></h1>
+<p>A volume is a detachable block storage device, similar to a USB hard
+drive. You can attach a volume to only one instance. Use  the <code class="docutils literal"><span class="pre">openstack</span></code>
+client commands to create and manage volumes.</p>
+<div class="section" id="migrate-a-volume">
+<h2>Migrate a volume<a class="headerlink" href="#migrate-a-volume" title="Permalink to this headline">¶</a></h2>
+<p>As an administrator, you can migrate a volume with its data from one
+location to another in a manner that is transparent to users and
+workloads. You can migrate only detached volumes with no snapshots.</p>
+<p>Possible use cases for data migration include:</p>
+<ul class="simple">
+<li>Bring down a physical storage device for maintenance without
+disrupting workloads.</li>
+<li>Modify the properties of a volume.</li>
+<li>Free up space in a thinly-provisioned back end.</li>
+</ul>
+<p>Migrate a volume with the <strong class="command">cinder migrate</strong> command, as shown in the
+following example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder migrate --force-host-copy &lt;True<span class="p">|</span>False&gt;
+<span class="go">                 --lock-volume &lt;True|False&gt;</span>
+<span class="go">                 &lt;volume&gt; &lt;host&gt;</span>
+</pre></div>
+</div>
+<p>In this example, <code class="xref std std-option docutils literal"><span class="pre">--force-host-copy</span> <span class="pre">True</span></code> forces the generic
+host-based migration mechanism and bypasses any driver optimizations.
+<code class="xref std std-option docutils literal"><span class="pre">--lock-volume</span></code> applies to the available volume.
+To determine whether the termination of volume migration caused by other
+commands. <code class="docutils literal"><span class="pre">True</span></code>  locks the volume state and does not allow the
+migration to be aborted.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the volume has snapshots, the specified host destination cannot accept
+the volume. If the user is not an administrator, the migration fails.</p>
+</div>
+</div>
+<div class="section" id="create-a-volume">
+<h2>Create a volume<a class="headerlink" href="#create-a-volume" title="Permalink to this headline">¶</a></h2>
+<p>This example creates a <code class="docutils literal"><span class="pre">my-new-volume</span></code> volume based on an image.</p>
+<ol class="arabic">
+<li><p class="first">List images, and note the ID of the image that you want to use for your
+volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image list
+<span class="go">+--------------------------------------+---------------------------------+</span>
+<span class="go">| ID                                   | Name                            |</span>
+<span class="go">+--------------------------------------+---------------------------------+</span>
+<span class="go">| 8bf4dc2a-bf78-4dd1-aefa-f3347cf638c8 | cirros-0.3.4-x86_64-uec         |</span>
+<span class="go">| 9ff9bb2e-3a1d-4d98-acb5-b1d3225aca6c | cirros-0.3.4-x86_64-uec-kernel  |</span>
+<span class="go">| 4b227119-68a1-4b28-8505-f94c6ea4c6dc | cirros-0.3.4-x86_64-uec-ramdisk |</span>
+<span class="go">+--------------------------------------+---------------------------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">List the availability zones, and note the ID of the availability zone in
+which you want to create your volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack availability zone list
+<span class="go">+------+-----------+</span>
+<span class="go">| Name |   Status  |</span>
+<span class="go">+------+-----------+</span>
+<span class="go">| nova | available |</span>
+<span class="go">+------+-----------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a volume with 8 gibibytes (GiB) of space, and specify the
+availability zone and image:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume create --image 8bf4dc2a-bf78-4dd1-aefa-f3347cf638c8 <span class="se">\</span>
+<span class="go">  --size 8 --availability-zone nova my-new-volume</span>
+
+<span class="go">+------------------------------+--------------------------------------+</span>
+<span class="go">| Property                     | Value                                |</span>
+<span class="go">+------------------------------+--------------------------------------+</span>
+<span class="go">| attachments                  | []                                   |</span>
+<span class="go">| availability_zone            | nova                                 |</span>
+<span class="go">| bootable                     | false                                |</span>
+<span class="go">| consistencygroup_id          | None                                 |</span>
+<span class="go">| created_at                   | 2016-09-23T07:52:42.000000           |</span>
+<span class="go">| description                  | None                                 |</span>
+<span class="go">| encrypted                    | False                                |</span>
+<span class="go">| id                           | bab4b0e0-ce3d-4d57-bf57-3c51319f5202 |</span>
+<span class="go">| metadata                     | {}                                   |</span>
+<span class="go">| multiattach                  | False                                |</span>
+<span class="go">| name                         | my-new-volume                        |</span>
+<span class="go">| os-vol-tenant-attr:tenant_id | 3f670abbe9b34ca5b81db6e7b540b8d8     |</span>
+<span class="go">| replication_status           | disabled                             |</span>
+<span class="go">| size                         | 8                                    |</span>
+<span class="go">| snapshot_id                  | None                                 |</span>
+<span class="go">| source_volid                 | None                                 |</span>
+<span class="go">| status                       | creating                             |</span>
+<span class="go">| updated_at                   | None                                 |</span>
+<span class="go">| user_id                      | fe19e3a9f63f4a14bd4697789247bbc5     |</span>
+<span class="go">| volume_type                  | lvmdriver-1                          |</span>
+<span class="go">+------------------------------+--------------------------------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">To verify that your volume was created successfully, list the available
+volumes:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume list
+<span class="go">+--------------------------------------+---------------+-----------+------+-------------+</span>
+<span class="go">| ID                                   | DisplayName   |  Status   | Size | Attached to |</span>
+<span class="go">+--------------------------------------+---------------+-----------+------+-------------+</span>
+<span class="go">| bab4b0e0-ce3d-4d57-bf57-3c51319f5202 | my-new-volume | available | 8    |             |</span>
+<span class="go">+--------------------------------------+---------------+-----------+------+-------------+</span>
+</pre></div>
+</div>
+<p>If your volume was created successfully, its status is <code class="docutils literal"><span class="pre">available</span></code>. If
+its status is <code class="docutils literal"><span class="pre">error</span></code>, you might have exceeded your quota.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="create-a-volume-from-specified-volume-type">
+<span id="id1"></span><h2>Create a volume from specified volume type<a class="headerlink" href="#create-a-volume-from-specified-volume-type" title="Permalink to this headline">¶</a></h2>
+<p>Cinder supports these three ways to specify <code class="docutils literal"><span class="pre">volume</span> <span class="pre">type</span></code> during
+volume creation.</p>
+<ol class="arabic simple">
+<li>volume_type</li>
+<li>cinder_img_volume_type (via glance image metadata)</li>
+<li>default_volume_type (via cinder.conf)</li>
+</ol>
+<div class="section" id="volume-type">
+<span id="id2"></span><h3>volume_type<a class="headerlink" href="#volume-type" title="Permalink to this headline">¶</a></h3>
+<p>User can specify <cite>volume type</cite> when creating a volume.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume create -h -f <span class="o">{</span>json,shell,table,value,yaml<span class="o">}</span>
+<span class="go">                         -c COLUMN --max-width &lt;integer&gt;</span>
+<span class="go">                         --noindent --prefix PREFIX --size &lt;size&gt;</span>
+<span class="go">                         --type &lt;volume-type&gt; --image &lt;image&gt;</span>
+<span class="go">                         --snapshot &lt;snapshot&gt; --source &lt;volume&gt;</span>
+<span class="go">                         --description &lt;description&gt; --user &lt;user&gt;</span>
+<span class="go">                         --project &lt;project&gt;</span>
+<span class="go">                         --availability-zone &lt;availability-zone&gt;</span>
+<span class="go">                         --property &lt;key=value&gt;</span>
+<span class="go">                         &lt;name&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="cinder-img-volume-type">
+<span id="id3"></span><h3>cinder_img_volume_type<a class="headerlink" href="#cinder-img-volume-type" title="Permalink to this headline">¶</a></h3>
+<p>If glance image has <code class="docutils literal"><span class="pre">cinder_img_volume_type</span></code> property, Cinder uses this
+parameter to specify <code class="docutils literal"><span class="pre">volume</span> <span class="pre">type</span></code> when creating a volume.</p>
+<p>Choose glance image which has <code class="docutils literal"><span class="pre">cinder_img_volume_type</span></code> property and create
+a volume from the image.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image list
+<span class="go">+----------------------------------+---------------------------------+--------+</span>
+<span class="go">| ID                               | Name                            | Status |</span>
+<span class="go">+----------------------------------+---------------------------------+--------+</span>
+<span class="go">| 376bd633-c9c9-4c5d-a588-342f4f66 | cirros-0.3.4-x86_64-uec         | active |</span>
+<span class="go">| d086                             |                                 |        |</span>
+<span class="go">| 2c20fce7-2e68-45ee-ba8d-         | cirros-0.3.4-x86_64-uec-ramdisk | active |</span>
+<span class="go">| beba27a91ab5                     |                                 |        |</span>
+<span class="go">| a5752de4-9faf-4c47-acbc-         | cirros-0.3.4-x86_64-uec-kernel  | active |</span>
+<span class="go">| 78a5efa7cc6e                     |                                 |        |</span>
+<span class="go">+----------------------------------+---------------------------------+--------+</span>
+
+
+<span class="gp">$</span> openstack image show 376bd633-c9c9-4c5d-a588-342f4f66d086
+<span class="go">+------------------+-----------------------------------------------------------+</span>
+<span class="go">| Field            | Value                                                     |</span>
+<span class="go">+------------------+-----------------------------------------------------------+</span>
+<span class="go">| checksum         | eb9139e4942121f22bbc2afc0400b2a4                          |</span>
+<span class="go">| container_format | ami                                                       |</span>
+<span class="go">| created_at       | 2016-10-13T03:28:55Z                                      |</span>
+<span class="go">| disk_format      | ami                                                       |</span>
+<span class="go">| file             | /v2/images/376bd633-c9c9-4c5d-a588-342f4f66d086/file      |</span>
+<span class="go">| id               | 376bd633-c9c9-4c5d-a588-342f4f66d086                      |</span>
+<span class="go">| min_disk         | 0                                                         |</span>
+<span class="go">| min_ram          | 0                                                         |</span>
+<span class="go">| name             | cirros-0.3.4-x86_64-uec                                   |</span>
+<span class="go">| owner            | 88ba456e3a884c318394737765e0ef4d                          |</span>
+<span class="go">| properties       | kernel_id=&#39;a5752de4-9faf-4c47-acbc-78a5efa7cc6e&#39;,         |</span>
+<span class="go">|                  | ramdisk_id=&#39;2c20fce7-2e68-45ee-ba8d-beba27a91ab5&#39;         |</span>
+<span class="go">| protected        | False                                                     |</span>
+<span class="go">| schema           | /v2/schemas/image                                         |</span>
+<span class="go">| size             | 25165824                                                  |</span>
+<span class="go">| status           | active                                                    |</span>
+<span class="go">| tags             |                                                           |</span>
+<span class="go">| updated_at       | 2016-10-13T03:28:55Z                                      |</span>
+<span class="go">| virtual_size     | None                                                      |</span>
+<span class="go">| visibility       | public                                                    |</span>
+<span class="go">+------------------+-----------------------------------------------------------+</span>
+
+<span class="gp">$</span> openstack volume create --image 376bd633-c9c9-4c5d-a588-342f4f66d086 <span class="se">\</span>
+<span class="go">  --size 1 --availability-zone nova test</span>
+<span class="go">+---------------------+--------------------------------------+</span>
+<span class="go">| Field               | Value                                |</span>
+<span class="go">+---------------------+--------------------------------------+</span>
+<span class="go">| attachments         | []                                   |</span>
+<span class="go">| availability_zone   | nova                                 |</span>
+<span class="go">| bootable            | false                                |</span>
+<span class="go">| consistencygroup_id | None                                 |</span>
+<span class="go">| created_at          | 2016-10-13T06:29:53.688599           |</span>
+<span class="go">| description         | None                                 |</span>
+<span class="go">| encrypted           | False                                |</span>
+<span class="go">| id                  | e6e6a72d-cda7-442c-830f-f306ea6a03d5 |</span>
+<span class="go">| multiattach         | False                                |</span>
+<span class="go">| name                | test                                 |</span>
+<span class="go">| properties          |                                      |</span>
+<span class="go">| replication_status  | disabled                             |</span>
+<span class="go">| size                | 1                                    |</span>
+<span class="go">| snapshot_id         | None                                 |</span>
+<span class="go">| source_volid        | None                                 |</span>
+<span class="go">| status              | creating                             |</span>
+<span class="go">| type                | lvmdriver-1                          |</span>
+<span class="go">| updated_at          | None                                 |</span>
+<span class="go">| user_id             | 33fdc37314914796883706b33e587d51     |</span>
+<span class="go">+---------------------+--------------------------------------+</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="default-volume-type">
+<span id="id4"></span><h3>default_volume_type<a class="headerlink" href="#default-volume-type" title="Permalink to this headline">¶</a></h3>
+<p>If above parameters are not set, Cinder uses default_volume_type which is
+defined in cinder.conf during volume creation.</p>
+<p>Example cinder.conf file configuration.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">[default]</span>
+<span class="go">default_volume_type = lvmdriver-1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="attach-a-volume-to-an-instance">
+<span id="id5"></span><h2>Attach a volume to an instance<a class="headerlink" href="#attach-a-volume-to-an-instance" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Attach your volume to a server, specifying the server ID and the volume
+ID:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack server add volume 84c6e57d-a6b1-44b6-81eb-fcb36afd31b5 <span class="se">\</span>
+<span class="go">  573e024d-5235-49ce-8332-be1576d323f8 --device /dev/vdb</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Show information for your volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume show 573e024d-5235-49ce-8332-be1576d323f8
+</pre></div>
+</div>
+<p>The output shows that the volume is attached to the server with ID
+<code class="docutils literal"><span class="pre">84c6e57d-a6b1-44b6-81eb-fcb36afd31b5</span></code>, is in the nova availability
+zone, and is bootable.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">+------------------------------+-----------------------------------------------+</span>
+<span class="go">| Field                        | Value                                         |</span>
+<span class="go">+------------------------------+-----------------------------------------------+</span>
+<span class="go">| attachments                  | [{u&#39;device&#39;: u&#39;/dev/vdb&#39;,                     |</span>
+<span class="go">|                              |        u&#39;server_id&#39;: u&#39;84c6e57d-a             |</span>
+<span class="go">|                              |           u&#39;id&#39;: u&#39;573e024d-...               |</span>
+<span class="go">|                              |        u&#39;volume_id&#39;: u&#39;573e024d...            |</span>
+<span class="go">| availability_zone            | nova                                          |</span>
+<span class="go">| bootable                     | true                                          |</span>
+<span class="go">| consistencygroup_id          | None                                          |</span>
+<span class="go">| created_at                   | 2016-10-13T06:08:07.000000                    |</span>
+<span class="go">| description                  | None                                          |</span>
+<span class="go">| encrypted                    | False                                         |</span>
+<span class="go">| id                           | 573e024d-5235-49ce-8332-be1576d323f8          |</span>
+<span class="go">| multiattach                  | False                                         |</span>
+<span class="go">| name                         | my-new-volume                                 |</span>
+<span class="go">| os-vol-tenant-attr:tenant_id | 7ef070d3fee24bdfae054c17ad742e28              |</span>
+<span class="go">| properties                   |                                               |</span>
+<span class="go">| replication_status           | disabled                                      |</span>
+<span class="go">| size                         | 8                                             |</span>
+<span class="go">| snapshot_id                  | None                                          |</span>
+<span class="go">| source_volid                 | None                                          |</span>
+<span class="go">| status                       | in-use                                        |</span>
+<span class="go">| type                         | lvmdriver-1                                   |</span>
+<span class="go">| updated_at                   | 2016-10-13T06:08:11.000000                    |</span>
+<span class="go">| user_id                      | 33fdc37314914796883706b33e587d51              |</span>
+<span class="go">| volume_image_metadata        |{u&#39;kernel_id&#39;: u&#39;df430cc2...,                  |</span>
+<span class="go">|                              |        u&#39;image_id&#39;: u&#39;397e713c...,            |</span>
+<span class="go">|                              |        u&#39;ramdisk_id&#39;: u&#39;3cf852bd...,          |</span>
+<span class="go">|                              |u&#39;image_name&#39;: u&#39;cirros-0.3.2-x86_64-uec&#39;}     |</span>
+<span class="go">+------------------------------+-----------------------------------------------+</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="resize-a-volume">
+<span id="id6"></span><h2>Resize a volume<a class="headerlink" href="#resize-a-volume" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">To resize your volume, you must first detach it from the server.
+To detach the volume from your server, pass the server ID and volume ID
+to the following command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack server remove volume 84c6e57d-a6b1-44b6-81eb-fcb36afd31b5 573e024d-5235-49ce-8332-be1576d323f8
+</pre></div>
+</div>
+<p>This command does not provide any output.</p>
+</li>
+<li><p class="first">List volumes:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume list
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">|       ID       |   Display Name  |  Status   | Size | Attached to |</span>
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">| 573e024d-52... |  my-new-volume  | available |  8   |             |</span>
+<span class="go">| bd7cf584-45... | my-bootable-vol | available |  8   |             |</span>
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+</pre></div>
+</div>
+<p>Note that the volume is now available.</p>
+</li>
+<li><p class="first">Resize the volume by passing the volume ID and the new size (a value
+greater than the old one) as parameters:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">set</span> 573e024d-5235-49ce-8332-be1576d323f8 --size 10
+</pre></div>
+</div>
+<p>This command does not provide any output.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When extending an LVM volume with a snapshot, the volume will be
+deactivated. The reactivation is automatic unless
+<code class="docutils literal"><span class="pre">auto_activation_volume_list</span></code> is defined in <code class="docutils literal"><span class="pre">lvm.conf</span></code>. See
+<code class="docutils literal"><span class="pre">lvm.conf</span></code> for more information.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="delete-a-volume">
+<h2>Delete a volume<a class="headerlink" href="#delete-a-volume" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">To delete your volume, you must first detach it from the server.
+To detach the volume from your server and check for the list of existing
+volumes, see steps 1 and 2 in <a class="reference internal" href="#resize-a-volume">Resize_a_volume</a>.</p>
+<p>Delete the volume using either the volume name or ID:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume delete my-new-volume
+</pre></div>
+</div>
+<p>This command does not provide any output.</p>
+</li>
+<li><p class="first">List the volumes again, and note that the status of your volume is
+<code class="docutils literal"><span class="pre">deleting</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume list
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">|       ID       |   Display Name  |  Status   | Size | Attached to |</span>
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">| 573e024d-52... |  my-new-volume  |  deleting |  8   |             |</span>
+<span class="go">| bd7cf584-45... | my-bootable-vol | available |  8   |             |</span>
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+</pre></div>
+</div>
+<p>When the volume is fully deleted, it disappears from the list of
+volumes:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume list
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">|       ID       |   Display Name  |  Status   | Size | Attached to |</span>
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">| bd7cf584-45... | my-bootable-vol | available |  8   |             |</span>
+<span class="go">+----------------+-----------------+-----------+------+-------------+</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="transfer-a-volume">
+<h2>Transfer a volume<a class="headerlink" href="#transfer-a-volume" title="Permalink to this headline">¶</a></h2>
+<p>You can transfer a volume from one owner to another by using the
+<strong class="command">openstack volume transfer request create</strong> command. The volume
+donor, or original owner, creates a transfer request and sends the created
+transfer ID and authorization key to the volume recipient. The volume
+recipient, or new owner, accepts the transfer by using the ID and key.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The procedure for volume transfer is intended for tenants (both the
+volume donor and recipient) within the same cloud.</p>
+</div>
+<p>Use cases include:</p>
+<ul class="simple">
+<li>Create a custom bootable volume or a volume with a large data set and
+transfer it to a customer.</li>
+<li>For bulk import of data to the cloud, the data ingress system creates
+a new Block Storage volume, copies data from the physical device, and
+transfers device ownership to the end user.</li>
+</ul>
+<div class="section" id="create-a-volume-transfer-request">
+<h3>Create a volume transfer request<a class="headerlink" href="#create-a-volume-transfer-request" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">While logged in as the volume donor, list the available volumes:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume list
+<span class="go">+-----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">|       ID        |   Display Name  |  Status   | Size | Attached to |</span>
+<span class="go">+-----------------+-----------------+-----------+------+-------------+</span>
+<span class="go">| 72bfce9f-cac... |       None      |   error   |  1   |             |</span>
+<span class="go">| a1cdace0-08e... |       None      | available |  1   |             |</span>
+<span class="go">+-----------------+-----------------+-----------+------+-------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">As the volume donor, request a volume transfer authorization code for a
+specific volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">  $</span> openstack volume transfer request create &lt;volume&gt;
+
+<span class="go">&lt;volume&gt;</span>
+<span class="go">   Name or ID of volume to transfer.</span>
+</pre></div>
+</div>
+<p>The volume must be in an <code class="docutils literal"><span class="pre">available</span></code> state or the request will be
+denied. If the transfer request is valid in the database (that is, it
+has not expired or been deleted), the volume is placed in an
+<code class="docutils literal"><span class="pre">awaiting-transfer</span></code> state. For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request create a1cdace0-08e4-4dc7-b9dc-457e9bcfe25f
+</pre></div>
+</div>
+<p>The output shows the volume transfer ID in the <code class="docutils literal"><span class="pre">id</span></code> row and the
+authorization key.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">+------------+--------------------------------------+</span>
+<span class="go">| Field      | Value                                |</span>
+<span class="go">+------------+--------------------------------------+</span>
+<span class="go">| auth_key   | 0a59e53630f051e2                     |</span>
+<span class="go">| created_at | 2016-11-03T11:49:40.346181           |</span>
+<span class="go">| id         | 34e29364-142b-4c7b-8d98-88f765bf176f |</span>
+<span class="go">| name       | None                                 |</span>
+<span class="go">| volume_id  | a1cdace0-08e4-4dc7-b9dc-457e9bcfe25f |</span>
+<span class="go">+------------+--------------------------------------+</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Optionally, you can specify a name for the transfer by using the
+<code class="docutils literal"><span class="pre">--name</span> <span class="pre">transferName</span></code> parameter.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">While the <code class="docutils literal"><span class="pre">auth_key</span></code> property is visible in the output of
+<code class="docutils literal"><span class="pre">openstack</span> <span class="pre">volume</span> <span class="pre">transfer</span> <span class="pre">request</span> <span class="pre">create</span> <span class="pre">VOLUME_ID</span></code>, it will not be
+available in subsequent <code class="docutils literal"><span class="pre">openstack</span> <span class="pre">volume</span> <span class="pre">transfer</span> <span class="pre">request</span> <span class="pre">show</span> <span class="pre">TRANSFER_ID</span></code>
+command.</p>
+</div>
+</li>
+<li><p class="first">Send the volume transfer ID and authorization key to the new owner (for
+example, by email).</p>
+</li>
+<li><p class="first">View pending transfers:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request list
+<span class="go">+--------------------------------------+--------------------------------------+------+</span>
+<span class="go">|               ID                     |             Volume                   | Name |</span>
+<span class="go">+--------------------------------------+--------------------------------------+------+</span>
+<span class="go">| 6e4e9aa4-bed5-4f94-8f76-df43232f44dc | a1cdace0-08e4-4dc7-b9dc-457e9bcfe25f | None |</span>
+<span class="go">+--------------------------------------+--------------------------------------+------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">After the volume recipient, or new owner, accepts the transfer, you can
+see that the transfer is no longer available:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request list
+<span class="go">+----+-----------+------+</span>
+<span class="go">| ID | Volume ID | Name |</span>
+<span class="go">+----+-----------+------+</span>
+<span class="go">+----+-----------+------+</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="accept-a-volume-transfer-request">
+<h3>Accept a volume transfer request<a class="headerlink" href="#accept-a-volume-transfer-request" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">As the volume recipient, you must first obtain the transfer ID and
+authorization key from the original owner.</p>
+</li>
+<li><p class="first">Accept the request:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request accept transferID authKey
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request accept 6e4e9aa4-bed5-4f94-8f76-df43232f44dc b2c8e585cbc68a80
+<span class="go">+-----------+--------------------------------------+</span>
+<span class="go">|  Property |                Value                 |</span>
+<span class="go">+-----------+--------------------------------------+</span>
+<span class="go">|     id    | 6e4e9aa4-bed5-4f94-8f76-df43232f44dc |</span>
+<span class="go">|    name   |                 None                 |</span>
+<span class="go">| volume_id | a1cdace0-08e4-4dc7-b9dc-457e9bcfe25f |</span>
+<span class="go">+-----------+--------------------------------------+</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you do not have a sufficient quota for the transfer, the transfer
+is refused.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="delete-a-volume-transfer">
+<h3>Delete a volume transfer<a class="headerlink" href="#delete-a-volume-transfer" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">List available volumes and their statuses:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume list
+<span class="go">+-----------------+-----------------+-----------------+------+-------------+</span>
+<span class="go">|       ID        |   Display Name  |      Status     | Size | Attached to |</span>
+<span class="go">+-----------------+-----------------+-----------------+------+-------------+</span>
+<span class="go">| 72bfce9f-cac... |       None      |      error      |  1   |             |</span>
+<span class="go">| a1cdace0-08e... |       None      |awaiting-transfer|  1   |             |</span>
+<span class="go">+-----------------+-----------------+-----------------+------+-------------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Find the matching transfer ID:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request list
+<span class="go">+--------------------------------------+--------------------------------------+------+</span>
+<span class="go">|               ID                     |             VolumeID                 | Name |</span>
+<span class="go">+--------------------------------------+--------------------------------------+------+</span>
+<span class="go">| a6da6888-7cdf-4291-9c08-8c1f22426b8a | a1cdace0-08e4-4dc7-b9dc-457e9bcfe25f | None |</span>
+<span class="go">+--------------------------------------+--------------------------------------+------+</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Delete the volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request delete &lt;transfer&gt;
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>&lt;transfer&gt;</dt>
+<dd><p class="first last">Name or ID of transfer to delete.</p>
+</dd>
+</dl>
+<p>For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request delete a6da6888-7cdf-4291-9c08-8c1f22426b8a
+</pre></div>
+</div>
+</li>
+<li><p class="first">Verify that transfer list is now empty and that the volume is again
+available for transfer:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume transfer request list
+<span class="go">+----+-----------+------+</span>
+<span class="go">| ID | Volume ID | Name |</span>
+<span class="go">+----+-----------+------+</span>
+<span class="go">+----+-----------+------+</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume list
+<span class="go">+-----------------+-----------+--------------+------+-------------+----------+-------------+</span>
+<span class="go">|       ID        |   Status  | Display Name | Size | Volume Type | Bootable | Attached to |</span>
+<span class="go">+-----------------+-----------+--------------+------+-------------+----------+-------------+</span>
+<span class="go">| 72bfce9f-ca...  |   error   |     None     |  1   |     None    |  false   |             |</span>
+<span class="go">| a1cdace0-08...  | available |     None     |  1   |     None    |  false   |             |</span>
+<span class="go">+-----------------+-----------+--------------+------+-------------+----------+-------------+</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="manage-and-unmanage-a-snapshot">
+<h2>Manage and unmanage a snapshot<a class="headerlink" href="#manage-and-unmanage-a-snapshot" title="Permalink to this headline">¶</a></h2>
+<p>A snapshot is a point in time version of a volume. As an administrator,
+you can manage and unmanage snapshots.</p>
+<div class="section" id="manage-a-snapshot">
+<h3>Manage a snapshot<a class="headerlink" href="#manage-a-snapshot" title="Permalink to this headline">¶</a></h3>
+<p>Manage a snapshot with the <strong class="command">openstack snapshot set</strong> command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack snapshot <span class="nb">set</span> <span class="se">\</span>
+<span class="go">  [--name &lt;name&gt;] \</span>
+<span class="go">  [--description &lt;description&gt;] \</span>
+<span class="go">  [--property &lt;key=value&gt; [...] ] \</span>
+<span class="go">  [--state &lt;state&gt;] \</span>
+<span class="go">  &lt;snapshot&gt;</span>
+</pre></div>
+</div>
+<p>The arguments to be passed are:</p>
+<dl class="docutils">
+<dt><code class="xref std std-option docutils literal"><span class="pre">--name</span></code></dt>
+<dd>New snapshot name</dd>
+<dt><code class="xref std std-option docutils literal"><span class="pre">--description</span></code></dt>
+<dd>New snapshot description</dd>
+<dt><code class="xref std std-option docutils literal"><span class="pre">--property</span></code></dt>
+<dd>Property to add or modify for this snapshot (repeat option to set
+multiple properties)</dd>
+<dt><code class="xref std std-option docutils literal"><span class="pre">--state</span></code></dt>
+<dd>New snapshot state. (“available”, “error”, “creating”, “deleting”,
+or “error_deleting”)
+(admin only) (This option simply changes the state of the snapshot in the
+database with no regard to actual status, exercise caution when using)</dd>
+<dt><code class="docutils literal"><span class="pre">&lt;snapshot&gt;</span></code></dt>
+<dd>Snapshot to modify (name or ID)</dd>
+</dl>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack snapshot <span class="nb">set</span> my-snapshot-id
+</pre></div>
+</div>
+</div>
+<div class="section" id="unmanage-a-snapshot">
+<h3>Unmanage a snapshot<a class="headerlink" href="#unmanage-a-snapshot" title="Permalink to this headline">¶</a></h3>
+<p>Unmanage a snapshot with the <strong class="command">cinder snapshot-unmanage</strong> command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder snapshot-unmanage SNAPSHOT
+</pre></div>
+</div>
+<p>The arguments to be passed are:</p>
+<dl class="docutils">
+<dt>SNAPSHOT</dt>
+<dd>Name or ID of the snapshot to unmanage.</dd>
+</dl>
+<p>The following example unmanages the <code class="docutils literal"><span class="pre">my-snapshot-id</span></code> image:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder snapshot-unmanage my-snapshot-id
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="cli-manage-images.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Manage images"></i></a>
+          
+          
+            <a href="../cli-manage-shares.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Manage shares"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../orchestration.html">Orchestration</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../cli.html">OpenStack command-line clients</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="cli-overview.html">Command-line client overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli-install-openstack-command-line-clients.html">Install the OpenStack command-line clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli-discover-version-number-for-a-client.html">Discover the version number for a client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli-set-environment-variables-using-openstack-rc.html">Set environment variables using the OpenStack RC file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-manage-projects-users-and-roles.html">Manage projects, users, and roles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-nova-manage-projects-security.html">Manage project security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-manage-services.html">Manage services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli-manage-images.html">Manage images</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Manage volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-manage-shares.html">Manage shares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-manage-flavors.html">Manage flavors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-admin-manage-environment.html">Manage the OpenStack environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-set-quotas.html">Manage quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-analyzing-log-files-with-swift.html">Analyze log files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli-cinder-scheduling.html">Manage Block Storage scheduling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "common/cli-manage-volumes" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Manage volumes in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/common/cli-manage-volumes.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:46:02 GMT -->
+</html>

@@ -1,0 +1,1057 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/dashboard/config-options.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:32:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Dashboard configuration options</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Dashboard configuration options</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="../dashboard.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Dashboard"></i></a>
+    
+    
+    <a href="samples/index.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Dashboard sample configuration files"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Dashboard configuration options</a><ul>
+<li><a class="reference internal" href="#dashboard-settings">Dashboard settings</a></li>
+<li><a class="reference internal" href="#django-settings">Django settings</a></li>
+<li><a class="reference internal" href="#openstack-settings-partial">OpenStack settings (partial)</a></li>
+<li><a class="reference internal" href="#pluggable-settings">Pluggable settings</a></li>
+<li><a class="reference internal" href="#pluggable-settings-for-dashboards">Pluggable settings for dashboards</a></li>
+<li><a class="reference internal" href="#pluggable-settings-for-panels">Pluggable settings for panels</a></li>
+<li><a class="reference internal" href="#pluggable-settings-for-panel-groups">Pluggable settings for panel groups</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="dashboard-configuration-options">
+<h1>Dashboard configuration options<a class="headerlink" href="#dashboard-configuration-options" title="Permalink to this headline">¶</a></h1>
+<p>The following options are available to configure and customize the
+behavior of your Dashboard installation.</p>
+<div class="section" id="dashboard-settings">
+<h2>Dashboard settings<a class="headerlink" href="#dashboard-settings" title="Permalink to this headline">¶</a></h2>
+<p>The following options are included in the <code class="docutils literal"><span class="pre">HORIZON_CONFIG</span></code> dictionary.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Dashboards are automatically discovered in two ways:</p>
+<ol class="last arabic simple">
+<li>By adding a configuration file to the
+<code class="docutils literal"><span class="pre">openstack_dashboard/local/enabled</span></code> directory. This is the default
+way.</li>
+<li>By traversing Django’s list of <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> and importing
+any files that have the name <code class="docutils literal"><span class="pre">dashboard.py</span></code> and include code to
+register themselves as a Dashboard.</li>
+</ol>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">In Dashboard configuration, we suggest that you do not use the
+<code class="docutils literal"><span class="pre">dashboards</span></code> and <code class="docutils literal"><span class="pre">default_dashboard</span></code> settings. If you plan on having
+more than one dashboard, please specify their order using the
+<a class="reference internal" href="#pluggable-settings">Pluggable settings</a>.</p>
+</div>
+<table border="1" class="docutils" id="id1">
+<caption><span class="caption-text">Description of standard Dashboard configuration options</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ajax_queue_limit</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td>The maximum number of simultaneous AJAX connections the dashboard
+may try to make.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ajax_poll_interval</span></code> = <code class="docutils literal"><span class="pre">2500</span></code></td>
+<td>How frequently resources in transition states should be polled for
+updates. Expressed in milliseconds.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">angular_modules</span></code> = <code class="docutils literal"><span class="pre">[]</span></code></td>
+<td>A list of AngularJS modules to be loaded when Angular bootstraps.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">auto_fade_alerts</span></code> = <code class="docutils literal"><span class="pre">{'delay':</span> <span class="pre">[3000],</span> <span class="pre">'fade_duration':</span> <span class="pre">[1500],</span>
+<span class="pre">'types':</span> <span class="pre">[]}</span></code></td>
+<td>If provided, will auto-fade the alert types specified. Valid alert
+types include <code class="docutils literal"><span class="pre">alert-default</span></code>, <code class="docutils literal"><span class="pre">alert-success</span></code>, <code class="docutils literal"><span class="pre">alert-info</span></code>,
+<code class="docutils literal"><span class="pre">alert-warning</span></code>, <code class="docutils literal"><span class="pre">alert-danger</span></code>. Can also define the delay before
+the alert fades and the fade out duration.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">bug_url</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>Displays a “Report Bug” link in the site header which links to the
+value of this setting, ideally a URL containing information on how to
+report issues.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dashboards</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>If a list of <code class="docutils literal"><span class="pre">dashboard</span></code> slugs is provided in this setting, the
+supplied ordering is applied to the list of discovered dashboards.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">default_dashboard</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>The slug of the dashboard which should act as the fallback dashboard
+whenever a user logs in or is otherwise redirected to an ambiguous
+location.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">disable_password_reveal</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Setting this to <code class="docutils literal"><span class="pre">True</span></code> will disable the reveal button for password
+fields, including on the login form.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">exceptions</span></code> = <code class="docutils literal"><span class="pre">{'unauthorized':</span> <span class="pre">[],</span> <span class="pre">'not_found':</span> <span class="pre">[],</span>
+<span class="pre">'recoverable':</span> <span class="pre">[]}</span></code></td>
+<td>Classes of exceptions which the Dashboard’s centralized exception
+handling should be aware of.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">help_url</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>Displays a “Help” link in the site header which links to the
+value of this setting, ideally a URL containing help information.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">js_files</span></code> = <code class="docutils literal"><span class="pre">[]</span></code></td>
+<td>A list of javascript source files to be included in the compressed
+set of files that are loaded on every page.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">js_spec_files</span></code> = <code class="docutils literal"><span class="pre">[]</span></code></td>
+<td>A list of JavaScript spec files to include for integration with the
+Jasmine spec runner.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">modal_backdrop</span></code> = <code class="docutils literal"><span class="pre">static</span></code></td>
+<td>Controls how bootstrap backdrop element outside of modals looks
+and feels. Valid values are <code class="docutils literal"><span class="pre">true</span></code>, <code class="docutils literal"><span class="pre">false</span></code> and <code class="docutils literal"><span class="pre">static</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">password_autocomplete</span></code> = <code class="docutils literal"><span class="pre">off</span></code></td>
+<td>Controls whether browser autocompletion should be enabled on the
+login form. Valid values are <code class="docutils literal"><span class="pre">on</span></code> and <code class="docutils literal"><span class="pre">off</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">password_validator</span></code> = <code class="docutils literal"><span class="pre">{'regex':</span> <span class="pre">'.*',</span>
+<span class="pre">'help_text':</span> <span class="pre">_(&quot;Password</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">accepted&quot;)}</span></code></td>
+<td>A dictionary, containing a regular expression used for
+password validation and help text, which will be displayed if
+the password does not pass validation. The help text should describe
+the password requirements if there are any.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">simple_ip_management</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Enable or disable simplified floating IP address management.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">user_home</span></code> = <code class="docutils literal"><span class="pre">settings.LOGIN_REDIRECT_URL</span></code></td>
+<td>Either a literal URL path, such as the default, or Python’s dotted
+string notation representing a function which evaluates the URL the
+user should be redirected to based on the attributes of the user.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="django-settings">
+<h2>Django settings<a class="headerlink" href="#django-settings" title="Permalink to this headline">¶</a></h2>
+<p>The following table shows a few key Django settings you should be aware of for
+the most basic of deployments.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is not meant to be anywhere near a complete list of settings for
+Django. You should always consult the
+<a class="reference external" href="https://docs.djangoproject.com/en/1.9/">main Django documentation</a>,
+especially with regards to deployment considerations and security
+best-practices.</p>
+</div>
+<table border="1" class="docutils" id="id2">
+<caption><span class="caption-text">Description of the Dashboard&#8217;s Django configuration options</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ALLOWED_HOSTS</span></code> = <code class="docutils literal"><span class="pre">['localhost']</span></code></td>
+<td>List of names or IP addresses of the hosts running the dashboard.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">DEBUG</span></code> and <code class="docutils literal"><span class="pre">TEMPLATE_DEBUG</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Controls whether unhandled exceptions should generate a generic
+<code class="docutils literal"><span class="pre">500</span></code> response or present the user with a pretty-formatted debug
+information page.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">SECRET_KEY</span></code></td>
+<td>A unique and secret value for your deployment. Unless you are running
+a load-balancer with multiple Dashboard installations behind it,
+each Dashboard instance should have a unique secret key.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">SECURE_PROXY_SSL_HEADER</span></code>, <code class="docutils literal"><span class="pre">CSRF_COOKIE_SECURE</span></code>
+and <code class="docutils literal"><span class="pre">SESSION_COOKIE_SECURE</span></code></td>
+<td>These three should be configured if you are deploying the Dashboard
+with SSL. The values indicated in the default
+<code class="docutils literal"><span class="pre">openstack_dashboard/local/local_settings.py.example</span></code> file
+are generally safe to use. When <code class="docutils literal"><span class="pre">CSRF_COOKIE_SECURE</span></code> or
+<code class="docutils literal"><span class="pre">SESSION_COOKIE_SECURE</span></code> are set to <code class="docutils literal"><span class="pre">True</span></code>, these attributes help
+protect the session cookies from cross-site scripting.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ADD_INSTALLED_APPS</span></code></td>
+<td>A list of Django applications to be prepended to the
+<code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> setting. Allows extending the list of installed
+applications without having to override it completely.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="openstack-settings-partial">
+<h2>OpenStack settings (partial)<a class="headerlink" href="#openstack-settings-partial" title="Permalink to this headline">¶</a></h2>
+<p>The following settings inform the Dashboard of information about the other
+OpenStack projects which are part of the same cloud and control the behavior
+of specific dashboards, panels, API calls, and so on.</p>
+<table border="1" class="docutils" id="id3">
+<caption><span class="caption-text">Description of the Dashboard&#8217;s OpenStack configuration options</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">AUTHENTICATION_URLS</span></code> = <code class="docutils literal"><span class="pre">['openstack_auth.urls']</span></code></td>
+<td>A list of modules from which to collate authentication URLs from.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">API_RESULT_LIMIT</span></code> = <code class="docutils literal"><span class="pre">1000</span></code></td>
+<td>The maximum number of objects, for example Glance images to display
+on a single page before providing a paging element to paginate the
+results.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">API_RESULT_PAGE_SIZE</span></code> = <code class="docutils literal"><span class="pre">20</span></code></td>
+<td>Similar to <code class="docutils literal"><span class="pre">API_RESULT_LIMIT</span></code>. This setting controls the number
+of items to be shown per page if API pagination support for this
+exists.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">AVAILABLE_REGIONS</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>A list of tuples which defines multiple regions.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> = <code class="docutils literal"><span class="pre">[</span> <span class="pre">('default',</span> <span class="pre">'Default',</span>
+<span class="pre">'themes/default'),</span> <span class="pre">('material',</span> <span class="pre">'Material',</span>
+<span class="pre">'themes/material')</span> <span class="pre">]</span></code></td>
+<td>Configure this setting to tell horizon which theme to use. Horizon
+contains two pre-configured themes. These themes are <code class="docutils literal"><span class="pre">'default'</span></code> and
+<code class="docutils literal"><span class="pre">'material'</span></code>. Horizon uses three tuples in a list to define multiple
+themes. The tuple format is
+<code class="docutils literal"><span class="pre">('{{</span> <span class="pre">theme_name</span> <span class="pre">}}',</span> <span class="pre">'{{</span> <span class="pre">theme_label</span> <span class="pre">}}',</span> <span class="pre">'{{</span> <span class="pre">theme_path</span> <span class="pre">}}')</span></code>.
+Configure <code class="docutils literal"><span class="pre">theme_name</span></code> to define the directory
+that customized themes are collected into. The <code class="docutils literal"><span class="pre">theme-label</span></code>
+is a user-facing label shown in the theme picker. Horizon uses
+<code class="docutils literal"><span class="pre">theme</span> <span class="pre">path</span></code> as the static root of the theme. If you
+want to include content other than static files in a theme
+directory, but do not wish the content served up at
+<code class="docutils literal"><span class="pre">/{{</span> <span class="pre">THEME_COLLECTION_DIR</span> <span class="pre">}}/{{</span> <span class="pre">theme_name</span> <span class="pre">}}</span></code>, create a subdirectory
+named <code class="docutils literal"><span class="pre">static</span></code>. If your theme folder contains a subdirectory named
+<code class="docutils literal"><span class="pre">static</span></code>, then horizon uses <code class="docutils literal"><span class="pre">static/custom/static</span></code> as the root
+for content served at <code class="docutils literal"><span class="pre">/static/custom</span></code>. The static root of the theme
+folder must always contain a <code class="docutils literal"><span class="pre">_variables.scss</span></code> file and
+<code class="docutils literal"><span class="pre">a</span> <span class="pre">_styles.scss</span></code> file. These two files must contain or import
+all the styles, bootstrap, and horizon-specific variables used in
+the GUI.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">CONSOLE_TYPE</span></code> = <code class="docutils literal"><span class="pre">AUTO</span></code></td>
+<td>The type of in-browser console used to access the virtual machines.
+Valid values are <code class="docutils literal"><span class="pre">AUTO</span></code>, <code class="docutils literal"><span class="pre">VNC</span></code>, <code class="docutils literal"><span class="pre">SPICE</span></code>, <code class="docutils literal"><span class="pre">RDP</span></code>, <code class="docutils literal"><span class="pre">SERIAL</span></code>,
+and <code class="docutils literal"><span class="pre">None</span></code>. <code class="docutils literal"><span class="pre">None</span></code> deactivates the in-browser console
+and is available in Juno. <code class="docutils literal"><span class="pre">SERIAL</span></code> is available since Kilo.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">SWIFT_FILE_TRANSFER_CHUNK_SIZE</span></code> = <code class="docutils literal"><span class="pre">512</span> <span class="pre">*</span> <span class="pre">1024</span></code></td>
+<td>The size of the chunk, in bytes, for downloading objects from
+the Object Storage service.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">INSTANCE_LOG_LENGTH</span></code> = <code class="docutils literal"><span class="pre">35</span></code></td>
+<td>The number of lines displayed for the log of an instance. Valid
+value must be a positive integer.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">CREATE_INSTANCE_FLAVOR_SORT</span></code> = <code class="docutils literal"><span class="pre">{'key':'ram'}</span></code></td>
+<td>When launching a new instance the default flavor is sorted by
+RAM usage in ascending order. You can customize the sort order by
+<code class="docutils literal"><span class="pre">id</span></code>, <code class="docutils literal"><span class="pre">name</span></code>, <code class="docutils literal"><span class="pre">ram</span></code>, <code class="docutils literal"><span class="pre">disk</span></code> and <code class="docutils literal"><span class="pre">vcpus</span></code>. You can also
+insert any custom callback function and also provide a flag for
+reverse sort.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">DEFAULT_THEME</span></code> = <code class="docutils literal"><span class="pre">default</span></code></td>
+<td>This setting configures which theme horizon uses if a theme
+has not yet been selected in the theme picker. This also sets
+the cookie value. This value represents the <cite>theme_name</cite> key used
+when there are multiple themes available. Configure this setting
+inside <code class="docutils literal"><span class="pre">AVAILABLE_THEMES</span></code> to make use of this theme.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">DROPDOWN_MAX_ITEMS</span></code> = <code class="docutils literal"><span class="pre">30</span></code></td>
+<td>The maximum number of items displayed in a dropdown.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ENFORCE_PASSWORD_CHECK</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Displays an <code class="docutils literal"><span class="pre">Admin</span> <span class="pre">Password</span></code> field on the &#8216;Change Password&#8217; form
+to verify that it is indeed the admin logged-in who wants to change
+the password.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">IMAGES_LIST_FILTER_TENANTS</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>A list of dictionaries to add optional categories to the image fixed
+filters in the Images panel, based on project ownership.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">IMAGE_RESERVED_CUSTOM_PROPERTIES</span></code> = <code class="docutils literal"><span class="pre">[]</span></code></td>
+<td>A list of image custom property keys that should not be displayed in
+the Update Metadata tree.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">LAUNCH_INSTANCE_DEFAULTS</span></code> = <code class="docutils literal"><span class="pre">{&quot;config_drive&quot;:</span> <span class="pre">False}</span></code></td>
+<td>A dictionary of settings which can be used to provide the default
+values for properties found in the Launch Instance modal.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">MESSAGES_PATH</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>The absolute path to the directory where message files are collected.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_API_VERSIONS</span></code> = <code class="docutils literal"><span class="pre">{&quot;data-processing&quot;:</span> <span class="pre">1.1,</span>
+<span class="pre">&quot;identity&quot;:</span> <span class="pre">2.0,</span> <span class="pre">&quot;volume&quot;:</span> <span class="pre">2,</span> <span class="pre">&quot;compute&quot;:</span> <span class="pre">2}</span></code></td>
+<td>Use this setting to force the dashboard to use a specific API
+version for a given service API.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_ENABLE_PASSWORD_RETRIEVE</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Enables or disables the instance action &#8216;Retrieve password&#8217;
+allowing password retrieval from metadata service.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_ENDPOINT_TYPE</span></code> = <code class="docutils literal"><span class="pre">&quot;publicURL&quot;</span></code></td>
+<td>A string specifying the endpoint type to use for the endpoints in
+the Identity service catalog.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_HOST</span></code> = <code class="docutils literal"><span class="pre">&quot;127.0.0.1&quot;</span></code></td>
+<td>The hostname of the Identity service server used for authentication
+if you only have one region. This is often the only setting that
+needs to be set for a basic deployment.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_HYPERVISOR_FEATURES</span></code> = <code class="docutils literal"><span class="pre">{'can_set_mount_point':</span> <span class="pre">False,</span>
+<span class="pre">'can_set_password':</span> <span class="pre">False,</span> <span class="pre">'requires_keypair':</span> <span class="pre">False,}</span></code></td>
+<td>A dictionary of settings identifying the capabilities of the
+hypervisor of Compute service.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_IMAGE_BACKEND</span></code> = <code class="docutils literal"><span class="pre">{'image_formats':</span> <span class="pre">[</span>
+<span class="pre">('',</span> <span class="pre">_('Select</span> <span class="pre">format')),</span>
+<span class="pre">('aki',</span> <span class="pre">_('AKI</span> <span class="pre">-</span> <span class="pre">Amazon</span> <span class="pre">Kernel</span> <span class="pre">Image')),</span>
+<span class="pre">('ami',</span> <span class="pre">_('AMI</span> <span class="pre">-</span> <span class="pre">Amazon</span> <span class="pre">Machine</span> <span class="pre">Image')),</span>
+<span class="pre">('ari',</span> <span class="pre">_('ARI</span> <span class="pre">-</span> <span class="pre">Amazon</span> <span class="pre">Ramdisk</span> <span class="pre">Image')),</span>
+<span class="pre">('docker',</span> <span class="pre">_('Docker')),</span>
+<span class="pre">('iso',</span> <span class="pre">_('ISO</span> <span class="pre">-</span> <span class="pre">Optical</span> <span class="pre">Disk</span> <span class="pre">Image')),</span>
+<span class="pre">('qcow2',</span> <span class="pre">_('QCOW2</span> <span class="pre">-</span> <span class="pre">QEMU</span> <span class="pre">Emulator')),</span>
+<span class="pre">('raw',</span> <span class="pre">_('Raw')),</span>
+<span class="pre">('vdi',</span> <span class="pre">_('VDI')),</span>
+<span class="pre">('vhd',</span> <span class="pre">_('VHD')),</span>
+<span class="pre">('vmdk',</span> <span class="pre">_('VMDK'))]}</span></code></td>
+<td>Customizes features related to the Image service, such as the
+list of supported image formats.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">IMAGE_CUSTOM_PROPERTY_TITLES</span></code> = <code class="docutils literal"><span class="pre">{</span>
+<span class="pre">&quot;architecture&quot;:</span> <span class="pre">_(&quot;Architecture&quot;),</span>
+<span class="pre">&quot;kernel_id&quot;:</span> <span class="pre">_(&quot;Kernel</span> <span class="pre">ID&quot;),</span>
+<span class="pre">&quot;ramdisk_id&quot;:</span> <span class="pre">_(&quot;Ramdisk</span> <span class="pre">ID&quot;),</span>
+<span class="pre">&quot;image_state&quot;:</span> <span class="pre">_(&quot;Euca2ools</span> <span class="pre">state&quot;),</span>
+<span class="pre">&quot;project_id&quot;:</span> <span class="pre">_(&quot;Project</span> <span class="pre">ID&quot;),</span>
+<span class="pre">&quot;image_type&quot;:</span> <span class="pre">_(&quot;Image</span> <span class="pre">Type&quot;)}</span></code></td>
+<td>Customizes the titles for image custom property attributes that
+appear on image detail pages.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">HORIZON_IMAGES_ALLOW_UPLOAD</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Enables/Disables local uploads to prevent filling up the disk on the
+dashboard server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_KEYSTONE_BACKEND</span></code> = <code class="docutils literal"><span class="pre">{'name':</span> <span class="pre">'native',</span>
+<span class="pre">'can_edit_user':</span> <span class="pre">True,</span> <span class="pre">'can_edit_project':</span> <span class="pre">True}</span></code></td>
+<td>A dictionary of settings identifying the capabilities of the auth
+backend for the Identity service.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_KEYSTONE_DEFAULT_DOMAIN</span></code> = <code class="docutils literal"><span class="pre">&quot;Default&quot;</span></code></td>
+<td>Overrides the default domain used when running on a single-domain
+model with version 3 of the Identity service. All entities will
+be created in the default domain.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_KEYSTONE_DEFAULT_ROLE</span></code> = <code class="docutils literal"><span class="pre">&quot;_member_&quot;</span></code></td>
+<td>The role to be assigned to a user when they are added to a project.
+The value must correspond to an existing role name in the
+Identity service. In general, the value should match the
+<code class="docutils literal"><span class="pre">member_role_name</span></code> defined in <code class="docutils literal"><span class="pre">keystone.conf</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_KEYSTONE_ADMIN_ROLES</span></code> = <code class="docutils literal"><span class="pre">[&quot;admin&quot;]</span></code></td>
+<td>The list of roles that have administrator privileges in the
+OpenStack installation.  This check is very basic and essentially
+only works with versions 2 and 3 of the Identity service with the
+default policy file.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_KEYSTONE_MULTIDOMAIN_SUPPORT</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>When enabled, a user will be required to enter the Domain name in
+addition to username for login. Enabled if running on a multi-domain
+model.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_KEYSTONE_URL</span></code> = <code class="docutils literal"><span class="pre">&quot;http://%s:5000/v2.0&quot;</span> <span class="pre">%</span> <span class="pre">OPENSTACK_HOST</span></code></td>
+<td>The full URL for the Identity service endpoint used for authentication.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_KEYSTONE_FEDERATION_MANAGEMENT</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Enables/Disables panels that provide the ability for users to manage
+Identity Providers (IdPs) and establish a set of rules to map
+federation protocol attributes to Identity API attributes. Requires
+version 3 and later of the Identity API.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">WEBSSO_ENABLED</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Enables/Disables Identity service web single-sign-on. Requires Identity
+service version 3and Django OpenStack Auth version 1.2.0 or later.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">WEBSSO_INITIAL_CHOICE</span></code> = <code class="docutils literal"><span class="pre">&quot;credentials&quot;</span></code></td>
+<td>Determines the default authentication mechanism. When a user lands
+on the login page, this is the first choice they will see.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">WEBSSO_CHOICES</span></code> = <code class="docutils literal"><span class="pre">(</span>
+<span class="pre">(&quot;credentials&quot;,</span> <span class="pre">_(&quot;Keystone</span> <span class="pre">Credentials&quot;)),</span>
+<span class="pre">(&quot;oidc&quot;,</span> <span class="pre">_(&quot;OpenID</span> <span class="pre">Connect&quot;)),</span>
+<span class="pre">(&quot;saml2&quot;,</span> <span class="pre">_(&quot;Security</span> <span class="pre">Assertion</span> <span class="pre">Markup</span> <span class="pre">Language&quot;)))</span></code></td>
+<td>List of authentication mechanisms available to the user.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">WEBSSO_IDP_MAPPING</span></code> = <code class="docutils literal"><span class="pre">{}</span></code></td>
+<td>A dictionary of specific identity provider and federation
+protocol combinations.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_CINDER_FEATURES</span></code> = <code class="docutils literal"><span class="pre">{'enable_backup':</span> <span class="pre">False}</span></code></td>
+<td>A dictionary of settings which can be used to enable optional
+services provided by the Block storage service. Currently, only the
+backup service is available.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_HEAT_STACK</span></code> = <code class="docutils literal"><span class="pre">{'enable_user_pass':</span> <span class="pre">True}</span></code></td>
+<td>A dictionary of settings to use with heat stacks. Currently,
+the only setting available is <code class="docutils literal"><span class="pre">enable_user_pass</span></code>, which can be
+used to disable the password field while launching the stack.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_NEUTRON_NETWORK</span></code> = <code class="docutils literal"><span class="pre">{</span>
+<span class="pre">'enable_router':</span> <span class="pre">True,</span>
+<span class="pre">'enable_distributed_router':</span> <span class="pre">False,</span>
+<span class="pre">'enable_ha_router':</span> <span class="pre">False,</span>
+<span class="pre">'enable_lb':</span> <span class="pre">True,</span>
+<span class="pre">'enable_quotas':</span> <span class="pre">False,</span>
+<span class="pre">'enable_firewall':</span> <span class="pre">True,</span>
+<span class="pre">'enable_vpn':</span> <span class="pre">True,</span>
+<span class="pre">'profile_support':</span> <span class="pre">None,</span>
+<span class="pre">'supported_provider_types':</span> <span class="pre">[&quot;*&quot;],</span>
+<span class="pre">'supported_vnic_types':</span> <span class="pre">[&quot;*&quot;],</span>
+<span class="pre">'segmentation_id_range':</span> <span class="pre">{},</span>
+<span class="pre">'enable_fip_topology_check':</span> <span class="pre">True,</span>
+<span class="pre">'default_ipv4_subnet_pool_label':</span> <span class="pre">None,</span>
+<span class="pre">'default_ipv6_subnet_pool_label':</span> <span class="pre">None,}</span></code></td>
+<td>A dictionary of settings which can be used to enable optional
+services provided by the Networking service and configure specific
+features.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_SSL_CACERT</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>The CA certificate to be used for SSL verification. When set to
+<code class="docutils literal"><span class="pre">None</span></code>, the default certificate on the system is used.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_SSL_NO_VERIFY</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Enable/Disable SSL certificate checks in the OpenStack clients.
+Useful for self-signed certificates.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_TOKEN_HASH_ALGORITHM</span></code> = <code class="docutils literal"><span class="pre">&quot;md5&quot;</span></code></td>
+<td>The hash algorithm to use for authentication tokens.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">OPENSTACK_TOKEN_HASH_ENABLED</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>Hashing tokens from the Identity service keep the Dashboard session
+data smaller, but it doesn’t work in some cases when using PKI tokens.
+Uncomment this value and set it to False if using PKI tokens and
+there are <code class="docutils literal"><span class="pre">401</span></code> errors due to token hashing.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">POLICY_FILES</span></code> = <code class="docutils literal"><span class="pre">{'identity':</span> <span class="pre">'keystone_policy.json',</span>
+<span class="pre">'compute':</span> <span class="pre">'nova_policy.json'}</span></code></td>
+<td>The mapping of the contents of <code class="docutils literal"><span class="pre">POLICY_FILES_PATH</span></code> to service
+types. When <code class="docutils literal"><span class="pre">policy.json</span></code> files are added to <code class="docutils literal"><span class="pre">POLICY_FILES_PATH</span></code>,
+they should be included here too.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">POLICY_FILES_PATH</span></code> = <code class="docutils literal"><span class="pre">os.path.join(ROOT_PATH,</span> <span class="pre">&quot;conf&quot;)</span></code></td>
+<td>Where service based policy files are located.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">SESSION_TIMEOUT</span></code> = <code class="docutils literal"><span class="pre">3600</span></code></td>
+<td>A method to supersede the token timeout with a shorter dashboard
+session timeout in seconds. For example, if your token expires in
+60 minutes, a value of 1800 will log users out after 30 minutes.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">SAHARA_AUTO_IP_ALLOCATION_ENABLED</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>Notifies the Data processing system whether or not automatic IP
+allocation is enabled. Set to <code class="docutils literal"><span class="pre">True</span></code> if you are running Compute
+Networking with <code class="docutils literal"><span class="pre">auto_assign_floating_ip</span> <span class="pre">=</span> <span class="pre">True</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">TROVE_ADD_USER_PERMS</span></code> and <code class="docutils literal"><span class="pre">TROVE_ADD_DATABASE_PERMS</span></code> = <code class="docutils literal"><span class="pre">[]</span></code></td>
+<td>Database service user and database extension support.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">WEBROOT</span></code> = <code class="docutils literal"><span class="pre">/</span></code></td>
+<td>The location where the access to the dashboard is configured in the
+web server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">STATIC_ROOT</span></code> = <code class="docutils literal"><span class="pre">/static/</span></code></td>
+<td>URL pointing to files in <code class="docutils literal"><span class="pre">STATIC_ROOT</span></code>. the value must end in <code class="docutils literal"><span class="pre">&quot;/&quot;</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">THEME_COLLECTION_DIR</span></code> = <code class="docutils literal"><span class="pre">themes</span></code></td>
+<td>Horizon collects the available themes into a static directory
+based on this variable setting. For example, the default theme
+is accessible from <code class="docutils literal"><span class="pre">/{{</span> <span class="pre">STATIC_URL</span> <span class="pre">}}/themes/default</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">THEME_COOKIE_NAME</span></code> = <code class="docutils literal"><span class="pre">themes</span></code></td>
+<td>This setting determines which cookie key horizon sets to store the
+current theme. Cookie keys expire after one year elapses.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">DISALLOW_IFRAME_EMBED</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>This setting can be used to defend against Clickjacking and prevent
+the Dashboard from being embedded within an iframe.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">OPENSTACK_NOVA_EXTENSIONS_BLACKLIST</span></code> = <code class="docutils literal"><span class="pre">[]</span></code></td>
+<td>Ignore all listed Compute service extensions, and behave as if they
+were unsupported. Can be used to selectively disable certain costly
+extensions for performance reasons.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pluggable-settings">
+<h2>Pluggable settings<a class="headerlink" href="#pluggable-settings" title="Permalink to this headline">¶</a></h2>
+<p>The following keys can be used in any pluggable settings file.</p>
+<table border="1" class="docutils" id="id4">
+<caption><span class="caption-text">Description of the Dashboard&#8217;s pluggable configuration options</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ADD_EXCEPTIONS</span></code></td>
+<td>A dictionary of exception classes to be added to
+<code class="docutils literal"><span class="pre">HORIZON['exceptions']</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ADD_INSTALLED_APPS</span></code></td>
+<td>A list of applications to be prepended to <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code>. This
+is needed to expose static files from a plugin.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ADD_ANGULAR_MODULES</span></code></td>
+<td>A list of AngularJS modules to be loaded when Angular bootstraps.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ADD_JS_FILES</span></code></td>
+<td>A list of javascript source files to be included in the compressed
+set of files that are loaded on every page.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ADD_JS_SPEC_FILES</span></code></td>
+<td>A list of javascript spec files to include for integration with the
+Jasmine spec runner.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ADD_SCSS_FILES</span></code></td>
+<td>A list of SCSS files to be included in the compressed set of files
+that are loaded on every page.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">AUTO_DISCOVER_STATIC_FILES</span></code></td>
+<td>If set to <code class="docutils literal"><span class="pre">True</span></code>, JavaScript files and static angular HTML
+template files will be automatically discovered from the static
+folder in each apps listed in <code class="docutils literal"><span class="pre">ADD_INSTALLED_APPS</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">DISABLED</span></code></td>
+<td>If set to <code class="docutils literal"><span class="pre">True</span></code>, this settings file will not be added to the
+settings.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">UPDATE_HORIZON_CONFIG</span></code></td>
+<td>A dictionary of values that will replace the values in
+<code class="docutils literal"><span class="pre">HORIZON_CONFIG</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pluggable-settings-for-dashboards">
+<h2>Pluggable settings for dashboards<a class="headerlink" href="#pluggable-settings-for-dashboards" title="Permalink to this headline">¶</a></h2>
+<p>The following keys are specific to register a dashboard.</p>
+<table border="1" class="docutils" id="id5">
+<caption><span class="caption-text">Description of the pluggable dashboards configuration options</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">DASHBOARD</span></code></td>
+<td>Required. The slug of the dashboard to be added to
+<code class="docutils literal"><span class="pre">HORIZON['dashboards']</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">DEFAULT</span></code></td>
+<td>If set to <code class="docutils literal"><span class="pre">True</span></code>, this dashboard will be set as the default
+dashboard.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pluggable-settings-for-panels">
+<h2>Pluggable settings for panels<a class="headerlink" href="#pluggable-settings-for-panels" title="Permalink to this headline">¶</a></h2>
+<p>The following keys are specific to register or remove a panel.</p>
+<table border="1" class="docutils" id="id6">
+<caption><span class="caption-text">Description of the pluggable panels configuration options</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">PANEL</span></code></td>
+<td>Required. The slug of the panel to be added to <code class="docutils literal"><span class="pre">HORIZON_CONFIG</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">PANEL_DASHBOARD</span></code></td>
+<td>Required. The slug of the dashboard the <code class="docutils literal"><span class="pre">PANEL</span></code> is associated with.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">PANEL_GROUP</span></code></td>
+<td>The slug of the panel group the <code class="docutils literal"><span class="pre">PANEL</span></code> is associated with. If
+you want the panel to show up without a panel group, use the panel
+group <code class="docutils literal"><span class="pre">default</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">DEFAULT_PANEL</span></code></td>
+<td>If set, it will update the default panel of the <code class="docutils literal"><span class="pre">PANEL_DASHBOARD</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ADD_PANEL</span></code></td>
+<td>Python panel class of the <code class="docutils literal"><span class="pre">PANEL</span></code> to be added.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">REMOVE_PANEL</span></code></td>
+<td>If set to <code class="docutils literal"><span class="pre">True</span></code>, the <code class="docutils literal"><span class="pre">PANEL</span></code> will be removed from
+<code class="docutils literal"><span class="pre">PANEL_DASHBOARD</span></code>/<code class="docutils literal"><span class="pre">PANEL_GROUP</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="pluggable-settings-for-panel-groups">
+<h2>Pluggable settings for panel groups<a class="headerlink" href="#pluggable-settings-for-panel-groups" title="Permalink to this headline">¶</a></h2>
+<p>The following keys are specific to register a panel group.</p>
+<table border="1" class="docutils" id="id7">
+<caption><span class="caption-text">Description of the pluggable panel groups configuration options</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">PANEL_GROUP</span></code></td>
+<td>Required. The slug of the panel group to be added to
+<code class="docutils literal"><span class="pre">HORIZON_CONFIG</span></code>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">PANEL_GROUP_NAME</span></code></td>
+<td>Required. The display name of the <code class="docutils literal"><span class="pre">PANEL_GROUP</span></code>.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">PANEL_GROUP_DASHBOARD</span></code></td>
+<td>Required. The slug of the dashboard the <code class="docutils literal"><span class="pre">PANEL_GROUP</span></code> associated
+with.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="../dashboard.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Dashboard"></i></a>
+          
+          
+            <a href="samples/index.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Dashboard sample configuration files"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../dashboard.html">Dashboard</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Dashboard configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="samples/index.html">Dashboard sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logs.html">Dashboard log files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "dashboard/config-options" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Dashboard configuration options in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/dashboard/config-options.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:32:42 GMT -->
+</html>

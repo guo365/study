@@ -1,0 +1,917 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/identity/federated-identity.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:33:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Federated Identity</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Federated Identity</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="token-provider.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Token provider"></i></a>
+    
+    
+    <a href="config-options.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Additional configuration options for Identity service"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Federated Identity</a><ul>
+<li><a class="reference internal" href="#supporting-keystone-as-a-sp">Supporting keystone as a SP</a><ul>
+<li><a class="reference internal" href="#configuring-federation-in-keystone">Configuring federation in keystone</a></li>
+<li><a class="reference internal" href="#performing-federated-authentication">Performing federated authentication</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#supporting-keystone-as-an-idp">Supporting keystone as an IdP</a><ul>
+<li><a class="reference internal" href="#id1">Configuring federation in keystone</a></li>
+<li><a class="reference internal" href="#generate-metadata">Generate metadata</a></li>
+<li><a class="reference internal" href="#create-a-sp">Create a SP</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#keystone-to-keystone">keystone-to-keystone</a></li>
+<li><a class="reference internal" href="#mapping-rules">Mapping rules</a><ul>
+<li><a class="reference internal" href="#mapping-creation">Mapping creation</a></li>
+<li><a class="reference internal" href="#mapping-examples">Mapping examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="federated-identity">
+<h1>Federated Identity<a class="headerlink" href="#federated-identity" title="Permalink to this headline">¶</a></h1>
+<p>You can use federation for the Identity service (keystone) in two ways:</p>
+<ul>
+<li><p class="first">Supporting keystone as a <abbr title="Service Provider">SP</abbr>: consuming identity
+assertions issued by an external Identity Provider, such as SAML
+assertions or OpenID Connect claims.</p>
+</li>
+<li><p class="first">Supporting keystone as an <abbr title="Identity Provider">IdP</abbr>: fulfilling
+authentication requests on behalf of Service Providers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is also possible to have one keystone act as an SP that
+consumes Identity from another keystone acting as an IdP.</p>
+</div>
+</li>
+</ul>
+<p>There is currently support for two major federation protocols:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/SAML_2.0">SAML</a></li>
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/OpenID_Connect">OpenID Connect</a></li>
+</ul>
+<div class="figure" id="id2">
+<a class="reference internal image-reference" href="../_images/keystone-federation.png"><img alt="../_images/keystone-federation.png" src="../_images/keystone-federation.png" style="width: 100%;" /></a>
+<p class="caption"><span class="caption-text">Keystone federation</span></p>
+</div>
+<p>To enable federation:</p>
+<ol class="arabic">
+<li><p class="first">Run keystone under Apache. See <a class="reference external" href="http://docs.openstack.org/newton/install-guide-obs/keystone-install.html">Configure the Apache HTTP server</a>
+for more information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Other application servers, such as <a class="reference external" href="https://www.nginx.com/resources/wiki">nginx</a>,
+have support for federation extensions that may work but are not tested
+by the community.</p>
+</div>
+</li>
+<li><p class="first">Configure Apache to use a federation capable module.
+We recommend Shibboleth, see <a class="reference external" href="http://docs.openstack.org/developer/keystone/federation/shibboleth.html">the Shibboleth documentation</a>
+for more information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Another option is <code class="docutils literal"><span class="pre">mod_auth_melon</span></code>, see <a class="reference external" href="https://github.com/UNINETT/mod_auth_mellon">the mod&#8217;s github repo</a>
+for more information.</p>
+</div>
+</li>
+<li><p class="first">Configure federation in keystone.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The external IdP is responsible for authenticating users and communicates
+the result of authentication to keystone using authentication assertions.
+Keystone maps these values to keystone user groups and assignments
+created in keystone.</p>
+</div>
+<div class="section" id="supporting-keystone-as-a-sp">
+<h2>Supporting keystone as a SP<a class="headerlink" href="#supporting-keystone-as-a-sp" title="Permalink to this headline">¶</a></h2>
+<p>To have keystone as an SP, you will need to configure
+keystone to accept assertions from external IdPs. Examples of external
+IdPs are:</p>
+<ul class="simple">
+<li><abbr title="Active Directory Federation Services">ADFS</abbr></li>
+<li>FreeIPA</li>
+<li>Tivoli Access Manager</li>
+<li>Keystone</li>
+</ul>
+<div class="section" id="configuring-federation-in-keystone">
+<h3>Configuring federation in keystone<a class="headerlink" href="#configuring-federation-in-keystone" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Configure authentication drivers in <code class="docutils literal"><span class="pre">keystone.conf</span></code> by adding the
+authentication methods to the <code class="docutils literal"><span class="pre">[auth]</span></code> section in <code class="docutils literal"><span class="pre">keystone.conf</span></code>.
+Ensure the names are the same as to the protocol names added via Identity
+API v3.</p>
+<p>For example:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[auth]</span>
+<span class="na">methods</span> <span class="o">=</span> <span class="s">external,password,token,mapped,openid</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">mapped</span></code> and <code class="docutils literal"><span class="pre">openid</span></code> are the federation specific drivers.
+The other names in the example are not related to federation.</p>
+</div>
+</li>
+<li><p class="first">Create local keystone groups and assign roles.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The keystone requires group-based role assignments to authorize
+federated users. The federation mapping engine maps federated users into
+local user groups, which are the actors in keystone&#8217;s role assignments.</p>
+</div>
+</li>
+<li><p class="first">Create an IdP object in keystone. The object must represent the
+IdP you will use to authenticate end users:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">PUT</span> <span class="o">/</span><span class="n">OS</span><span class="o">-</span><span class="n">FEDERATION</span><span class="o">/</span><span class="n">identity_providers</span><span class="o">/</span><span class="p">{</span><span class="n">idp_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>More configuration information for IdPs can be found <a class="reference external" href="http://specs.openstack.org/openstack/keystone-specs/api/v3/identity-api-v3-os-federation-ext.html#register-an-identity-provider">http://specs.openstack.org/openstack/keystone-specs/api/v3/identity-api-v3-os-federation-ext.html#register-an-identity-provider</a>.</p>
+</li>
+<li><p class="first">Add mapping rules:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">PUT</span> <span class="o">/</span><span class="n">OS</span><span class="o">-</span><span class="n">FEDERATION</span><span class="o">/</span><span class="n">mappings</span><span class="o">/</span><span class="p">{</span><span class="n">mapping_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>More configuration information for mapping rules can be found <a class="reference external" href="http://specs.openstack.org/openstack/keystone-specs/api/v3/identity-api-v3-os-federation-ext.html#create-a-mapping">http://specs.openstack.org/openstack/keystone-specs/api/v3/identity-api-v3-os-federation-ext.html#create-a-mapping</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The only keystone API objects that support mapping are groups and users.</p>
+</div>
+</li>
+<li><p class="first">Add a protocol object and specify the mapping ID you want to use with the
+combination of the IdP and protocol:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">PUT</span> <span class="o">/</span><span class="n">OS</span><span class="o">-</span><span class="n">FEDERATION</span><span class="o">/</span><span class="n">identity_providers</span><span class="o">/</span><span class="p">{</span><span class="n">idp_id</span><span class="p">}</span><span class="o">/</span><span class="n">protocols</span><span class="o">/</span><span class="p">{</span><span class="n">protocol_id</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>More configuration information for protocols can be found <a class="reference external" href="http://specs.openstack.org/openstack/keystone-specs/api/v3/identity-api-v3-os-federation-ext.html#add-a-protocol-and-attribute-mapping-to-an-identity-provider">http://specs.openstack.org/openstack/keystone-specs/api/v3/identity-api-v3-os-federation-ext.html#add-a-protocol-and-attribute-mapping-to-an-identity-provider</a>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="performing-federated-authentication">
+<h3>Performing federated authentication<a class="headerlink" href="#performing-federated-authentication" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Authenticate externally and generate an unscoped token in keystone:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Unlike other authentication methods in keystone, the user does
+not issue an HTTP POST request with authentication data in the request body.
+To start federated authentication a user must access the dedicated URL with
+IdP&#8217;s and orotocol’s identifiers stored within a protected URL.
+The URL has a format of:
+<code class="docutils literal"><span class="pre">/v3/OS-FEDERATION/identity_providers/{idp_id}/protocols/{protocol_id}/auth</span></code>.</p>
+</div>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">GET</span><span class="o">/</span><span class="n">POST</span> <span class="o">/</span><span class="n">OS</span><span class="o">-</span><span class="n">FEDERATION</span><span class="o">/</span><span class="n">identity_providers</span><span class="o">/</span><span class="p">{</span><span class="n">identity_provider</span><span class="p">}</span><span class="o">/</span><span class="n">protocols</span><span class="o">/</span><span class="p">{</span><span class="n">protocol</span><span class="p">}</span><span class="o">/</span><span class="n">auth</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Determine accessible resources. By using the previously returned token, the
+user can issue requests to the list projects and domains that are
+accessible.</p>
+<ul class="simple">
+<li>List projects a federated user can access: GET /OS-FEDERATION/projects</li>
+<li>List domains a federated user can access: GET /OS-FEDERATION/domains</li>
+</ul>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">GET</span> <span class="o">/</span><span class="n">OS</span><span class="o">-</span><span class="n">FEDERATION</span><span class="o">/</span><span class="n">projects</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Get a scoped token. A federated user can request a scoped token using
+the unscoped token. A project or domain can be specified by either ID or
+name. An ID is sufficient to uniquely identify a project or domain.</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">POST</span> <span class="o">/</span><span class="n">auth</span><span class="o">/</span><span class="n">tokens</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="supporting-keystone-as-an-idp">
+<h2>Supporting keystone as an IdP<a class="headerlink" href="#supporting-keystone-as-an-idp" title="Permalink to this headline">¶</a></h2>
+<p>When acting as an IdP, the primary role of keystone is
+to issue assertions about users owned by keystone. This is done using PySAML2.</p>
+<div class="section" id="id1">
+<h3>Configuring federation in keystone<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>There are certain settings in <code class="docutils literal"><span class="pre">keystone.conf</span></code> that must be set up, prior
+to attempting to federate multiple keystone deployments.</p>
+<ol class="arabic">
+<li><p class="first">Within <code class="docutils literal"><span class="pre">keystone.conf</span></code>, assign values to the <code class="docutils literal"><span class="pre">[saml]</span></code>
+related fields, for example:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span>[saml]
+certfile=/etc/keystone/ssl/certs/ca.pem
+keyfile=/etc/keystone/ssl/private/cakey.pem
+idp_entity_id=https://keystone.example.com/v3/OS-FEDERATION/saml2/idp
+idp_sso_endpoint=https://keystone.example.com/v3/OS-FEDERATION/saml2/sso
+idp_metadata_path=/etc/keystone/saml2_idp_metadata.xml
+</pre></div>
+</div>
+</li>
+<li><p class="first">We recommend the following <cite>Organization</cite> configuration options.
+Ensure these values contain not special characters that may cause
+problems as part of a URL:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span>idp_organization_name=example_company
+idp_organization_display_name=Example Corp.
+idp_organization_url=example.com
+</pre></div>
+</div>
+</li>
+<li><p class="first">As with the <cite>Organization</cite> options, the <cite>Contact</cite> options are not
+necessary, but it is advisable to set these values:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span>idp_contact_company=example_company
+idp_contact_name=John
+idp_contact_surname=Smith
+idp_contact_email=jsmith@example.com
+idp_contact_telephone=555-55-5555
+idp_contact_type=technical
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="generate-metadata">
+<h3>Generate metadata<a class="headerlink" href="#generate-metadata" title="Permalink to this headline">¶</a></h3>
+<p>Metadata must be exchanged to create a trust between the IdP and the SP.</p>
+<ol class="arabic">
+<li><p class="first">Create metadata for your keystone IdP, run the <code class="docutils literal"><span class="pre">keystone-manage</span></code> command
+and pipe the output to a file. For example:</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span>$ keystone-manage saml_idp_metadata &gt; /etc/keystone/saml2_idp_metadata.xml
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The file location must match the value of the <code class="docutils literal"><span class="pre">idp_metadata_path</span></code>
+configuration option assigned previously.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="create-a-sp">
+<h3>Create a SP<a class="headerlink" href="#create-a-sp" title="Permalink to this headline">¶</a></h3>
+<p>To setup keystone-as-a-Service-Provider properly, you will need to
+understand what protocols are supported by external IdPs.
+For example, keystone as an SP can allow identities to federate in from a
+ADFS IdP but it must be configured to understand the SAML v2.0 protocol.
+ADFS issues assertions using SAML v2.0. Some examples
+of federated protocols include:</p>
+<ul class="simple">
+<li>SAML v2.0</li>
+<li>OpenID Connect</li>
+</ul>
+<p>The following instructions are an example of how you can configure
+keystone as an SP.</p>
+<ol class="arabic">
+<li><p class="first">Create a new SP with an ID of BETA.</p>
+</li>
+<li><p class="first">Create a <code class="docutils literal"><span class="pre">sp_url</span></code> of <a class="reference external" href="http://beta.example.com/Shibboleth.sso/SAML2/ECP">http://beta.example.com/Shibboleth.sso/SAML2/ECP</a>.</p>
+</li>
+<li><p class="first">Create a <code class="docutils literal"><span class="pre">auth_url</span></code> of <a class="reference external" href="http://beta.example.com:5000/v3/OS-FEDERATION/identity_providers/beta/protocols/saml2/auth">http://beta.example.com:5000/v3/OS-FEDERATION/identity_providers/beta/protocols/saml2/auth</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Use the <code class="docutils literal"><span class="pre">sp_url</span></code> when creating a SAML assertion for BETA and signed by
+the current keystone IdP. Use the <code class="docutils literal"><span class="pre">auth_url</span></code> when retrieving the token
+for BETA once the SAML assertion is sent.</p>
+</div>
+</li>
+<li><p class="first">Set the <code class="docutils literal"><span class="pre">enabled</span></code> field to <code class="docutils literal"><span class="pre">true</span></code>. It is set to
+<code class="docutils literal"><span class="pre">false</span></code> by default.</p>
+</li>
+<li><p class="first">Your output should reflect the following example:</p>
+<div class="code console highlight-python"><div class="highlight"><pre><span></span> $ curl -s -X PUT \
+-H &quot;X-Auth-Token: $OS_TOKEN&quot; \
+-H &quot;Content-Type: application/json&quot; \
+-d &#39;{&quot;service_provider&quot;: {&quot;auth_url&quot;: &quot;http://beta.example.com:5000/v3/OS-FEDERATION/identity_providers/beta/protocols/saml2/auth&quot;, &quot;sp_url&quot;: &quot;https://example.com:5000/Shibboleth.sso/SAML2/ECP&quot;, &quot;enabled&quot;: true}}&#39; \
+http://localhost:5000/v3/OS-FEDERATION/service_providers/BETA | python -mjson.tool
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="keystone-to-keystone">
+<h2>keystone-to-keystone<a class="headerlink" href="#keystone-to-keystone" title="Permalink to this headline">¶</a></h2>
+<p>Keystone acting as an IdP is known as <abbr title="keystone-2-keystone">k2k</abbr>
+or k2k federation, where a keystone somewhere is acting as the SP
+and another keystone is acting as the IdP. All IdPs issue
+assertions about the identities it owns using a <cite>Protocol</cite>.</p>
+</div>
+<div class="section" id="mapping-rules">
+<h2>Mapping rules<a class="headerlink" href="#mapping-rules" title="Permalink to this headline">¶</a></h2>
+<p>Mapping adds a set of rules to map federation attributes to keystone users
+or groups. An IdP has exactly one mapping specified per protocol.</p>
+<p>A mapping is a translation between assertions provided from an IdP and
+the permission and roles applied by an SP. Given an assertion from an IdP, an
+SP applies a mapping to translate attributes from the
+IdP to known roles. A mapping is typically
+owned by an SP.</p>
+<p>Mapping objects can be used multiple times by different combinations
+of IdP and protocol.</p>
+<p>A rule hierarchy is as follows:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+     <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="p">[</span>
+               <span class="p">{</span>
+                    <span class="s2">&quot;&lt;user&gt; or &lt;group&gt;&quot;</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;remote&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;&lt;condition&gt;&quot;</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">rules</span></code>: top-level list of rules.</li>
+<li><code class="docutils literal"><span class="pre">local</span></code>: a rule containing information on what local attributes
+will be mapped.</li>
+<li><code class="docutils literal"><span class="pre">remote</span></code>: a rule containing information on what remote attributes will
+be mapped.</li>
+<li><code class="docutils literal"><span class="pre">condition</span></code>: contains information on conditions that allow a rule, can
+only be set in a remote rule.</li>
+</ul>
+<p>For more information on mapping rules, see <a class="reference external" href="http://docs.openstack.org/developer/keystone/federation/federated_identity.html#mapping-rules">http://docs.openstack.org/developer/keystone/federation/federated_identity.html#mapping-rules</a>.</p>
+<div class="section" id="mapping-creation">
+<h3>Mapping creation<a class="headerlink" href="#mapping-creation" title="Permalink to this headline">¶</a></h3>
+<p>Mapping creation starts with the communication between the IdP and SP.
+The IdP usually provides a set of assertions that their users
+have in their assertion document. The SP will have to map
+those assertions to known groups and roles.
+For example:</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span>Identity Provider 1:
+  name: jsmith
+  groups: hacker
+  other: &lt;assertion information&gt;
+The Service Provider may have 3 groups:
+  Admin Group
+  Developer Group
+  User Group
+
+The mapping created by the Service Provider might look like:
+  Local:
+  Group: Developer Group
+Remote:
+  Groups: hackers
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">Developer</span> <span class="pre">Group</span></code> may have a role assignment on the
+<code class="docutils literal"><span class="pre">Developer</span> <span class="pre">Project</span></code>. When <cite>jsmith</cite> authenticates against IdP 1, it
+presents that assertion to the SP.The SP maps the <cite>jsmith</cite> user to the
+<code class="docutils literal"><span class="pre">Developer</span> <span class="pre">Group</span></code> because the assertion says <cite>jsmith</cite> is a member of
+the <code class="docutils literal"><span class="pre">hacker</span></code> group.</p>
+</div>
+<div class="section" id="mapping-examples">
+<h3>Mapping examples<a class="headerlink" href="#mapping-examples" title="Permalink to this headline">¶</a></h3>
+<p>A bare bones mapping is sufficient if you would like all federated users to
+have the same authorization in the SP cloud. However, mapping is
+quite powerful and flexible. You can map different remote
+users into different user groups in keystone, limited only by the number of
+assertions your IdP makes about each user.</p>
+<p>A mapping is composed of a list of rules, and each rule is further composed of
+a list of remote attributes and a list of local attributes. If a rule is
+matched, all of the local attributes are applied in the SP. For a
+rule to match, all of the remote attributes it defines must match.</p>
+<p>In the base case, a federated user simply needs an assertion containing
+an email address to be identified in the SP cloud. To achieve that, only
+one rule is needed that requires the presence of one remote attribute:</p>
+<div class="code javascript highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;remote&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Email&quot;</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;{0}&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>However, that is not particularly useful as the federated user would receive no
+authorization. To rectify it, you can map all federated users with email
+addresses into a <code class="docutils literal"><span class="pre">federated-users</span></code> group in the <code class="docutils literal"><span class="pre">default</span></code> domain. All
+federated users will then be able to consume whatever role assignments that
+user group has already received in keystone:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this example, there is only one rule requiring one remote attribute.</p>
+</div>
+<div class="code javascript highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;remote&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Email&quot;</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;{0}&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;domain&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;0cd5e9&quot;</span>
+                        <span class="p">},</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;federated-users&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This example can be expanded by adding a second rule that conveys
+additional authorization to only a subset of federated users. Federated users
+with a <cite>title</cite> attribute that matches either <code class="docutils literal"><span class="pre">Manager</span></code> or
+<code class="docutils literal"><span class="pre">Supervisor</span></code> are granted the hypothetical <code class="docutils literal"><span class="pre">observer</span></code> role, which would
+allow them to perform any read-only API call in the cloud:</p>
+<div class="code javascript highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;rules&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;remote&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Email&quot;</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;{0}&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;domain&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span>
+                        <span class="p">},</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;federated-users&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;remote&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Title&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;any_one_of&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;.*Manager$&quot;</span><span class="p">,</span> <span class="s2">&quot;Supervisor&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;regex&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span>
+                <span class="p">},</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;local&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;group&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s2">&quot;domain&quot;</span><span class="p">:</span> <span class="p">{</span>
+                            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span>
+                        <span class="p">},</span>
+                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;observers&quot;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">any_one_of</span></code> and <code class="docutils literal"><span class="pre">regex</span></code> in the rule above map federated users into
+the <code class="docutils literal"><span class="pre">observers</span></code> group when a user&#8217;s <code class="docutils literal"><span class="pre">Title</span></code> assertion matches any of
+the regular expressions specified in the <code class="docutils literal"><span class="pre">any_one_of</span></code> attribute.</p>
+</div>
+<p>Keystone also supports the following:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">not_any_of</span></code>, matches any assertion that does not include one of
+the specified values</li>
+<li><code class="docutils literal"><span class="pre">blacklist</span></code>, matches all assertions of the specified type except
+those included in the specified value</li>
+<li><code class="docutils literal"><span class="pre">whitelist</span></code> does not match any assertion except those listed in the
+specified value.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="token-provider.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Token provider"></i></a>
+          
+          
+            <a href="config-options.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Additional configuration options for Identity service"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Database service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../identity.html">Identity service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="api.html">Identity API configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="token-provider.html">Token provider</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Federated Identity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config-options.html">Additional configuration options for Identity service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="samples/index.html">Identity service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="caching.html">Caching layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tables/conf-changes/keystone.html">New, updated, and deprecated options in Newton for Identity service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "identity/federated-identity" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Federated Identity in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/identity/federated-identity.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:37:52 GMT -->
+</html>

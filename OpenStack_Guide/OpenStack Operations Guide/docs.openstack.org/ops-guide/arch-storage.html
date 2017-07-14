@@ -1,0 +1,919 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/ops-guide/arch-storage.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:34:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Storage Decisions</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Storage Decisions</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="arch-scaling.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Scaling"></i></a>
+    
+    
+    <a href="arch-network-design.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Network Design"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Storage Decisions</a><ul>
+<li><a class="reference internal" href="#ephemeral-storage">Ephemeral Storage</a></li>
+<li><a class="reference internal" href="#persistent-storage">Persistent Storage</a><ul>
+<li><a class="reference internal" href="#object-storage">Object Storage</a></li>
+<li><a class="reference internal" href="#block-storage">Block Storage</a></li>
+<li><a class="reference internal" href="#shared-file-systems-service">Shared File Systems Service</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#openstack-storage-concepts">OpenStack Storage Concepts</a></li>
+<li><a class="reference internal" href="#choosing-storage-back-ends">Choosing Storage Back Ends</a><ul>
+<li><a class="reference internal" href="#commodity-storage-back-end-technologies">Commodity Storage Back-end Technologies</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="storage-decisions">
+<h1>Storage Decisions<a class="headerlink" href="#storage-decisions" title="Permalink to this headline">¶</a></h1>
+<p>Storage is found in many parts of the OpenStack stack, and the differing
+types can cause confusion to even experienced cloud engineers. This
+section focuses on persistent storage options you can configure with
+your cloud. It&#8217;s important to understand the distinction between
+<a class="reference internal" href="common/glossary.html#term-ephemeral-volume"><span class="xref std std-term">ephemeral</span></a> storage and
+<a class="reference internal" href="common/glossary.html#term-persistent-volume"><span class="xref std std-term">persistent</span></a> storage.</p>
+<div class="section" id="ephemeral-storage">
+<h2>Ephemeral Storage<a class="headerlink" href="#ephemeral-storage" title="Permalink to this headline">¶</a></h2>
+<p>If you deploy only the OpenStack <a class="reference internal" href="common/glossary.html#term-compute-service-nova"><span class="xref std std-term">Compute service (nova)</span></a>,
+your users do not have access to any form of persistent storage by default.
+The disks associated with VMs are &#8220;ephemeral,&#8221; meaning that (from the user&#8217;s
+point of view) they effectively disappear when a virtual machine is
+terminated.</p>
+</div>
+<div class="section" id="persistent-storage">
+<h2>Persistent Storage<a class="headerlink" href="#persistent-storage" title="Permalink to this headline">¶</a></h2>
+<p>Persistent storage means that the storage resource outlives any other
+resource and is always available, regardless of the state of a running
+instance.</p>
+<p>Today, OpenStack clouds explicitly support three types of persistent
+storage: <em>object storage</em>, <em>block storage</em>, and <em>file system storage</em>.</p>
+<div class="section" id="object-storage">
+<h3>Object Storage<a class="headerlink" href="#object-storage" title="Permalink to this headline">¶</a></h3>
+<p>With object storage, users access binary objects through a REST API. You
+may be familiar with Amazon S3, which is a well-known example of an
+object storage system. Object storage is implemented in OpenStack by the
+OpenStack Object Storage (swift) project. If your intended users need to
+archive or manage large datasets, you want to provide them with object
+storage. In addition, OpenStack can store your virtual machine (VM)
+images inside of an object storage system, as an alternative to storing
+the images on a file system.</p>
+<p>OpenStack Object Storage provides a highly scalable, highly available
+storage solution by relaxing some of the constraints of traditional file
+systems. In designing and procuring for such a cluster, it is important
+to understand some key concepts about its operation. Essentially, this
+type of storage is built on the idea that all storage hardware fails, at
+every level, at some point. Infrequently encountered failures that would
+hamstring other storage systems, such as issues taking down RAID cards
+or entire servers, are handled gracefully with OpenStack Object
+Storage.</p>
+<p>A good document describing the Object Storage architecture is found
+within the <a class="reference external" href="http://docs.openstack.org/developer/swift/overview_architecture.html">developer
+documentation</a>
+— read this first. Once you understand the architecture, you should know what a
+proxy server does and how zones work. However, some important points are
+often missed at first glance.</p>
+<p>When designing your cluster, you must consider durability and
+availability. Understand that the predominant source of these is the
+spread and placement of your data, rather than the reliability of the
+hardware. Consider the default value of the number of replicas, which is
+three. This means that before an object is marked as having been
+written, at least two copies exist—in case a single server fails to
+write, the third copy may or may not yet exist when the write operation
+initially returns. Altering this number increases the robustness of your
+data, but reduces the amount of storage you have available. Next, look
+at the placement of your servers. Consider spreading them widely
+throughout your data center&#8217;s network and power-failure zones. Is a zone
+a rack, a server, or a disk?</p>
+<p>Object Storage&#8217;s network patterns might seem unfamiliar at first.
+Consider these main traffic flows:</p>
+<ul class="simple">
+<li>Among <a class="reference internal" href="common/glossary.html#term-object"><span class="xref std std-term">object</span></a>, <a class="reference internal" href="common/glossary.html#term-container"><span class="xref std std-term">container</span></a>, and
+<a class="reference internal" href="common/glossary.html#term-account-server"><span class="xref std std-term">account servers</span></a></li>
+<li>Between those servers and the proxies</li>
+<li>Between the proxies and your users</li>
+</ul>
+<p>Object Storage is very &#8220;chatty&#8221; among servers hosting data—even a small
+cluster does megabytes/second of traffic, which is predominantly, “Do
+you have the object?”/“Yes I have the object!” Of course, if the answer
+to the aforementioned question is negative or the request times out,
+replication of the object begins.</p>
+<p>Consider the scenario where an entire server fails and 24 TB of data
+needs to be transferred &#8220;immediately&#8221; to remain at three copies—this can
+put significant load on the network.</p>
+<p>Another fact that&#8217;s often forgotten is that when a new file is being
+uploaded, the proxy server must write out as many streams as there are
+replicas—giving a multiple of network traffic. For a three-replica
+cluster, 10 Gbps in means 30 Gbps out. Combining this with the previous
+high bandwidth demands of replication is what results in the
+recommendation that your private network be of significantly higher
+bandwidth than your public need be. Oh, and OpenStack Object Storage
+communicates internally with unencrypted, unauthenticated rsync for
+performance—you do want the private network to be private.</p>
+<p>The remaining point on bandwidth is the public-facing portion. The
+<code class="docutils literal"><span class="pre">swift-proxy</span></code> service is stateless, which means that you can easily
+add more and use HTTP load-balancing methods to share bandwidth and
+availability between them.</p>
+<p>More proxies means more bandwidth, if your storage can keep up.</p>
+</div>
+<div class="section" id="block-storage">
+<h3>Block Storage<a class="headerlink" href="#block-storage" title="Permalink to this headline">¶</a></h3>
+<p>Block storage (sometimes referred to as volume storage) provides users
+with access to block-storage devices. Users interact with block storage
+by attaching volumes to their running VM instances.</p>
+<p>These volumes are persistent: they can be detached from one instance and
+re-attached to another, and the data remains intact. Block storage is
+implemented in OpenStack by the OpenStack Block Storage (cinder)
+project, which supports multiple back ends in the form of drivers. Your
+choice of a storage back end must be supported by a Block Storage
+driver.</p>
+<p>Most block storage drivers allow the instance to have direct access to
+the underlying storage hardware&#8217;s block device. This helps increase the
+overall read/write IO. However, support for utilizing files as volumes
+is also well established, with full support for NFS and other protocols.</p>
+<p>These drivers work a little differently than a traditional &#8220;block&#8221;
+storage driver. On an NFS file system, a single file is
+created and then mapped as a &#8220;virtual&#8221; volume into the instance. This
+mapping/translation is similar to how OpenStack utilizes QEMU&#8217;s
+file-based virtual machines stored in <code class="docutils literal"><span class="pre">/var/lib/nova/instances</span></code>.</p>
+</div>
+<div class="section" id="shared-file-systems-service">
+<h3>Shared File Systems Service<a class="headerlink" href="#shared-file-systems-service" title="Permalink to this headline">¶</a></h3>
+<p>The Shared File Systems service provides a set of services for
+management of Shared File Systems in a multi-tenant cloud environment.
+Users interact with Shared File Systems service by mounting remote File
+Systems on their instances with the following usage of those systems for
+file storing and exchange. Shared File Systems service provides you with
+shares. A share is a remote, mountable file system. You can mount a
+share to and access a share from several hosts by several users at a
+time. With shares, user can also:</p>
+<ul class="simple">
+<li>Create a share specifying its size, shared file system protocol,
+visibility level</li>
+<li>Create a share on either a share server or standalone, depending on
+the selected back-end mode, with or without using a share network.</li>
+<li>Specify access rules and security services for existing shares.</li>
+<li>Combine several shares in groups to keep data consistency inside the
+groups for the following safe group operations.</li>
+<li>Create a snapshot of a selected share or a share group for storing
+the existing shares consistently or creating new shares from that
+snapshot in a consistent way</li>
+<li>Create a share from a snapshot.</li>
+<li>Set rate limits and quotas for specific shares and snapshots</li>
+<li>View usage of share resources</li>
+<li>Remove shares.</li>
+</ul>
+<p>Like Block Storage, the Shared File Systems service is persistent. It
+can be:</p>
+<ul class="simple">
+<li>Mounted to any number of client machines.</li>
+<li>Detached from one instance and attached to another without data loss.
+During this process the data are safe unless the Shared File Systems
+service itself is changed or removed.</li>
+</ul>
+<p>Shares are provided by the Shared File Systems service. In OpenStack,
+Shared File Systems service is implemented by Shared File System
+(manila) project, which supports multiple back-ends in the form of
+drivers. The Shared File Systems service can be configured to provision
+shares from one or more back-ends. Share servers are, mostly, virtual
+machines that export file shares via different protocols such as NFS,
+CIFS, GlusterFS, or HDFS.</p>
+</div>
+</div>
+<div class="section" id="openstack-storage-concepts">
+<h2>OpenStack Storage Concepts<a class="headerlink" href="#openstack-storage-concepts" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#table-openstack-storage"><span>Table. OpenStack storage</span></a> explains the different storage concepts
+provided by OpenStack.</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<span id="table-openstack-storage"></span><caption><span class="caption-text">Table. OpenStack storage</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head">Ephemeral storage</th>
+<th class="head">Block storage</th>
+<th class="head">Object storage</th>
+<th class="head">Shared File System storage</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Used to…</td>
+<td>Run operating system and scratch space</td>
+<td>Add additional persistent storage to a virtual machine (VM)</td>
+<td>Store data, including VM images</td>
+<td>Add additional persistent storage to a virtual machine</td>
+</tr>
+<tr class="row-odd"><td>Accessed through…</td>
+<td>A file system</td>
+<td>A block device that can be partitioned, formatted, and mounted
+(such as, /dev/vdc)</td>
+<td>The REST API</td>
+<td>A Shared File Systems service share (either manila managed or an
+external one registered in manila) that can be partitioned, formatted
+and mounted (such as /dev/vdc)</td>
+</tr>
+<tr class="row-even"><td>Accessible from…</td>
+<td>Within a VM</td>
+<td>Within a VM</td>
+<td>Anywhere</td>
+<td>Within a VM</td>
+</tr>
+<tr class="row-odd"><td>Managed by…</td>
+<td>OpenStack Compute (nova)</td>
+<td>OpenStack Block Storage (cinder)</td>
+<td>OpenStack Object Storage (swift)</td>
+<td>OpenStack Shared File System Storage (manila)</td>
+</tr>
+<tr class="row-even"><td>Persists until…</td>
+<td>VM is terminated</td>
+<td>Deleted by user</td>
+<td>Deleted by user</td>
+<td>Deleted by user</td>
+</tr>
+<tr class="row-odd"><td>Sizing determined by…</td>
+<td>Administrator configuration of size settings, known as <em>flavors</em></td>
+<td>User specification in initial request</td>
+<td>Amount of available physical storage</td>
+<td><ul class="first last simple">
+<li>User specification in initial request</li>
+<li>Requests for extension</li>
+<li>Available user-level quotes</li>
+<li>Limitations applied by Administrator</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>Encryption set by…</td>
+<td>Parameter in nova.conf</td>
+<td>Admin establishing <a class="reference external" href="http://docs.openstack.org/admin-guide/dashboard-manage-volumes.html">encrypted volume type</a>,
+then user selecting encrypted volume</td>
+<td>Not yet available</td>
+<td>Shared File Systems service does not apply any additional encryption
+above what the share’s back-end storage provides</td>
+</tr>
+<tr class="row-odd"><td>Example of typical usage…</td>
+<td>10 GB first disk, 30 GB second disk</td>
+<td>1 TB disk</td>
+<td>10s of TBs of dataset storage</td>
+<td>Depends completely on the size of back-end storage specified when
+a share was being created. In case of thin provisioning it can be
+partial space reservation (for more details see
+<a class="reference external" href="http://docs.openstack.org/developer/manila/devref/capabilities_and_extra_specs.html?highlight=extra%20specs#common-capabilities">Capabilities and Extra-Specs</a>
+specification)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><strong>File-level Storage (for Live Migration)</strong></p>
+<p>With file-level storage, users access stored data using the operating
+system&#8217;s file system interface. Most users, if they have used a network
+storage solution before, have encountered this form of networked
+storage. In the Unix world, the most common form of this is NFS. In the
+Windows world, the most common form is called CIFS (previously, SMB).</p>
+<p class="last">OpenStack clouds do not present file-level storage to end users.
+However, it is important to consider file-level storage for storing
+instances under <code class="docutils literal"><span class="pre">/var/lib/nova/instances</span></code> when designing your cloud,
+since you must have a shared file system if you want to support live
+migration.</p>
+</div>
+</div>
+<div class="section" id="choosing-storage-back-ends">
+<h2>Choosing Storage Back Ends<a class="headerlink" href="#choosing-storage-back-ends" title="Permalink to this headline">¶</a></h2>
+<p>Users will indicate different needs for their cloud use cases. Some may
+need fast access to many objects that do not change often, or want to
+set a time-to-live (TTL) value on a file. Others may access only storage
+that is mounted with the file system itself, but want it to be
+replicated instantly when starting a new instance. For other systems,
+ephemeral storage—storage that is released when a VM attached to it is
+shut down— is the preferred way. When you select
+<a class="reference internal" href="common/glossary.html#term-storage-back-end"><span class="xref std std-term">storage back ends</span></a>,
+ask the following questions on behalf of your users:</p>
+<ul class="simple">
+<li>Do my users need block storage?</li>
+<li>Do my users need object storage?</li>
+<li>Do I need to support live migration?</li>
+<li>Should my persistent storage drives be contained in my compute nodes,
+or should I use external storage?</li>
+<li>What is the platter count I can achieve? Do more spindles result in
+better I/O despite network access?</li>
+<li>Which one results in the best cost-performance scenario I&#8217;m aiming for?</li>
+<li>How do I manage the storage operationally?</li>
+<li>How redundant and distributed is the storage? What happens if a
+storage node fails? To what extent can it mitigate my data-loss
+disaster scenarios?</li>
+</ul>
+<p>To deploy your storage by using only commodity hardware, you can use a number
+of open-source packages, as shown in <a class="reference internal" href="#table-persistent-file-storage"><span>Table. Persistent file-based storage support</span></a>.</p>
+<table border="1" class="colwidths-given docutils" id="id2">
+<span id="table-persistent-file-storage"></span><caption><span class="caption-text">Table. Persistent file-based storage support</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&nbsp;</th>
+<th class="head">Object</th>
+<th class="head">Block</th>
+<th class="head">File-level</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Swift</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>LVM</td>
+<td>&nbsp;</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Ceph</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td>Experimental</td>
+</tr>
+<tr class="row-odd"><td>Gluster</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td>&nbsp;</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+</tr>
+<tr class="row-even"><td>NFS</td>
+<td>&nbsp;</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+</tr>
+<tr class="row-odd"><td>ZFS</td>
+<td>&nbsp;</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Sheepdog</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td><a class="first last reference internal image-reference" href="_images/Check_mark_23x20_02.png"><img alt="_images/Check_mark_23x20_02.png" src="_images/Check_mark_23x20_02.png" style="width: 30%;" /></a>
+</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>This list of open source file-level shared storage solutions is not
+exhaustive; other open source solutions exist (MooseFS). Your
+organization may already have deployed a file-level shared storage
+solution that you can use.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><strong>Storage Driver Support</strong></p>
+<p>In addition to the open source technologies, there are a number of
+proprietary solutions that are officially supported by OpenStack Block
+Storage. The full list of options can be found in the
+<a class="reference external" href="http://docs.openstack.org/developer/cinder/drivers.html">Available Drivers</a>
+list.</p>
+<p class="last">You can find a matrix of the functionality provided by all of the
+supported Block Storage drivers on the <a class="reference external" href="https://wiki.openstack.org/wiki/CinderSupportMatrix">OpenStack
+wiki</a>.</p>
+</div>
+<p>Also, you need to decide whether you want to support object storage in
+your cloud. The two common use cases for providing object storage in a
+compute cloud are:</p>
+<ul class="simple">
+<li>To provide users with a persistent storage mechanism</li>
+<li>As a scalable, reliable data store for virtual machine images</li>
+</ul>
+<div class="section" id="commodity-storage-back-end-technologies">
+<h3>Commodity Storage Back-end Technologies<a class="headerlink" href="#commodity-storage-back-end-technologies" title="Permalink to this headline">¶</a></h3>
+<p>This section provides a high-level overview of the differences among the
+different commodity storage back end technologies. Depending on your
+cloud user&#8217;s needs, you can implement one or many of these technologies
+in different combinations:</p>
+<dl class="docutils">
+<dt>OpenStack Object Storage (swift)</dt>
+<dd><p class="first">The official OpenStack Object Store implementation. It is a mature
+technology that has been used for several years in production by
+Rackspace as the technology behind Rackspace Cloud Files. As it is
+highly scalable, it is well-suited to managing petabytes of storage.
+OpenStack Object Storage&#8217;s advantages are better integration with
+OpenStack (integrates with OpenStack Identity, works with the
+OpenStack dashboard interface) and better support for multiple data
+center deployment through support of asynchronous eventual
+consistency replication.</p>
+<p class="last">Therefore, if you eventually plan on distributing your storage
+cluster across multiple data centers, if you need unified accounts
+for your users for both compute and object storage, or if you want
+to control your object storage with the OpenStack dashboard, you
+should consider OpenStack Object Storage. More detail can be found
+about OpenStack Object Storage in the section below.</p>
+</dd>
+<dt>Ceph</dt>
+<dd><p class="first">A scalable storage solution that replicates data across commodity
+storage nodes. Ceph was originally developed by one of the founders
+of DreamHost and is currently used in production there.</p>
+<p>Ceph was designed to expose different types of storage interfaces to
+the end user: it supports object storage, block storage, and
+file-system interfaces, although the file-system interface is not
+yet considered production-ready. Ceph supports the same API as swift
+for object storage and can be used as a back end for cinder block
+storage as well as back-end storage for glance images. Ceph supports
+&#8220;thin provisioning,&#8221; implemented using copy-on-write.</p>
+<p>This can be useful when booting from volume because a new volume can
+be provisioned very quickly. Ceph also supports keystone-based
+authentication (as of version 0.56), so it can be a seamless swap in
+for the default OpenStack swift implementation.</p>
+<p>Ceph&#8217;s advantages are that it gives the administrator more
+fine-grained control over data distribution and replication
+strategies, enables you to consolidate your object and block
+storage, enables very fast provisioning of boot-from-volume
+instances using thin provisioning, and supports a distributed
+file-system interface, though this interface is <a class="reference external" href="http://ceph.com/docs/master/cephfs/">not yet
+recommended</a> for use in
+production deployment by the Ceph project.</p>
+<p class="last">If you want to manage your object and block storage within a single
+system, or if you want to support fast boot-from-volume, you should
+consider Ceph.</p>
+</dd>
+<dt>Gluster</dt>
+<dd><p class="first">A distributed, shared file system. As of Gluster version 3.3, you
+can use Gluster to consolidate your object storage and file storage
+into one unified file and object storage solution, which is called
+Gluster For OpenStack (GFO). GFO uses a customized version of swift
+that enables Gluster to be used as the back-end storage.</p>
+<p class="last">The main reason to use GFO rather than regular swift is if you also
+want to support a distributed file system, either to support shared
+storage live migration or to provide it as a separate service to
+your end users. If you want to manage your object and file storage
+within a single system, you should consider GFO.</p>
+</dd>
+<dt>LVM</dt>
+<dd><p class="first">The Logical Volume Manager is a Linux-based system that provides an
+abstraction layer on top of physical disks to expose logical volumes
+to the operating system. The LVM back-end implements block storage
+as LVM logical partitions.</p>
+<p>On each host that will house block storage, an administrator must
+initially create a volume group dedicated to Block Storage volumes.
+Blocks are created from LVM logical volumes.</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">LVM does <em>not</em> provide any replication. Typically,
+administrators configure RAID on nodes that use LVM as block
+storage to protect against failures of individual hard drives.
+However, RAID does not protect against a failure of the entire
+host.</p>
+</div>
+</dd>
+<dt>ZFS</dt>
+<dd><p class="first">The Solaris iSCSI driver for OpenStack Block Storage implements
+blocks as ZFS entities. ZFS is a file system that also has the
+functionality of a volume manager. This is unlike on a Linux system,
+where there is a separation of volume manager (LVM) and file system
+(such as, ext3, ext4, xfs, and btrfs). ZFS has a number of
+advantages over ext4, including improved data-integrity checking.</p>
+<p>The ZFS back end for OpenStack Block Storage supports only
+Solaris-based systems, such as Illumos. While there is a Linux port
+of ZFS, it is not included in any of the standard Linux
+distributions, and it has not been tested with OpenStack Block
+Storage. As with LVM, ZFS does not provide replication across hosts
+on its own; you need to add a replication solution on top of ZFS if
+your cloud needs to be able to handle storage-node failures.</p>
+<p class="last">We don&#8217;t recommend ZFS unless you have previous experience with
+deploying it, since the ZFS back end for Block Storage requires a
+Solaris-based operating system, and we assume that your experience
+is primarily with Linux-based systems.</p>
+</dd>
+<dt>Sheepdog</dt>
+<dd><p class="first">Sheepdog is a userspace distributed storage system. Sheepdog scales
+to several hundred nodes, and has powerful virtual disk management
+features like snapshot, cloning, rollback, thin provisioning.</p>
+<p class="last">It is essentially an object storage system that manages disks and
+aggregates the space and performance of disks linearly in hyper
+scale on commodity hardware in a smart way. On top of its object
+store, Sheepdog provides elastic volume service and http service.
+Sheepdog does not assume anything about kernel version and can work
+nicely with xattr-supported file systems.</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>We hope that you now have some considerations in mind and questions to
+ask your future cloud users about their storage use cases. As you can
+see, your storage decisions will also influence your network design for
+performance and security needs. Continue with us to make more informed
+decisions about your OpenStack cloud design.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="arch-scaling.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Scaling"></i></a>
+          
+          
+            <a href="arch-network-design.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Network Design"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="acknowledgements.html">Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preface.html">Preface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="architecture.html">Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arch-examples.html">Architecture Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-provision.html">Provisioning and Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-cloud-controller.html">Designing for Cloud Controllers and Cloud Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-compute-nodes.html">Compute Nodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-scaling.html">Scaling</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Storage Decisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="arch-network-design.html">Network Design</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="operations.html">Operations</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="app-usecases.html">Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-crypt.html">Tales From the Cryp^H^H^H^H Cloud</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-roadmaps.html">Working with Roadmaps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app-resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "arch-storage" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/ops-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Storage Decisions in Operations Guide";
+    var fieldTags = "ops-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/ops-guide/arch-storage.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:34:58 GMT -->
+</html>

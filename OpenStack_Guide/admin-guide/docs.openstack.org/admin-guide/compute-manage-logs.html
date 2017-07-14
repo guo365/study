@@ -1,0 +1,624 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-manage-logs.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:56:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Logging</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Logging</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="common/nova-show-usage-statistics-for-hosts-instances.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Show usage statistics for hosts and instances"></i></a>
+    
+    
+    <a href="compute-root-wrap-reference.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Secure with rootwrap"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Logging</a><ul>
+<li><a class="reference internal" href="#logging-module">Logging module</a></li>
+<li><a class="reference internal" href="#syslog">Syslog</a></li>
+<li><a class="reference internal" href="#rsyslog">Rsyslog</a></li>
+<li><a class="reference internal" href="#serial-console">Serial console</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="logging">
+<span id="section-manage-logs"></span><h1>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="logging-module">
+<h2>Logging module<a class="headerlink" href="#logging-module" title="Permalink to this headline">¶</a></h2>
+<p>Logging behavior can be changed by creating a configuration file. To
+specify the configuration file, add this line to the
+<code class="docutils literal"><span class="pre">/etc/nova/nova.conf</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">log-config</span><span class="o">=</span><span class="s">/etc/nova/logging.conf</span>
+</pre></div>
+</div>
+<p>To change the logging level, add <code class="docutils literal"><span class="pre">DEBUG</span></code>, <code class="docutils literal"><span class="pre">INFO</span></code>, <code class="docutils literal"><span class="pre">WARNING</span></code>, or
+<code class="docutils literal"><span class="pre">ERROR</span></code> as a parameter.</p>
+<p>The logging configuration file is an INI-style configuration file, which
+must contain a section called <code class="docutils literal"><span class="pre">logger_nova</span></code>. This controls the
+behavior of the logging facility in the <code class="docutils literal"><span class="pre">nova-*</span></code> services. For
+example:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[logger_nova]</span>
+<span class="na">level</span> <span class="o">=</span> <span class="s">INFO</span>
+<span class="na">handlers</span> <span class="o">=</span> <span class="s">stderr</span>
+<span class="na">qualname</span> <span class="o">=</span> <span class="s">nova</span>
+</pre></div>
+</div>
+<p>This example sets the debugging level to <code class="docutils literal"><span class="pre">INFO</span></code> (which is less verbose
+than the default <code class="docutils literal"><span class="pre">DEBUG</span></code> setting).</p>
+<p>For more about the logging configuration syntax, including the
+<code class="docutils literal"><span class="pre">handlers</span></code> and <code class="docutils literal"><span class="pre">quaname</span></code> variables, see the
+<a class="reference external" href="http://docs.python.org/release/2.7/library/logging.html#configuration-file-format">Python documentation</a>
+on logging configuration files.</p>
+<p>For an example of the <code class="docutils literal"><span class="pre">logging.conf</span></code> file with various defined handlers, see
+the <a class="reference external" href="http://docs.openstack.org/newton/config-reference/">OpenStack Configuration Reference</a>.</p>
+</div>
+<div class="section" id="syslog">
+<h2>Syslog<a class="headerlink" href="#syslog" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack Compute services can send logging information to syslog. This
+is useful if you want to use rsyslog to forward logs to a remote
+machine. Separately configure the Compute service (nova), the Identity
+service (keystone), the Image service (glance), and, if you are using
+it, the Block Storage service (cinder) to send log messages to syslog.
+Open these configuration files:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">/etc/nova/nova.conf</span></code></li>
+<li><code class="docutils literal"><span class="pre">/etc/keystone/keystone.conf</span></code></li>
+<li><code class="docutils literal"><span class="pre">/etc/glance/glance-api.conf</span></code></li>
+<li><code class="docutils literal"><span class="pre">/etc/glance/glance-registry.conf</span></code></li>
+<li><code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code></li>
+</ul>
+<p>In each configuration file, add these lines:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">debug</span> <span class="o">=</span> <span class="s">False</span>
+<span class="na">use_syslog</span> <span class="o">=</span> <span class="s">True</span>
+<span class="na">syslog_log_facility</span> <span class="o">=</span> <span class="s">LOG_LOCAL0</span>
+</pre></div>
+</div>
+<p>In addition to enabling syslog, these settings also turn off debugging output
+from the log.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Although this example uses the same local facility for each service
+(<code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code>, which corresponds to syslog facility <code class="docutils literal"><span class="pre">LOCAL0</span></code>),
+we recommend that you configure a separate local facility for each
+service, as this provides better isolation and more flexibility. For
+example, you can capture logging information at different severity
+levels for different services. syslog allows you to define up to
+eight local facilities, <code class="docutils literal"><span class="pre">LOCAL0,</span> <span class="pre">LOCAL1,</span> <span class="pre">...,</span> <span class="pre">LOCAL7</span></code>. For more
+information, see the syslog documentation.</p>
+</div>
+</div>
+<div class="section" id="rsyslog">
+<h2>Rsyslog<a class="headerlink" href="#rsyslog" title="Permalink to this headline">¶</a></h2>
+<p>rsyslog is useful for setting up a centralized log server across
+multiple machines. This section briefly describe the configuration to
+set up an rsyslog server. A full treatment of rsyslog is beyond the
+scope of this book. This section assumes rsyslog has already been
+installed on your hosts (it is installed by default on most Linux
+distributions).</p>
+<p>This example provides a minimal configuration for <code class="docutils literal"><span class="pre">/etc/rsyslog.conf</span></code>
+on the log server host, which receives the log files</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> provides TCP syslog reception
+<span class="gp">$</span>ModLoad imtcp
+<span class="gp">$</span>InputTCPServerRun 1024
+</pre></div>
+</div>
+<p>Add a filter rule to <code class="docutils literal"><span class="pre">/etc/rsyslog.conf</span></code> which looks for a host name.
+This example uses COMPUTE_01 as the compute host name:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>:hostname, isequal, &quot;COMPUTE_01&quot; /mnt/rsyslog/logs/compute-01.log
+</pre></div>
+</div>
+<p>On each compute host, create a file named
+<code class="docutils literal"><span class="pre">/etc/rsyslog.d/60-nova.conf</span></code>, with the following content:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> prevent debug from dnsmasq with the daemon.none parameter
+<span class="go">*.*;auth,authpriv.none,daemon.none,local0.none -/var/log/syslog</span>
+<span class="gp">#</span> Specify a log level of ERROR
+<span class="go">local0.error    @@172.20.1.43:1024</span>
+</pre></div>
+</div>
+<p>Once you have created the file, restart the <code class="docutils literal"><span class="pre">rsyslog</span></code> service. Error-level
+log messages on the compute hosts should now be sent to the log server.</p>
+</div>
+<div class="section" id="serial-console">
+<h2>Serial console<a class="headerlink" href="#serial-console" title="Permalink to this headline">¶</a></h2>
+<p>The serial console provides a way to examine kernel output and other
+system messages during troubleshooting if the instance lacks network
+connectivity.</p>
+<p>Read-only access from server serial console is possible
+using the <code class="docutils literal"><span class="pre">os-GetSerialOutput</span></code> server action. Most
+cloud images enable this feature by default. For more information, see
+<a class="reference internal" href="support-compute.html#compute-common-errors-and-fixes"><span>Common errors and fixes for Compute</span></a>.</p>
+<p>OpenStack Juno and later supports read-write access using the serial
+console using the <code class="docutils literal"><span class="pre">os-GetSerialConsole</span></code> server action. This feature
+also requires a websocket client to access the serial console.</p>
+<p><strong>Configuring read-write serial console access</strong></p>
+<ol class="arabic">
+<li><p class="first">On a compute node, edit the <code class="docutils literal"><span class="pre">/etc/nova/nova.conf</span></code> file:</p>
+<p>In the <code class="docutils literal"><span class="pre">[serial_console]</span></code> section, enable the serial console:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>[serial_console]
+...
+enabled = true
+</pre></div>
+</div>
+</li>
+<li><p class="first">In the <code class="docutils literal"><span class="pre">[serial_console]</span></code> section, configure the serial console proxy
+similar to graphical console proxies:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>[serial_console]
+...
+base_url = ws://controller:6083/
+listen = 0.0.0.0
+proxyclient_address = MANAGEMENT_INTERFACE_IP_ADDRESS
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">base_url</span></code> option specifies the base URL that clients receive from
+the API upon requesting a serial console. Typically, this refers to the
+host name of the controller node.</p>
+<p>The <code class="docutils literal"><span class="pre">listen</span></code> option specifies the network interface nova-compute
+should listen on for virtual console connections. Typically, 0.0.0.0
+will enable listening on all interfaces.</p>
+<p>The <code class="docutils literal"><span class="pre">proxyclient_address</span></code> option specifies which network interface the
+proxy should connect to. Typically, this refers to the IP address of the
+management interface.</p>
+<p>When you enable read-write serial console access, Compute will add
+serial console information to the Libvirt XML file for the instance. For
+example:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;console</span> <span class="na">type=</span><span class="s">&#39;tcp&#39;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;source</span> <span class="na">mode=</span><span class="s">&#39;bind&#39;</span> <span class="na">host=</span><span class="s">&#39;127.0.0.1&#39;</span> <span class="na">service=</span><span class="s">&#39;10000&#39;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;protocol</span> <span class="na">type=</span><span class="s">&#39;raw&#39;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;target</span> <span class="na">type=</span><span class="s">&#39;serial&#39;</span> <span class="na">port=</span><span class="s">&#39;0&#39;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;alias</span> <span class="na">name=</span><span class="s">&#39;serial0&#39;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/console&gt;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p><strong>Accessing the serial console on an instance</strong></p>
+<ol class="arabic">
+<li><p class="first">Use the <strong class="command">nova get-serial-proxy</strong> command to retrieve the websocket
+URL for the serial console on the instance:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> nova get-serial-proxy INSTANCE_NAME
+</pre></div>
+</div>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Type</td>
+<td>Url</td>
+</tr>
+<tr class="row-even"><td>serial</td>
+<td>ws://127.0.0.1:6083/?token=18510769-71ad-4e5a-8348-4218b5613b3d</td>
+</tr>
+</tbody>
+</table>
+<p>Alternatively, use the API directly:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span>$ curl -i &#39;http://&lt;controller&gt;:8774/v2.1/&lt;tenant_uuid&gt;/servers/
+  &lt;instance_uuid&gt;/action&#39; \
+  -X POST \
+  -H &quot;Accept: application/json&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;X-Auth-Project-Id: &lt;project_id&gt;&quot; \
+  -H &quot;X-Auth-Token: &lt;auth_token&gt;&quot; \
+  -d &#39;{&quot;os-getSerialConsole&quot;: {&quot;type&quot;: &quot;serial&quot;}}&#39;
+</pre></div>
+</div>
+</li>
+<li><p class="first">Use Python websocket with the URL to generate <code class="docutils literal"><span class="pre">.send</span></code>, <code class="docutils literal"><span class="pre">.recv</span></code>, and
+<code class="docutils literal"><span class="pre">.fileno</span></code> methods for serial console access. For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">websocket</span>
+<span class="n">ws</span> <span class="o">=</span> <span class="n">websocket</span><span class="o">.</span><span class="n">create_connection</span><span class="p">(</span>
+    <span class="s1">&#39;ws://127.0.0.1:6083/?token=18510769-71ad-4e5a-8348-4218b5613b3d&#39;</span><span class="p">,</span>
+    <span class="n">subprotocols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;binary&#39;</span><span class="p">,</span> <span class="s1">&#39;base64&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Alternatively, use a <a class="reference external" href="https://github.com/larsks/novaconsole/">Python websocket client</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When you enable the serial console, typical instance logging using
+the <strong class="command">nova console-log</strong> command is disabled. Kernel output
+and other system messages will not be visible unless you are
+actively viewing the serial console.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="common/nova-show-usage-statistics-for-hosts-instances.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Show usage statistics for hosts and instances"></i></a>
+          
+          
+            <a href="compute-root-wrap-reference.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Secure with rootwrap"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="compute.html">Compute</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compute-arch.html">System architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-images-instances.html">Images and instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-networking-nova.html">Networking with nova-network</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="compute-system-admin.html">System administration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support-compute.html">Troubleshoot Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compute-manage-logs" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Logging in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-manage-logs.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:56:59 GMT -->
+</html>

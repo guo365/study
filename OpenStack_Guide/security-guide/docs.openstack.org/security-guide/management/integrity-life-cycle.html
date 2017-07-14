@@ -1,0 +1,761 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/management/integrity-life-cycle.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:16:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Integrity life-cycle</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Integrity life-cycle</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="continuous-systems-management.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Continuous systems management"></i></a>
+    
+    
+    <a href="management-interfaces.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Management interfaces"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Integrity life-cycle</a><ul>
+<li><a class="reference internal" href="#secure-bootstrapping">Secure bootstrapping</a><ul>
+<li><a class="reference internal" href="#node-provisioning">Node provisioning</a></li>
+<li><a class="reference internal" href="#verified-boot">Verified boot</a></li>
+<li><a class="reference internal" href="#node-hardening">Node hardening</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#runtime-verification">Runtime verification</a><ul>
+<li><a class="reference internal" href="#intrusion-detection-system">Intrusion detection system</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#server-hardening">Server hardening</a><ul>
+<li><a class="reference internal" href="#file-integrity-management-fim">File integrity management (FIM)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="integrity-life-cycle">
+<h1>Integrity life-cycle<a class="headerlink" href="#integrity-life-cycle" title="Permalink to this headline">¶</a></h1>
+<p>We define integrity life cycle as a deliberate process that provides
+assurance that we are always running the expected software with the
+expected configurations throughout the cloud. This process begins with
+<a class="reference internal" href="../common/glossary.html#term-secure-boot"><span class="xref std std-term">secure bootstrapping</span></a> and is maintained through
+configuration management and security monitoring. This chapter provides
+recommendations on how to approach the integrity life-cycle process.</p>
+<div class="section" id="secure-bootstrapping">
+<span id="management-secure-bootstrapping"></span><h2>Secure bootstrapping<a class="headerlink" href="#secure-bootstrapping" title="Permalink to this headline">¶</a></h2>
+<p>Nodes in the cloud—including compute, storage, network, service, and
+hybrid nodes—should have an automated provisioning process. This ensures
+that nodes are provisioned consistently and correctly. This also
+facilitates security patching, upgrading, bug fixing, and other critical
+changes. Since this process installs new software that runs at the
+highest privilege levels in the cloud, it is important to verify that
+the correct software is installed. This includes the earliest stages of
+the boot process.</p>
+<p>There are a variety of technologies that enable verification of these
+early boot stages. These typically require hardware support such as the
+<a class="reference internal" href="../common/glossary.html#term-trusted-platform-module-tpm"><span class="xref std std-term">trusted platform module (TPM)</span></a>, Intel Trusted Execution Technology
+(TXT), dynamic root of trust measurement (DRTM), and Unified Extensible
+Firmware Interface (UEFI) secure boot. In this book, we will refer to
+all of these collectively as <em>secure boot technologies</em>. We recommend
+using secure boot, while acknowledging that many of the pieces necessary
+to deploy this require advanced technical skills in order to customize
+the tools for each environment. Utilizing secure boot will require
+deeper integration and customization than many of the other
+recommendations in this guide. TPM technology, while common in most
+business class laptops and desktops for several years, and is now
+becoming available in servers together with supporting BIOS. Proper
+planning is essential to a successful secure boot deployment.</p>
+<p>A complete tutorial on secure boot deployment is beyond the scope of
+this book. Instead, here we provide a framework for how to integrate
+secure boot technologies with the typical node provisioning process. For
+additional details, cloud architects should refer to the related
+specifications and software configuration manuals.</p>
+<div class="section" id="node-provisioning">
+<h3>Node provisioning<a class="headerlink" href="#node-provisioning" title="Permalink to this headline">¶</a></h3>
+<p>Nodes should use Preboot eXecution Environment (PXE) for provisioning.
+This significantly reduces the effort required for redeploying nodes.
+The typical process involves the node receiving various boot stages—that
+is progressively more complex software to execute— from a server.</p>
+<img alt="../_images/node-provisioning-pxe.png" src="../_images/node-provisioning-pxe.png" />
+<p>We recommend using a separate, isolated network within the management
+security domain for provisioning. This network will handle all PXE
+traffic, along with the subsequent boot stage downloads depicted above.
+Note that the node boot process begins with two insecure operations:
+DHCP and TFTP. Then the boot process uses TLS to download the remaining
+information required to deploy the node. This may be an operating system
+installer, a basic install managed by
+<a class="reference external" href="https://www.chef.io/chef/">Chef</a> or
+<a class="reference external" href="https://puppetlabs.com/">Puppet</a>, or even a complete file system
+image that is written directly to disk.</p>
+<p>While utilizing TLS during the PXE boot process is somewhat more
+challenging, common PXE firmware projects, such as iPXE, provide this
+support. Typically this involves building the PXE firmware with
+knowledge of the allowed TLS certificate chain(s) so that it can
+properly validate the server certificate. This raises the bar for an
+attacker by limiting the number of insecure, plain text network
+operations.</p>
+</div>
+<div class="section" id="verified-boot">
+<h3>Verified boot<a class="headerlink" href="#verified-boot" title="Permalink to this headline">¶</a></h3>
+<p>In general, there are two different strategies for verifying the boot
+process. Traditional <em>secure boot</em> will validate the code run at each
+step in the process, and stop the boot if code is incorrect. <em>Boot
+attestation</em> will record which code is run at each step, and provide
+this information to another machine as proof that the boot process
+completed as expected. In both cases, the first step is to measure each
+piece of code before it is run. In this context, a measurement is
+effectively a SHA-1 hash of the code, taken before it is executed. The
+hash is stored in a platform configuration register (PCR) in the TPM.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">SHA-1 is used here because this is what the TPM chips support.</p>
+</div>
+<p>Each TPM has at least 24 PCRs. The TCG Generic Server Specification,
+v1.0, March 2005, defines the PCR assignments for boot-time integrity
+measurements. The table below shows a typical PCR configuration. The
+context indicates if the values are determined based on the node
+hardware (firmware) or the software provisioned onto the node. Some
+values are influenced by firmware versions, disk sizes, and other
+low-level information. Therefore, it is important to have good practices
+in place around configuration management to ensure that each system
+deployed is configured exactly as desired.</p>
+<table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="17%" />
+<col width="67%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Register</th>
+<th class="head">What is measured</th>
+<th class="head">Context</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>PCR-00</td>
+<td>Core Root of Trust Measurement (CRTM), BIOS code, Host platform extensions</td>
+<td>Hardware</td>
+</tr>
+<tr class="row-odd"><td>PCR-01</td>
+<td>Host platform configuration</td>
+<td>Hardware</td>
+</tr>
+<tr class="row-even"><td>PCR-02</td>
+<td>Option ROM code</td>
+<td>Hardware</td>
+</tr>
+<tr class="row-odd"><td>PCR-03</td>
+<td>Option ROM configuration and data</td>
+<td>Hardware</td>
+</tr>
+<tr class="row-even"><td>PCR-04</td>
+<td>Initial Program Loader (IPL) code. For example, master boot record.</td>
+<td>Software</td>
+</tr>
+<tr class="row-odd"><td>PCR-05</td>
+<td>IPL code configuration and data</td>
+<td>Software</td>
+</tr>
+<tr class="row-even"><td>PCR-06</td>
+<td>State transition and wake events</td>
+<td>Software</td>
+</tr>
+<tr class="row-odd"><td>PCR-07</td>
+<td>Host platform manufacturer control</td>
+<td>Software</td>
+</tr>
+<tr class="row-even"><td>PCR-08</td>
+<td>Platform specific, often kernel, kernel extensions, and drivers</td>
+<td>Software</td>
+</tr>
+<tr class="row-odd"><td>PCR-09</td>
+<td>Platform specific, often Initramfs</td>
+<td>Software</td>
+</tr>
+<tr class="row-even"><td>PCR-10 to PCR-23</td>
+<td>Platform specific</td>
+<td>Software</td>
+</tr>
+</tbody>
+</table>
+<p>At the time of this writing, very few clouds are using secure boot
+technologies in a production environment. As a result, these
+technologies are still somewhat immature. We recommend planning
+carefully in terms of hardware selection. For example, ensure that you
+have a TPM and Intel TXT support. Then verify how the node hardware
+vendor populates the PCR values. For example, which values will be
+available for validation. Typically the PCR values listed under the
+software context in the table above are the ones that a cloud architect
+has direct control over. But even these may change as the software in
+the cloud is upgraded. Configuration management should be linked into
+the PCR policy engine to ensure that the validation is always up to
+date.</p>
+<p>Each manufacturer must provide the BIOS and firmware code for their
+servers. Different servers, hypervisors, and operating systems will
+choose to populate different PCRs. In most real world deployments, it
+will be impossible to validate every PCR against a known good quantity
+(&#8220;golden measurement&#8221;). Experience has shown that, even within a single
+vendor&#8217;s product line, the measurement process for a given PCR may not
+be consistent. We recommend establishing a baseline for each server and
+monitoring the PCR values for unexpected changes. Third-party software
+may be available to assist in the TPM provisioning and monitoring
+process, depending upon your chosen hypervisor solution.</p>
+<p>The initial program loader (IPL) code will most likely be the PXE
+firmware, assuming the node deployment strategy outlined above.
+Therefore, the secure boot or boot attestation process can measure all
+of the early stage boot code, such as BIOS, firmware, the PXE firmware,
+and the kernel image. Ensuring that each node has the correct versions
+of these pieces installed provides a solid foundation on which to build
+the rest of the node software stack.</p>
+<p>Depending on the strategy selected, in the event of a failure the node
+will either fail to boot or it can report the failure back to another
+entity in the cloud. For secure boot, the node will fail to boot and a
+provisioning service within the management security domain must
+recognize this and log the event. For boot attestation, the node will
+already be running when the failure is detected. In this case the node
+should be immediately quarantined by disabling its network access. Then
+the event should be analyzed for the root cause. In either case, policy
+should dictate how to proceed after a failure. A cloud may automatically
+attempt to re-provision a node a certain number of times. Or it may
+immediately notify a cloud administrator to investigate the problem. The
+right policy here will be deployment and failure mode specific.</p>
+</div>
+<div class="section" id="node-hardening">
+<h3>Node hardening<a class="headerlink" href="#node-hardening" title="Permalink to this headline">¶</a></h3>
+<p>At this point we know that the node has booted with the correct kernel
+and underlying components. There are many paths for hardening a given
+operating system deployment. The specifics on these steps are outside of
+the scope of this book. We recommend following the guidance from a
+hardening guide specific to your operating system. For example, the
+<a class="reference external" href="http://iase.disa.mil/stigs/">security technical implementation
+guides</a> (STIG) and the <a class="reference external" href="https://www.nsa.gov/ia/mitigation_guidance/security_configuration_guides/">NSA
+guides</a>
+are useful starting places.</p>
+<p>The nature of the nodes makes additional hardening possible. We
+recommend the following additional steps for production nodes:</p>
+<ul class="simple">
+<li>Use a read-only file system where possible. Ensure that writeable
+file systems do not permit execution. This can be handled through the
+mount options provided in <code class="docutils literal"><span class="pre">/etc/fstab</span></code>.</li>
+<li>Use a mandatory access control policy to contain the instances, the
+node services, and any other critical processes and data on the node.
+See the discussions on sVirt / SELinux and AppArmor below.</li>
+<li>Remove any unnecessary software packages. This should result in a
+very stripped down installation because a compute node has a
+relatively small number of dependencies.</li>
+</ul>
+<p>Finally, the node kernel should have a mechanism to validate that the
+rest of the node starts in a known good state. This provides the
+necessary link from the boot validation process to validating the entire
+system. The steps for doing this will be deployment specific. As an
+example, a kernel module could verify a hash over the blocks comprising
+the file system before mounting it using
+<a class="reference external" href="https://gitlab.com/cryptsetup/cryptsetup/wikis/DMVerity">dm-verity</a>.</p>
+</div>
+</div>
+<div class="section" id="runtime-verification">
+<h2>Runtime verification<a class="headerlink" href="#runtime-verification" title="Permalink to this headline">¶</a></h2>
+<p>Once the node is running, we need to ensure that it remains in a good
+state over time. Broadly speaking, this includes both configuration
+management and security monitoring. The goals for each of these areas
+are different. By checking both, we achieve higher assurance that the
+system is operating as desired. We discuss configuration management in
+the management section, and security monitoring below.</p>
+<div class="section" id="intrusion-detection-system">
+<h3>Intrusion detection system<a class="headerlink" href="#intrusion-detection-system" title="Permalink to this headline">¶</a></h3>
+<p>Host-based intrusion detection tools are also useful for automated
+validation of the cloud internals. There are a wide variety of
+host-based intrusion detection tools available. Some are open source
+projects that are freely available, while others are commercial.
+Typically these tools analyze data from a variety of sources and produce
+security alerts based on rule sets and/or training. Typical capabilities
+include log analysis, file integrity checking, policy monitoring, and
+rootkit detection. More advanced &#8211; often custom &#8211; tools can validate
+that in-memory process images match the on-disk executable and validate
+the execution state of a running process.</p>
+<p>One critical policy decision for a cloud architect is what to do with
+the output from a security monitoring tool. There are effectively two
+options. The first is to alert a human to investigate and/or take
+corrective action. This could be done by including the security alert in
+a log or events feed for cloud administrators. The second option is to
+have the cloud take some form of remedial action automatically, in
+addition to logging the event. Remedial actions could include anything
+from re-installing a node to performing a minor service configuration.
+However, automated remedial action can be challenging due to the
+possibility of false positives.</p>
+<p>False positives occur when the security monitoring tool produces a
+security alert for a benign event. Due to the nature of security
+monitoring tools, false positives will most certainly occur from time to
+time. Typically a cloud administrator can tune security monitoring tools
+to reduce the false positives, but this may also reduce the overall
+detection rate at the same time. These classic trade-offs must be
+understood and accounted for when setting up a security monitoring
+system in the cloud.</p>
+<p>The selection and configuration of a host-based intrusion detection tool
+is highly deployment specific. We recommend starting by exploring the
+following open source projects which implement a variety of host-based
+intrusion detection and file monitoring features.</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.ossec.net/">OSSEC</a></li>
+<li><a class="reference external" href="http://la-samhna.de/samhain/">Samhain</a></li>
+<li><a class="reference external" href="http://sourceforge.net/projects/tripwire/">Tripwire</a></li>
+<li><a class="reference external" href="http://aide.sourceforge.net/">AIDE</a></li>
+</ul>
+<p>Network intrusion detection tools complement the host-based tools.
+OpenStack doesn&#8217;t have a specific network IDS built-in, but OpenStack
+Networking provides a plug-in mechanism to enable different technologies
+through the Networking API. This plug-in architecture will allow tenants
+to develop API extensions to insert and configure their own advanced
+networking services like a firewall, an intrusion detection system, or a
+VPN between the VMs.</p>
+<p>Similar to host-based tools, the selection and configuration of a
+network-based intrusion detection tool is deployment specific.
+<a class="reference external" href="https://www.snort.org/">Snort</a> is the leading open source networking
+intrusion detection tool, and a good starting place to learn more.</p>
+<p>There are a few important security considerations for network and
+host-based intrusion detection systems.</p>
+<ul class="simple">
+<li>It is important to consider the placement of the Network IDS on the
+cloud (for example, adding it to the network boundary and/or around
+sensitive networks). The placement depends on your network
+environment but make sure to monitor the impact the IDS may have on
+your services depending on where you choose to add it. Encrypted
+traffic, such as TLS, cannot generally be inspected for content by a
+Network IDS. However, the Network IDS may still provide some benefit
+in identifying anomalous unencrypted traffic on the network.</li>
+<li>In some deployments it may be required to add host-based IDS on
+sensitive components on security domain bridges. A host-based IDS may
+detect anomalous activity by compromised or unauthorized processes on
+the component. The IDS should transmit alert and log information on
+the Management network.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="server-hardening">
+<h2>Server hardening<a class="headerlink" href="#server-hardening" title="Permalink to this headline">¶</a></h2>
+<p>Servers in the cloud, including undercloud and overcloud infrastructure,
+should implement hardening best practices. As OS and server hardening is
+common, applicable best practices including but not limited to logging,
+user account restrictions, and regular updates will not be covered here,
+but should be applied to all infrastructure.</p>
+<div class="section" id="file-integrity-management-fim">
+<h3>File integrity management (FIM)<a class="headerlink" href="#file-integrity-management-fim" title="Permalink to this headline">¶</a></h3>
+<p>File integrity management (FIM) is the method of ensuring that files
+such as sensitive system or application configuration files are not
+corrupted or changed to allow unauthorized access or malicious behavior.
+This can be done through a utility such as Samhain that will create a
+checksum hash of the specified resource and then validate that hash at
+regular intervals, or through a tool such as DMVerity that can take a
+hash of block devices and will validate those hashes as they are
+accessed by the system before they are presented to the user.</p>
+<p>These should be put in place to monitor and report on changes to system,
+hypervisor, and application configuration files such as
+<code class="docutils literal"><span class="pre">/etc/pam.d/system-auth</span></code> and <code class="docutils literal"><span class="pre">/etc/keystone/keystone.conf</span></code>,
+as well as kernel modules (such as virtio). Best practice is to use
+the <strong class="command">lsmod</strong> command to show what is regularly being loaded on a
+system to help determine what should or should not be included in FIM checks.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="continuous-systems-management.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Continuous systems management"></i></a>
+          
+          
+            <a href="management-interfaces.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Management interfaces"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../management.html">Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="continuous-systems-management.html">Continuous systems management</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Integrity life-cycle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="management-interfaces.html">Management interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case-studies.html">Case studies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance.html">Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "management/integrity-life-cycle" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Integrity life-cycle in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/management/integrity-life-cycle.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:16:37 GMT -->
+</html>

@@ -1,0 +1,802 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/hpe-3par-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:46:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: HPE 3PAR Fibre Channel and iSCSI drivers</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>HPE 3PAR Fibre Channel and iSCSI drivers</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="hitachi-storage-volume-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Hitachi storage volume driver"></i></a>
+    
+    
+    <a href="hpe-lefthand-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: HPE LeftHand/StoreVirtual driver"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">HPE 3PAR Fibre Channel and iSCSI drivers</a><ul>
+<li><a class="reference internal" href="#system-requirements">System requirements</a></li>
+<li><a class="reference internal" href="#supported-operations">Supported operations</a></li>
+<li><a class="reference internal" href="#enable-the-hpe-3par-fibre-channel-and-iscsi-drivers">Enable the HPE 3PAR Fibre Channel and iSCSI drivers</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="hpe-3par-fibre-channel-and-iscsi-drivers">
+<h1>HPE 3PAR Fibre Channel and iSCSI drivers<a class="headerlink" href="#hpe-3par-fibre-channel-and-iscsi-drivers" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal"><span class="pre">HPE3PARFCDriver</span></code> and <code class="docutils literal"><span class="pre">HPE3PARISCSIDriver</span></code> drivers, which are based on
+the Block Storage service (Cinder) plug-in architecture, run volume operations
+by communicating with the HPE 3PAR storage system over HTTP, HTTPS, and SSH
+connections. The HTTP and HTTPS communications use <code class="docutils literal"><span class="pre">python-3parclient</span></code>,
+which is part of the Python standard library.</p>
+<p>For information about how to manage HPE 3PAR storage systems, see the HPE 3PAR
+user documentation.</p>
+<div class="section" id="system-requirements">
+<h2>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<p>To use the HPE 3PAR drivers, install the following software and components on
+the HPE 3PAR storage system:</p>
+<ul class="simple">
+<li>HPE 3PAR Operating System software version 3.1.3 MU1 or higher.<ul>
+<li>Deduplication provisioning requires SSD disks and HPE 3PAR Operating
+System software version 3.2.1 MU1 or higher.</li>
+<li>Enabling Flash Cache Policy requires the following:<ul>
+<li>Array must contain SSD disks.</li>
+<li>HPE 3PAR Operating System software version 3.2.1 MU2 or higher.</li>
+<li>python-3parclient version 4.2.0 or newer.</li>
+<li>Array must have the Adaptive Flash Cache license installed.</li>
+<li>Flash Cache must be enabled on the array with the CLI command
+<strong class="command">createflashcache SIZE</strong>, where size must be in 16 GB increments.
+For example, <strong class="command">createflashcache 128g</strong> will create 128 GB of Flash
+Cache for each node pair in the array.</li>
+</ul>
+</li>
+<li>The Dynamic Optimization license is required to support any feature that
+results in a volume changing provisioning type or CPG. This may apply to
+the volume <strong class="command">migrate</strong>, <strong class="command">retype</strong> and <strong class="command">manage</strong>
+commands.</li>
+<li>The Virtual Copy License is required to support any feature that involves
+volume snapshots. This applies to the volume <strong class="command">snapshot-*</strong>
+commands.</li>
+</ul>
+</li>
+<li>HPE 3PAR drivers will now check the licenses installed on the array and
+disable driver capabilities based on available licenses. This will apply to
+thin provisioning, QoS support and volume replication.</li>
+<li>HPE 3PAR Web Services API Server must be enabled and running.</li>
+<li>One Common Provisioning Group (CPG).</li>
+<li>Additionally, you must install the <code class="docutils literal"><span class="pre">python-3parclient</span></code> version 4.2.0 or
+newer from the Python standard library on the system with the enabled Block
+Storage service volume drivers.</li>
+</ul>
+</div>
+<div class="section" id="supported-operations">
+<h2>Supported operations<a class="headerlink" href="#supported-operations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Create, delete, attach, and detach volumes.</li>
+<li>Create, list, and delete volume snapshots.</li>
+<li>Create a volume from a snapshot.</li>
+<li>Copy an image to a volume.</li>
+<li>Copy a volume to an image.</li>
+<li>Clone a volume.</li>
+<li>Extend a volume.</li>
+<li>Migrate a volume with back-end assistance.</li>
+<li>Retype a volume.</li>
+<li>Manage and unmanage a volume.</li>
+<li>Manage and unmanage a snapshot.</li>
+<li>Replicate host volumes.</li>
+<li>Fail-over host volumes.</li>
+<li>Fail-back host volumes.</li>
+<li>Create, delete, update, snapshot, and clone consistency groups.</li>
+<li>Create and delete consistency group snapshots.</li>
+<li>Create a consistency group from a consistency group snapshot or another
+group.</li>
+</ul>
+<p>Volume type support for both HPE 3PAR drivers includes the ability to set the
+following capabilities in the OpenStack Block Storage API
+<code class="docutils literal"><span class="pre">cinder.api.contrib.types_extra_specs</span></code> volume type extra specs extension
+module:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">hpe3par:snap_cpg</span></code></li>
+<li><code class="docutils literal"><span class="pre">hpe3par:provisioning</span></code></li>
+<li><code class="docutils literal"><span class="pre">hpe3par:persona</span></code></li>
+<li><code class="docutils literal"><span class="pre">hpe3par:vvs</span></code></li>
+<li><code class="docutils literal"><span class="pre">hpe3par:flash_cache</span></code></li>
+</ul>
+<p>To work with the default filter scheduler, the key values are case sensitive
+and scoped with <code class="docutils literal"><span class="pre">hpe3par:</span></code>. For information about how to set the key-value
+pairs and associate them with a volume type, run the following command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack <span class="nb">help</span> volume <span class="nb">type</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Volumes that are cloned only support the extra specs keys cpg, snap_cpg,
+provisioning and vvs. The others are ignored. In addition the comments
+section of the cloned volume in the HPE 3PAR StoreServ storage array is
+not populated.</p>
+</div>
+<p>If volume types are not used or a particular key is not set for a volume type,
+the following defaults are used:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">hpe3par:cpg</span></code> - Defaults to the <code class="docutils literal"><span class="pre">hpe3par_cpg</span></code> setting in the
+<code class="docutils literal"><span class="pre">cinder.conf</span></code> file.</li>
+<li><code class="docutils literal"><span class="pre">hpe3par:snap_cpg</span></code> - Defaults to the <code class="docutils literal"><span class="pre">hpe3par_snap</span></code> setting in
+the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file. If <code class="docutils literal"><span class="pre">hpe3par_snap</span></code> is not set, it defaults
+to the <code class="docutils literal"><span class="pre">hpe3par_cpg</span></code> setting.</li>
+<li><code class="docutils literal"><span class="pre">hpe3par:provisioning</span></code> - Defaults to <code class="docutils literal"><span class="pre">thin</span></code> provisioning, the valid
+values are <code class="docutils literal"><span class="pre">thin</span></code>, <code class="docutils literal"><span class="pre">full</span></code>, and <code class="docutils literal"><span class="pre">dedup</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">hpe3par:persona</span></code> - Defaults to the <code class="docutils literal"><span class="pre">2</span> <span class="pre">-</span> <span class="pre">Generic-ALUA</span></code> persona. The
+valid values are:<ul>
+<li><code class="docutils literal"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">Generic</span></code></li>
+<li><code class="docutils literal"><span class="pre">2</span> <span class="pre">-</span> <span class="pre">Generic-ALUA</span></code></li>
+<li><code class="docutils literal"><span class="pre">3</span> <span class="pre">-</span> <span class="pre">Generic-legacy</span></code></li>
+<li><code class="docutils literal"><span class="pre">4</span> <span class="pre">-</span> <span class="pre">HPUX-legacy</span></code></li>
+<li><code class="docutils literal"><span class="pre">5</span> <span class="pre">-</span> <span class="pre">AIX-legacy</span></code></li>
+<li><code class="docutils literal"><span class="pre">6</span> <span class="pre">-</span> <span class="pre">EGENERA</span></code></li>
+<li><code class="docutils literal"><span class="pre">7</span> <span class="pre">-</span> <span class="pre">ONTAP-legacy</span></code></li>
+<li><code class="docutils literal"><span class="pre">8</span> <span class="pre">-</span> <span class="pre">VMware</span></code></li>
+<li><code class="docutils literal"><span class="pre">9</span> <span class="pre">-</span> <span class="pre">OpenVMS</span></code></li>
+<li><code class="docutils literal"><span class="pre">10</span> <span class="pre">-</span> <span class="pre">HPUX</span></code></li>
+<li><code class="docutils literal"><span class="pre">11</span> <span class="pre">-</span> <span class="pre">WindowsServer</span></code></li>
+</ul>
+</li>
+<li><code class="docutils literal"><span class="pre">hpe3par:flash_cache</span></code> - Defaults to <code class="docutils literal"><span class="pre">false</span></code>, the valid values are
+<code class="docutils literal"><span class="pre">true</span></code> and <code class="docutils literal"><span class="pre">false</span></code>.</li>
+</ul>
+<p>QoS support for both HPE 3PAR drivers includes the ability to set the
+following capabilities in the OpenStack Block Storage API
+<code class="docutils literal"><span class="pre">cinder.api.contrib.qos_specs_manage</span></code> qos specs extension module:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">minBWS</span></code></li>
+<li><code class="docutils literal"><span class="pre">maxBWS</span></code></li>
+<li><code class="docutils literal"><span class="pre">minIOPS</span></code></li>
+<li><code class="docutils literal"><span class="pre">maxIOPS</span></code></li>
+<li><code class="docutils literal"><span class="pre">latency</span></code></li>
+<li><code class="docutils literal"><span class="pre">priority</span></code></li>
+</ul>
+<p>The qos keys above no longer require to be scoped but must be created and
+associated to a volume type. For information about how to set the key-value
+pairs and associate them with a volume type, run the following commands:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack <span class="nb">help</span> volume qos
+</pre></div>
+</div>
+<p>The following keys require that the HPE 3PAR StoreServ storage array has a
+Priority Optimization license installed.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">hpe3par:vvs</span></code></dt>
+<dd>The virtual volume set name that has been predefined by the Administrator
+with <a class="reference internal" href="../../common/glossary.html#term-quality-of-service-qos"><span class="xref std std-term">quality of service (QoS)</span></a> rules associated to it. If you specify
+extra_specs <code class="docutils literal"><span class="pre">hpe3par:vvs</span></code>, the qos_specs <code class="docutils literal"><span class="pre">minIOPS</span></code>, <code class="docutils literal"><span class="pre">maxIOPS</span></code>,
+<code class="docutils literal"><span class="pre">minBWS</span></code>, and <code class="docutils literal"><span class="pre">maxBWS</span></code> settings are ignored.</dd>
+<dt><code class="docutils literal"><span class="pre">minBWS</span></code></dt>
+<dd>The QoS I/O issue bandwidth minimum goal in MBs. If not set, the I/O issue
+bandwidth rate has no minimum goal.</dd>
+<dt><code class="docutils literal"><span class="pre">maxBWS</span></code></dt>
+<dd>The QoS I/O issue bandwidth rate limit in MBs. If not set, the I/O issue
+bandwidth rate has no limit.</dd>
+<dt><code class="docutils literal"><span class="pre">minIOPS</span></code></dt>
+<dd>The QoS I/O issue count minimum goal. If not set, the I/O issue count has no
+minimum goal.</dd>
+<dt><code class="docutils literal"><span class="pre">maxIOPS</span></code></dt>
+<dd>The QoS I/O issue count rate limit. If not set, the I/O issue count rate has
+no limit.</dd>
+<dt><code class="docutils literal"><span class="pre">latency</span></code></dt>
+<dd>The latency goal in milliseconds.</dd>
+<dt><code class="docutils literal"><span class="pre">priority</span></code></dt>
+<dd>The priority of the QoS rule over other rules. If not set, the priority is
+<code class="docutils literal"><span class="pre">normal</span></code>, valid values are <code class="docutils literal"><span class="pre">low</span></code>, <code class="docutils literal"><span class="pre">normal</span></code> and <code class="docutils literal"><span class="pre">high</span></code>.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since the Icehouse release, minIOPS and maxIOPS must be used together to
+set I/O limits. Similarly, minBWS and maxBWS must be used together. If only
+one is set the other will be set to the same value.</p>
+</div>
+<p>The following key requires that the HPE 3PAR StoreServ storage array has an
+Adaptive Flash Cache license installed.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">hpe3par:flash_cache</span></code> - The flash-cache policy, which can be turned on and
+off by setting the value to <code class="docutils literal"><span class="pre">true</span></code> or <code class="docutils literal"><span class="pre">false</span></code>.</li>
+</ul>
+<p>LDAP and AD authentication is now supported in the HPE 3PAR driver.</p>
+<p>The 3PAR back end must be properly configured for LDAP and AD authentication
+prior to configuring the volume driver. For details on setting up LDAP with
+3PAR, see the 3PAR user guide.</p>
+<p>Once configured, <code class="docutils literal"><span class="pre">hpe3par_username</span></code> and <code class="docutils literal"><span class="pre">hpe3par_password</span></code> parameters in
+<code class="docutils literal"><span class="pre">cinder.conf</span></code> can be used with LDAP and AD credentials.</p>
+</div>
+<div class="section" id="enable-the-hpe-3par-fibre-channel-and-iscsi-drivers">
+<h2>Enable the HPE 3PAR Fibre Channel and iSCSI drivers<a class="headerlink" href="#enable-the-hpe-3par-fibre-channel-and-iscsi-drivers" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">HPE3PARFCDriver</span></code> and <code class="docutils literal"><span class="pre">HPE3PARISCSIDriver</span></code> are installed with the
+OpenStack software.</p>
+<ol class="arabic">
+<li><p class="first">Install the <code class="docutils literal"><span class="pre">python-3parclient</span></code> Python package on the OpenStack Block
+Storage system.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install <span class="s1">&#39;python-3parclient&gt;=4.0,&lt;5.0&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Verify that the HPE 3PAR Web Services API server is enabled and running on
+the HPE 3PAR storage system.</p>
+<ol class="loweralpha">
+<li><p class="first">Log onto the HP 3PAR storage system with administrator access.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ssh 3paradm@&lt;HP 3PAR IP Address&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">View the current state of the Web Services API Server.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> showwsapi
+<span class="go">-Service- -State- -HTTP_State- HTTP_Port -HTTPS_State- HTTPS_Port -Version-</span>
+<span class="go">Enabled   Active Enabled       8008        Enabled       8080       1.1</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">If the Web Services API Server is disabled, start it.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> startwsapi
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first">If the HTTP or HTTPS state is disabled, enable one of them.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> setwsapi -http <span class="nb">enable</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> setwsapi -https <span class="nb">enable</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To stop the Web Services API Server, use the <strong class="command">stopwsapi</strong> command. For
+other options run the <strong class="command">setwsapi –h</strong> command.</p>
+</div>
+</li>
+<li><p class="first">If you are not using an existing CPG, create a CPG on the HPE 3PAR storage
+system to be used as the default location for creating volumes.</p>
+</li>
+<li><p class="first">Make the following changes in the <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code> file.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="c1"># 3PAR WS API Server URL</span>
+<span class="na">hpe3par_api_url</span><span class="o">=</span><span class="s">https://10.10.0.141:8080/api/v1</span>
+
+<span class="c1"># 3PAR username with the &#39;edit&#39; role</span>
+<span class="na">hpe3par_username</span><span class="o">=</span><span class="s">edit3par</span>
+
+<span class="c1"># 3PAR password for the user specified in hpe3par_username</span>
+<span class="na">hpe3par_password</span><span class="o">=</span><span class="s">3parpass</span>
+
+<span class="c1"># 3PAR CPG to use for volume creation</span>
+<span class="na">hpe3par_cpg</span><span class="o">=</span><span class="s">OpenStackCPG_RAID5_NL</span>
+
+<span class="c1"># IP address of SAN controller for SSH access to the array</span>
+<span class="na">san_ip</span><span class="o">=</span><span class="s">10.10.22.241</span>
+
+<span class="c1"># Username for SAN controller for SSH access to the array</span>
+<span class="na">san_login</span><span class="o">=</span><span class="s">3paradm</span>
+
+<span class="c1"># Password for SAN controller for SSH access to the array</span>
+<span class="na">san_password</span><span class="o">=</span><span class="s">3parpass</span>
+
+<span class="c1"># FIBRE CHANNEL(uncomment the next line to enable the FC driver)</span>
+<span class="c1"># volume_driver=cinder.volume.drivers.hpe.hpe_3par_fc.HPE3PARFCDriver</span>
+
+<span class="c1"># iSCSI (uncomment the next line to enable the iSCSI driver and</span>
+<span class="c1"># hpe3par_iscsi_ips or iscsi_ip_address)</span>
+<span class="c1">#volume_driver=cinder.volume.drivers.hpe.hpe_3par_iscsi.HPE3PARISCSIDriver</span>
+
+<span class="c1"># iSCSI multiple port configuration</span>
+<span class="c1"># hpe3par_iscsi_ips=10.10.220.253:3261,10.10.222.234</span>
+
+<span class="c1"># Still available for single port iSCSI configuration</span>
+<span class="c1">#iscsi_ip_address=10.10.220.253</span>
+
+
+<span class="c1"># Enable HTTP debugging to 3PAR</span>
+<span class="na">hpe3par_debug</span><span class="o">=</span><span class="s">False</span>
+
+<span class="c1"># Enable CHAP authentication for iSCSI connections.</span>
+<span class="na">hpe3par_iscsi_chap_enabled</span><span class="o">=</span><span class="s">false</span>
+
+<span class="c1"># The CPG to use for Snapshots for volumes. If empty hpe3par_cpg will be</span>
+<span class="c1"># used.</span>
+<span class="na">hpe3par_snap_cpg</span><span class="o">=</span><span class="s">OpenStackSNAP_CPG</span>
+
+<span class="c1"># Time in hours to retain a snapshot. You can&#39;t delete it before this</span>
+<span class="c1"># expires.</span>
+<span class="na">hpe3par_snapshot_retention</span><span class="o">=</span><span class="s">48</span>
+
+<span class="c1"># Time in hours when a snapshot expires and is deleted. This must be</span>
+<span class="c1"># larger than retention.</span>
+<span class="na">hpe3par_snapshot_expiration</span><span class="o">=</span><span class="s">72</span>
+
+<span class="c1"># The ratio of oversubscription when thin provisioned volumes are</span>
+<span class="c1"># involved. Default ratio is 20.0, this means that a provisioned</span>
+<span class="c1"># capacity can be 20 times of the total physical capacity.</span>
+<span class="na">max_over_subscription_ratio</span><span class="o">=</span><span class="s">20.0</span>
+
+<span class="c1"># This flag represents the percentage of reserved back-end capacity.</span>
+<span class="na">reserved_percentage</span><span class="o">=</span><span class="s">15</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can enable only one driver on each cinder instance unless you enable
+multiple back-end support. See the Cinder multiple back-end support
+instructions to enable this feature.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You can configure one or more iSCSI addresses by using the
+<code class="docutils literal"><span class="pre">hpe3par_iscsi_ips</span></code> option. Separate multiple IP addresses with a
+comma (<code class="docutils literal"><span class="pre">,</span></code>). When you configure multiple addresses, the driver selects
+the iSCSI port with the fewest active volumes at attach time. The 3PAR
+array does not allow the default port 3260 to be changed, so IP ports
+need not be specified.</p>
+</div>
+</li>
+<li><p class="first">Save the changes to the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file and restart the cinder-volume
+service.</p>
+</li>
+</ol>
+<p>The HPE 3PAR Fibre Channel and iSCSI drivers are now enabled on your
+OpenStack system. If you experience problems, review the Block Storage
+service log files for errors.</p>
+<p>The following table contains all the configuration options supported by
+the HPE 3PAR Fibre Channel and iSCSI drivers.</p>
+<table border="1" class="config-ref-table docutils" id="id1">
+<span id="cinder-hpe3par"></span><caption><span class="caption-text">Description of HPE 3PAR Fibre Channel and iSCSI drivers configuration options</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hpe3par_api_url</span></code> =</td>
+<td>(String) 3PAR WSAPI Server Url like <a class="reference external" href="https://docs.openstack.org/">https:/</a>/&lt;3par ip&gt;:8080/api/v1</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hpe3par_cpg</span></code> = <code class="docutils literal"><span class="pre">OpenStack</span></code></td>
+<td>(List) List of the CPG(s) to use for volume creation</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hpe3par_cpg_snap</span></code> =</td>
+<td>(String) The CPG to use for Snapshots for volumes. If empty the userCPG will be used.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hpe3par_debug</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Enable HTTP debugging to 3PAR</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hpe3par_iscsi_chap_enabled</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Enable CHAP authentication for iSCSI connections.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hpe3par_iscsi_ips</span></code> =</td>
+<td>(List) List of target iSCSI addresses to use.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hpe3par_password</span></code> =</td>
+<td>(String) 3PAR password for the user specified in hpe3par_username</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hpe3par_snapshot_expiration</span></code> =</td>
+<td>(String) The time in hours when a snapshot expires and is deleted. This must be larger than expiration</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hpe3par_snapshot_retention</span></code> =</td>
+<td>(String) The time in hours to retain a snapshot. You can&#8217;t delete it before this expires.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hpe3par_username</span></code> =</td>
+<td>(String) 3PAR username with the &#8216;edit&#8217; role</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="hitachi-storage-volume-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Hitachi storage volume driver"></i></a>
+          
+          
+            <a href="hpe-lefthand-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: HPE LeftHand/StoreVirtual driver"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../block-storage.html">Block Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../block-storage-overview.html">Introduction to the Block Storage service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../volume-drivers.html">Volume drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backup-drivers.html">Backup drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../schedulers.html">Block Storage schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Log files used by Block Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fc-zoning.html">Fibre Channel Zone Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nested-quota.html">Nested quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../volume-encryption.html">Volume encryption supported by the key manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Block Storage service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/cinder.html">New, updated, and deprecated options in Newton for Block Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "block-storage/drivers/hpe-3par-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "HPE 3PAR Fibre Channel and iSCSI drivers in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/hpe-3par-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:46:55 GMT -->
+</html>

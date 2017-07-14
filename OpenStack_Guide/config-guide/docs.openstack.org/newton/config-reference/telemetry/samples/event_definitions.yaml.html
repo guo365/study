@@ -1,0 +1,1010 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/telemetry/samples/event_definitions.yaml.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:37:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: event_definitions.yaml</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>event_definitions.yaml</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="ceilometer.conf.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: ceilometer.conf"></i></a>
+    
+    
+    <a href="pipeline.yaml.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: pipeline.yaml"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">event_definitions.yaml</a></li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="event-definitions-yaml">
+<h1>event_definitions.yaml<a class="headerlink" href="#event-definitions-yaml" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="docutils literal"><span class="pre">event_definitions.yaml</span></code> file defines how events received from
+other OpenStack components should be translated to Telemetry events.</p>
+<p>This file provides a standard set of events and corresponding traits
+that may be of interest. This file can be modified to add and drop
+traits that operators may find useful.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>---
+- event_type: &#39;compute.instance.*&#39;
+  traits: &amp;instance_traits
+    tenant_id:
+      fields: payload.tenant_id
+    user_id:
+      fields: payload.user_id
+    instance_id:
+      fields: payload.instance_id
+    host:
+      fields: publisher_id.`split(., 1, 1)`
+    service:
+      fields: publisher_id.`split(., 0, -1)`
+    memory_mb:
+      type: int
+      fields: payload.memory_mb
+    disk_gb:
+      type: int
+      fields: payload.disk_gb
+    root_gb:
+      type: int
+      fields: payload.root_gb
+    ephemeral_gb:
+      type: int
+      fields: payload.ephemeral_gb
+    vcpus:
+      type: int
+      fields: payload.vcpus
+    instance_type_id:
+      type: int
+      fields: payload.instance_type_id
+    instance_type:
+      fields: payload.instance_type
+    state:
+      fields: payload.state
+    os_architecture:
+      fields: payload.image_meta.&#39;org.openstack__1__architecture&#39;
+    os_version:
+      fields: payload.image_meta.&#39;org.openstack__1__os_version&#39;
+    os_distro:
+      fields: payload.image_meta.&#39;org.openstack__1__os_distro&#39;
+    launched_at:
+      type: datetime
+      fields: payload.launched_at
+    deleted_at:
+      type: datetime
+      fields: payload.deleted_at
+- event_type: compute.instance.exists
+  traits:
+    &lt;&lt;: *instance_traits
+    audit_period_beginning:
+      type: datetime
+      fields: payload.audit_period_beginning
+    audit_period_ending:
+      type: datetime
+      fields: payload.audit_period_ending
+- event_type: [&#39;volume.exists&#39;, &#39;volume.create.*&#39;, &#39;volume.delete.*&#39;, &#39;volume.resize.*&#39;, &#39;volume.attach.*&#39;, &#39;volume.detach.*&#39;, &#39;volume.update.*&#39;, &#39;snapshot.exists&#39;, &#39;snapshot.create.*&#39;, &#39;snapshot.delete.*&#39;, &#39;snapshot.update.*&#39;]
+  traits: &amp;cinder_traits
+    user_id:
+      fields: payload.user_id
+    project_id:
+      fields: payload.tenant_id
+    availability_zone:
+      fields: payload.availability_zone
+    display_name:
+      fields: payload.display_name
+    replication_status:
+      fields: payload.replication_status
+    status:
+      fields: payload.status
+    created_at:
+      fields: payload.created_at
+- event_type: [&#39;volume.exists&#39;, &#39;volume.create.*&#39;, &#39;volume.delete.*&#39;, &#39;volume.resize.*&#39;, &#39;volume.attach.*&#39;, &#39;volume.detach.*&#39;, &#39;volume.update.*&#39;]
+  traits:
+    &lt;&lt;: *cinder_traits
+    resource_id:
+      fields: payload.volume_id
+    host:
+      fields: payload.host
+    size:
+      fields: payload.size
+    type:
+      fields: payload.volume_type
+    replication_status:
+      fields: payload.replication_status
+- event_type: [&#39;snapshot.exists&#39;, &#39;snapshot.create.*&#39;, &#39;snapshot.delete.*&#39;, &#39;snapshot.update.*&#39;]
+  traits:
+    &lt;&lt;: *cinder_traits
+    resource_id:
+      fields: payload.snapshot_id
+    volume_id:
+      fields: payload.volume_id
+- event_type: [&#39;image_volume_cache.*&#39;]
+  traits:
+    image_id:
+      fields: payload.image_id
+    host:
+      fields: payload.host
+- event_type: [&#39;image.create&#39;, &#39;image.update&#39;, &#39;image.upload&#39;, &#39;image.delete&#39;]
+  traits: &amp;glance_crud
+    project_id:
+      fields: payload.owner
+    resource_id:
+      fields: payload.id
+    name:
+      fields: payload.name
+    status:
+      fields: payload.status
+    created_at:
+      fields: payload.created_at
+    user_id:
+      fields: payload.owner
+    deleted_at:
+      fields: payload.deleted_at
+    size:
+      fields: payload.size
+- event_type: image.send
+  traits: &amp;glance_send
+    receiver_project:
+      fields: payload.receiver_tenant_id
+    receiver_user:
+      fields: payload.receiver_user_id
+    user_id:
+      fields: payload.owner_id
+    image_id:
+      fields: payload.image_id
+    destination_ip:
+      fields: payload.destination_ip
+    bytes_sent:
+      type: int
+      fields: payload.bytes_sent
+- event_type: orchestration.stack.*
+  traits: &amp;orchestration_crud
+    project_id:
+      fields: payload.tenant_id
+    user_id:
+      fields: [&#39;_context_trustor_user_id&#39;, &#39;_context_user_id&#39;]
+    resource_id:
+      fields: payload.stack_identity
+- event_type: sahara.cluster.*
+  traits: &amp;sahara_crud
+    project_id:
+      fields: payload.project_id
+    user_id:
+      fields: _context_user_id
+    resource_id:
+      fields: payload.cluster_id
+- event_type: sahara.cluster.health
+  traits: &amp;sahara_health
+    &lt;&lt;: *sahara_crud
+    verification_id:
+      fields: payload.verification_id
+    health_check_status:
+      fields: payload.health_check_status
+    health_check_name:
+      fields: payload.health_check_name
+    health_check_description:
+      fields: payload.health_check_description
+    created_at:
+      type: datetime
+      fields: payload.created_at
+    updated_at:
+      type: datetime
+      fields: payload.updated_at
+- event_type: [&#39;identity.user.*&#39;, &#39;identity.project.*&#39;, &#39;identity.group.*&#39;, &#39;identity.role.*&#39;, &#39;identity.OS-TRUST:trust.*&#39;,
+               &#39;identity.region.*&#39;, &#39;identity.service.*&#39;, &#39;identity.endpoint.*&#39;, &#39;identity.policy.*&#39;]
+  traits: &amp;identity_crud
+    resource_id:
+      fields: payload.resource_info
+    initiator_id:
+      fields: payload.initiator.id
+    project_id:
+      fields: payload.initiator.project_id
+    domain_id:
+      fields: payload.initiator.domain_id
+- event_type: identity.role_assignment.*
+  traits: &amp;identity_role_assignment
+    role:
+      fields: payload.role
+    group:
+      fields: payload.group
+    domain:
+      fields: payload.domain
+    user:
+      fields: payload.user
+    project:
+      fields: payload.project
+- event_type: identity.authenticate
+  traits: &amp;identity_authenticate
+    typeURI:
+      fields: payload.typeURI
+    id:
+      fields: payload.id
+    action:
+      fields: payload.action
+    eventType:
+      fields: payload.eventType
+    eventTime:
+      fields: payload.eventTime
+    outcome:
+      fields: payload.outcome
+    initiator_typeURI:
+      fields: payload.initiator.typeURI
+    initiator_id:
+      fields: payload.initiator.id
+    initiator_name:
+      fields: payload.initiator.name
+    initiator_host_agent:
+      fields: payload.initiator.host.agent
+    initiator_host_addr:
+      fields: payload.initiator.host.address
+    target_typeURI:
+      fields: payload.target.typeURI
+    target_id:
+      fields: payload.target.id
+    observer_typeURI:
+      fields: payload.observer.typeURI
+    observer_id:
+      fields: payload.observer.id
+- event_type: objectstore.http.request
+  traits: &amp;objectstore_request
+    typeURI:
+      fields: payload.typeURI
+    id:
+      fields: payload.id
+    action:
+      fields: payload.action
+    eventType:
+      fields: payload.eventType
+    eventTime:
+      fields: payload.eventTime
+    outcome:
+      fields: payload.outcome
+    initiator_typeURI:
+      fields: payload.initiator.typeURI
+    initiator_id:
+      fields: payload.initiator.id
+    initiator_project_id:
+      fields: payload.initiator.project_id
+    target_typeURI:
+      fields: payload.target.typeURI
+    target_id:
+      fields: payload.target.id
+    target_action:
+      fields: payload.target.action
+    target_metadata_path:
+      fields: payload.target.metadata.path
+    target_metadata_version:
+      fields: payload.target.metadata.version
+    target_metadata_container:
+      fields: payload.target.metadata.container
+    target_metadata_object:
+      fields: payload.target.metadata.object
+    observer_id:
+      fields: payload.observer.id
+- event_type: [&#39;network.*&#39;, &#39;subnet.*&#39;, &#39;port.*&#39;, &#39;router.*&#39;, &#39;floatingip.*&#39;, &#39;pool.*&#39;, &#39;vip.*&#39;, &#39;member.*&#39;, &#39;health_monitor.*&#39;, &#39;healthmonitor.*&#39;, &#39;listener.*&#39;, &#39;loadbalancer.*&#39;, &#39;firewall.*&#39;, &#39;firewall_policy.*&#39;, &#39;firewall_rule.*&#39;, &#39;vpnservice.*&#39;, &#39;ipsecpolicy.*&#39;, &#39;ikepolicy.*&#39;, &#39;ipsec_site_connection.*&#39;]
+  traits: &amp;network_traits
+    user_id:
+      fields: _context_user_id
+    project_id:
+      fields: _context_tenant_id
+- event_type: network.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.network.id&#39;, &#39;payload.id&#39;]
+- event_type: subnet.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.subnet.id&#39;, &#39;payload.id&#39;]
+- event_type: port.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.port.id&#39;, &#39;payload.id&#39;]
+- event_type: router.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.router.id&#39;, &#39;payload.id&#39;]
+- event_type: floatingip.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.floatingip.id&#39;, &#39;payload.id&#39;]
+- event_type: pool.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.pool.id&#39;, &#39;payload.id&#39;]
+- event_type: vip.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.vip.id&#39;, &#39;payload.id&#39;]
+- event_type: member.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.member.id&#39;, &#39;payload.id&#39;]
+- event_type: health_monitor.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.health_monitor.id&#39;, &#39;payload.id&#39;]
+- event_type: healthmonitor.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.healthmonitor.id&#39;, &#39;payload.id&#39;]
+- event_type: listener.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.listener.id&#39;, &#39;payload.id&#39;]
+- event_type: loadbalancer.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.loadbalancer.id&#39;, &#39;payload.id&#39;]
+- event_type: firewall.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.firewall.id&#39;, &#39;payload.id&#39;]
+- event_type: firewall_policy.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.firewall_policy.id&#39;, &#39;payload.id&#39;]
+- event_type: firewall_rule.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.firewall_rule.id&#39;, &#39;payload.id&#39;]
+- event_type: vpnservice.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.vpnservice.id&#39;, &#39;payload.id&#39;]
+- event_type: ipsecpolicy.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.ipsecpolicy.id&#39;, &#39;payload.id&#39;]
+- event_type: ikepolicy.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.ikepolicy.id&#39;, &#39;payload.id&#39;]
+- event_type: ipsec_site_connection.*
+  traits:
+    &lt;&lt;: *network_traits
+    resource_id:
+      fields: [&#39;payload.ipsec_site_connection.id&#39;, &#39;payload.id&#39;]
+- event_type: &#39;*http.*&#39;
+  traits: &amp;http_audit
+    project_id:
+      fields: payload.initiator.project_id
+    user_id:
+      fields: payload.initiator.id
+    typeURI:
+      fields: payload.typeURI
+    eventType:
+      fields: payload.eventType
+    action:
+      fields: payload.action
+    outcome:
+      fields: payload.outcome
+    id:
+      fields: payload.id
+    eventTime:
+      fields: payload.eventTime
+    requestPath:
+      fields: payload.requestPath
+    observer_id:
+      fields: payload.observer.id
+    target_id:
+      fields: payload.target.id
+    target_typeURI:
+      fields: payload.target.typeURI
+    target_name:
+      fields: payload.target.name
+    initiator_typeURI:
+      fields: payload.initiator.typeURI
+    initiator_id:
+      fields: payload.initiator.id
+    initiator_name:
+      fields: payload.initiator.name
+    initiator_host_address:
+      fields: payload.initiator.host.address
+- event_type: &#39;*http.response&#39;
+  traits:
+    &lt;&lt;: *http_audit
+    reason_code:
+      fields: payload.reason.reasonCode
+- event_type: [&#39;dns.domain.create&#39;, &#39;dns.domain.update&#39;, &#39;dns.domain.delete&#39;]
+  traits: &amp;dns_domain_traits
+    status:
+      fields: payload.status
+    retry:
+      fields: payload.retry
+    description:
+      fields: payload.description
+    expire:
+      fields: payload.expire
+    email:
+      fields: payload.email
+    ttl:
+      fields: payload.ttl
+    action:
+      fields: payload.action
+    name:
+      fields: payload.name
+    resource_id:
+      fields: payload.id
+    created_at:
+      fields: payload.created_at
+    updated_at:
+      fields: payload.updated_at
+    version:
+      fields: payload.version
+    parent_domain_id:
+      fields: parent_domain_id
+    serial:
+      fields: payload.serial
+- event_type: dns.domain.exists
+  traits:
+    &lt;&lt;: *dns_domain_traits
+    audit_period_beginning:
+      type: datetime
+      fields: payload.audit_period_beginning
+    audit_period_ending:
+      type: datetime
+      fields: payload.audit_period_ending
+- event_type: trove.*
+  traits: &amp;trove_base_traits
+    state:
+      fields: payload.state_description
+    instance_type:
+      fields: payload.instance_type
+    user_id:
+      fields: payload.user_id
+    resource_id:
+      fields: payload.instance_id
+    instance_type_id:
+      fields: payload.instance_type_id
+    launched_at:
+      type: datetime
+      fields: payload.launched_at
+    instance_name:
+      fields: payload.instance_name
+    state:
+      fields: payload.state
+    nova_instance_id:
+      fields: payload.nova_instance_id
+    service_id:
+      fields: payload.service_id
+    created_at:
+      type: datetime
+      fields: payload.created_at
+    region:
+      fields: payload.region
+- event_type: [&#39;trove.instance.create&#39;, &#39;trove.instance.modify_volume&#39;, &#39;trove.instance.modify_flavor&#39;, &#39;trove.instance.delete&#39;]
+  traits: &amp;trove_common_traits
+    name:
+      fields: payload.name
+    availability_zone:
+      fields: payload.availability_zone
+    instance_size:
+      type: int
+      fields: payload.instance_size
+    volume_size:
+      type: int
+      fields: payload.volume_size
+    nova_volume_id:
+      fields: payload.nova_volume_id
+- event_type: trove.instance.create
+  traits:
+    &lt;&lt;: [*trove_base_traits, *trove_common_traits]
+- event_type: trove.instance.modify_volume
+  traits:
+    &lt;&lt;: [*trove_base_traits, *trove_common_traits]
+    old_volume_size:
+      type: int
+      fields: payload.old_volume_size
+    modify_at:
+      type: datetime
+      fields: payload.modify_at
+- event_type: trove.instance.modify_flavor
+  traits:
+    &lt;&lt;: [*trove_base_traits, *trove_common_traits]
+    old_instance_size:
+      type: int
+      fields: payload.old_instance_size
+    modify_at:
+      type: datetime
+      fields: payload.modify_at
+- event_type: trove.instance.delete
+  traits:
+    &lt;&lt;: [*trove_base_traits, *trove_common_traits]
+    deleted_at:
+      type: datetime
+      fields: payload.deleted_at
+- event_type: trove.instance.exists
+  traits:
+    &lt;&lt;: *trove_base_traits
+    display_name:
+      fields: payload.display_name
+    audit_period_beginning:
+      type: datetime
+      fields: payload.audit_period_beginning
+    audit_period_ending:
+      type: datetime
+      fields: payload.audit_period_ending
+- event_type: profiler.*
+  traits:
+    project:
+      fields: payload.project
+    service:
+      fields: payload.service
+    name:
+      fields: payload.name
+    base_id:
+      fields: payload.base_id
+    trace_id:
+      fields: payload.trace_id
+    parent_id:
+      fields: payload.parent_id
+    timestamp:
+      fields: payload.timestamp
+    host:
+      fields: payload.info.host
+    path:
+      fields: payload.info.request.path
+    query:
+      fields: payload.info.request.query
+    method:
+      fields: payload.info.request.method
+    scheme:
+      fields: payload.info.request.scheme
+    db.statement:
+      fields: payload.info.db.statement
+    db.params:
+      fields: payload.info.db.params
+- event_type: &#39;magnum.bay.*&#39;
+  traits: &amp;magnum_bay_crud
+    id:
+      fields: payload.id
+    typeURI:
+      fields: payload.typeURI
+    eventType:
+      fields: payload.eventType
+    eventTime:
+      fields: payload.eventTime
+    action:
+      fields: payload.action
+    outcome:
+      fields: payload.outcome
+    initiator_id:
+      fields: payload.initiator.id
+    initiator_typeURI:
+      fields: payload.initiator.typeURI
+    initiator_name:
+      fields: payload.initiator.name
+    initiator_host_agent:
+      fields: payload.initiator.host.agent
+    initiator_host_address:
+      fields: payload.initiator.host.address
+    target_id:
+      fields: payload.target.id
+    target_typeURI:
+      fields: payload.target.typeURI
+    observer_id:
+      fields: payload.observer.id
+    observer_typeURI:
+      fields: payload.observer.typeURI
+</pre></div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="ceilometer.conf.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: ceilometer.conf"></i></a>
+          
+          
+            <a href="pipeline.yaml.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: pipeline.yaml"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../telemetry.html">Telemetry service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../telemetry-config-options.html">Telemetry configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../alarming-config-options.html">Telemetry Alarming service configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Telemetry log files</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Telemetry sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/aodh.html">New, updated, and deprecated options in Newton for Alarming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/ceilometer.html">New, updated, and deprecated options in Newton for Telemetry</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "telemetry/samples/event_definitions.yaml" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "event_definitions.yaml in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/telemetry/samples/event_definitions.yaml.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:37:48 GMT -->
+</html>

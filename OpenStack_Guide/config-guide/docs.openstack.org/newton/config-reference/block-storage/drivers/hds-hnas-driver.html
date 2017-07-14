@@ -1,0 +1,1081 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/hds-hnas-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Hitachi NAS Platform iSCSI and NFS drivers</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Hitachi NAS Platform iSCSI and NFS drivers</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="fujitsu-eternus-dx-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Fujitsu ETERNUS DX driver"></i></a>
+    
+    
+    <a href="hitachi-storage-volume-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Hitachi storage volume driver"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Hitachi NAS Platform iSCSI and NFS drivers</a><ul>
+<li><a class="reference internal" href="#supported-operations">Supported operations</a></li>
+<li><a class="reference internal" href="#hnas-storage-requirements">HNAS storage requirements</a></li>
+<li><a class="reference internal" href="#block-storage-host-requirements">Block Storage host requirements</a><ul>
+<li><a class="reference internal" href="#package-installation">Package installation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#driver-configuration">Driver configuration</a></li>
+<li><a class="reference internal" href="#service-labels">Service labels</a></li>
+<li><a class="reference internal" href="#multi-backend-configuration">Multi-backend configuration</a></li>
+<li><a class="reference internal" href="#ssh-configuration">SSH configuration</a></li>
+<li><a class="reference internal" href="#managing-volumes">Managing volumes</a></li>
+<li><a class="reference internal" href="#managing-snapshots">Managing snapshots</a></li>
+<li><a class="reference internal" href="#configuration-example">Configuration example</a></li>
+<li><a class="reference internal" href="#additional-notes-and-limitations">Additional notes and limitations</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="hitachi-nas-platform-iscsi-and-nfs-drivers">
+<h1>Hitachi NAS Platform iSCSI and NFS drivers<a class="headerlink" href="#hitachi-nas-platform-iscsi-and-nfs-drivers" title="Permalink to this headline">¶</a></h1>
+<p>This OpenStack Block Storage volume drivers provides iSCSI and NFS support
+for <a class="reference external" href="http://www.hds.com/products/file-and-content/network-attached-storage/">Hitachi NAS Platform (HNAS)</a> Models 3080, 3090, 4040, 4060, 4080, and 4100
+with NAS OS 12.2 or higher.</p>
+<div class="section" id="supported-operations">
+<h2>Supported operations<a class="headerlink" href="#supported-operations" title="Permalink to this headline">¶</a></h2>
+<p>The NFS and iSCSI drivers support these operations:</p>
+<ul class="simple">
+<li>Create, delete, attach, and detach volumes.</li>
+<li>Create, list, and delete volume snapshots.</li>
+<li>Create a volume from a snapshot.</li>
+<li>Copy an image to a volume.</li>
+<li>Copy a volume to an image.</li>
+<li>Clone a volume.</li>
+<li>Extend a volume.</li>
+<li>Get volume statistics.</li>
+<li>Manage and unmanage a volume.</li>
+<li>Manage and unmanage snapshots (<cite>HNAS NFS only</cite>)</li>
+</ul>
+</div>
+<div class="section" id="hnas-storage-requirements">
+<h2>HNAS storage requirements<a class="headerlink" href="#hnas-storage-requirements" title="Permalink to this headline">¶</a></h2>
+<p>Before using iSCSI and NFS services, use the HNAS configuration and management
+GUI (SMU) or SSC CLI to configure HNAS to work with the drivers. Additionally:</p>
+<ol class="arabic simple">
+<li>General:</li>
+</ol>
+<ul class="simple">
+<li>It is mandatory to have at least <code class="docutils literal"><span class="pre">1</span> <span class="pre">storage</span> <span class="pre">pool,</span> <span class="pre">1</span> <span class="pre">EVS</span> <span class="pre">and</span> <span class="pre">1</span> <span class="pre">file</span>
+<span class="pre">system</span></code> to be able to run any of the HNAS drivers.</li>
+<li>HNAS drivers consider the space allocated to the file systems to
+provide the reports to cinder. So, when creating a file system, make sure
+it has enough space to fit your needs.</li>
+<li>The file system used should not be created as a <code class="docutils literal"><span class="pre">replication</span> <span class="pre">target</span></code> and
+should be mounted.</li>
+<li>It is possible to configure HNAS drivers to use distinct EVSs and file
+systems, but <code class="docutils literal"><span class="pre">all</span> <span class="pre">compute</span> <span class="pre">nodes</span> <span class="pre">and</span> <span class="pre">controllers</span></code> in the cloud must have
+access to the EVSs.</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li>For NFS:</li>
+</ol>
+<ul class="simple">
+<li>Create NFS exports, choose a path for them (it must be different from
+<code class="docutils literal"><span class="pre">/</span></code>) and set the :guilabel: <cite>Show snapshots</cite> option to <code class="docutils literal"><span class="pre">hide</span> <span class="pre">and</span>
+<span class="pre">disable</span> <span class="pre">access</span></code>.</li>
+<li>For each export used, set the option <code class="docutils literal"><span class="pre">norootsquash</span></code> in the share
+<code class="docutils literal"><span class="pre">Access</span> <span class="pre">configuration</span></code> so Block Storage services can change the
+permissions of its volumes. For example, <code class="docutils literal"><span class="pre">&quot;*</span> <span class="pre">(rw,</span> <span class="pre">norootsquash)&quot;</span></code>.</li>
+<li>Make sure that all computes and controllers have R/W access to the
+shares used by cinder HNAS driver.</li>
+<li>In order to use the hardware accelerated features of HNAS NFS, we
+recommend setting <code class="docutils literal"><span class="pre">max-nfs-version</span></code> to 3. Refer to Hitachi NAS Platform
+command line reference to see how to configure this option.</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li>For iSCSI:</li>
+</ol>
+<ul class="simple">
+<li>You must set an iSCSI domain to EVS.</li>
+</ul>
+</div>
+<div class="section" id="block-storage-host-requirements">
+<h2>Block Storage host requirements<a class="headerlink" href="#block-storage-host-requirements" title="Permalink to this headline">¶</a></h2>
+<p>The HNAS drivers are supported for Red Hat Enterprise Linux OpenStack
+Platform, SUSE OpenStack Cloud, and Ubuntu OpenStack.
+The following packages must be installed in all compute, controller and
+storage (if any) nodes:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">nfs-utils</span></code> for Red Hat Enterprise Linux OpenStack Platform</li>
+<li><code class="docutils literal"><span class="pre">nfs-client</span></code> for SUSE OpenStack Cloud</li>
+<li><code class="docutils literal"><span class="pre">nfs-common</span></code>, <code class="docutils literal"><span class="pre">libc6-i386</span></code> for Ubuntu OpenStack</li>
+</ul>
+<div class="section" id="package-installation">
+<h3>Package installation<a class="headerlink" href="#package-installation" title="Permalink to this headline">¶</a></h3>
+<p>If you are installing the driver from an RPM or DEB package,
+follow the steps below:</p>
+<ol class="arabic">
+<li><p class="first">Install the dependencies:</p>
+<p>In Red Hat:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> yum install nfs-utils nfs-utils-lib
+</pre></div>
+</div>
+<p>Or in Ubuntu:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> apt-get install nfs-common
+</pre></div>
+</div>
+<p>Or in SUSE:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> zypper install nfs-client
+</pre></div>
+</div>
+<p>If you are using Ubuntu 12.04, you also need to install <code class="docutils literal"><span class="pre">libc6-i386</span></code></p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> apt-get install libc6-i386
+</pre></div>
+</div>
+</li>
+<li><p class="first">Configure the driver as described in the <a class="reference internal" href="#hnas-driver-configuration"><span>Driver configuration</span></a>
+section.</p>
+</li>
+<li><p class="first">Restart all Block Storage services (volume, scheduler, and backup).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="driver-configuration">
+<span id="hnas-driver-configuration"></span><h2>Driver configuration<a class="headerlink" href="#driver-configuration" title="Permalink to this headline">¶</a></h2>
+<p>HNAS supports a variety of storage options and file system capabilities,
+which are selected through the definition of volume types combined with the
+use of multiple back ends and multiple services. Each back end can configure
+up to <code class="docutils literal"><span class="pre">4</span> <span class="pre">service</span> <span class="pre">pools</span></code>, which can be mapped to cinder volume types.</p>
+<p>The configuration for the driver is read from the back-end sections of the
+<code class="docutils literal"><span class="pre">cinder.conf</span></code>. Each back-end section must have the appropriate configurations
+to communicate with your HNAS back end, such as the IP address of the HNAS EVS
+that is hosting your data, HNAS SSH access credentials, the configuration of
+each of the services in that back end, and so on. You can find examples of such
+configurations in the <a class="reference internal" href="#configuration-example"><span>Configuration example</span></a> section.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">HNAS cinder drivers still support the XML configuration the
+same way it was in the older versions, but we recommend configuring the
+HNAS cinder drivers only through the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file,
+since the XML configuration file from previous versions is being
+deprecated as of Newton Release.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We do not recommend the use of the same NFS export or file system (iSCSI
+driver) for different back ends. If possible, configure each back end to
+use a different NFS export/file system.</p>
+</div>
+<p>The following is the definition of each configuration option that can be used
+in a HNAS back-end section in the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file:</p>
+<table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-text"><strong>Configuration options in cinder.conf</strong></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="10%" />
+<col width="15%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Type</th>
+<th class="head">Default</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">volume_backend_name</span></code></td>
+<td>Optional</td>
+<td>N/A</td>
+<td>A name that identifies the back end and can be used as an extra-spec to
+redirect the volumes to the referenced back end.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">volume_driver</span></code></td>
+<td>Required</td>
+<td>N/A</td>
+<td>The python module path to the HNAS volume driver python class. When
+installing through the rpm or deb packages, you should configure this
+to <cite>cinder.volume.drivers.hitachi.hnas_iscsi.HNASISCSIDriver</cite> for the
+iSCSI back end or <cite>cinder.volume.drivers.hitachi.hnas_nfs.HNASNFSDriver</cite>
+for the NFS back end.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">nfs_shares_config</span></code></td>
+<td>Required (only for NFS)</td>
+<td>/etc/cinder/nfs_shares</td>
+<td>Path to the <code class="docutils literal"><span class="pre">nfs_shares</span></code> file. This is required by the base cinder
+generic NFS driver and therefore also required by the HNAS NFS driver.
+This file should list, one per line, every NFS share being used by the
+back end. For example, all the values found in the configuration keys
+hnas_svcX_hdp in the HNAS NFS back-end sections.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hnas_mgmt_ip0</span></code></td>
+<td>Required</td>
+<td>N/A</td>
+<td>HNAS management IP address. Should be the IP address of the <cite>Admin</cite>
+EVS. It is also the IP through which you access the web SMU
+administration frontend of HNAS.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hnas_chap_enabled</span></code></td>
+<td>Optional (iSCSI only)</td>
+<td>True</td>
+<td>Boolean tag used to enable CHAP authentication protocol for iSCSI
+driver.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hnas_username</span></code></td>
+<td>Required</td>
+<td>N/A</td>
+<td>HNAS SSH username</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hds_hnas_nfs_config_file</span> <span class="pre">|</span> <span class="pre">hds_hnas_iscsi_config_file</span></code></td>
+<td>Optional (deprecated)</td>
+<td>/opt/hds/hnas/cinder_[nfs|iscsi]_conf.xml</td>
+<td>Path to the deprecated XML configuration file (only required if using
+the XML file)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hnas_cluster_admin_ip0</span></code></td>
+<td>Optional (required only for HNAS multi-farm setups)</td>
+<td>N/A</td>
+<td>The IP of the HNAS farm admin. If your SMU controls more than one
+system or cluster, this option must be set with the IP of the desired
+node. This is different for HNAS multi-cluster setups, which
+does not require this option to be set.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hnas_ssh_private_key</span></code></td>
+<td>Optional</td>
+<td>N/A</td>
+<td>Path to the SSH private key used to authenticate to the HNAS SMU. Only
+required if you do not want to set <cite>hnas_password</cite>.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hnas_ssh_port</span></code></td>
+<td>Optional</td>
+<td>22</td>
+<td>Port on which HNAS is listening for SSH connections</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hnas_password</span></code></td>
+<td>Required (unless hnas_ssh_private_key is provided)</td>
+<td>N/A</td>
+<td>HNAS password</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hnas_svcX_hdp</span></code> <a class="footnote-reference" href="#id2" id="id1">[1]</a></td>
+<td>Required (at least 1)</td>
+<td>N/A</td>
+<td>HDP (export or file system) where the volumes will be created. Use
+exports paths for the NFS backend or the file system names for the
+iSCSI backend (note that when using the file system name, it does not
+contain the IP addresses of the HDP)</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">hnas_svcX_iscsi_ip</span></code></td>
+<td>Required (only for iSCSI)</td>
+<td>N/A</td>
+<td>The IP of the EVS that contains the file system specified in
+hnas_svcX_hdp</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hnas_svcX_volume_type</span></code></td>
+<td>Required</td>
+<td>N/A</td>
+<td>A <cite>unique string</cite> that is used to refer to this pool within the
+context of cinder. You can tell cinder to put volumes of a specific
+volume type into this back end, within this pool. See,
+<code class="docutils literal"><span class="pre">Service</span> <span class="pre">Labels</span></code> and <a class="reference internal" href="#configuration-example"><span>Configuration example</span></a> sections
+for more details.</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Replace X with a number from 0 to 3 (keep the sequence when configuring
+the driver)</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="service-labels">
+<h2>Service labels<a class="headerlink" href="#service-labels" title="Permalink to this headline">¶</a></h2>
+<p>HNAS driver supports differentiated types of service using the service labels.
+It is possible to create up to 4 types of them for each back end. (For example
+gold, platinum, silver, ssd, and so on).</p>
+<p>After creating the services in the <code class="docutils literal"><span class="pre">cinder.conf</span></code> configuration file, you
+need to configure one cinder <code class="docutils literal"><span class="pre">volume_type</span></code> per service. Each <code class="docutils literal"><span class="pre">volume_type</span></code>
+must have the metadata service_label with the same name configured in the
+<code class="docutils literal"><span class="pre">hnas_svcX_volume_type</span> <span class="pre">option</span></code> of that service. See the
+<a class="reference internal" href="#configuration-example"><span>Configuration example</span></a> section for more details. If the <code class="docutils literal"><span class="pre">volume_type</span></code>
+is not set, the cinder service pool with largest available free space or
+other criteria configured in scheduler filters.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create default
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">service_label</span><span class="o">=</span>default default
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create platinum-tier
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">service_label</span><span class="o">=</span>platinum platinum
+</pre></div>
+</div>
+</div>
+<div class="section" id="multi-backend-configuration">
+<h2>Multi-backend configuration<a class="headerlink" href="#multi-backend-configuration" title="Permalink to this headline">¶</a></h2>
+<p>You can deploy multiple OpenStack HNAS Driver instances (back ends) that each
+controls a separate HNAS or a single HNAS. If you use multiple cinder
+back ends, remember that each cinder back end can host up to 4 services. Each
+back-end section must have the appropriate configurations to communicate with
+your HNAS back end, such as the IP address of the HNAS EVS that is hosting
+your data, HNAS SSH access credentials, the configuration of each of the
+services in that back end, and so on. You can find examples of such
+configurations in the <a class="reference internal" href="#configuration-example"><span>Configuration example</span></a> section.</p>
+<p>If you want the volumes from a volume_type to be casted into a specific
+back end, you must configure an extra_spec in the <code class="docutils literal"><span class="pre">volume_type</span></code> with the
+value of the <code class="docutils literal"><span class="pre">volume_backend_name</span></code> option from that back end.</p>
+<p>For multiple NFS back ends configuration, each back end should have a
+separated <code class="docutils literal"><span class="pre">nfs_shares_config</span></code> and also a separated <code class="docutils literal"><span class="pre">nfs_shares</span> <span class="pre">file</span></code>
+defined (For example, <code class="docutils literal"><span class="pre">nfs_shares1</span></code>, <code class="docutils literal"><span class="pre">nfs_shares2</span></code>) with the desired
+shares listed in separated lines.</p>
+</div>
+<div class="section" id="ssh-configuration">
+<h2>SSH configuration<a class="headerlink" href="#ssh-configuration" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As of the Newton OpenStack release, the user can no longer run the
+driver using a locally installed instance of the <strong class="command">SSC</strong> utility
+package. Instead, all communications with the HNAS back end are handled
+through <strong class="command">SSH</strong>.</p>
+</div>
+<p>You can use your username and password to authenticate the Block Storage node
+to the HNAS back end. In order to do that, simply configure <code class="docutils literal"><span class="pre">hnas_username</span></code>
+and <code class="docutils literal"><span class="pre">hnas_password</span></code> in your back end section within the <code class="docutils literal"><span class="pre">cinder.conf</span></code>
+file.</p>
+<p>For example:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>[hnas-backend]
+…
+hnas_username = supervisor
+hnas_password = supervisor
+</pre></div>
+</div>
+<p>Alternatively, the HNAS cinder driver also supports SSH authentication
+through public key. To configure that:</p>
+<ol class="arabic">
+<li><p class="first">If you do not have a pair of public keys already generated, create it in
+the Block Storage node (leave the pass-phrase empty):</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> mkdir -p /opt/hitachi/ssh
+<span class="gp">$</span> ssh-keygen -f /opt/hds/ssh/hnaskey
+</pre></div>
+</div>
+</li>
+<li><p class="first">Change the owner of the key to cinder (or the user the volume service will
+be run as):</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> chown -R cinder.cinder /opt/hitachi/ssh
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create the directory <code class="docutils literal"><span class="pre">ssh_keys</span></code> in the SMU server:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ssh <span class="o">[</span>manager<span class="p">|</span>supervisor<span class="o">]</span>@&lt;smu-ip&gt; <span class="s1">&#39;mkdir -p /var/opt/mercury-main/home/[manager|supervisor]/ssh_keys/&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Copy the public key to the <code class="docutils literal"><span class="pre">ssh_keys</span></code> directory:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> scp /opt/hitachi/ssh/hnaskey.pub <span class="o">[</span>manager<span class="p">|</span>supervisor<span class="o">]</span>@&lt;smu-ip&gt;:/var/opt/mercury-main/home/<span class="o">[</span>manager<span class="p">|</span>supervisor<span class="o">]</span>/ssh_keys/
+</pre></div>
+</div>
+</li>
+<li><p class="first">Access the SMU server:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ssh <span class="o">[</span>manager<span class="p">|</span>supervisor<span class="o">]</span>@&lt;smu-ip&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run the command to register the SSH keys:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ssh-register-public-key -u <span class="o">[</span>manager<span class="p">|</span>supervisor<span class="o">]</span> -f ssh_keys/hnaskey.pub
+</pre></div>
+</div>
+</li>
+<li><p class="first">Check the communication with HNAS in the Block Storage node:</p>
+<p>For multi-farm HNAS:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ssh -i /opt/hitachi/ssh/hnaskey <span class="o">[</span>manager<span class="p">|</span>supervisor<span class="o">]</span>@&lt;smu-ip&gt; <span class="s1">&#39;ssc &lt;cluster_admin_ip0&gt; df -a&#39;</span>
+</pre></div>
+</div>
+<p>Or, for Single-node/Multi-Cluster:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ssh -i /opt/hitachi/ssh/hnaskey <span class="o">[</span>manager<span class="p">|</span>supervisor<span class="o">]</span>@&lt;smu-ip&gt; <span class="s1">&#39;ssc localhost df -a&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Configure your backend section in <code class="docutils literal"><span class="pre">cinder.conf</span></code> to use your public key:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>[hnas-backend]
+…
+hnas_ssh_private_key = /opt/hitachi/ssh/hnaskey
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="managing-volumes">
+<h2>Managing volumes<a class="headerlink" href="#managing-volumes" title="Permalink to this headline">¶</a></h2>
+<p>If there are some existing volumes on HNAS that you want to import to cinder,
+it is possible to use the manage volume feature to do this. The manage action
+on an existing volume is very similar to a volume creation. It creates a
+volume entry on cinder database, but instead of creating a new volume in the
+back end, it only adds a link to an existing volume.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It is an admin only feature and you have to be logged as an user
+with admin rights to be able to use this.</p>
+</div>
+<p>For NFS:</p>
+<ol class="arabic simple">
+<li>Under the <span class="menuselection">System &gt; Volumes</span> tab,
+choose the option <span class="guilabel">Manage Volume</span>.</li>
+<li>Fill the fields <span class="guilabel">Identifier</span>, <span class="guilabel">Host</span>,
+<span class="guilabel">Volume Name</span>, and <span class="guilabel">Volume Type</span> with volume
+information to be managed:<ul>
+<li><span class="guilabel">Identifier</span>: ip:/type/volume_name (<em>For example:</em>
+172.24.44.34:/silver/volume-test)</li>
+<li><span class="guilabel">Host</span>: <cite>host&#64;backend-name#pool_name</cite> (<em>For example:</em>
+<cite>ubuntu&#64;hnas-nfs#test_silver</cite>)</li>
+<li><span class="guilabel">Volume Name</span>: volume_name (<em>For example:</em> volume-test)</li>
+<li><span class="guilabel">Volume Type</span>: choose a type of volume (<em>For example:</em> silver)</li>
+</ul>
+</li>
+</ol>
+<p>For iSCSI:</p>
+<ol class="arabic simple">
+<li>Under the <span class="menuselection">System &gt; Volumes</span> tab,
+choose the option <span class="guilabel">Manage Volume</span>.</li>
+<li>Fill the fields <span class="guilabel">Identifier</span>, <span class="guilabel">Host</span>,
+<span class="guilabel">Volume Name</span>, and <span class="guilabel">Volume Type</span> with volume
+information to be managed:<ul>
+<li><span class="guilabel">Identifier</span>: filesystem-name/volume-name (<em>For example:</em>
+filesystem-test/volume-test)</li>
+<li><span class="guilabel">Host</span>: <cite>host&#64;backend-name#pool_name</cite> (<em>For example:</em>
+<cite>ubuntu&#64;hnas-iscsi#test_silver</cite>)</li>
+<li><span class="guilabel">Volume Name</span>: volume_name (<em>For example:</em> volume-test)</li>
+<li><span class="guilabel">Volume Type</span>: choose a type of volume (<em>For example:</em> silver)</li>
+</ul>
+</li>
+</ol>
+<p>By CLI:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder manage <span class="o">[</span>--id-type &lt;id-type&gt;<span class="o">][</span>--name &lt;name&gt;<span class="o">][</span>--description &lt;description&gt;<span class="o">]</span>
+<span class="go">[--volume-type &lt;volume-type&gt;][--availability-zone &lt;availability-zone&gt;]</span>
+<span class="go">[--metadata [&lt;key=value&gt; [&lt;key=value&gt; ...]]][--bootable] &lt;host&gt; &lt;identifier&gt;</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<p>For NFS:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder manage --name volume-test --volume-type silver
+<span class="gp">ubuntu@hnas-nfs#</span>test_silver 172.24.44.34:/silver/volume-test
+</pre></div>
+</div>
+<p>For iSCSI:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder manage --name volume-test --volume-type silver
+<span class="gp">ubuntu@hnas-iscsi#</span>test_silver filesystem-test/volume-test
+</pre></div>
+</div>
+</div>
+<div class="section" id="managing-snapshots">
+<h2>Managing snapshots<a class="headerlink" href="#managing-snapshots" title="Permalink to this headline">¶</a></h2>
+<p>The manage snapshots feature works very similarly to the manage volumes
+feature, currently supported on HNAS cinder drivers. So, if you have a volume
+already managed by cinder which has snapshots that are not managed by cinder,
+it is possible to use manage snapshots to import these snapshots and link them
+with their original volume.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For HNAS NFS cinder driver, the snapshots of volumes
+are clones of volumes that where created using <strong class="command">file-clone-create</strong>,
+not the HNAS <strong class="command">snapshot-*</strong> feature. Check the HNAS users
+documentation to have details about those 2 features.</p>
+</div>
+<p>Currently, the manage snapshots function does not support importing snapshots
+(generally created by storage&#8217;s <strong class="command">file-clone</strong> operation)
+<code class="docutils literal"><span class="pre">without</span> <span class="pre">parent</span> <span class="pre">volumes</span></code> or when the parent volume is <code class="docutils literal"><span class="pre">in-use</span></code>. In this
+case, the <code class="docutils literal"><span class="pre">manage</span> <span class="pre">volumes</span></code> should be used to import the snapshot as a normal
+cinder volume.</p>
+<p>Also, it is an admin only feature and you have to be logged as a user with
+admin rights to be able to use this.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Although there is a verification to prevent importing snapshots using
+non-related volumes as parents, it is possible to manage a snapshot using
+any related cloned volume. So, when managing a snapshot, it is extremely
+important to make sure that you are using the correct parent volume.</p>
+</div>
+<p>For NFS:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder snapshot-manage &lt;volume&gt; &lt;identifier&gt;
+</pre></div>
+</div>
+<ul class="simple">
+<li><span class="guilabel">Identifier</span>: evs_ip:/export_name/snapshot_name
+(<em>For example:</em> 172.24.44.34:/export1/snapshot-test)</li>
+<li><span class="guilabel">Volume</span>:  Parent volume ID (<em>For example:</em>
+061028c0-60cf-499f-99e2-2cd6afea081f)</li>
+</ul>
+<p>Example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder snapshot-manage 061028c0-60cf-499f-99e2-2cd6afea081f 172.24.44.34:/export1/snapshot-test
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This feature is currently available only for HNAS NFS Driver.</p>
+</div>
+</div>
+<div class="section" id="configuration-example">
+<span id="id3"></span><h2>Configuration example<a class="headerlink" href="#configuration-example" title="Permalink to this headline">¶</a></h2>
+<p>Below are configuration examples for both NFS and iSCSI backends:</p>
+<ol class="arabic">
+<li><p class="first">HNAS NFS Driver</p>
+<ol class="arabic">
+<li><p class="first">For HNAS NFS driver, create this section in your <code class="docutils literal"><span class="pre">cinder.conf</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[hnas-nfs]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.hitachi.hnas_nfs.HNASNFSDriver</span>
+<span class="na">nfs_shares_config</span> <span class="o">=</span> <span class="s">/home/cinder/nfs_shares</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">hnas_nfs_backend</span>
+<span class="na">hnas_username</span> <span class="o">=</span> <span class="s">supervisor</span>
+<span class="na">hnas_password</span> <span class="o">=</span> <span class="s">supervisor</span>
+<span class="na">hnas_mgmt_ip0</span> <span class="o">=</span> <span class="s">172.24.44.15</span>
+
+<span class="na">hnas_svc0_volume_type</span> <span class="o">=</span> <span class="s">nfs_gold</span>
+<span class="na">hnas_svc0_hdp</span> <span class="o">=</span> <span class="s">172.24.49.21:/gold_export</span>
+
+<span class="na">hnas_svc1_volume_type</span> <span class="o">=</span> <span class="s">nfs_platinum</span>
+<span class="na">hnas_svc1_hdp</span> <span class="o">=</span> <span class="s">172.24.49.21:/silver_platinum</span>
+
+<span class="na">hnas_svc2_volume_type</span> <span class="o">=</span> <span class="s">nfs_silver</span>
+<span class="na">hnas_svc2_hdp</span> <span class="o">=</span> <span class="s">172.24.49.22:/silver_export</span>
+
+<span class="na">hnas_svc3_volume_type</span> <span class="o">=</span> <span class="s">nfs_bronze</span>
+<span class="na">hnas_svc3_hdp</span> <span class="o">=</span> <span class="s">172.24.49.23:/bronze_export</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add it to the <code class="docutils literal"><span class="pre">enabled_backends</span></code> list, under the <code class="docutils literal"><span class="pre">DEFAULT</span></code> section
+of your <code class="docutils literal"><span class="pre">cinder.conf</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">enabled_backends</span> <span class="o">=</span> <span class="s">hnas-nfs</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add the configured exports to the <code class="docutils literal"><span class="pre">nfs_shares</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>172.24.49.21:/gold_export
+172.24.49.21:/silver_platinum
+172.24.49.22:/silver_export
+172.24.49.23:/bronze_export
+</pre></div>
+</div>
+</li>
+<li><p class="first">Register a volume type with cinder and associate it with
+this backend:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_nfs_gold
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_nfs_backend <span class="se">\</span>
+<span class="go">  service_label=nfs_gold hnas_nfs_gold</span>
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_nfs_platinum
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_nfs_backend <span class="se">\</span>
+<span class="go">  service_label=nfs_platinum hnas_nfs_platinum</span>
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_nfs_silver
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_nfs_backend <span class="se">\</span>
+<span class="go">  service_label=nfs_silver hnas_nfs_silver</span>
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_nfs_bronze
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_nfs_backend <span class="se">\</span>
+<span class="go">  service_label=nfs_bronze hnas_nfs_bronze</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first">HNAS iSCSI Driver</p>
+<ol class="arabic">
+<li><p class="first">For HNAS iSCSI driver, create this section in your <code class="docutils literal"><span class="pre">cinder.conf</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[hnas-iscsi]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.hitachi.hnas_iscsi.HNASISCSIDriver</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">hnas_iscsi_backend</span>
+<span class="na">hnas_username</span> <span class="o">=</span> <span class="s">supervisor</span>
+<span class="na">hnas_password</span> <span class="o">=</span> <span class="s">supervisor</span>
+<span class="na">hnas_mgmt_ip0</span> <span class="o">=</span> <span class="s">172.24.44.15</span>
+<span class="na">hnas_chap_enabled</span> <span class="o">=</span> <span class="s">True</span>
+
+<span class="na">hnas_svc0_volume_type</span> <span class="o">=</span> <span class="s">iscsi_gold</span>
+<span class="na">hnas_svc0_hdp</span> <span class="o">=</span> <span class="s">FS-gold</span>
+<span class="na">hnas_svc0_iscsi_ip</span> <span class="o">=</span> <span class="s">172.24.49.21</span>
+
+<span class="na">hnas_svc1_volume_type</span> <span class="o">=</span> <span class="s">iscsi_platinum</span>
+<span class="na">hnas_svc1_hdp</span> <span class="o">=</span> <span class="s">FS-platinum</span>
+<span class="na">hnas_svc1_iscsi_ip</span> <span class="o">=</span> <span class="s">172.24.49.21</span>
+
+<span class="na">hnas_svc2_volume_type</span> <span class="o">=</span> <span class="s">iscsi_silver</span>
+<span class="na">hnas_svc2_hdp</span> <span class="o">=</span> <span class="s">FS-silver</span>
+<span class="na">hnas_svc2_iscsi_ip</span> <span class="o">=</span> <span class="s">172.24.49.22</span>
+
+<span class="na">hnas_svc3_volume_type</span> <span class="o">=</span> <span class="s">iscsi_bronze</span>
+<span class="na">hnas_svc3_hdp</span> <span class="o">=</span> <span class="s">FS-bronze</span>
+<span class="na">hnas_svc3_iscsi_ip</span> <span class="o">=</span> <span class="s">172.24.49.23</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add it to the <code class="docutils literal"><span class="pre">enabled_backends</span></code> list, under the <code class="docutils literal"><span class="pre">DEFAULT</span></code> section
+of your <code class="docutils literal"><span class="pre">cinder.conf</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">enabled_backends</span> <span class="o">=</span> <span class="s">hnas-nfs, hnas-iscsi</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Register a volume type with cinder and associate it with
+this backend:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_iscsi_gold
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_iscsi_backend <span class="se">\</span>
+<span class="go">  service_label=iscsi_gold hnas_iscsi_gold</span>
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_iscsi_platinum
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_iscsi_backend <span class="se">\</span>
+<span class="go">  service_label=iscsi_platinum hnas_iscsi_platinum</span>
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_iscsi_silver
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_iscsi_backend <span class="se">\</span>
+<span class="go">  service_label=iscsi_silver hnas_iscsi_silver</span>
+<span class="gp">$</span> openstack volume <span class="nb">type</span> create hnas_iscsi_bronze
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">volume_backend_name</span><span class="o">=</span>hnas_iscsi_backend <span class="se">\</span>
+<span class="go">  service_label=iscsi_bronze hnas_iscsi_bronze</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="additional-notes-and-limitations">
+<h2>Additional notes and limitations<a class="headerlink" href="#additional-notes-and-limitations" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">The <code class="docutils literal"><span class="pre">get_volume_stats()</span></code> function always provides the available
+capacity based on the combined sum of all the HDPs that are used in
+these services labels.</p>
+</li>
+<li><p class="first">After changing the configuration on the storage node, the Block Storage
+driver must be restarted.</p>
+</li>
+<li><p class="first">On Red Hat, if the system is configured to use SELinux, you need to
+set <code class="docutils literal"><span class="pre">virt_use_nfs</span> <span class="pre">=</span> <span class="pre">on</span></code> for NFS driver work properly.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> setsebool -P virt_use_nfs on
+</pre></div>
+</div>
+</li>
+<li><p class="first">It is not possible to manage a volume if there is a slash (<code class="docutils literal"><span class="pre">/</span></code>) or
+a colon (<code class="docutils literal"><span class="pre">:</span></code>) in the volume name.</p>
+</li>
+<li><p class="first">File system <code class="docutils literal"><span class="pre">auto-expansion</span></code>: Although supported, we do not recommend using
+file systems with auto-expansion setting enabled because the scheduler uses
+the file system capacity reported by the driver to determine if new volumes
+can be created. For instance, in a setup with a file system that can expand
+to 200GB but is at 100GB capacity, with 10GB free, the scheduler will not
+allow a 15GB volume to be created. In this case, manual expansion would
+have to be triggered by an administrator. We recommend always creating the
+file system at the <code class="docutils literal"><span class="pre">maximum</span> <span class="pre">capacity</span></code> or periodically expanding the file
+system manually.</p>
+</li>
+<li><p class="first">iSCSI driver limitations: The iSCSI driver has a <code class="docutils literal"><span class="pre">limit</span> <span class="pre">of</span> <span class="pre">1024</span></code> volumes
+attached to instances.</p>
+</li>
+<li><p class="first">The <code class="docutils literal"><span class="pre">hnas_svcX_volume_type</span></code> option must be unique for a given back end.</p>
+</li>
+<li><p class="first">SSC simultaneous connections limit: In very busy environments, if 2 or
+more volume hosts are configured to use the same storage, some requests
+(create, delete and so on) can have some attempts failed and re-tried (
+<code class="docutils literal"><span class="pre">5</span> <span class="pre">attempts</span></code> by default) due to an HNAS connection limitation (
+<code class="docutils literal"><span class="pre">max</span> <span class="pre">of</span> <span class="pre">5</span></code> simultaneous connections).</p>
+</li>
+</ul>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="fujitsu-eternus-dx-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Fujitsu ETERNUS DX driver"></i></a>
+          
+          
+            <a href="hitachi-storage-volume-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Hitachi storage volume driver"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../block-storage.html">Block Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../block-storage-overview.html">Introduction to the Block Storage service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../volume-drivers.html">Volume drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backup-drivers.html">Backup drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../schedulers.html">Block Storage schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Log files used by Block Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fc-zoning.html">Fibre Channel Zone Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nested-quota.html">Nested quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../volume-encryption.html">Volume encryption supported by the key manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Block Storage service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/cinder.html">New, updated, and deprecated options in Newton for Block Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "block-storage/drivers/hds-hnas-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Hitachi NAS Platform iSCSI and NFS drivers in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/hds-hnas-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:54 GMT -->
+</html>

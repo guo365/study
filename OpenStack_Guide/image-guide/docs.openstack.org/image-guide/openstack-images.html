@@ -1,0 +1,810 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/image-guide/openstack-images.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 11:15:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Image requirements</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Image requirements</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="obtain-images.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Get images"></i></a>
+    
+    
+    <a href="modify-images.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Modify images"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Image requirements</a><ul>
+<li><a class="reference internal" href="#linux">Linux</a></li>
+<li><a class="reference internal" href="#disk-partitions-and-resize-root-partition-on-boot-cloud-init">Disk partitions and resize root partition on boot (cloud-init)</a><ul>
+<li><a class="reference internal" href="#xen-one-ext3-ext4-partition-no-lvm">Xen: one ext3/ext4 partition (no LVM)</a></li>
+<li><a class="reference internal" href="#non-xen-with-cloud-init-cloud-tools-one-ext3-ext4-partition-no-lvm">Non-Xen with cloud-init/cloud-tools: one ext3/ext4 partition (no LVM)</a></li>
+<li><a class="reference internal" href="#non-xen-without-cloud-init-cloud-tools-lvm">Non-Xen without cloud-init/cloud-tools: LVM</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#no-hard-coded-mac-address-information">No hard-coded MAC address information</a></li>
+<li><a class="reference internal" href="#ensure-ssh-server-runs">Ensure ssh server runs</a></li>
+<li><a class="reference internal" href="#disable-firewall">Disable firewall</a></li>
+<li><a class="reference internal" href="#access-instance-by-using-ssh-public-key-cloud-init">Access instance by using ssh public key (cloud-init)</a><ul>
+<li><a class="reference internal" href="#use-cloud-init-to-fetch-the-public-key">Use cloud-init to fetch the public key</a></li>
+<li><a class="reference internal" href="#write-a-custom-script-to-fetch-the-public-key">Write a custom script to fetch the public key</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#process-user-data-and-other-metadata-cloud-init">Process user data and other metadata (cloud-init)</a></li>
+<li><a class="reference internal" href="#ensure-image-writes-boot-log-to-console">Ensure image writes boot log to console</a></li>
+<li><a class="reference internal" href="#paravirtualized-xen-support-in-the-kernel-xen-hypervisor-only">Paravirtualized Xen support in the kernel (Xen hypervisor only)</a></li>
+<li><a class="reference internal" href="#manage-the-image-cache">Manage the image cache</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="image-requirements">
+<h1>Image requirements<a class="headerlink" href="#image-requirements" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<p>For a Linux-based image to have full functionality in an
+OpenStack Compute cloud, there are a few requirements.
+For some of these, you can fulfill the requirements by installing the
+<a class="reference external" href="https://cloudinit.readthedocs.org/en/latest/">cloud-init</a> package.
+Read this section before you create your own image to be sure that
+the image supports the OpenStack features that you plan to use.</p>
+<ul class="simple">
+<li>Disk partitions and resize root partition on boot (<code class="docutils literal"><span class="pre">cloud-init</span></code>)</li>
+<li>No hard-coded MAC address information</li>
+<li>SSH server running</li>
+<li>Disable firewall</li>
+<li>Access instance using ssh public key (<code class="docutils literal"><span class="pre">cloud-init</span></code>)</li>
+<li>Process user data and other metadata (<code class="docutils literal"><span class="pre">cloud-init</span></code>)</li>
+<li>Paravirtualized Xen support in Linux kernel
+(Xen hypervisor only with Linux kernel version &lt; 3.0)</li>
+</ul>
+</div>
+<div class="section" id="disk-partitions-and-resize-root-partition-on-boot-cloud-init">
+<h2>Disk partitions and resize root partition on boot (cloud-init)<a class="headerlink" href="#disk-partitions-and-resize-root-partition-on-boot-cloud-init" title="Permalink to this headline">¶</a></h2>
+<p>When you create a Linux image, you must decide how to partition the disks.
+The choice of partition method can affect the resizing functionality,
+as described in the following sections.</p>
+<p>The size of the disk in a virtual machine image is determined
+when you initially create the image.
+However, OpenStack lets you launch instances with different size
+drives by specifying different flavors.
+For example, if your image was created with a 5 GB disk, and you
+launch an instance with a flavor of <code class="docutils literal"><span class="pre">m1.small</span></code>.
+The resulting virtual machine instance has, by default,
+a primary disk size of 10 GB. When the disk for an instance is
+resized up, zeros are just added to the end.</p>
+<p>Your image must be able to resize its partitions on boot to
+match the size requested by the user.
+Otherwise, after the instance boots, you must manually resize the
+partitions to access the additional storage to which you
+have access when the disk size associated with the flavor
+exceeds the disk size with which your image was created.</p>
+<div class="section" id="xen-one-ext3-ext4-partition-no-lvm">
+<h3>Xen: one ext3/ext4 partition (no LVM)<a class="headerlink" href="#xen-one-ext3-ext4-partition-no-lvm" title="Permalink to this headline">¶</a></h3>
+<p>If you use the OpenStack XenAPI driver, the Compute service automatically
+adjusts the partition and file system for your instance on boot.
+Automatic resize occurs if the following conditions are all true:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">auto_disk_config=True</span></code> is set as a property on the image
+in the image registry.</li>
+<li>The disk on the image has only one partition.</li>
+<li>The file system on the one partition is ext3 or ext4.</li>
+</ul>
+<p>Therefore, if you use Xen, we recommend that when you create your images,
+you create a single ext3 or ext4 partition (not managed by LVM).
+Otherwise, read on.</p>
+</div>
+<div class="section" id="non-xen-with-cloud-init-cloud-tools-one-ext3-ext4-partition-no-lvm">
+<h3>Non-Xen with cloud-init/cloud-tools: one ext3/ext4 partition (no LVM)<a class="headerlink" href="#non-xen-with-cloud-init-cloud-tools-one-ext3-ext4-partition-no-lvm" title="Permalink to this headline">¶</a></h3>
+<p>You must configure these items for your image:</p>
+<ul class="simple">
+<li>The partition table for the image describes the original size of the image.</li>
+<li>The file system for the image fills the original size of the image.</li>
+</ul>
+<p>Then, during the boot process, you must:</p>
+<ul class="simple">
+<li>Modify the partition table to make it aware of the additional space:<ul>
+<li>If you do not use LVM, you must modify the table to extend the
+existing root partition to encompass this additional space.</li>
+<li>If you use LVM, you can add a new LVM entry to the partition table,
+create a new LVM physical volume, add it to the volume group,
+and extend the logical partition with the root volume.</li>
+</ul>
+</li>
+<li>Resize the root volume file system.</li>
+</ul>
+<p>The simplest way to support this is to install in your image the:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://launchpad.net/cloud-utils">cloud-utils</a> package,
+which contains the <code class="docutils literal"><span class="pre">growpart</span></code> tool for extending partitions.</li>
+<li><a class="reference external" href="https://launchpad.net/cloud-initramfs-tools">cloud-initramfs-growroot</a>
+package for Ubuntu, Debian and Fedora, which supports resizing
+root partition on the first boot.</li>
+<li><code class="docutils literal"><span class="pre">cloud-initramfs-growroot</span></code> package for CentOS and RHEL.</li>
+<li><a class="reference external" href="https://launchpad.net/cloud-init">cloud-init</a> package.</li>
+</ul>
+<p>With these packages installed, the image performs the root partition
+resize on boot. For example, in the <code class="docutils literal"><span class="pre">/etc/rc.local</span></code> file.
+These packages are in the Ubuntu and Debian package repository, as well as
+the EPEL repository (for Fedora/RHEL/CentOS/Scientific Linux guests).</p>
+<p>If you cannot install <code class="docutils literal"><span class="pre">cloud-initramfs-tools</span></code>, Robert Plestenjak
+has a GitHub project called <a class="reference external" href="https://github.com/flegmatik/linux-rootfs-resize">linux-rootfs-resize</a>
+that contains scripts that update a ramdisk by using
+<code class="docutils literal"><span class="pre">growpart</span></code> so that the image resizes properly on boot.</p>
+<p>If you can install the cloud-utils and <code class="docutils literal"><span class="pre">cloud-init</span></code> packages,
+we recommend that when you create your images, you create
+a single ext3 or ext4 partition (not managed by LVM).</p>
+</div>
+<div class="section" id="non-xen-without-cloud-init-cloud-tools-lvm">
+<h3>Non-Xen without cloud-init/cloud-tools: LVM<a class="headerlink" href="#non-xen-without-cloud-init-cloud-tools-lvm" title="Permalink to this headline">¶</a></h3>
+<p>If you cannot install <code class="docutils literal"><span class="pre">cloud-init</span></code> and <code class="docutils literal"><span class="pre">cloud-tools</span></code> inside of
+your guest, and you want to support resize, you must write
+a script that your image runs on boot to modify the partition table.
+In this case, we recommend using LVM to manage your partitions.
+Due to a limitation in the Linux kernel (as of this writing),
+you cannot modify a partition table of a raw disk that has
+partitions currently mounted, but you can do this for LVM.</p>
+<p>Your script must do something like the following:</p>
+<ol class="arabic simple">
+<li>Detect if any additional space is available on the disk.
+For example, parse the output of
+<code class="docutils literal"><span class="pre">parted</span> <span class="pre">/dev/sda</span> <span class="pre">--script</span> <span class="pre">&quot;print</span> <span class="pre">free&quot;</span></code>.</li>
+<li>Create a new LVM partition with the additional space.
+For example, <code class="docutils literal"><span class="pre">parted</span> <span class="pre">/dev/sda</span> <span class="pre">--script</span> <span class="pre">&quot;mkpart</span> <span class="pre">lvm</span> <span class="pre">...&quot;</span></code>.</li>
+<li>Create a new physical volume. For example, <code class="docutils literal"><span class="pre">pvcreate</span> <span class="pre">/dev/sda6</span></code>.</li>
+<li>Extend the volume group with this physical partition.
+For example, <code class="docutils literal"><span class="pre">vgextend</span> <span class="pre">vg00</span> <span class="pre">/dev/sda6</span></code>.</li>
+<li>Extend the logical volume contained the root partition by
+the amount of space. For example,
+<code class="docutils literal"><span class="pre">lvextend</span> <span class="pre">/dev/mapper/node-root</span> <span class="pre">/dev/sda6</span></code>.</li>
+<li>Resize the root file system. For example,
+<code class="docutils literal"><span class="pre">resize2fs</span> <span class="pre">/dev/mapper/node-root</span></code>.</li>
+</ol>
+<p>You do not need a <code class="docutils literal"><span class="pre">/boot</span></code> partition unless your image is an older
+Linux distribution that requires that <code class="docutils literal"><span class="pre">/boot</span></code> is not managed by LVM.</p>
+</div>
+</div>
+<div class="section" id="no-hard-coded-mac-address-information">
+<h2>No hard-coded MAC address information<a class="headerlink" href="#no-hard-coded-mac-address-information" title="Permalink to this headline">¶</a></h2>
+<p>You must remove the network persistence rules in the
+image because they cause the network interface in the
+instance to come up as an interface other than eth0.
+This is because your image has a record of the MAC address of
+the network interface card when it was first installed,
+and this MAC address is different each time the instance boots.
+You should alter the following files:</p>
+<ul class="simple">
+<li>Replace <code class="docutils literal"><span class="pre">/etc/udev/rules.d/70-persistent-net.rules</span></code> with
+an empty file (contains network persistence rules, including MAC address).</li>
+<li>Replace <code class="docutils literal"><span class="pre">/lib/udev/rules.d/75-persistent-net-generator.rules</span></code>
+with an empty file (this generates the file above).</li>
+<li>Remove the HWADDR line from <code class="docutils literal"><span class="pre">/etc/sysconfig/network-scripts/ifcfg-eth0</span></code>
+on Fedora-based images.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you delete the network persistent rules files,
+you may get a <code class="docutils literal"><span class="pre">udev</span> <span class="pre">kernel</span></code> warning at boot time,
+which is why we recommend replacing them with empty files instead.</p>
+</div>
+</div>
+<div class="section" id="ensure-ssh-server-runs">
+<h2>Ensure ssh server runs<a class="headerlink" href="#ensure-ssh-server-runs" title="Permalink to this headline">¶</a></h2>
+<p>You must install an ssh server into the image and ensure
+that it starts up on boot, or you cannot connect to your
+instance by using ssh when it boots inside of OpenStack.
+This package is typically called <code class="docutils literal"><span class="pre">openssh-server</span></code>.</p>
+</div>
+<div class="section" id="disable-firewall">
+<h2>Disable firewall<a class="headerlink" href="#disable-firewall" title="Permalink to this headline">¶</a></h2>
+<p>In general, we recommend that you disable any firewalls
+inside of your image and use OpenStack security groups to
+restrict access to instances.
+The reason is that having a firewall installed on your
+instance can make it more difficult to troubleshoot
+networking issues if you cannot connect to your instance.</p>
+</div>
+<div class="section" id="access-instance-by-using-ssh-public-key-cloud-init">
+<h2>Access instance by using ssh public key (cloud-init)<a class="headerlink" href="#access-instance-by-using-ssh-public-key-cloud-init" title="Permalink to this headline">¶</a></h2>
+<p>The typical way that users access virtual machines
+running on OpenStack is to ssh using public key authentication.
+For this to work, your virtual machine image must be configured
+to download the ssh public key from the OpenStack metadata
+service or config drive, at boot time.</p>
+<p>If both the XenAPI agent and <code class="docutils literal"><span class="pre">cloud-init</span></code> are present
+in an image, <code class="docutils literal"><span class="pre">cloud-init</span></code> handles ssh-key injection.
+The system assumes <code class="docutils literal"><span class="pre">cloud-init</span></code> is present when the image
+has the <code class="docutils literal"><span class="pre">cloud_init_installed</span></code> property.</p>
+<div class="section" id="use-cloud-init-to-fetch-the-public-key">
+<h3>Use cloud-init to fetch the public key<a class="headerlink" href="#use-cloud-init-to-fetch-the-public-key" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">cloud-init</span></code> package automatically fetches the public key
+from the metadata server and places the key in an account.
+The account varies by distribution.
+On Ubuntu-based virtual machines, the account is called <code class="docutils literal"><span class="pre">ubuntu</span></code>.
+On Fedora-based virtual machines, the account is called <code class="docutils literal"><span class="pre">ec2-user</span></code>.</p>
+<p>You can change the name of the account used by <code class="docutils literal"><span class="pre">cloud-init</span></code>
+by editing the <code class="docutils literal"><span class="pre">/etc/cloud/cloud.cfg</span></code> file and adding a line
+with a different user. For example, to configure <code class="docutils literal"><span class="pre">cloud-init</span></code>
+to put the key in an account named <code class="docutils literal"><span class="pre">admin</span></code>, edit the
+configuration file so it has the line:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span>user: admin
+</pre></div>
+</div>
+</div>
+<div class="section" id="write-a-custom-script-to-fetch-the-public-key">
+<h3>Write a custom script to fetch the public key<a class="headerlink" href="#write-a-custom-script-to-fetch-the-public-key" title="Permalink to this headline">¶</a></h3>
+<p>If you are unable or unwilling to install <code class="docutils literal"><span class="pre">cloud-init</span></code> inside
+the guest, you can write a custom script to fetch the public key
+and add it to a user account.</p>
+<p>To fetch the ssh public key and add it to the root account,
+edit the <code class="docutils literal"><span class="pre">/etc/rc.local</span></code> file and add the following lines
+before the line <code class="docutils literal"><span class="pre">touch</span> <span class="pre">/var/lock/subsys/local</span></code>.
+This code fragment is taken from the
+<a class="reference external" href="https://github.com/rackerjoe/oz-image-build/blob/master/templates/centos60_x86_64.tdl">rackerjoe oz-image-build CentOS 6 template</a>.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="o">[</span> ! -d /root/.ssh <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  mkdir -p /root/.ssh
+  chmod <span class="m">700</span> /root/.ssh
+<span class="k">fi</span>
+
+<span class="c1"># Fetch public key using HTTP</span>
+<span class="nv">ATTEMPTS</span><span class="o">=</span>30
+<span class="nv">FAILED</span><span class="o">=</span>0
+<span class="k">while</span> <span class="o">[</span> ! -f /root/.ssh/authorized_keys <span class="o">]</span><span class="p">;</span> <span class="k">do</span>
+  curl -f http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key &gt; /tmp/metadata-key 2&gt;/dev/null
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    cat /tmp/metadata-key &gt;&gt; /root/.ssh/authorized_keys
+    chmod <span class="m">0600</span> /root/.ssh/authorized_keys
+    restorecon /root/.ssh/authorized_keys
+    rm -f /tmp/metadata-key
+    <span class="nb">echo</span> <span class="s2">&quot;Successfully retrieved public key from instance metadata&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;*****************&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;AUTHORIZED KEYS&quot;</span>
+    <span class="nb">echo</span> <span class="s2">&quot;*****************&quot;</span>
+    cat /root/.ssh/authorized_keys
+    <span class="nb">echo</span> <span class="s2">&quot;*****************&quot;</span>
+  <span class="k">else</span>
+    <span class="nv">FAILED</span><span class="o">=</span><span class="sb">`</span>expr <span class="nv">$FAILED</span> + 1<span class="sb">`</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$FAILED</span> -ge <span class="nv">$ATTEMPTS</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+      <span class="nb">echo</span> <span class="s2">&quot;Failed to retrieve public key from instance metadata after </span><span class="nv">$FAILED</span><span class="s2"> attempts, quitting&quot;</span>
+      <span class="nb">break</span>
+    <span class="k">fi</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Could not retrieve public key from instance metadata (attempt #</span><span class="nv">$FAILED</span><span class="s2">/</span><span class="nv">$ATTEMPTS</span><span class="s2">), retrying in 5 seconds...&quot;</span>
+    sleep 5
+  <span class="k">fi</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some VNC clients replace : (colon) with ; (semicolon) and
+_ (underscore) with - (hyphen).
+If editing a file over a VNC session, make sure it is
+http: not http; and authorized_keys not authorized-keys.</p>
+</div>
+</div>
+</div>
+<div class="section" id="process-user-data-and-other-metadata-cloud-init">
+<h2>Process user data and other metadata (cloud-init)<a class="headerlink" href="#process-user-data-and-other-metadata-cloud-init" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the ssh public key, an image might need
+additional information from OpenStack, such as
+<a class="reference external" href="http://docs.openstack.org/user-guide/cli-provide-user-data-to-instances.html">Provide user data to instances</a>,
+that the user submitted when requesting the image.
+For example, you might want to set the host name of the instance
+when it is booted. Or, you might wish to configure your image
+so that it executes user data content as a script on boot.</p>
+<p>You can access this information through the metadata
+service or referring to <a class="reference external" href="http://docs.openstack.org/user-guide/cli-config-drive.html">Store metadata on the configuration drive</a>.
+As the OpenStack metadata service is compatible with version
+2009-04-04 of the Amazon EC2 metadata service, consult the
+Amazon EC2 documentation on
+<a class="reference external" href="http://docs.amazonwebservices.com/AWSEC2/2009-04-04/UserGuide/AESDG-chapter-instancedata.html">Using Instance Metadata</a>
+for details on how to retrieve the user data.</p>
+<p>The easiest way to support this type of functionality is
+to install the <code class="docutils literal"><span class="pre">cloud-init</span></code> package into your image,
+which is configured by default to treat user data as
+an executable script, and sets the host name.</p>
+</div>
+<div class="section" id="ensure-image-writes-boot-log-to-console">
+<span id="write-to-console"></span><h2>Ensure image writes boot log to console<a class="headerlink" href="#ensure-image-writes-boot-log-to-console" title="Permalink to this headline">¶</a></h2>
+<p>You must configure the image so that the kernel writes
+the boot log to the <code class="docutils literal"><span class="pre">ttyS0</span></code> device. In particular, the
+<code class="docutils literal"><span class="pre">console=ttyS0</span></code> argument must be passed to the kernel on boot.</p>
+<p>If your image uses <code class="docutils literal"><span class="pre">grub2</span></code> as the boot loader,
+there should be a line in the grub configuration file.
+For example, <code class="docutils literal"><span class="pre">/boot/grub/grub.cfg</span></code>, which looks something like this:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">linux /boot/vmlinuz-3.2.0-49-virtual root=UUID=6d2231e4-0975-4f35-a94f-56738c1a8150 ro console=ttyS0</span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal"><span class="pre">console=ttyS0</span></code> does not appear, you must modify your grub
+configuration. In general, you should not update the <code class="docutils literal"><span class="pre">grub.cfg</span></code>
+directly, since it is automatically generated.
+Instead, you should edit the <code class="docutils literal"><span class="pre">/etc/default/grub</span></code> file and modify the
+value of the <code class="docutils literal"><span class="pre">GRUB_CMDLINE_LINUX_DEFAULT</span></code> variable:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">GRUB_CMDLINE_LINUX_DEFAULT</span><span class="o">=</span><span class="s2">&quot;console=ttyS0&quot;</span>
+</pre></div>
+</div>
+<p>Next, update the grub configuration. On Debian-based
+operating systems such as Ubuntu, run this command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> update-grub
+</pre></div>
+</div>
+<p>On Fedora-based systems, such as RHEL and CentOS,
+and on openSUSE, run this command:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> grub2-mkconfig -o /boot/grub2/grub.cfg
+</pre></div>
+</div>
+</div>
+<div class="section" id="paravirtualized-xen-support-in-the-kernel-xen-hypervisor-only">
+<h2>Paravirtualized Xen support in the kernel (Xen hypervisor only)<a class="headerlink" href="#paravirtualized-xen-support-in-the-kernel-xen-hypervisor-only" title="Permalink to this headline">¶</a></h2>
+<p>Prior to Linux kernel version 3.0, the mainline branch of
+the Linux kernel did not have support for paravirtualized
+Xen virtual machine instances (what Xen calls DomU guests).
+If you are running the Xen hypervisor with paravirtualization,
+and you want to create an image for an older Linux distribution
+that has a pre 3.0 kernel, you must ensure that the image
+boots a kernel that has been compiled with Xen support.</p>
+</div>
+<div class="section" id="manage-the-image-cache">
+<h2>Manage the image cache<a class="headerlink" href="#manage-the-image-cache" title="Permalink to this headline">¶</a></h2>
+<p>Use options in the <code class="docutils literal"><span class="pre">nova.conf</span></code> file to control whether, and for how long,
+unused base images are stored in the <code class="docutils literal"><span class="pre">/var/lib/nova/instances/_base/</span></code>.
+If you have configured live migration of instances, all your compute
+nodes share one common <code class="docutils literal"><span class="pre">/var/lib/nova/instances/</span></code> directory.</p>
+<p>For information about the libvirt images in OpenStack, see
+<a class="reference external" href="http://www.pixelbeat.org/docs/openstack_libvirt_images/">The life of an OpenStack libvirt image from Pádraig Brady</a>.</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text">Image cache management configuration options</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option=Default value</th>
+<th class="head">(Type) Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>preallocate_images=none</td>
+<td><p class="first">(StrOpt) VM image preallocation mode:</p>
+<dl class="last docutils">
+<dt>none</dt>
+<dd>No storage provisioning occurs up front.</dd>
+<dt>space</dt>
+<dd>Storage is fully allocated at instance start.
+The <code class="docutils literal"><span class="pre">$instance_dir/</span></code> images are
+<a class="reference external" href="http://www.kernel.org/doc/man-pages/online/pages/man2/fallocate.2.html">fallocated</a>
+to immediately determine if enough space is available,
+and to possibly improve VM I/O performance due to ongoing
+allocation avoidance, and better locality of block allocations.</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td>remove_unused_base_images=True</td>
+<td>(BoolOpt) Should unused base images be removed?
+When set to True, the interval at which base images are
+removed are set with the following two settings.
+If set to False base images are never removed by Compute.</td>
+</tr>
+<tr class="row-even"><td>remove_unused_original_minimum_age_seconds=86400</td>
+<td>(IntOpt) Unused unresized base images younger than this are
+not removed. Default is 86400 seconds, or 24 hours.</td>
+</tr>
+<tr class="row-odd"><td>remove_unused_resized_minimum_age_seconds=3600</td>
+<td>(IntOpt) Unused resized base images younger than this are
+not removed. Default is 3600 seconds, or one hour.</td>
+</tr>
+</tbody>
+</table>
+<p>To see how the settings affect the deletion of a running instance,
+check the directory where the images are stored:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> ls -lash /var/lib/nova/instances/_base/
+</pre></div>
+</div>
+<p>In the <code class="docutils literal"><span class="pre">/var/log/compute/compute.log</span></code> file, look for the identifier:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">2012-02-18 04:24:17 41389 WARNING nova.virt.libvirt.imagecache [-] Unknown base file: /var/lib/nova/instances/_base/06a057b9c7b0b27e3b496f53d1e88810a0d1d5d3_20</span>
+<span class="go">2012-02-18 04:24:17 41389 INFO nova.virt.libvirt.imagecache [-] Removable base files: /var/lib/nova/instances/_base/06a057b9c7b0b27e3b496f53d1e88810a0d1d5d3 /var/lib/nova/instances/_base/06a057b9c7b0b27e3b496f53d1e88810a0d1d5d3_20</span>
+<span class="go">2012-02-18 04:24:17 41389 INFO nova.virt.libvirt.imagecache [-] Removing base file: /var/lib/nova/instances/_base/06a057b9c7b0b27e3b496f53d1e88810a0d1d5d3</span>
+</pre></div>
+</div>
+<p>Because 86400 seconds (24 hours) is the default time for
+<code class="docutils literal"><span class="pre">remove_unused_original_minimum_age_seconds</span></code>,
+you can either wait for that time interval to see the base image
+removed, or set the value to a shorter time period in the <code class="docutils literal"><span class="pre">nova.conf</span></code> file.
+Restart all nova services after changing a setting in the <code class="docutils literal"><span class="pre">nova.conf</span></code> file.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="obtain-images.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Get images"></i></a>
+          
+          
+            <a href="modify-images.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Modify images"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:30</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="obtain-images.html">Get images</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Image requirements</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#disk-partitions-and-resize-root-partition-on-boot-cloud-init">Disk partitions and resize root partition on boot (cloud-init)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#no-hard-coded-mac-address-information">No hard-coded MAC address information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ensure-ssh-server-runs">Ensure ssh server runs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#disable-firewall">Disable firewall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#access-instance-by-using-ssh-public-key-cloud-init">Access instance by using ssh public key (cloud-init)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#process-user-data-and-other-metadata-cloud-init">Process user data and other metadata (cloud-init)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ensure-image-writes-boot-log-to-console">Ensure image writes boot log to console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#paravirtualized-xen-support-in-the-kernel-xen-hypervisor-only">Paravirtualized Xen support in the kernel (Xen hypervisor only)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manage-the-image-cache">Manage the image cache</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modify-images.html">Modify images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create-images-manually.html">Create images manually</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create-images-automatically.html">Tool support for image creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convert-images.html">Converting between image formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="share-images.html">Image sharing</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "openstack-images" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/image-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Image requirements in Virtual Machine Image Guide";
+    var fieldTags = "image-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:30";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/image-guide/openstack-images.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 11:15:29 GMT -->
+</html>

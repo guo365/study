@@ -1,0 +1,854 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/arch-design/generalpurpose-architecture.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 07:59:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Architecture</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Architecture</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="generalpurpose-operational-considerations.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Operational considerations"></i></a>
+    
+    
+    <a href="generalpurpose-prescriptive-example.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Prescriptive example"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Architecture</a><ul>
+<li><a class="reference internal" href="#selecting-storage-hardware">Selecting storage hardware</a></li>
+<li><a class="reference internal" href="#selecting-networking-hardware">Selecting networking hardware</a></li>
+<li><a class="reference internal" href="#software-selection">Software selection</a></li>
+<li><a class="reference internal" href="#operating-system-and-hypervisor">Operating system and hypervisor</a></li>
+<li><a class="reference internal" href="#openstack-components">OpenStack components</a><ul>
+<li><a class="reference internal" href="#networking-software">Networking software</a></li>
+<li><a class="reference internal" href="#management-software">Management software</a></li>
+<li><a class="reference internal" href="#database-software">Database software</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h1>
+<p>Hardware selection involves three key areas:</p>
+<ul class="simple">
+<li>Compute</li>
+<li>Network</li>
+<li>Storage</li>
+</ul>
+<p>Hardware for a general purpose OpenStack cloud should reflect a cloud
+with no pre-defined usage model, designed to run a wide variety of
+applications with varying resource usage requirements. These
+applications include any of the following:</p>
+<ul class="simple">
+<li>RAM-intensive</li>
+<li>CPU-intensive</li>
+<li>Storage-intensive</li>
+</ul>
+<p>Certain hardware form factors may better suit a general purpose
+OpenStack cloud due to the requirement for equal (or nearly equal)
+balance of resources. Server hardware must provide the following:</p>
+<ul class="simple">
+<li>Equal (or nearly equal) balance of compute capacity (RAM and CPU)</li>
+<li>Network capacity (number and speed of links)</li>
+<li>Storage capacity (gigabytes or terabytes as well as <a class="reference internal" href="common/glossary.html#term-input-output-operations-per-second-iops"><span class="xref std std-term">Input/Output
+Operations Per Second (IOPS)</span></a></li>
+</ul>
+<p>Evaluate server hardware around four conflicting dimensions:</p>
+<dl class="docutils">
+<dt>Server density</dt>
+<dd>A measure of how many servers can fit into a given measure of
+physical space, such as a rack unit [U].</dd>
+<dt>Resource capacity</dt>
+<dd>The number of CPU cores, amount of RAM, or amount of deliverable
+storage.</dd>
+<dt>Expandability</dt>
+<dd>Limit of additional resources you can add to a server.</dd>
+<dt>Cost</dt>
+<dd>The relative purchase price of the hardware weighted against the
+level of design effort needed to build the system.</dd>
+</dl>
+<p>Increasing server density means sacrificing resource capacity or
+expandability, however, increasing resource capacity and expandability
+increases cost and decreases server density. As a result, determining
+the best server hardware for a general purpose OpenStack architecture
+means understanding how choice of form factor will impact the rest of
+the design. The following list outlines the form factors to choose from:</p>
+<ul class="simple">
+<li>Blade servers typically support dual-socket multi-core CPUs. Blades
+also offer outstanding density.</li>
+<li>1U rack-mounted servers occupy only a single rack unit. Their
+benefits include high density, support for dual-socket multi-core
+CPUs, and support for reasonable RAM amounts. This form factor offers
+limited storage capacity, limited network capacity, and limited
+expandability.</li>
+<li>2U rack-mounted servers offer the expanded storage and networking
+capacity that 1U servers tend to lack, but with a corresponding
+decrease in server density (half the density offered by 1U
+rack-mounted servers).</li>
+<li>Larger rack-mounted servers, such as 4U servers, will tend to offer
+even greater CPU capacity, often supporting four or even eight CPU
+sockets. These servers often have much greater expandability so will
+provide the best option for upgradability. This means, however, that
+the servers have a much lower server density and a much greater
+hardware cost.</li>
+<li><em>Sled servers</em> are rack-mounted servers that support multiple
+independent servers in a single 2U or 3U enclosure. This form factor
+offers increased density over typical 1U-2U rack-mounted servers but
+tends to suffer from limitations in the amount of storage or network
+capacity each individual server supports.</li>
+</ul>
+<p>The best form factor for server hardware supporting a general purpose
+OpenStack cloud is driven by outside business and cost factors. No
+single reference architecture applies to all implementations; the
+decision must flow from user requirements, technical considerations, and
+operational considerations. Here are some of the key factors that
+influence the selection of server hardware:</p>
+<dl class="docutils">
+<dt>Instance density</dt>
+<dd>Sizing is an important consideration for a general purpose OpenStack
+cloud. The expected or anticipated number of instances that each
+hypervisor can host is a common meter used in sizing the deployment.
+The selected server hardware needs to support the expected or
+anticipated instance density.</dd>
+<dt>Host density</dt>
+<dd>Physical data centers have limited physical space, power, and
+cooling. The number of hosts (or hypervisors) that can be fitted
+into a given metric (rack, rack unit, or floor tile) is another
+important method of sizing. Floor weight is an often overlooked
+consideration. The data center floor must be able to support the
+weight of the proposed number of hosts within a rack or set of
+racks. These factors need to be applied as part of the host density
+calculation and server hardware selection.</dd>
+<dt>Power density</dt>
+<dd>Data centers have a specified amount of power fed to a given rack or
+set of racks. Older data centers may have a power density as power
+as low as 20 AMPs per rack, while more recent data centers can be
+architected to support power densities as high as 120 AMP per rack.
+The selected server hardware must take power density into account.</dd>
+<dt>Network connectivity</dt>
+<dd>The selected server hardware must have the appropriate number of
+network connections, as well as the right type of network
+connections, in order to support the proposed architecture. Ensure
+that, at a minimum, there are at least two diverse network
+connections coming into each rack.</dd>
+</dl>
+<p>The selection of form factors or architectures affects the selection of
+server hardware. Ensure that the selected server hardware is configured
+to support enough storage capacity (or storage expandability) to match
+the requirements of selected scale-out storage solution. Similarly, the
+network architecture impacts the server hardware selection and vice
+versa.</p>
+<div class="section" id="selecting-storage-hardware">
+<h2>Selecting storage hardware<a class="headerlink" href="#selecting-storage-hardware" title="Permalink to this headline">¶</a></h2>
+<p>Determine storage hardware architecture by selecting specific storage
+architecture. Determine the selection of storage architecture by
+evaluating possible solutions against the critical factors, the user
+requirements, technical considerations, and operational considerations.
+Incorporate the following facts into your storage architecture:</p>
+<dl class="docutils">
+<dt>Cost</dt>
+<dd>Storage can be a significant portion of the overall system cost. For
+an organization that is concerned with vendor support, a commercial
+storage solution is advisable, although it comes with a higher price
+tag. If initial capital expenditure requires minimization, designing
+a system based on commodity hardware would apply. The trade-off is
+potentially higher support costs and a greater risk of
+incompatibility and interoperability issues.</dd>
+<dt>Scalability</dt>
+<dd>Scalability, along with expandability, is a major consideration in a
+general purpose OpenStack cloud. It might be difficult to predict
+the final intended size of the implementation as there are no
+established usage patterns for a general purpose cloud. It might
+become necessary to expand the initial deployment in order to
+accommodate growth and user demand.</dd>
+<dt>Expandability</dt>
+<dd>Expandability is a major architecture factor for storage solutions
+with general purpose OpenStack cloud. A storage solution that
+expands to 50&nbsp;PB is considered more expandable than a solution that
+only scales to 10&nbsp;PB. This meter is related to scalability, which is
+the measure of a solution&#8217;s performance as it expands.</dd>
+</dl>
+<p>Using a scale-out storage solution with direct-attached storage (DAS) in
+the servers is well suited for a general purpose OpenStack cloud. Cloud
+services requirements determine your choice of scale-out solution. You
+need to determine if a single, highly expandable and highly vertical,
+scalable, centralized storage array is suitable for your design. After
+determining an approach, select the storage hardware based on this
+criteria.</p>
+<p>This list expands upon the potential impacts for including a particular
+storage architecture (and corresponding storage hardware) into the
+design for a general purpose OpenStack cloud:</p>
+<dl class="docutils">
+<dt>Connectivity</dt>
+<dd>Ensure that, if storage protocols other than Ethernet are part of
+the storage solution, the appropriate hardware has been selected. If
+a centralized storage array is selected, ensure that the hypervisor
+will be able to connect to that storage array for image storage.</dd>
+<dt>Usage</dt>
+<dd>How the particular storage architecture will be used is critical for
+determining the architecture. Some of the configurations that will
+influence the architecture include whether it will be used by the
+hypervisors for ephemeral instance storage or if OpenStack Object
+Storage will use it for object storage.</dd>
+<dt>Instance and image locations</dt>
+<dd>Where instances and images will be stored will influence the
+architecture.</dd>
+<dt>Server hardware</dt>
+<dd>If the solution is a scale-out storage architecture that includes
+DAS, it will affect the server hardware selection. This could ripple
+into the decisions that affect host density, instance density, power
+density, OS-hypervisor, management tools and others.</dd>
+</dl>
+<p>General purpose OpenStack cloud has multiple options. The key factors
+that will have an influence on selection of storage hardware for a
+general purpose OpenStack cloud are as follows:</p>
+<dl class="docutils">
+<dt>Capacity</dt>
+<dd>Hardware resources selected for the resource nodes should be capable
+of supporting enough storage for the cloud services. Defining the
+initial requirements and ensuring the design can support adding
+capacity is important. Hardware nodes selected for object storage
+should be capable of support a large number of inexpensive disks
+with no reliance on RAID controller cards. Hardware nodes selected
+for block storage should be capable of supporting high speed storage
+solutions and RAID controller cards to provide performance and
+redundancy to storage at a hardware level. Selecting hardware RAID
+controllers that automatically repair damaged arrays will assist
+with the replacement and repair of degraded or deleted storage
+devices.</dd>
+<dt>Performance</dt>
+<dd>Disks selected for object storage services do not need to be fast
+performing disks. We recommend that object storage nodes take
+advantage of the best cost per terabyte available for storage.
+Contrastingly, disks chosen for block storage services should take
+advantage of performance boosting features that may entail the use
+of SSDs or flash storage to provide high performance block storage
+pools. Storage performance of ephemeral disks used for instances
+should also be taken into consideration.</dd>
+<dt>Fault tolerance</dt>
+<dd>Object storage resource nodes have no requirements for hardware
+fault tolerance or RAID controllers. It is not necessary to plan for
+fault tolerance within the object storage hardware because the
+object storage service provides replication between zones as a
+feature of the service. Block storage nodes, compute nodes, and
+cloud controllers should all have fault tolerance built in at the
+hardware level by making use of hardware RAID controllers and
+varying levels of RAID configuration. The level of RAID chosen
+should be consistent with the performance and availability
+requirements of the cloud.</dd>
+</dl>
+</div>
+<div class="section" id="selecting-networking-hardware">
+<h2>Selecting networking hardware<a class="headerlink" href="#selecting-networking-hardware" title="Permalink to this headline">¶</a></h2>
+<p>Selecting network architecture determines which network hardware will be
+used. Networking software is determined by the selected networking
+hardware.</p>
+<p>There are more subtle design impacts that need to be considered. The
+selection of certain networking hardware (and the networking software)
+affects the management tools that can be used. There are exceptions to
+this; the rise of <em>open</em> networking software that supports a range of
+networking hardware means that there are instances where the
+relationship between networking hardware and networking software are not
+as tightly defined.</p>
+<p>Some of the key considerations that should be included in the selection
+of networking hardware include:</p>
+<dl class="docutils">
+<dt>Port count</dt>
+<dd>The design will require networking hardware that has the requisite
+port count.</dd>
+<dt>Port density</dt>
+<dd>The network design will be affected by the physical space that is
+required to provide the requisite port count. A higher port density
+is preferred, as it leaves more rack space for compute or storage
+components that may be required by the design. This can also lead
+into concerns about fault domains and power density that should be
+considered. Higher density switches are more expensive and should
+also be considered, as it is important not to over design the
+network if it is not required.</dd>
+<dt>Port speed</dt>
+<dd>The networking hardware must support the proposed network speed, for
+example: 1&nbsp;GbE, 10&nbsp;GbE, or 40&nbsp;GbE (or even 100&nbsp;GbE).</dd>
+<dt>Redundancy</dt>
+<dd>The level of network hardware redundancy required is influenced by
+the user requirements for high availability and cost considerations.
+Network redundancy can be achieved by adding redundant power
+supplies or paired switches. If this is a requirement, the hardware
+will need to support this configuration.</dd>
+<dt>Power requirements</dt>
+<dd>Ensure that the physical data center provides the necessary power
+for the selected network hardware.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This may be an issue for spine switches in a leaf and spine
+fabric, or end of row (EoR) switches.</p>
+</div>
+<p>There is no single best practice architecture for the networking
+hardware supporting a general purpose OpenStack cloud that will apply to
+all implementations. Some of the key factors that will have a strong
+influence on selection of networking hardware include:</p>
+<dl class="docutils">
+<dt>Connectivity</dt>
+<dd>All nodes within an OpenStack cloud require network connectivity. In
+some cases, nodes require access to more than one network segment.
+The design must encompass sufficient network capacity and bandwidth
+to ensure that all communications within the cloud, both north-south
+and east-west traffic have sufficient resources available.</dd>
+<dt>Scalability</dt>
+<dd>The network design should encompass a physical and logical network
+design that can be easily expanded upon. Network hardware should
+offer the appropriate types of interfaces and speeds that are
+required by the hardware nodes.</dd>
+<dt>Availability</dt>
+<dd>To ensure that access to nodes within the cloud is not interrupted,
+we recommend that the network architecture identify any single
+points of failure and provide some level of redundancy or fault
+tolerance. With regard to the network infrastructure itself, this
+often involves use of networking protocols such as LACP, VRRP or
+others to achieve a highly available network connection. In
+addition, it is important to consider the networking implications on
+API availability. In order to ensure that the APIs, and potentially
+other services in the cloud are highly available, we recommend you
+design a load balancing solution within the network architecture to
+accommodate for these requirements.</dd>
+</dl>
+</div>
+<div class="section" id="software-selection">
+<h2>Software selection<a class="headerlink" href="#software-selection" title="Permalink to this headline">¶</a></h2>
+<p>Software selection for a general purpose OpenStack architecture design
+needs to include these three areas:</p>
+<ul class="simple">
+<li>Operating system (OS) and hypervisor</li>
+<li>OpenStack components</li>
+<li>Supplemental software</li>
+</ul>
+</div>
+<div class="section" id="operating-system-and-hypervisor">
+<h2>Operating system and hypervisor<a class="headerlink" href="#operating-system-and-hypervisor" title="Permalink to this headline">¶</a></h2>
+<p>The operating system (OS) and hypervisor have a significant impact on
+the overall design. Selecting a particular operating system and
+hypervisor can directly affect server hardware selection. Make sure the
+storage hardware and topology support the selected operating system and
+hypervisor combination. Also ensure the networking hardware selection
+and topology will work with the chosen operating system and hypervisor
+combination.</p>
+<p>Some areas that could be impacted by the selection of OS and hypervisor
+include:</p>
+<dl class="docutils">
+<dt>Cost</dt>
+<dd>Selecting a commercially supported hypervisor, such as Microsoft
+Hyper-V, will result in a different cost model rather than
+community-supported open source hypervisors including
+<a class="reference internal" href="common/glossary.html#term-kernel-based-vm-kvm"><span class="xref std std-term">KVM</span></a>, Kinstance or <a class="reference internal" href="common/glossary.html#term-xen"><span class="xref std std-term">Xen</span></a>. When
+comparing open source OS solutions, choosing Ubuntu over Red Hat
+(or vice versa) will have an impact on cost due to support
+contracts.</dd>
+<dt>Supportability</dt>
+<dd>Depending on the selected hypervisor, staff should have the
+appropriate training and knowledge to support the selected OS and
+hypervisor combination. If they do not, training will need to be
+provided which could have a cost impact on the design.</dd>
+<dt>Management tools</dt>
+<dd>The management tools used for Ubuntu and Kinstance differ from the
+management tools for VMware vSphere. Although both OS and hypervisor
+combinations are supported by OpenStack, there will be very
+different impacts to the rest of the design as a result of the
+selection of one combination versus the other.</dd>
+<dt>Scale and performance</dt>
+<dd>Ensure that selected OS and hypervisor combinations meet the
+appropriate scale and performance requirements. The chosen
+architecture will need to meet the targeted instance-host ratios
+with the selected OS-hypervisor combinations.</dd>
+<dt>Security</dt>
+<dd>Ensure that the design can accommodate regular periodic
+installations of application security patches while maintaining
+required workloads. The frequency of security patches for the
+proposed OS-hypervisor combination will have an impact on
+performance and the patch installation process could affect
+maintenance windows.</dd>
+<dt>Supported features</dt>
+<dd>Determine which features of OpenStack are required. This will often
+determine the selection of the OS-hypervisor combination. Some
+features are only available with specific operating systems or
+hypervisors.</dd>
+<dt>Interoperability</dt>
+<dd>You will need to consider how the OS and hypervisor combination
+interactions with other operating systems and hypervisors, including
+other software solutions. Operational troubleshooting tools for one
+OS-hypervisor combination may differ from the tools used for another
+OS-hypervisor combination and, as a result, the design will need to
+address if the two sets of tools need to interoperate.</dd>
+</dl>
+</div>
+<div class="section" id="openstack-components">
+<h2>OpenStack components<a class="headerlink" href="#openstack-components" title="Permalink to this headline">¶</a></h2>
+<p>Selecting which OpenStack components are included in the overall design
+is important. Some OpenStack components, like compute and Image service,
+are required in every architecture. Other components, like
+Orchestration, are not always required.</p>
+<p>Excluding certain OpenStack components can limit or constrain the
+functionality of other components. For example, if the architecture
+includes Orchestration but excludes Telemetry, then the design will not
+be able to take advantage of Orchestrations&#8217; auto scaling functionality.
+It is important to research the component interdependencies in
+conjunction with the technical requirements before deciding on the final
+architecture.</p>
+<div class="section" id="networking-software">
+<h3>Networking software<a class="headerlink" href="#networking-software" title="Permalink to this headline">¶</a></h3>
+<p>OpenStack Networking (neutron) provides a wide variety of networking
+services for instances. There are many additional networking software
+packages that can be useful when managing OpenStack components. Some
+examples include:</p>
+<ul class="simple">
+<li>Software to provide load balancing</li>
+<li>Network redundancy protocols</li>
+<li>Routing daemons</li>
+</ul>
+<p>Some of these software packages are described in more detail in the
+OpenStack High Availability Guide (refer to the <a class="reference external" href="http://docs.openstack.org/ha-guide/networking-ha.html">OpenStack network
+nodes
+chapter</a> of
+the OpenStack High Availability Guide).</p>
+<p>For a general purpose OpenStack cloud, the OpenStack infrastructure
+components need to be highly available. If the design does not include
+hardware load balancing, networking software packages like HAProxy will
+need to be included.</p>
+</div>
+<div class="section" id="management-software">
+<h3>Management software<a class="headerlink" href="#management-software" title="Permalink to this headline">¶</a></h3>
+<p>Selected supplemental software solution impacts and affects the overall
+OpenStack cloud design. This includes software for providing clustering,
+logging, monitoring and alerting.</p>
+<p>Inclusion of clustering software, such as Corosync or Pacemaker, is
+determined primarily by the availability requirements. The impact of
+including (or not including) these software packages is primarily
+determined by the availability of the cloud infrastructure and the
+complexity of supporting the configuration after it is deployed. The
+<a class="reference external" href="http://docs.openstack.org/ha-guide/">OpenStack High Availability
+Guide</a> provides more details on
+the installation and configuration of Corosync and Pacemaker, should
+these packages need to be included in the design.</p>
+<p>Requirements for logging, monitoring, and alerting are determined by
+operational considerations. Each of these sub-categories includes a
+number of various options.</p>
+<p>If these software packages are required, the design must account for the
+additional resource consumption (CPU, RAM, storage, and network
+bandwidth). Some other potential design impacts include:</p>
+<ul class="simple">
+<li>OS-hypervisor combination: Ensure that the selected logging,
+monitoring, or alerting tools support the proposed OS-hypervisor
+combination.</li>
+<li>Network hardware: The network hardware selection needs to be
+supported by the logging, monitoring, and alerting software.</li>
+</ul>
+</div>
+<div class="section" id="database-software">
+<h3>Database software<a class="headerlink" href="#database-software" title="Permalink to this headline">¶</a></h3>
+<p>OpenStack components often require access to back-end database services
+to store state and configuration information. Selecting an appropriate
+back-end database that satisfies the availability and fault tolerance
+requirements of the OpenStack services is required. OpenStack services
+supports connecting to a database that is supported by the SQLAlchemy
+python drivers, however, most common database deployments make use of
+MySQL or variations of it. We recommend that the database, which
+provides back-end service within a general purpose cloud, be made highly
+available when using an available technology which can accomplish that
+goal.</p>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="generalpurpose-operational-considerations.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Operational considerations"></i></a>
+          
+          
+            <a href="generalpurpose-prescriptive-example.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Prescriptive example"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legal-security-requirements.html">Security and legal requirements</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="generalpurpose.html">General purpose</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="generalpurpose-user-requirements.html">User requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generalpurpose-technical-considerations.html">Technical considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generalpurpose-operational-considerations.html">Operational considerations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generalpurpose-prescriptive-example.html">Prescriptive example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="compute-focus.html">Compute focused</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage-focus.html">Storage focused</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network-focus.html">Network focused</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi-site.html">Multi-site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hybrid.html">Hybrid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="massively-scalable.html">Massively scalable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="specialized.html">Specialized cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "generalpurpose-architecture" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/arch-design-rst/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Architecture in Architecture Design Guide";
+    var fieldTags = "arch-design";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/arch-design/generalpurpose-architecture.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 07:59:05 GMT -->
+</html>

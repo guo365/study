@@ -1,0 +1,734 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/secure-communication/tls-proxies-and-http-services.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:44:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: TLS proxies and HTTP services</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>TLS proxies and HTTP services</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="introduction-to-ssl-and-tls.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Introduction to TLS and SSL"></i></a>
+    
+    
+    <a href="secure-reference-architectures.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Secure reference architectures"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">TLS proxies and HTTP services</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#id1">Pound</a></li>
+<li><a class="reference internal" href="#id2">Stud</a></li>
+<li><a class="reference internal" href="#id3">Nginx</a></li>
+<li><a class="reference internal" href="#apache">Apache</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#http-strict-transport-security">HTTP strict transport security</a></li>
+<li><a class="reference internal" href="#perfect-forward-secrecy">Perfect forward secrecy</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="tls-proxies-and-http-services">
+<h1>TLS proxies and HTTP services<a class="headerlink" href="#tls-proxies-and-http-services" title="Permalink to this headline">¶</a></h1>
+<p>OpenStack endpoints are HTTP services providing APIs to both end-users on
+public networks and to other OpenStack services on the management network.
+It is highly recommended that all of these requests, both internal and
+external, operate over TLS. To achieve this goal, API services must be
+deployed behind a TLS proxy that can establish and terminate TLS sessions.
+The following table offers a non-exhaustive list of open source software
+that can be used for this purpose:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.apsis.ch/pound">Pound</a></li>
+<li><a class="reference external" href="https://github.com/bumptech/stud">Stud</a></li>
+<li><a class="reference external" href="http://nginx.org/">Nginx</a></li>
+<li><a class="reference external" href="http://www.apache.org/">Apache httpd</a></li>
+</ul>
+<p>In cases where software termination offers insufficient performance,
+hardware accelerators may be worth exploring as an alternative option.
+It is important to be mindful of the size of requests that will be
+processed by any chosen TLS proxy.</p>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>Below we provide sample recommended configuration settings for enabling
+TLS in some of the more popular web servers/TLS terminators.</p>
+<p>Before we delve into the configurations, we briefly discuss the ciphers&#8217;
+configuration element and its format. A more exhaustive treatment on
+available ciphers and the OpenSSL cipher list format can be found at:
+<a class="reference external" href="https://www.openssl.org/docs/apps/ciphers.html">ciphers</a>.</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">ciphers</span> <span class="o">=</span> <span class="s2">&quot;HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM&quot;</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="code ini highlight-python"><div class="highlight"><pre><span></span><span class="n">ciphers</span> <span class="o">=</span> <span class="s2">&quot;kEECDH:kEDH:kRSA:HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM&quot;</span>
+</pre></div>
+</div>
+<p>Cipher string options are separated by &#8221;:&#8221;, while &#8221;!&#8221; provides negation
+of the immediately following element. Element order indicates
+preference unless overridden by qualifiers such as HIGH. Let us take a
+closer look at the elements in the above sample strings.</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">kEECDH:kEDH</span></code></dt>
+<dd><p class="first">Ephemeral Elliptic Curve Diffie-Hellman (abbreviated as EECDH and ECDHE).</p>
+<p>Ephemeral Diffie-Hellman (abbreviated either as EDH or DHE) uses prime
+field groups.</p>
+<p>Both approaches provide
+<a class="reference external" href="https://en.wikipedia.org/wiki/Forward_secrecy">Perfect Forward Secrecy (PFS)</a>.
+See <a class="reference internal" href="#secure-communication-perfect-forward-secrecy"><span>Perfect forward secrecy</span></a> for
+additional discussion on properly configuring PFS.</p>
+<p class="last">Ephemeral Elliptic Curves require the server to be configured with
+a named curve, and provide better security than prime field groups
+and at lower computational cost. However, prime field groups are
+more widely implemented, and thus typically both are included in
+list.</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">kRSA</span></code></dt>
+<dd>Cipher suites using the
+<a class="reference external" href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)">RSA</a>
+exchange, authentication or either respectively.</dd>
+<dt><code class="docutils literal"><span class="pre">HIGH</span></code></dt>
+<dd>Selects highest possible security cipher in the negotiation phase.
+These typically have keys of length 128 bits or longer.</dd>
+<dt><code class="docutils literal"><span class="pre">!RC4</span></code></dt>
+<dd>No RC4. RC4 has flaws in the context of TLS V3. See
+<a class="reference external" href="http://cr.yp.to/streamciphers/rc4biases-20130708.pdf">On the Security of RC4 in TLS and WPA</a>.</dd>
+<dt><code class="docutils literal"><span class="pre">!MD5</span></code></dt>
+<dd>No MD5. MD5 is not collision resistant, and thus not acceptable for
+Message Authentication Codes (MAC) or signatures.</dd>
+<dt><code class="docutils literal"><span class="pre">!aNULL:!eNULL</span></code></dt>
+<dd>Disallows clear text.</dd>
+<dt><code class="docutils literal"><span class="pre">!EXP</span></code></dt>
+<dd><p class="first">Disallows export encryption algorithms, which by design tend to be
+weak, typically using 40 and 56 bit keys.</p>
+<p class="last">US Export restrictions on cryptography systems have been lifted and
+no longer need to be supported.</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">!LOW:!MEDIUM</span></code></dt>
+<dd>Disallows low (56 or 64 bit long keys) and medium (128 bit long
+keys) ciphers because of their vulnerability to brute force attacks
+(example 2-DES). This rule still permits Triple Data Encryption
+Standard (Triple DES) also known as Triple Data Encryption
+Algorithm (TDEA) and the Advanced Encryption Standard (AES), each
+of which has keys greater than equal to 128 bits and thus more
+secure.</dd>
+<dt><code class="docutils literal"><span class="pre">Protocols</span></code></dt>
+<dd>Protocols are enabled/disabled through SSL_CTX_set_options. We
+recommend disabling SSLv2/v3 and enabling TLS.</dd>
+</dl>
+<div class="section" id="id1">
+<h3>Pound<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>This Pound example enables <code class="docutils literal"><span class="pre">AES-NI</span></code> acceleration,
+which helps to improve performance on systems with processors that
+support this feature.
+The default configuration file is <code class="docutils literal"><span class="pre">/etc/pound/pound.cfg</span></code> on Ubuntu,
+<code class="docutils literal"><span class="pre">/etc/pound.cfg</span></code> on RHEL, CentOS, openSUSE, and SUSE Linux Enterprise.</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>## see pound(8) for details
+daemon      1
+######################################################################
+## global options:
+User        &quot;swift&quot;
+Group       &quot;swift&quot;
+#RootJail   &quot;/chroot/pound&quot;
+## Logging: (goes to syslog by default)
+##  0   no logging
+##  1   normal
+##  2   extended
+##  3   Apache-style (common log format)
+LogLevel    0
+## turn on dynamic scaling (off by default)
+# Dyn Scale 1
+## check backend every X secs:
+Alive       30
+## client timeout
+#Client     10
+## allow 10 second proxy connect time
+ConnTO      10
+## use hardware-acceleration card supported by openssl(1):
+SSLEngine   &quot;aesni&quot;
+# poundctl control socket
+Control &quot;/var/run/pound/poundctl.socket&quot;
+######################################################################
+## listen, redirect and ... to:
+## redirect all swift requests on port 443 to local swift proxy
+ListenHTTPS
+    Address 0.0.0.0
+    Port    443
+    Cert    &quot;/etc/pound/cert.pem&quot;
+    ## Certs to accept from clients
+    ##  CAlist      &quot;CA_file&quot;
+    ## Certs to use for client verification
+    ##  VerifyList  &quot;Verify_file&quot;
+    ## Request client cert - don&#39;t verify
+    ##  Ciphers     &quot;AES256-SHA&quot;
+    ## allow PUT and DELETE also (by default only GET, POST and HEAD)?:
+    NoHTTPS11   0
+    ## allow PUT and DELETE also (by default only GET, POST and HEAD)?:
+    xHTTP       1
+    Service
+        BackEnd
+            Address 127.0.0.1
+            Port    80
+        End
+    End
+End
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Stud<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>The <em>ciphers</em> line can be tweaked based on your needs, however this is
+a reasonable starting place.
+The default configuration file is located in the <code class="docutils literal"><span class="pre">/etc/stud</span></code> directory.
+However, it is not provided by default.</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span># SSL x509 certificate file.
+pem-file = &quot;
+# SSL protocol.
+tls = on
+ssl = off
+# List of allowed SSL ciphers.
+# OpenSSL&#39;s high-strength ciphers which require authentication
+# NOTE: forbids clear text, use of RC4 or MD5 or LOW and MEDIUM strength ciphers
+ciphers = &quot;HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM&quot;
+# Enforce server cipher list order
+prefer-server-ciphers = on
+# Number of worker processes
+workers = 4
+# Listen backlog size
+backlog = 1000
+# TCP socket keepalive interval in seconds
+keepalive = 3600
+# Chroot directory
+chroot = &quot;&quot;
+# Set uid after binding a socket
+user = &quot;www-data&quot;
+# Set gid after binding a socket
+group = &quot;www-data&quot;
+# Quiet execution, report only error messages
+quiet = off
+# Use syslog for logging
+syslog = on
+# Syslog facility to use
+syslog-facility = &quot;daemon&quot;
+# Run as daemon
+daemon = off
+# Report client address using SENDPROXY protocol for haproxy
+# Disabling this until we upgrade to HAProxy 1.5
+write-proxy = off
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Nginx<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>This <a class="reference internal" href="../common/glossary.html#term-nginx"><span class="xref std std-term">Nginx</span></a> example requires TLS v1.1 or v1.2 for maximum security. The
+<code class="docutils literal"><span class="pre">ssl_ciphers</span></code> line can be tweaked based on your needs, however this
+is a reasonable starting place.
+The default configuration file is <code class="docutils literal"><span class="pre">/etc/nginx/nginx.conf</span></code>.</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>server {
+    listen : ssl;
+    ssl_certificate ;
+    ssl_certificate_key ;
+    ssl_protocols TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM
+    ssl_session_tickets off;
+
+    server_name _;
+    keepalive_timeout 5;
+
+    location / {
+
+    }
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="apache">
+<h3>Apache<a class="headerlink" href="#apache" title="Permalink to this headline">¶</a></h3>
+<p>The default configuration file is <code class="docutils literal"><span class="pre">/etc/apache2/apache2.conf</span></code> on Ubuntu,
+<code class="docutils literal"><span class="pre">/etc/httpd/conf/httpd.conf</span></code> on RHEL and CentOS,
+<code class="docutils literal"><span class="pre">/etc/apache2/httpd.conf</span></code> on openSUSE and SUSE Linux Enterprise.</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>&lt;VirtualHost &lt;ip address&gt;:80&gt;
+  ServerName &lt;site FQDN&gt;
+  RedirectPermanent / https://&lt;site FQDN&gt;/
+&lt;/VirtualHost&gt;
+&lt;VirtualHost &lt;ip address&gt;:443&gt;
+  ServerName &lt;site FQDN&gt;
+  SSLEngine On
+  SSLProtocol +TLSv1 +TLSv1.1 +TLSv1.2,
+  SSLCipherSuite HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM
+  SSLCertificateFile    /path/&lt;site FQDN&gt;.crt
+  SSLCACertificateFile  /path/&lt;site FQDN&gt;.crt
+  SSLCertificateKeyFile /path/&lt;site FQDN&gt;.key
+  WSGIScriptAlias / &lt;WSGI script location&gt;
+  WSGIDaemonProcess horizon user=&lt;user&gt; group=&lt;group&gt; processes=3 threads=10
+  Alias /static &lt;static files location&gt;
+  &lt;Directory &lt;WSGI dir&gt;&gt;
+    # For http server 2.2 and earlier:
+    Order allow,deny
+    Allow from all
+
+    # Or, in Apache http server 2.4 and later:
+    # Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre></div>
+</div>
+<p>Compute API SSL endpoint in Apache, which you must pair with a short
+WSGI script.</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>&lt;VirtualHost &lt;ip address&gt;:8447&gt;
+  ServerName &lt;site FQDN&gt;
+  SSLEngine On
+  SSLProtocol +TLSv1 +TLSv1.1 +TLSv1.2
+  SSLCipherSuite HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM
+  SSLCertificateFile    /path/&lt;site FQDN&gt;.crt
+  SSLCACertificateFile  /path/&lt;site FQDN&gt;.crt
+  SSLCertificateKeyFile /path/&lt;site FQDN&gt;.key
+  SSLSessionTickets Off
+  WSGIScriptAlias / &lt;WSGI script location&gt;
+  WSGIDaemonProcess osapi user=&lt;user&gt; group=&lt;group&gt; processes=3 threads=10
+  &lt;Directory &lt;WSGI dir&gt;&gt;
+    # For http server 2.2 and earlier:
+    Order allow,deny
+    Allow from all
+
+    # Or, in Apache http server 2.4 and later:
+    # Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="http-strict-transport-security">
+<h2>HTTP strict transport security<a class="headerlink" href="#http-strict-transport-security" title="Permalink to this headline">¶</a></h2>
+<p>We recommend that all production deployments use HTTP strict transport
+security (HSTS). This header prevents browsers from making insecure
+connections after they have made a single secure one. If you have
+deployed your HTTP services on a public or an untrusted domain, HSTS is
+especially important. To enable HSTS, configure your web server to send
+a header like this with all requests:</p>
+<div class="code highlight-python"><div class="highlight"><pre><span></span>Strict-Transport-Security: max-age=31536000; includeSubDomains
+</pre></div>
+</div>
+<p>Start with a short timeout of 1 day during testing, and raise it to one
+year after testing has shown that you have not introduced problems for
+users. Note that once this header is set to a large timeout, it is (by
+design) very difficult to disable.</p>
+</div>
+<div class="section" id="perfect-forward-secrecy">
+<span id="secure-communication-perfect-forward-secrecy"></span><h2>Perfect forward secrecy<a class="headerlink" href="#perfect-forward-secrecy" title="Permalink to this headline">¶</a></h2>
+<p>Configuring TLS servers for perfect forward secrecy requires
+careful planning around key size, session IDs, and session
+tickets. In addition, for multi-server deployments, shared
+state is also an important consideration. The example
+configurations for Apache and <a class="reference internal" href="../common/glossary.html#term-nginx"><span class="xref std std-term">Nginx</span></a> above disable the session
+tickets options to help mitigate some of these concerns.
+Real-world deployments may desire to enable this feature for
+improved performance. This can be done securely, but would
+require special consideration around key management. Such
+configurations are beyond the scope of this guide. We suggest
+reading
+<a class="reference external" href="https://www.imperialviolet.org/2013/06/27/botchingpfs.html">How to botch TLS forward secrecy by ImperialViolet</a>
+as a starting place for understanding the problem space.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="introduction-to-ssl-and-tls.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Introduction to TLS and SSL"></i></a>
+          
+          
+            <a href="secure-reference-architectures.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Secure reference architectures"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../management.html">Management</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../secure-communication.html">Secure communication</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction-to-ssl-and-tls.html">Introduction to TLS and SSL</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TLS proxies and HTTP services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="secure-reference-architectures.html">Secure reference architectures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case-studies.html">Case studies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance.html">Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "secure-communication/tls-proxies-and-http-services" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "TLS proxies and HTTP services in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/secure-communication/tls-proxies-and-http-services.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:44:30 GMT -->
+</html>

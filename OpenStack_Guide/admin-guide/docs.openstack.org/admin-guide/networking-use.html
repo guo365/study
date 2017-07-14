@@ -1,0 +1,759 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/networking-use.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:32:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Use Networking</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Use Networking</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="networking-multi-dhcp-agents.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Scalable and highly available DHCP agents"></i></a>
+    
+    
+    <a href="networking-adv-features.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Advanced features through API extensions"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Use Networking</a><ul>
+<li><a class="reference internal" href="#core-networking-api-features">Core Networking API features</a><ul>
+<li><a class="reference internal" href="#basic-networking-operations">Basic Networking operations</a></li>
+<li><a class="reference internal" href="#administrative-operations">Administrative operations</a></li>
+<li><a class="reference internal" href="#advanced-networking-operations">Advanced Networking operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#use-compute-with-networking">Use Compute with Networking</a><ul>
+<li><a class="reference internal" href="#basic-compute-and-networking-operations">Basic Compute and Networking operations</a></li>
+<li><a class="reference internal" href="#advanced-vm-creation-operations">Advanced VM creation operations</a></li>
+<li><a class="reference internal" href="#enable-ping-and-ssh-on-vms-security-groups">Enable ping and SSH on VMs (security groups)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="use-networking">
+<h1>Use Networking<a class="headerlink" href="#use-networking" title="Permalink to this headline">¶</a></h1>
+<p>You can manage OpenStack Networking services by using the service
+command. For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> service neutron-server stop
+<span class="gp">#</span> service neutron-server status
+<span class="gp">#</span> service neutron-server start
+<span class="gp">#</span> service neutron-server restart
+</pre></div>
+</div>
+<p>Log files are in the <code class="docutils literal"><span class="pre">/var/log/neutron</span></code> directory.</p>
+<p>Configuration files are in the <code class="docutils literal"><span class="pre">/etc/neutron</span></code> directory.</p>
+<p>Administrators and projects can use OpenStack Networking to build
+rich network topologies. Administrators can create network
+connectivity on behalf of projects.</p>
+<div class="section" id="core-networking-api-features">
+<h2>Core Networking API features<a class="headerlink" href="#core-networking-api-features" title="Permalink to this headline">¶</a></h2>
+<p>After installing and configuring Networking (neutron), projects and
+administrators can perform create-read-update-delete (CRUD) API networking
+operations. This is performed using the Networking API directly with either
+the <strong class="command">neutron</strong> command-line interface (CLI) or the <strong class="command">openstack</strong>
+CLI. The <strong class="command">neutron</strong> CLI is a wrapper around the Networking API. Every
+Networking API call has a corresponding <strong class="command">neutron</strong> command.</p>
+<p>The <strong class="command">openstack</strong> CLI is a common interface for all OpenStack
+projects, however, not every API operation has been implemented. For the
+list of available commands, see <a class="reference external" href="http://docs.openstack.org/developer/python-openstackclient/command-list.html">Command List</a>.</p>
+<p>The <strong class="command">neutron</strong> CLI includes a number of options. For details, see
+<a class="reference external" href="http://docs.openstack.org/user-guide/cli-create-and-manage-networks.html">Create and manage networks</a>.</p>
+<div class="section" id="basic-networking-operations">
+<h3>Basic Networking operations<a class="headerlink" href="#basic-networking-operations" title="Permalink to this headline">¶</a></h3>
+<p>To learn about advanced capabilities available through the <strong class="command">neutron</strong>
+command-line interface (CLI), read the networking section <a class="reference external" href="http://docs.openstack.org/user-guide/cli-create-and-manage-networks.html">Create and manage
+networks</a>
+in the OpenStack End User Guide.</p>
+<p>This table shows example <strong class="command">openstack</strong> commands that enable you to
+complete basic network operations:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Creates a network.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">network</span> <span class="pre">create</span> <span class="pre">net1</span></code></td>
+</tr>
+<tr class="row-odd"><td>Creates a subnet that is
+associated with net1.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">subnet</span> <span class="pre">create</span> <span class="pre">subnet1</span></code>
+<code class="docutils literal"><span class="pre">--subnet-range</span> <span class="pre">10.0.0.0/24</span></code>
+<code class="docutils literal"><span class="pre">--network</span> <span class="pre">net1</span></code></td>
+</tr>
+<tr class="row-even"><td>Lists ports for a
+specified project.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">port</span> <span class="pre">list</span></code></td>
+</tr>
+<tr class="row-odd"><td>Lists ports for a
+specified project
+and displays the <code class="docutils literal"><span class="pre">ID</span></code>,
+<code class="docutils literal"><span class="pre">Fixed</span> <span class="pre">IP</span> <span class="pre">Addresses</span></code></td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">port</span> <span class="pre">list</span> <span class="pre">-c</span> <span class="pre">ID</span></code>
+<code class="docutils literal"><span class="pre">-c</span> <span class="pre">&quot;Fixed</span> <span class="pre">IP</span> <span class="pre">Addresses</span></code></td>
+</tr>
+<tr class="row-even"><td>Shows information for a
+specified port.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">port</span> <span class="pre">show</span> <span class="pre">PORT_ID</span></code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Basic Networking operations</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The <code class="docutils literal"><span class="pre">device_owner</span></code> field describes who owns the port. A port whose
+<code class="docutils literal"><span class="pre">device_owner</span></code> begins with:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">network</span></code> is created by Networking.</li>
+<li><code class="docutils literal"><span class="pre">compute</span></code> is created by Compute.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="administrative-operations">
+<h3>Administrative operations<a class="headerlink" href="#administrative-operations" title="Permalink to this headline">¶</a></h3>
+<p>The administrator can run any <strong class="command">openstack</strong> command on behalf of
+projects by specifying an Identity <code class="docutils literal"><span class="pre">project</span></code> in the command, as
+follows:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network create --project PROJECT_ID NETWORK_NAME
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack network create --project 5e4bbe24b67a4410bc4d9fae29ec394e net1
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>To view all project IDs in Identity, run the following command as an
+Identity service admin user:</p>
+<div class="last highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack project list
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-networking-operations">
+<h3>Advanced Networking operations<a class="headerlink" href="#advanced-networking-operations" title="Permalink to this headline">¶</a></h3>
+<p>This table shows example CLI commands that enable you to complete
+advanced network operations:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Creates a network that
+all projects can use.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">network</span> <span class="pre">create</span></code>
+<code class="docutils literal"><span class="pre">--share</span> <span class="pre">public-net</span></code></td>
+</tr>
+<tr class="row-odd"><td>Creates a subnet with a
+specified gateway IP address.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">subnet</span> <span class="pre">create</span> <span class="pre">subnet1</span></code>
+<code class="docutils literal"><span class="pre">--gateway</span> <span class="pre">10.0.0.254</span> <span class="pre">--network</span> <span class="pre">net1</span></code></td>
+</tr>
+<tr class="row-even"><td>Creates a subnet that has
+no gateway IP address.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">subnet</span> <span class="pre">create</span> <span class="pre">subnet1</span></code>
+<code class="docutils literal"><span class="pre">--no-gateway</span> <span class="pre">--network</span> <span class="pre">net1</span></code></td>
+</tr>
+<tr class="row-odd"><td>Creates a subnet with DHCP
+disabled.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">subnet</span> <span class="pre">create</span> <span class="pre">subnet1</span></code>
+<code class="docutils literal"><span class="pre">--network</span> <span class="pre">net1</span> <span class="pre">--no-dhcp</span></code></td>
+</tr>
+<tr class="row-even"><td>Specifies a set of host routes</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">subnet</span> <span class="pre">create</span> <span class="pre">subnet1</span></code>
+<code class="docutils literal"><span class="pre">--network</span> <span class="pre">net1</span> <span class="pre">--host-route</span></code>
+<code class="docutils literal"><span class="pre">destination=40.0.1.0/24,</span></code>
+<code class="docutils literal"><span class="pre">gateway=40.0.0.2</span></code></td>
+</tr>
+<tr class="row-odd"><td>Creates a subnet with a
+specified set of dns name
+servers.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">subnet</span> <span class="pre">create</span> <span class="pre">subnet1</span></code>
+<code class="docutils literal"><span class="pre">--network</span> <span class="pre">net1</span> <span class="pre">--dns-nameserver</span></code>
+<code class="docutils literal"><span class="pre">8.8.4.4</span></code></td>
+</tr>
+<tr class="row-even"><td>Displays all ports and
+IPs allocated on a network.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">port</span> <span class="pre">list</span> <span class="pre">--network</span> <span class="pre">NET_ID</span></code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advanced Networking operations</strong></p>
+</div>
+</div>
+<div class="section" id="use-compute-with-networking">
+<h2>Use Compute with Networking<a class="headerlink" href="#use-compute-with-networking" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="basic-compute-and-networking-operations">
+<h3>Basic Compute and Networking operations<a class="headerlink" href="#basic-compute-and-networking-operations" title="Permalink to this headline">¶</a></h3>
+<p>This table shows example <strong class="command">openstack</strong> commands that enable you to
+complete basic VM networking operations:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Action</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Checks available networks.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">network</span> <span class="pre">list</span></code></td>
+</tr>
+<tr class="row-odd"><td>Boots a VM with a single NIC on
+a selected Networking network.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">server</span> <span class="pre">create</span> <span class="pre">--image</span></code>
+<code class="docutils literal"><span class="pre">IMAGE</span> <span class="pre">--flavor</span> <span class="pre">FLAVOR</span> <span class="pre">--nic</span></code>
+<code class="docutils literal"><span class="pre">net-id=NET_ID</span> <span class="pre">VM_NAME</span></code></td>
+</tr>
+<tr class="row-even"><td>Searches for ports with a
+<code class="docutils literal"><span class="pre">device_id</span></code> that matches the
+Compute instance UUID. See :ref:
+<cite>Create and delete VMs</cite></td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">port</span> <span class="pre">list</span> <span class="pre">--server</span> <span class="pre">VM_ID</span></code></td>
+</tr>
+<tr class="row-odd"><td>Searches for ports, but shows
+only the <code class="docutils literal"><span class="pre">mac_address</span></code> of
+the port.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">port</span> <span class="pre">list</span> <span class="pre">-c</span></code>
+<code class="docutils literal"><span class="pre">&quot;MAC</span> <span class="pre">Address&quot;</span> <span class="pre">--server</span> <span class="pre">VM_ID</span></code></td>
+</tr>
+<tr class="row-even"><td>Temporarily disables a port from
+sending traffic.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">port</span> <span class="pre">set</span> <span class="pre">PORT_ID</span></code>
+<code class="docutils literal"><span class="pre">--disable</span></code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Basic Compute and Networking operations</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <code class="docutils literal"><span class="pre">device_id</span></code> can also be a logical router ID.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>When you boot a Compute VM, a port on the network that
+corresponds to the VM NIC is automatically created and associated
+with the default security group. You can configure <a class="reference external" href="#enable-ping-and-ssh-on-vms-security-groups">security
+group rules</a> to enable
+users to access the VM.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="advanced-vm-creation-operations">
+<h3>Advanced VM creation operations<a class="headerlink" href="#advanced-vm-creation-operations" title="Permalink to this headline">¶</a></h3>
+<p>This table shows example <strong class="command">openstack</strong> commands that enable you to
+complete advanced VM creation operations:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Operation</th>
+<th class="head">Command</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Boots a VM with multiple
+NICs.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">server</span> <span class="pre">create</span> <span class="pre">--image</span></code>
+<code class="docutils literal"><span class="pre">IMAGE</span> <span class="pre">--flavor</span> <span class="pre">FLAVOR</span> <span class="pre">--nic</span></code>
+<code class="docutils literal"><span class="pre">net-id=NET_ID</span> <span class="pre">VM_NAME</span></code>
+<code class="docutils literal"><span class="pre">net-id=NET2-ID</span> <span class="pre">VM_NAME</span></code></td>
+</tr>
+<tr class="row-odd"><td>Boots a VM with a specific IP
+address. Note that you cannot
+use the <code class="docutils literal"><span class="pre">--max</span></code> or <code class="docutils literal"><span class="pre">--min</span></code>
+parameters in this case.</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">server</span> <span class="pre">create</span> <span class="pre">--image</span></code>
+<code class="docutils literal"><span class="pre">IMAGE</span> <span class="pre">--flavor</span> <span class="pre">FLAVOR</span> <span class="pre">--nic</span></code>
+<code class="docutils literal"><span class="pre">net-id=NET_ID</span> <span class="pre">VM_NAME</span></code>
+<code class="docutils literal"><span class="pre">v4-fixed-ip=IP-ADDR</span> <span class="pre">VM_NAME</span></code></td>
+</tr>
+<tr class="row-even"><td>Boots a VM that connects to all
+networks that are accessible to the
+project who submits the request
+(without the <code class="docutils literal"><span class="pre">--nic</span></code> option).</td>
+<td><code class="docutils literal"><span class="pre">$</span> <span class="pre">openstack</span> <span class="pre">server</span> <span class="pre">create</span> <span class="pre">--image</span></code>
+<code class="docutils literal"><span class="pre">IMAGE</span> <span class="pre">--flavor</span> <span class="pre">FLAVOR</span></code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Advanced VM creation operations</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Cloud images that distribution vendors offer usually have only one
+active NIC configured. When you boot with multiple NICs, you must
+configure additional interfaces on the image or the NICs are not
+reachable.</p>
+<p>The following Debian/Ubuntu-based example shows how to set up the
+interfaces within the instance in the <code class="docutils literal"><span class="pre">/etc/network/interfaces</span></code>
+file. You must apply this configuration to the image.</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># The loopback network interface</span>
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet dhcp
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="enable-ping-and-ssh-on-vms-security-groups">
+<h3>Enable ping and SSH on VMs (security groups)<a class="headerlink" href="#enable-ping-and-ssh-on-vms-security-groups" title="Permalink to this headline">¶</a></h3>
+<p>You must configure security group rules depending on the type of plug-in
+you are using. If you are using a plug-in that:</p>
+<ul>
+<li><p class="first">Implements Networking security groups, you can configure security
+group rules directly by using the <strong class="command">openstack security group rule create</strong>
+command. This example enables <code class="docutils literal"><span class="pre">ping</span></code> and <code class="docutils literal"><span class="pre">ssh</span></code> access to your VMs.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group rule create --protocol icmp <span class="se">\</span>
+<span class="go">    --ingress</span>
+</pre></div>
+</div>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group rule create --protocol tcp <span class="se">\</span>
+<span class="go">    --egress --description &quot;Sample Security Group&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Does not implement Networking security groups, you can configure
+security group rules by using the <strong class="command">openstack security group rule
+create</strong> or <strong class="command">euca-authorize</strong> command. These <strong class="command">openstack</strong>
+commands enable <code class="docutils literal"><span class="pre">ping</span></code> and <code class="docutils literal"><span class="pre">ssh</span></code> access to your VMs.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack security group rule create default --protocol icmp --dst-port -1:-1 --remote-ip 0.0.0.0/0
+<span class="gp">$</span> openstack security group rule create default --protocol tcp --dst-port 22:22 --remote-ip 0.0.0.0/0
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your plug-in implements Networking security groups, you can also
+leverage Compute security groups by setting
+<code class="docutils literal"><span class="pre">security_group_api</span> <span class="pre">=</span> <span class="pre">neutron</span></code> in the <code class="docutils literal"><span class="pre">nova.conf</span></code> file. After
+you set this option, all Compute security group commands are proxied
+to Networking.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="networking-multi-dhcp-agents.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Scalable and highly available DHCP agents"></i></a>
+          
+          
+            <a href="networking-adv-features.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Advanced features through API extensions"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="networking.html">Networking</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="networking-introduction.html">Introduction to Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-arch.html">Networking architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-config-plugins.html">Plug-in configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-config-agents.html">Configure neutron agents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-config-identity.html">Configure Identity service for Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-adv-config.html">Advanced configuration options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-multi-dhcp-agents.html">Scalable and highly available DHCP agents</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Use Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-adv-features.html">Advanced features through API extensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-adv-operational-features.html">Advanced operational features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking-auth.html">Authentication and authorization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "networking-use" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Use Networking in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/networking-use.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:32:06 GMT -->
+</html>

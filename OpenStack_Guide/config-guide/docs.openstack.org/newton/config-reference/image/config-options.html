@@ -1,0 +1,1331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/image/config-options.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:30:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Additional configuration options for Image service</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Additional configuration options for Image service</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="backends.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Configure back ends"></i></a>
+    
+    
+    <a href="logs.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Image log files"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Additional configuration options for Image service</a></li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="additional-configuration-options-for-image-service">
+<h1>Additional configuration options for Image service<a class="headerlink" href="#additional-configuration-options-for-image-service" title="Permalink to this headline">¶</a></h1>
+<p>You can modify many options in the Image service.
+The following tables provide a comprehensive list.</p>
+<table border="1" class="config-ref-table docutils" id="id1">
+<span id="glance-common"></span><caption><span class="caption-text">Description of common configuration options</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">allow_additional_image_properties</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td><p class="first">(Boolean) Allow users to add additional/custom properties to images.</p>
+<p>Glance defines a standard set of properties (in its schema) that appear on every image. These properties are also known as <code class="docutils literal"><span class="pre">base</span> <span class="pre">properties</span></code>. In addition to these properties, Glance allows users to add custom properties to images. These are known as <code class="docutils literal"><span class="pre">additional</span> <span class="pre">properties</span></code>.</p>
+<p>By default, this configuration option is set to <code class="docutils literal"><span class="pre">True</span></code> and users are allowed to add additional properties. The number of additional properties that can be added to an image can be controlled via <code class="docutils literal"><span class="pre">image_property_quota</span></code> configuration option.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>True</li>
+<li>False</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>image_property_quota</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">api_limit_max</span></code> = <code class="docutils literal"><span class="pre">1000</span></code></td>
+<td><p class="first">(Integer) Maximum number of results that could be returned by a request.</p>
+<p>As described in the help text of <code class="docutils literal"><span class="pre">limit_param_default</span></code>, some requests may return multiple results. The number of results to be returned are governed either by the <code class="docutils literal"><span class="pre">limit</span></code> parameter in the request or the <code class="docutils literal"><span class="pre">limit_param_default</span></code> configuration option. The value in either case, can&#8217;t be greater than the absolute maximum defined by this configuration option. Anything greater than this value is trimmed down to the maximum value defined here.</p>
+<p>NOTE: Setting this to a very large value may slow down database queries and increase response times. Setting this to a very low value may result in poor user experience.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Any positive integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>limit_param_default</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">backlog</span></code> = <code class="docutils literal"><span class="pre">4096</span></code></td>
+<td><p class="first">(Integer) Set the number of incoming connection requests.</p>
+<p>Provide a positive integer value to limit the number of requests in the backlog queue. The default queue size is 4096.</p>
+<p>An incoming connection to a TCP listener socket is queued before a connection can be established with the server. Setting the backlog for a TCP socket ensures a limited queue size for incoming traffic.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Positive integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">bind_host</span></code> = <code class="docutils literal"><span class="pre">0.0.0.0</span></code></td>
+<td><p class="first">(String) IP address to bind the glance servers to.</p>
+<p>Provide an IP address to bind the glance server to. The default value is <code class="docutils literal"><span class="pre">0.0.0.0</span></code>.</p>
+<p>Edit this option to enable the server to listen on one particular IP address on the network card. This facilitates selection of a particular network interface for the server.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A valid IPv4 address</li>
+<li>A valid IPv6 address</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">bind_port</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td><p class="first">(Port number) Port number on which the server will listen.</p>
+<p>Provide a valid port number to bind the server&#8217;s socket to. This port is then set to identify processes and forward network messages that arrive at the server. The default bind_port value for the API server is 9292 and for the registry server is 9191.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A valid port number (0 to 65535)</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">data_api</span></code> = <code class="docutils literal"><span class="pre">glance.db.sqlalchemy.api</span></code></td>
+<td><p class="first">(String) Python module path of data access API.</p>
+<p>Specifies the path to the API to use for accessing the data model. This option determines how the image catalog data will be accessed.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>glance.db.sqlalchemy.api</li>
+<li>glance.db.registry.api</li>
+<li>glance.db.simple.api</li>
+</ul>
+<p>If this option is set to <code class="docutils literal"><span class="pre">glance.db.sqlalchemy.api</span></code> then the image catalog data is stored in and read from the database via the SQLAlchemy Core and ORM APIs.</p>
+<p>Setting this option to <code class="docutils literal"><span class="pre">glance.db.registry.api</span></code> will force all database access requests to be routed through the Registry service. This avoids data access from the Glance API nodes for an added layer of security, scalability and manageability.</p>
+<p>NOTE: In v2 OpenStack Images API, the registry service is optional. In order to use the Registry API in v2, the option <code class="docutils literal"><span class="pre">enable_v2_registry</span></code> must be set to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>Finally, when this configuration option is set to <code class="docutils literal"><span class="pre">glance.db.simple.api</span></code>, image catalog data is stored in and read from an in-memory data structure. This is primarily used for testing.</p>
+<p>Related options:</p>
+<ul class="last simple">
+<li>enable_v2_api</li>
+<li>enable_v2_registry</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">digest_algorithm</span></code> = <code class="docutils literal"><span class="pre">sha256</span></code></td>
+<td><p class="first">(String) Digest algorithm to use for digital signature.</p>
+<p>Provide a string value representing the digest algorithm to use for generating digital signatures. By default, <code class="docutils literal"><span class="pre">sha256</span></code> is used.</p>
+<p>To get a list of the available algorithms supported by the version of OpenSSL on your platform, run the command: <code class="docutils literal"><span class="pre">openssl</span> <span class="pre">list-message-digest-algorithms</span></code>. Examples are &#8216;sha1&#8217;, &#8216;sha256&#8217;, and &#8216;sha512&#8217;.</p>
+<p>NOTE: <code class="docutils literal"><span class="pre">digest_algorithm</span></code> is not related to Glance&#8217;s image signing and verification. It is only used to sign the universally unique identifier (UUID) as a part of the certificate file and key file validation.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>An OpenSSL message digest algorithm identifier</li>
+</ul>
+<p>Relation options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">executor_thread_pool_size</span></code> = <code class="docutils literal"><span class="pre">64</span></code></td>
+<td>(Integer) Size of executor thread pool.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">image_location_quota</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td><p class="first">(Integer) Maximum number of locations allowed on an image.</p>
+<p>Any negative value is interpreted as unlimited.</p>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">image_member_quota</span></code> = <code class="docutils literal"><span class="pre">128</span></code></td>
+<td><p class="first">(Integer) Maximum number of image members per image.</p>
+<p>This limits the maximum of users an image can be shared with. Any negative value is interpreted as unlimited.</p>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">image_property_quota</span></code> = <code class="docutils literal"><span class="pre">128</span></code></td>
+<td><p class="first">(Integer) Maximum number of properties allowed on an image.</p>
+<p>This enforces an upper limit on the number of additional properties an image can have. Any negative value is interpreted as unlimited.</p>
+<p>NOTE: This won&#8217;t have any impact if additional properties are disabled. Please refer to <code class="docutils literal"><span class="pre">allow_additional_image_properties</span></code>.</p>
+<p>Related options:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">allow_additional_image_properties</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">image_tag_quota</span></code> = <code class="docutils literal"><span class="pre">128</span></code></td>
+<td><p class="first">(Integer) Maximum number of tags allowed on an image.</p>
+<p>Any negative value is interpreted as unlimited.</p>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">limit_param_default</span></code> = <code class="docutils literal"><span class="pre">25</span></code></td>
+<td><p class="first">(Integer) The default number of results to return for a request.</p>
+<p>Responses to certain API requests, like list images, may return multiple items. The number of results returned can be explicitly controlled by specifying the <code class="docutils literal"><span class="pre">limit</span></code> parameter in the API request. However, if a <code class="docutils literal"><span class="pre">limit</span></code> parameter is not specified, this configuration value will be used as the default number of results to be returned for any API request.</p>
+<p>NOTES:</p>
+<ul class="simple">
+<li>The value of this configuration option may not be greater than the value specified by <code class="docutils literal"><span class="pre">api_limit_max</span></code>.</li>
+<li>Setting this to a very large value may slow down database queries and increase response times. Setting this to a very low value may result in poor user experience.</li>
+</ul>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Any positive integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>api_limit_max</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">metadata_encryption_key</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td><p class="first">(String) AES key for encrypting store location metadata.</p>
+<p>Provide a string value representing the AES cipher to use for encrypting Glance store metadata.</p>
+<p>NOTE: The AES key to use must be set to a random string of length 16, 24 or 32 bytes.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>String value representing a valid AES key</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">metadata_source_path</span></code> = <code class="docutils literal"><span class="pre">/etc/glance/metadefs/</span></code></td>
+<td><p class="first">(String) Absolute path to the directory where JSON metadefs files are stored.</p>
+<p>Glance Metadata Definitions (&#8220;metadefs&#8221;) are served from the database, but are stored in files in the JSON format. The files in this directory are used to initialize the metadefs in the database. Additionally, when metadefs are exported from the database, the files are written to this directory.</p>
+<p>NOTE: If you plan to export metadefs, make sure that this directory has write permissions set for the user being used to run the glance-api service.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>String value representing a valid absolute pathname</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">property_protection_file</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td><p class="first">(String) The location of the property protection file.</p>
+<p>Provide a valid path to the property protection file which contains the rules for property protections and the roles/policies associated with them.</p>
+<p>A property protection file, when set, restricts the Glance image properties to be created, read, updated and/or deleted by a specific set of users that are identified by either roles or policies. If this configuration option is not set, by default, property protections won&#8217;t be enforced. If a value is specified and the file is not found, the glance-api service will fail to start. More information on property protections can be found at: <a class="reference external" href="http://docs.openstack.org/developer/glance/property-protections.html">http://docs.openstack.org/developer/glance/property-protections.html</a></p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Empty string</li>
+<li>Valid path to the property protection configuration file</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>property_protection_rule_format</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">property_protection_rule_format</span></code> = <code class="docutils literal"><span class="pre">roles</span></code></td>
+<td><p class="first">(String) Rule format for property protection.</p>
+<p>Provide the desired way to set property protection on Glance image properties. The two permissible values are <code class="docutils literal"><span class="pre">roles</span></code> and <code class="docutils literal"><span class="pre">policies</span></code>. The default value is <code class="docutils literal"><span class="pre">roles</span></code>.</p>
+<p>If the value is <code class="docutils literal"><span class="pre">roles</span></code>, the property protection file must contain a comma separated list of user roles indicating permissions for each of the CRUD operations on each property being protected. If set to <code class="docutils literal"><span class="pre">policies</span></code>, a policy defined in policy.json is used to express property protections for each of the CRUD operations. Examples of how property protections are enforced based on <code class="docutils literal"><span class="pre">roles</span></code> or <code class="docutils literal"><span class="pre">policies</span></code> can be found at: <a class="reference external" href="http://docs.openstack.org/developer/glance/property-protections.html#examples">http://docs.openstack.org/developer/glance/property-protections.html#examples</a></p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>roles</li>
+<li>policies</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>property_protection_file</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">show_image_direct_url</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td><p class="first">(Boolean) Show direct image location when returning an image.</p>
+<p>This configuration option indicates whether to show the direct image location when returning image details to the user. The direct image location is where the image data is stored in backend storage. This image location is shown under the image property <code class="docutils literal"><span class="pre">direct_url</span></code>.</p>
+<p>When multiple image locations exist for an image, the best location is displayed based on the location strategy indicated by the configuration option <code class="docutils literal"><span class="pre">location_strategy</span></code>.</p>
+<p>NOTES:</p>
+<ul class="simple">
+<li>Revealing image locations can present a GRAVE SECURITY RISK as image locations can sometimes include credentials. Hence, this is set to <code class="docutils literal"><span class="pre">False</span></code> by default. Set this to <code class="docutils literal"><span class="pre">True</span></code> with EXTREME CAUTION and ONLY IF you know what you are doing!</li>
+<li>If an operator wishes to avoid showing any image location(s) to the user, then both this option and <code class="docutils literal"><span class="pre">show_multiple_locations</span></code> MUST be set to <code class="docutils literal"><span class="pre">False</span></code>.</li>
+</ul>
+<p>Possible values:</p>
+<ul class="simple">
+<li>True</li>
+<li>False</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>show_multiple_locations</li>
+<li>location_strategy</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">user_storage_quota</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td><p class="first">(String) Maximum amount of image storage per tenant.</p>
+<p>This enforces an upper limit on the cumulative storage consumed by all images of a tenant across all stores. This is a per-tenant limit.</p>
+<p>The default unit for this configuration option is Bytes. However, storage units can be specified using case-sensitive literals <code class="docutils literal"><span class="pre">B</span></code>, <code class="docutils literal"><span class="pre">KB</span></code>, <code class="docutils literal"><span class="pre">MB</span></code>, <code class="docutils literal"><span class="pre">GB</span></code> and <code class="docutils literal"><span class="pre">TB</span></code> representing Bytes, KiloBytes, MegaBytes, GigaBytes and TeraBytes respectively. Note that there should not be any space between the value and unit. Value <code class="docutils literal"><span class="pre">0</span></code> signifies no quota enforcement. Negative values are invalid and result in errors.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A string that is a valid concatenation of a non-negative integer representing the storage value and an optional string literal representing storage units as mentioned above.</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">workers</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td><p class="first">(Integer) Number of Glance worker processes to start.</p>
+<p>Provide a non-negative integer value to set the number of child process workers to service requests. By default, the number of CPUs available is set as the value for <code class="docutils literal"><span class="pre">workers</span></code>.</p>
+<p>Each worker process is made to listen on the port set in the configuration file and contains a greenthread pool of size 1000.</p>
+<p>NOTE: Setting the number of workers to zero, triggers the creation of a single API process with a greenthread pool of size 1000.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>0</li>
+<li>Positive integer value (typically equal to the number of CPUs)</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><strong>[glance_store]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">rootwrap_config</span></code> = <code class="docutils literal"><span class="pre">/etc/glance/rootwrap.conf</span></code></td>
+<td><p class="first">(String) Path to the rootwrap configuration file to use for running commands as root.</p>
+<p>The cinder store requires root privileges to operate the image volumes (for connecting to iSCSI/FC volumes and reading/writing the volume data, etc.). The configuration file should allow the required commands by cinder store and os-brick library.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Path to the rootwrap config file</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><strong>[image_format]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container_formats</span></code> = <code class="docutils literal"><span class="pre">ami,</span> <span class="pre">ari,</span> <span class="pre">aki,</span> <span class="pre">bare,</span> <span class="pre">ovf,</span> <span class="pre">ova,</span> <span class="pre">docker</span></code></td>
+<td>(List) Supported values for the &#8216;container_format&#8217; image attribute</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">disk_formats</span></code> = <code class="docutils literal"><span class="pre">ami,</span> <span class="pre">ari,</span> <span class="pre">aki,</span> <span class="pre">vhd,</span> <span class="pre">vhdx,</span> <span class="pre">vmdk,</span> <span class="pre">raw,</span> <span class="pre">qcow2,</span> <span class="pre">vdi,</span> <span class="pre">iso</span></code></td>
+<td>(List) Supported values for the &#8216;disk_format&#8217; image attribute</td>
+</tr>
+<tr class="row-even"><td><strong>[task]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">task_executor</span></code> = <code class="docutils literal"><span class="pre">taskflow</span></code></td>
+<td><p class="first">(String) Task executor to be used to run task scripts.</p>
+<p>Provide a string value representing the executor to use for task executions. By default, <code class="docutils literal"><span class="pre">TaskFlow</span></code> executor is used.</p>
+<p><code class="docutils literal"><span class="pre">TaskFlow</span></code> helps make task executions easy, consistent, scalable and reliable. It also enables creation of lightweight task objects and/or functions that are combined together into flows in a declarative manner.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>taskflow</li>
+</ul>
+<p>Related Options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">task_time_to_live</span></code> = <code class="docutils literal"><span class="pre">48</span></code></td>
+<td>(Integer) Time in hours for which a task lives after, either succeeding or failing</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">work_dir</span></code> = <code class="docutils literal"><span class="pre">/work_dir</span></code></td>
+<td><p class="first">(String) Absolute path to the work directory to use for asynchronous task operations.</p>
+<p>The directory set here will be used to operate over images - normally before they are imported in the destination store.</p>
+<p>NOTE: When providing a value for <code class="docutils literal"><span class="pre">work_dir</span></code>, please make sure that enough space is provided for concurrent tasks to run efficiently without running out of space.</p>
+<p>A rough estimation can be done by multiplying the number of <code class="docutils literal"><span class="pre">max_workers</span></code> with an average image size (e.g 500MB). The image size estimation should be done based on the average size in your deployment. Note that depending on the tasks running you may need to multiply this number by some factor depending on what the task does. For example, you may want to double the available size if image conversion is enabled. All this being said, remember these are just estimations and you should do them based on the worst case scenario and be prepared to act in case they were wrong.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>String value representing the absolute path to the working directory</li>
+</ul>
+<p>Related Options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id2">
+<span id="glance-imagecache"></span><caption><span class="caption-text">Description of flagmappings configuration options</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">delayed_delete</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td><p class="first">(Boolean) Turn on/off delayed delete.</p>
+<p>Typically when an image is deleted, the <code class="docutils literal"><span class="pre">glance-api</span></code> service puts the image into <code class="docutils literal"><span class="pre">deleted</span></code> state and deletes its data at the same time. Delayed delete is a feature in Glance that delays the actual deletion of image data until a later point in time (as determined by the configuration option <code class="docutils literal"><span class="pre">scrub_time</span></code>). When delayed delete is turned on, the <code class="docutils literal"><span class="pre">glance-api</span></code> service puts the image into <code class="docutils literal"><span class="pre">pending_delete</span></code> state upon deletion and leaves the image data in the storage backend for the image scrubber to delete at a later time. The image scrubber will move the image into <code class="docutils literal"><span class="pre">deleted</span></code> state upon successful deletion of image data.</p>
+<p>NOTE: When delayed delete is turned on, image scrubber MUST be running as a periodic task to prevent the backend storage from filling up with undesired usage.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>True</li>
+<li>False</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">scrub_time</span></code></li>
+<li><code class="docutils literal"><span class="pre">wakeup_time</span></code></li>
+<li><code class="docutils literal"><span class="pre">scrub_pool_size</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">image_cache_dir</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td><p class="first">(String) Base directory for image cache.</p>
+<p>This is the location where image data is cached and served out of. All cached images are stored directly under this directory. This directory also contains three subdirectories, namely, <code class="docutils literal"><span class="pre">incomplete</span></code>, <code class="docutils literal"><span class="pre">invalid</span></code> and <code class="docutils literal"><span class="pre">queue</span></code>.</p>
+<p>The <code class="docutils literal"><span class="pre">incomplete</span></code> subdirectory is the staging area for downloading images. An image is first downloaded to this directory. When the image download is successful it is moved to the base directory. However, if the download fails, the partially downloaded image file is moved to the <code class="docutils literal"><span class="pre">invalid</span></code> subdirectory.</p>
+<p>The <code class="docutils literal"><span class="pre">queue``subdirectory</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">for</span> <span class="pre">queuing</span> <span class="pre">images</span> <span class="pre">for</span> <span class="pre">download.</span> <span class="pre">This</span> <span class="pre">is</span> <span class="pre">used</span> <span class="pre">primarily</span> <span class="pre">by</span> <span class="pre">the</span> <span class="pre">cache-prefetcher,</span> <span class="pre">which</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">scheduled</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">periodic</span> <span class="pre">task</span> <span class="pre">like</span> <span class="pre">cache-pruner</span> <span class="pre">and</span> <span class="pre">cache-cleaner,</span> <span class="pre">to</span> <span class="pre">cache</span> <span class="pre">images</span> <span class="pre">ahead</span> <span class="pre">of</span> <span class="pre">their</span> <span class="pre">usage.</span> <span class="pre">Upon</span> <span class="pre">receiving</span> <span class="pre">the</span> <span class="pre">request</span> <span class="pre">to</span> <span class="pre">cache</span> <span class="pre">an</span> <span class="pre">image,</span> <span class="pre">Glance</span> <span class="pre">touches</span> <span class="pre">a</span> <span class="pre">file</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">``queue</span></code> directory with the image id as the file name. The cache-prefetcher, when running, polls for the files in <code class="docutils literal"><span class="pre">queue</span></code> directory and starts downloading them in the order they were created. When the download is successful, the zero-sized file is deleted from the <code class="docutils literal"><span class="pre">queue</span></code> directory. If the download fails, the zero-sized file remains and it&#8217;ll be retried the next time cache-prefetcher runs.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A valid path</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">image_cache_sqlite_db</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">image_cache_driver</span></code> = <code class="docutils literal"><span class="pre">sqlite</span></code></td>
+<td><p class="first">(String) The driver to use for image cache management.</p>
+<p>This configuration option provides the flexibility to choose between the different image-cache drivers available. An image-cache driver is responsible for providing the essential functions of image-cache like write images to/read images from cache, track age and usage of cached images, provide a list of cached images, fetch size of the cache, queue images for caching and clean up the cache, etc.</p>
+<p>The essential functions of a driver are defined in the base class <code class="docutils literal"><span class="pre">glance.image_cache.drivers.base.Driver</span></code>. All image-cache drivers (existing and prospective) must implement this interface. Currently available drivers are <code class="docutils literal"><span class="pre">sqlite</span></code> and <code class="docutils literal"><span class="pre">xattr</span></code>. These drivers primarily differ in the way they store the information about cached images:</p>
+<ul class="simple">
+<li>The <code class="docutils literal"><span class="pre">sqlite</span></code> driver uses a sqlite database (which sits on every glance node locally) to track the usage of cached images.</li>
+<li>The <code class="docutils literal"><span class="pre">xattr</span></code> driver uses the extended attributes of files to store this information. It also requires a filesystem that sets <code class="docutils literal"><span class="pre">atime</span></code> on the files when accessed.</li>
+</ul>
+<p>Possible values:</p>
+<ul class="simple">
+<li>sqlite</li>
+<li>xattr</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">image_cache_max_size</span></code> = <code class="docutils literal"><span class="pre">10737418240</span></code></td>
+<td><p class="first">(Integer) The upper limit on cache size, in bytes, after which the cache-pruner cleans up the image cache.</p>
+<p>NOTE: This is just a threshold for cache-pruner to act upon. It is NOT a hard limit beyond which the image cache would never grow. In fact, depending on how often the cache-pruner runs and how quickly the cache fills, the image cache can far exceed the size specified here very easily. Hence, care must be taken to appropriately schedule the cache-pruner and in setting this limit.</p>
+<p>Glance caches an image when it is downloaded. Consequently, the size of the image cache grows over time as the number of downloads increases. To keep the cache size from becoming unmanageable, it is recommended to run the cache-pruner as a periodic task. When the cache pruner is kicked off, it compares the current size of image cache and triggers a cleanup if the image cache grew beyond the size specified here. After the cleanup, the size of cache is less than or equal to size specified here.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Any non-negative integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">image_cache_sqlite_db</span></code> = <code class="docutils literal"><span class="pre">cache.db</span></code></td>
+<td><p class="first">(String) The relative path to sqlite file database that will be used for image cache management.</p>
+<p>This is a relative path to the sqlite file database that tracks the age and usage statistics of image cache. The path is relative to image cache base directory, specified by the configuration option <code class="docutils literal"><span class="pre">image_cache_dir</span></code>.</p>
+<p>This is a lightweight database with just one table.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A valid relative path to sqlite file database</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">image_cache_dir</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">image_cache_stall_time</span></code> = <code class="docutils literal"><span class="pre">86400</span></code></td>
+<td><p class="first">(Integer) The amount of time, in seconds, an incomplete image remains in the cache.</p>
+<p>Incomplete images are images for which download is in progress. Please see the description of configuration option <code class="docutils literal"><span class="pre">image_cache_dir</span></code> for more detail. Sometimes, due to various reasons, it is possible the download may hang and the incompletely downloaded image remains in the <code class="docutils literal"><span class="pre">incomplete</span></code> directory. This configuration option sets a time limit on how long the incomplete images should remain in the <code class="docutils literal"><span class="pre">incomplete</span></code> directory before they are cleaned up. Once an incomplete image spends more time than is specified here, it&#8217;ll be removed by cache-cleaner on its next run.</p>
+<p>It is recommended to run cache-cleaner as a periodic task on the Glance API nodes to keep the incomplete images from occupying disk space.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Any non-negative integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">scrub_pool_size</span></code> = <code class="docutils literal"><span class="pre">1</span></code></td>
+<td><p class="first">(Integer) The size of thread pool to be used for scrubbing images.</p>
+<p>When there are a large number of images to scrub, it is beneficial to scrub images in parallel so that the scrub queue stays in control and the backend storage is reclaimed in a timely fashion. This configuration option denotes the maximum number of images to be scrubbed in parallel. The default value is one, which signifies serial scrubbing. Any value above one indicates parallel scrubbing.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Any non-zero positive integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">delayed_delete</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">scrub_time</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td><p class="first">(Integer) The amount of time, in seconds, to delay image scrubbing.</p>
+<p>When delayed delete is turned on, an image is put into <code class="docutils literal"><span class="pre">pending_delete</span></code> state upon deletion until the scrubber deletes its image data. Typically, soon after the image is put into <code class="docutils literal"><span class="pre">pending_delete</span></code> state, it is available for scrubbing. However, scrubbing can be delayed until a later point using this configuration option. This option denotes the time period an image spends in <code class="docutils literal"><span class="pre">pending_delete</span></code> state before it is available for scrubbing.</p>
+<p>It is important to realize that this has storage implications. The larger the <code class="docutils literal"><span class="pre">scrub_time</span></code>, the longer the time to reclaim backend storage from deleted images.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Any non-negative integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">delayed_delete</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id3">
+<span id="glance-profiler"></span><caption><span class="caption-text">Description of profiler configuration options</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[profiler]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">connection_string</span></code> = <code class="docutils literal"><span class="pre">messaging://</span></code></td>
+<td><p class="first">(String) Connection string for a notifier backend. Default value is messaging:// which sets the notifier to oslo_messaging.</p>
+<p>Examples of possible values:</p>
+<ul class="last simple">
+<li>messaging://: use oslo_messaging driver for sending notifications.</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">enabled</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td><p class="first">(Boolean) Enables the profiling for all services on this node. Default value is False (fully disable the profiling feature).</p>
+<p>Possible values:</p>
+<ul class="last simple">
+<li>True: Enables the feature</li>
+<li>False: Disables the feature. The profiling cannot be started via this project operations. If the profiling is triggered by another project, this project part will be empty.</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">hmac_keys</span></code> = <code class="docutils literal"><span class="pre">SECRET_KEY</span></code></td>
+<td><p class="first">(String) Secret key(s) to use for encrypting context data for performance profiling. This string value should have the following format: &lt;key1&gt;[,&lt;key2&gt;,...&lt;keyn&gt;], where each key is some random string. A user who triggers the profiling via the REST API has to set one of these keys in the headers of the REST API call to include profiling results of this node for this particular project.</p>
+<p class="last">Both &#8220;enabled&#8221; flag and &#8220;hmac_keys&#8221; config options should be set to enable profiling. Also, to generate correct profiling information across all services at least one key needs to be consistent between OpenStack projects. This ensures it can be used from client side to generate the trace, containing information from all possible resources.</p>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">trace_sqlalchemy</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td><p class="first">(Boolean) Enables SQL requests profiling in services. Default value is False (SQL requests won&#8217;t be traced).</p>
+<p>Possible values:</p>
+<ul class="last simple">
+<li>True: Enables SQL requests profiling. Each SQL query will be part of the trace and can the be analyzed by how much time was spent for that.</li>
+<li>False: Disables SQL requests profiling. The spent time is only shown on a higher level of operations. Single SQL queries cannot be analyzed this way.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id4">
+<span id="glance-redis"></span><caption><span class="caption-text">Description of Redis configuration options</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[matchmaker_redis]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">check_timeout</span></code> = <code class="docutils literal"><span class="pre">20000</span></code></td>
+<td>(Integer) Time in ms to wait before the transaction is killed.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">host</span></code> = <code class="docutils literal"><span class="pre">127.0.0.1</span></code></td>
+<td>(String) DEPRECATED: Host to locate redis. Replaced by [DEFAULT]/transport_url</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">password</span></code> =</td>
+<td>(String) DEPRECATED: Password for Redis server (optional). Replaced by [DEFAULT]/transport_url</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">port</span></code> = <code class="docutils literal"><span class="pre">6379</span></code></td>
+<td>(Port number) DEPRECATED: Use this port to connect to redis host. Replaced by [DEFAULT]/transport_url</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">sentinel_group_name</span></code> = <code class="docutils literal"><span class="pre">oslo-messaging-zeromq</span></code></td>
+<td>(String) Redis replica set name.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">sentinel_hosts</span></code> =</td>
+<td>(List) DEPRECATED: List of Redis Sentinel hosts (fault tolerance mode) e.g. [host:port, host1:port ... ] Replaced by [DEFAULT]/transport_url</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">socket_timeout</span></code> = <code class="docutils literal"><span class="pre">10000</span></code></td>
+<td>(Integer) Timeout in ms on blocking socket operations</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">wait_timeout</span></code> = <code class="docutils literal"><span class="pre">2000</span></code></td>
+<td>(Integer) Time in ms to wait between connection attempts.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id5">
+<span id="glance-registry"></span><caption><span class="caption-text">Description of registry configuration options</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">admin_password</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) DEPRECATED: The administrators password. If &#8220;use_user_token&#8221; is not in effect, then admin credentials can be specified. This option was considered harmful and has been deprecated in M release. It will be removed in O release. For more information read OSSN-0060. Related functionality with uploading big images has been implemented with Keystone trusts support.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">admin_tenant_name</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) DEPRECATED: The tenant name of the administrative user. If &#8220;use_user_token&#8221; is not in effect, then admin tenant name can be specified. This option was considered harmful and has been deprecated in M release. It will be removed in O release. For more information read OSSN-0060. Related functionality with uploading big images has been implemented with Keystone trusts support.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">admin_user</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) DEPRECATED: The administrators user name. If &#8220;use_user_token&#8221; is not in effect, then admin credentials can be specified. This option was considered harmful and has been deprecated in M release. It will be removed in O release. For more information read OSSN-0060. Related functionality with uploading big images has been implemented with Keystone trusts support.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">auth_region</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) DEPRECATED: The region for the authentication service. If &#8220;use_user_token&#8221; is not in effect and using keystone auth, then region name can be specified. This option was considered harmful and has been deprecated in M release. It will be removed in O release. For more information read OSSN-0060. Related functionality with uploading big images has been implemented with Keystone trusts support.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">auth_strategy</span></code> = <code class="docutils literal"><span class="pre">noauth</span></code></td>
+<td>(String) DEPRECATED: The strategy to use for authentication. If &#8220;use_user_token&#8221; is not in effect, then auth strategy can be specified. This option was considered harmful and has been deprecated in M release. It will be removed in O release. For more information read OSSN-0060. Related functionality with uploading big images has been implemented with Keystone trusts support.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">auth_url</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) DEPRECATED: The URL to the keystone service. If &#8220;use_user_token&#8221; is not in effect and using keystone auth, then URL of keystone can be specified. This option was considered harmful and has been deprecated in M release. It will be removed in O release. For more information read OSSN-0060. Related functionality with uploading big images has been implemented with Keystone trusts support.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">registry_client_ca_file</span></code> = <code class="docutils literal"><span class="pre">/etc/ssl/cafile/file.ca</span></code></td>
+<td><p class="first">(String) Absolute path to the Certificate Authority file.</p>
+<p>Provide a string value representing a valid absolute path to the certificate authority file to use for establishing a secure connection to the registry server.</p>
+<p>NOTE: This option must be set if <code class="docutils literal"><span class="pre">registry_client_protocol</span></code> is set to <code class="docutils literal"><span class="pre">https</span></code>. Alternatively, the GLANCE_CLIENT_CA_FILE environment variable may be set to a filepath of the CA file. This option is ignored if the <code class="docutils literal"><span class="pre">registry_client_insecure</span></code> option is set to <code class="docutils literal"><span class="pre">True</span></code>.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>String value representing a valid absolute path to the CA file.</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>registry_client_protocol</li>
+<li>registry_client_insecure</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">registry_client_cert_file</span></code> = <code class="docutils literal"><span class="pre">/etc/ssl/certs/file.crt</span></code></td>
+<td><p class="first">(String) Absolute path to the certificate file.</p>
+<p>Provide a string value representing a valid absolute path to the certificate file to use for establishing a secure connection to the registry server.</p>
+<p>NOTE: This option must be set if <code class="docutils literal"><span class="pre">registry_client_protocol</span></code> is set to <code class="docutils literal"><span class="pre">https</span></code>. Alternatively, the GLANCE_CLIENT_CERT_FILE environment variable may be set to a filepath of the certificate file.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>String value representing a valid absolute path to the certificate file.</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>registry_client_protocol</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">registry_client_insecure</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td><p class="first">(Boolean) Set verification of the registry server certificate.</p>
+<p>Provide a boolean value to determine whether or not to validate SSL connections to the registry server. By default, this option is set to <code class="docutils literal"><span class="pre">False</span></code> and the SSL connections are validated.</p>
+<p>If set to <code class="docutils literal"><span class="pre">True</span></code>, the connection to the registry server is not validated via a certifying authority and the <code class="docutils literal"><span class="pre">registry_client_ca_file</span></code> option is ignored. This is the registry&#8217;s equivalent of specifying &#8211;insecure on the command line using glanceclient for the API.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>True</li>
+<li>False</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>registry_client_protocol</li>
+<li>registry_client_ca_file</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">registry_client_key_file</span></code> = <code class="docutils literal"><span class="pre">/etc/ssl/key/key-file.pem</span></code></td>
+<td><p class="first">(String) Absolute path to the private key file.</p>
+<p>Provide a string value representing a valid absolute path to the private key file to use for establishing a secure connection to the registry server.</p>
+<p>NOTE: This option must be set if <code class="docutils literal"><span class="pre">registry_client_protocol</span></code> is set to <code class="docutils literal"><span class="pre">https</span></code>. Alternatively, the GLANCE_CLIENT_KEY_FILE environment variable may be set to a filepath of the key file.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>String value representing a valid absolute path to the key file.</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>registry_client_protocol</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">registry_client_protocol</span></code> = <code class="docutils literal"><span class="pre">http</span></code></td>
+<td><p class="first">(String) Protocol to use for communication with the registry server.</p>
+<p>Provide a string value representing the protocol to use for communication with the registry server. By default, this option is set to <code class="docutils literal"><span class="pre">http</span></code> and the connection is not secure.</p>
+<p>This option can be set to <code class="docutils literal"><span class="pre">https</span></code> to establish a secure connection to the registry server. In this case, provide a key to use for the SSL connection using the <code class="docutils literal"><span class="pre">registry_client_key_file</span></code> option. Also include the CA file and cert file using the options <code class="docutils literal"><span class="pre">registry_client_ca_file</span></code> and <code class="docutils literal"><span class="pre">registry_client_cert_file</span></code> respectively.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>http</li>
+<li>https</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>registry_client_key_file</li>
+<li>registry_client_cert_file</li>
+<li>registry_client_ca_file</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">registry_client_timeout</span></code> = <code class="docutils literal"><span class="pre">600</span></code></td>
+<td><p class="first">(Integer) Timeout value for registry requests.</p>
+<p>Provide an integer value representing the period of time in seconds that the API server will wait for a registry request to complete. The default value is 600 seconds.</p>
+<p>A value of 0 implies that a request will never timeout.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Zero</li>
+<li>Positive integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">registry_host</span></code> = <code class="docutils literal"><span class="pre">0.0.0.0</span></code></td>
+<td><p class="first">(String) Address the registry server is hosted on.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A valid IP or hostname</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">registry_port</span></code> = <code class="docutils literal"><span class="pre">9191</span></code></td>
+<td><p class="first">(Port number) Port the registry server is listening on.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A valid port number</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id6">
+<span id="glance-replicator"></span><caption><span class="caption-text">Description of replicator configuration options</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">args</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(Multi-valued) Arguments for the command</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">chunksize</span></code> = <code class="docutils literal"><span class="pre">65536</span></code></td>
+<td>(Integer) Amount of data to transfer per HTTP write.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">command</span></code> = <code class="docutils literal"><span class="pre">None</span></code></td>
+<td>(String) Command to be given to replicator</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dontreplicate</span></code> = <code class="docutils literal"><span class="pre">created_at</span> <span class="pre">date</span> <span class="pre">deleted_at</span> <span class="pre">location</span> <span class="pre">updated_at</span></code></td>
+<td>(String) List of fields to not replicate.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">mastertoken</span></code> =</td>
+<td>(String) Pass in your authentication token if you have one. This is the token used for the master.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">metaonly</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>(Boolean) Only replicate metadata, not images.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">slavetoken</span></code> =</td>
+<td>(String) Pass in your authentication token if you have one. This is the token used for the slave.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">token</span></code> =</td>
+<td>(String) Pass in your authentication token if you have one. If you use this option the same token is used for both the master and the slave.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id7">
+<span id="glance-scrubber"></span><caption><span class="caption-text">Description of scrubber configuration options</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">wakeup_time</span></code> = <code class="docutils literal"><span class="pre">300</span></code></td>
+<td><p class="first">(Integer) Time interval, in seconds, between scrubber runs in daemon mode.</p>
+<p>Scrubber can be run either as a cron job or daemon. When run as a daemon, this configuration time specifies the time period between two runs. When the scrubber wakes up, it fetches and scrubs all <code class="docutils literal"><span class="pre">pending_delete</span></code> images that are available for scrubbing after taking <code class="docutils literal"><span class="pre">scrub_time</span></code> into consideration.</p>
+<p>If the wakeup time is set to a large number, there may be a large number of images to be scrubbed for each run. Also, this impacts how quickly the backend storage is reclaimed.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Any non-negative integer</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">daemon</span></code></li>
+<li><code class="docutils literal"><span class="pre">delayed_delete</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id8">
+<span id="glance-taskflow"></span><caption><span class="caption-text">Description of TaskFlow configuration options</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[taskflow_executor]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">conversion_format</span></code> = <code class="docutils literal"><span class="pre">raw</span></code></td>
+<td><p class="first">(String) Set the desired image conversion format.</p>
+<p>Provide a valid image format to which you want images to be converted before they are stored for consumption by Glance. Appropriate image format conversions are desirable for specific storage backends in order to facilitate efficient handling of bandwidth and usage of the storage infrastructure.</p>
+<p>By default, <code class="docutils literal"><span class="pre">conversion_format</span></code> is not set and must be set explicitly in the configuration file.</p>
+<p>The allowed values for this option are <code class="docutils literal"><span class="pre">raw</span></code>, <code class="docutils literal"><span class="pre">qcow2</span></code> and <code class="docutils literal"><span class="pre">vmdk</span></code>. The <code class="docutils literal"><span class="pre">raw</span></code> format is the unstructured disk format and should be chosen when RBD or Ceph storage backends are used for image storage. <code class="docutils literal"><span class="pre">qcow2</span></code> is supported by the QEMU emulator that expands dynamically and supports Copy on Write. The <code class="docutils literal"><span class="pre">vmdk</span></code> is another common disk format supported by many common virtual machine monitors like VMWare Workstation.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>qcow2</li>
+<li>raw</li>
+<li>vmdk</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>disk_formats</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">engine_mode</span></code> = <code class="docutils literal"><span class="pre">parallel</span></code></td>
+<td><p class="first">(String) Set the taskflow engine mode.</p>
+<p>Provide a string type value to set the mode in which the taskflow engine would schedule tasks to the workers on the hosts. Based on this mode, the engine executes tasks either in single or multiple threads. The possible values for this configuration option are: <code class="docutils literal"><span class="pre">serial</span></code> and <code class="docutils literal"><span class="pre">parallel</span></code>. When set to <code class="docutils literal"><span class="pre">serial</span></code>, the engine runs all the tasks in a single thread which results in serial execution of tasks. Setting this to <code class="docutils literal"><span class="pre">parallel</span></code> makes the engine run tasks in multiple threads. This results in parallel execution of tasks.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>serial</li>
+<li>parallel</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>max_workers</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_workers</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td><p class="first">(Integer) Set the number of engine executable tasks.</p>
+<p>Provide an integer value to limit the number of workers that can be instantiated on the hosts. In other words, this number defines the number of parallel tasks that can be executed at the same time by the taskflow engine. This value can be greater than one when the engine mode is set to parallel.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Integer value greater than or equal to 1</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>engine_mode</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="config-ref-table docutils" id="id9">
+<span id="glance-testing"></span><caption><span class="caption-text">Description of testing configuration options</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>[DEFAULT]</strong></td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">pydev_worker_debug_host</span></code> = <code class="docutils literal"><span class="pre">localhost</span></code></td>
+<td><p class="first">(String) Host address of the pydev server.</p>
+<p>Provide a string value representing the hostname or IP of the pydev server to use for debugging. The pydev server listens for debug connections on this address, facilitating remote debugging in Glance.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>Valid hostname</li>
+<li>Valid IP address</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">pydev_worker_debug_port</span></code> = <code class="docutils literal"><span class="pre">5678</span></code></td>
+<td><p class="first">(Port number) Port number that the pydev server will listen on.</p>
+<p>Provide a port number to bind the pydev server to. The pydev process accepts debug connections on this port and facilitates remote debugging in Glance.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li>A valid port number</li>
+</ul>
+<p>Related options:</p>
+<ul class="last simple">
+<li>None</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="backends.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Configure back ends"></i></a>
+          
+          
+            <a href="logs.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Image log files"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../image.html">Image service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="api.html">Image API configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backends.html">Configure back ends</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Additional configuration options for Image service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logs.html">Image log files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sample-configuration-files.html">Image service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tables/conf-changes/glance.html">New, updated, and deprecated options in Newton for Image service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "image/config-options" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Additional configuration options for Image service in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/image/config-options.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:30:30 GMT -->
+</html>

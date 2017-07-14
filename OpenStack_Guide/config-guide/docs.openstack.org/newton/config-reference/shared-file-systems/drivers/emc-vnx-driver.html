@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/shared-file-systems/drivers/emc-vnx-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:46:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: EMC VNX driver</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>EMC VNX driver</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="emc-isilon-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: EMC Isilon driver"></i></a>
+    
+    
+    <a href="emc-unity-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: EMC Unity driver"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">EMC VNX driver</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#supported-shared-filesystems-and-operations">Supported shared filesystems and operations</a></li>
+<li><a class="reference internal" href="#pre-configurations-on-vnx">Pre-configurations on VNX</a></li>
+<li><a class="reference internal" href="#back-end-configurations">Back-end configurations</a></li>
+<li><a class="reference internal" href="#restrictions">Restrictions</a></li>
+<li><a class="reference internal" href="#driver-options">Driver options</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="emc-vnx-driver">
+<h1>EMC VNX driver<a class="headerlink" href="#emc-vnx-driver" title="Permalink to this headline">¶</a></h1>
+<p>The EMC Shared File Systems service driver framework (EMCShareDriver)
+utilizes the EMC storage products to provide the shared file systems to
+OpenStack. The EMC driver is a plug-in based driver which is designed to
+use different plug-ins to manage different EMC storage products.</p>
+<p>The VNX plug-in is the plug-in which manages the VNX to provide shared
+filesystems. The EMC driver framework with the VNX plug-in is referred
+to as the VNX driver in this document.</p>
+<p>This driver performs the operations on VNX by XMLAPI and the file
+command line. Each back end manages one Data Mover of VNX. Multiple
+Shared File Systems service back ends need to be configured to manage
+multiple Data Movers.</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>VNX OE for File version 7.1 or higher</li>
+<li>VNX Unified, File only, or Gateway system with a single storage back
+end</li>
+<li>The following licenses should be activated on VNX for File:<ul>
+<li>CIFS</li>
+<li>NFS</li>
+<li>SnapSure (for snapshot)</li>
+<li>ReplicationV2 (for create share from snapshot)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="supported-shared-filesystems-and-operations">
+<h2>Supported shared filesystems and operations<a class="headerlink" href="#supported-shared-filesystems-and-operations" title="Permalink to this headline">¶</a></h2>
+<p>The driver supports CIFS and NFS shares.</p>
+<p>The following operations are supported:</p>
+<ul>
+<li><p class="first">Create a share.</p>
+</li>
+<li><p class="first">Delete a share.</p>
+</li>
+<li><p class="first">Allow share access.</p>
+<p>Note the following limitations:</p>
+<ul class="simple">
+<li>Only IP access type is supported for NFS.</li>
+<li>Only user access type is supported for CIFS.</li>
+</ul>
+</li>
+<li><p class="first">Deny share access.</p>
+</li>
+<li><p class="first">Create a snapshot.</p>
+</li>
+<li><p class="first">Delete a snapshot.</p>
+</li>
+<li><p class="first">Create a share from a snapshot.</p>
+</li>
+</ul>
+<p>While the generic driver creates shared filesystems based on cinder
+volumes attached to nova VMs, the VNX driver performs similar operations
+using the Data Movers on the array.</p>
+</div>
+<div class="section" id="pre-configurations-on-vnx">
+<h2>Pre-configurations on VNX<a class="headerlink" href="#pre-configurations-on-vnx" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Enable unicode on Data Mover.</p>
+<p>The VNX driver requires that the unicode is enabled on Data Mover.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">After enabling Unicode, you cannot disable it. If there are some
+filesystems created before Unicode is enabled on the VNX,
+consult the storage administrator before enabling Unicode.</p>
+</div>
+<p>To check the Unicode status on Data Mover, use the following VNX File
+command on the VNX control station:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>server_cifs &lt;mover_name&gt; | head
+# mover_name = &lt;name of the Data Mover&gt;
+</pre></div>
+</div>
+<p>Check the value of I18N mode field. UNICODE mode is shown as
+<code class="docutils literal"><span class="pre">I18N</span> <span class="pre">mode</span> <span class="pre">=</span> <span class="pre">UNICODE</span></code>.</p>
+<p>To enable the Unicode for Data Mover:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>uc_config -on -mover &lt;mover_name&gt;
+# mover_name = &lt;name of the Data Mover&gt;
+</pre></div>
+</div>
+<p>Refer to the document Using International Character Sets on VNX for
+File on <a class="reference external" href="http://support.emc.com/">EMC support site</a> for more
+information.</p>
+</li>
+<li><p class="first">Enable CIFS service on Data Mover.</p>
+<p>Ensure the CIFS service is enabled on the Data Mover which is going
+to be managed by VNX driver.</p>
+<p>To start the CIFS service, use the following command:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>server_setup &lt;mover_name&gt; -Protocol cifs -option start [=&lt;n&gt;]
+# mover_name = &lt;name of the Data Mover&gt;
+# n = &lt;number of threads for CIFS users&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If there is 1 GB of memory on the Data Mover, the default is 96
+threads; however, if there is over 1 GB of memory, the default
+number of threads is 256.</p>
+</div>
+<p>To check the CIFS service status, use this command:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>server_cifs &lt;mover_name&gt; | head
+# mover_name = &lt;name of the Data Mover&gt;
+</pre></div>
+</div>
+<p>The command output will show the number of CIFS threads started.</p>
+</li>
+<li><p class="first">NTP settings on Data Mover.</p>
+<p>VNX driver only supports CIFS share creation with share network
+which has an Active Directory security-service associated.</p>
+<p>Creating CIFS share requires that the time on the Data Mover is in
+sync with the Active Directory domain so that the CIFS server can
+join the domain. Otherwise, the domain join will fail when creating
+share with this security service. There is a limitation that the
+time of the domains used by security-services even for different
+tenants and different share networks should be in sync. Time
+difference should be less than 10 minutes.</p>
+<p>It is recommended to set the NTP server to the same public NTP
+server on both the Data Mover and domains used in security services
+to ensure the time is in sync everywhere.</p>
+<p>Check the date and time on Data Mover:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>server_date &lt;mover_name&gt;
+# mover_name = &lt;name of the Data Mover&gt;
+</pre></div>
+</div>
+<p>Set the NTP server for Data Mover:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>server_date &lt;mover_name&gt; timesvc start ntp &lt;host&gt; [&lt;host&gt; ...]
+# mover_name = &lt;name of the Data Mover&gt;
+# host = &lt;IP address of the time server host&gt;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The host must be running the NTP protocol. Only 4 host entries
+are allowed.</p>
+</div>
+</li>
+<li><p class="first">Configure User Mapping on the Data Mover.</p>
+<p>Before creating CIFS share using VNX driver, you must select a
+method of mapping Windows SIDs to UIDs and GIDs. EMC recommends
+using usermapper in single protocol (CIFS) environment which is
+enabled on VNX by default.</p>
+<p>To check usermapper status, use this command syntax:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>server_usermapper &lt;movername&gt;
+# movername = &lt;name of the Data Mover&gt;
+</pre></div>
+</div>
+<p>If usermapper is not started, the following command can be used
+to start the usermapper:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>server_usermapper &lt;movername&gt; -enable
+# movername = &lt;name of the Data Mover&gt;
+</pre></div>
+</div>
+<p>For a multiple protocol environment, refer to Configuring VNX User
+Mapping on <a class="reference external" href="http://support.emc.com/">EMC support site</a> for
+additional information.</p>
+</li>
+<li><p class="first">Network Connection.</p>
+<p>Find the network devices (physical port on NIC) of Data Mover that
+has access to the share network.</p>
+<p>Go to <span class="guilabel">Unisphere</span> to check the device list:
+<span class="menuselection">Settings &gt; Network &gt; Settings for File (Unified system
+only) &gt; Device</span>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="back-end-configurations">
+<h2>Back-end configurations<a class="headerlink" href="#back-end-configurations" title="Permalink to this headline">¶</a></h2>
+<p>The following parameters need to be configured in the
+<code class="docutils literal"><span class="pre">/etc/manila/manila.conf</span></code> file for the VNX driver:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">emc_share_backend</span> <span class="o">=</span> <span class="s">vnx</span>
+<span class="na">emc_nas_server</span> <span class="o">=</span> <span class="s">&lt;IP address&gt;</span>
+<span class="na">emc_nas_password</span> <span class="o">=</span> <span class="s">&lt;password&gt;</span>
+<span class="na">emc_nas_login</span> <span class="o">=</span> <span class="s">&lt;user&gt;</span>
+<span class="na">emc_nas_server_container</span> <span class="o">=</span> <span class="s">&lt;Data Mover name&gt;</span>
+<span class="na">emc_nas_pool_names</span> <span class="o">=</span> <span class="s">&lt;Comma separated pool names&gt;</span>
+<span class="na">share_driver</span> <span class="o">=</span> <span class="s">manila.share.drivers.emc.driver.EMCShareDriver</span>
+<span class="na">emc_interface_ports</span> <span class="o">=</span> <span class="s">&lt;Comma separated ports list&gt;</span>
+</pre></div>
+</div>
+<ul>
+<li><dl class="first docutils">
+<dt><cite>emc_share_backend</cite></dt>
+<dd><p class="first last">The plug-in name. Set it to <code class="docutils literal"><span class="pre">vnx</span></code> for the VNX driver.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>emc_nas_server</cite></dt>
+<dd><p class="first last">The control station IP address of the VNX system to be managed.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>emc_nas_password</cite> and <cite>emc_nas_login</cite></dt>
+<dd><p class="first last">The fields that are used to provide credentials to the
+VNX system. Only local users of VNX File is supported.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>emc_nas_server_container</cite></dt>
+<dd><p class="first last">Name of the Data Mover to serve the share service.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>emc_nas_pool_names</cite></dt>
+<dd><p class="first">Comma separated list specifying the name of the pools to be used
+by this back end. Do not set this option if all storage pools
+on the system can be used.
+Wild card character is supported.</p>
+<p class="last">Examples: pool_1, pool_*, *</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><cite>emc_interface_ports</cite></dt>
+<dd><p class="first">Comma separated list specifying the ports (devices) of Data Mover
+that can be used for share server interface. Do not set this
+option if all ports on the Data Mover can be used.
+Wild card character is supported.</p>
+<p class="last">Examples: spa_eth1, spa_*, *</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Restart of the <code class="docutils literal"><span class="pre">manila-share</span></code> service is needed for the configuration
+changes to take effect.</p>
+</div>
+<div class="section" id="restrictions">
+<h2>Restrictions<a class="headerlink" href="#restrictions" title="Permalink to this headline">¶</a></h2>
+<p>The VNX driver has the following restrictions:</p>
+<ul class="simple">
+<li>Only IP access type is supported for NFS.</li>
+<li>Only user access type is supported for CIFS.</li>
+<li>Only FLAT network and VLAN network are supported.</li>
+<li>VLAN network is supported with limitations. The neutron subnets in
+different VLANs that are used to create share networks cannot have
+overlapped address spaces. Otherwise, VNX may have a problem to
+communicate with the hosts in the VLANs. To create shares for
+different VLANs with same subnet address, use different Data Movers.</li>
+<li>The <code class="docutils literal"><span class="pre">Active</span> <span class="pre">Directory</span></code> security service is the only supported
+security service type and it is required to create CIFS shares.</li>
+<li>Only one security service can be configured for each share network.</li>
+<li>Active Directory domain name of the &#8216;active_directory&#8217; security
+service should be unique even for different tenants.</li>
+<li>The time on Data Mover and the Active Directory domains used in
+security services should be in sync (time difference should be less
+than 10 minutes). It is recommended to use same NTP server on both
+the Data Mover and Active Directory domains.</li>
+<li>On VNX the snapshot is stored in the SavVols. VNX system allows the
+space used by SavVol to be created and extended until the sum of the
+space consumed by all SavVols on the system exceeds the default 20%
+of the total space available on the system. If the 20% threshold
+value is reached, an alert will be generated on VNX. Continuing to
+create snapshot will cause the old snapshot to be inactivated (and
+the snapshot data to be abandoned). The limit percentage value can be
+changed manually by storage administrator based on the storage needs.
+Administrator is recommended to configure the notification on the
+SavVol usage. Refer to Using VNX SnapSure document on <a class="reference external" href="http://support.emc.com/">EMC support
+site</a> for more information.</li>
+<li>VNX has limitations on the overall numbers of Virtual Data Movers,
+filesystems, shares, checkpoints, etc. Virtual Data Mover(VDM) is
+created by the VNX driver on the VNX to serve as the Shared File
+Systems service share server. Similarly, filesystem is created,
+mounted, and exported from the VDM over CIFS or NFS protocol to serve
+as the Shared File Systems service share. The VNX checkpoint serves
+as the Shared File Systems service share snapshot. Refer to the NAS
+Support Matrix document on <a class="reference external" href="http://support.emc.com/">EMC support
+site</a> for the limitations and configure the
+quotas accordingly.</li>
+</ul>
+</div>
+<div class="section" id="driver-options">
+<h2>Driver options<a class="headerlink" href="#driver-options" title="Permalink to this headline">¶</a></h2>
+<p>Configuration options specific to this driver are documented in
+<a class="reference internal" href="emc-isilon-driver.html#manila-emc"><span>Description of EMC Share Drivers configuration options</span></a>.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="emc-isilon-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: EMC Isilon driver"></i></a>
+          
+          
+            <a href="emc-unity-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: EMC Unity driver"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../overview.html">Introduction to the Shared File Systems service</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html">Shared File Systems API configuration</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../drivers.html">Share drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../log-files.html">Log files used by Shared File Systems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Shared File Systems service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/manila.html">New, updated, and deprecated options in Newton for Shared File Systems service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "shared-file-systems/drivers/emc-vnx-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "EMC VNX driver in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/shared-file-systems/drivers/emc-vnx-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:46:39 GMT -->
+</html>

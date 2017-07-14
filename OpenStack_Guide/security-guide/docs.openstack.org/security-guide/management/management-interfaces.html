@@ -1,0 +1,633 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/security-guide/management/management-interfaces.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:16:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Management interfaces</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Management interfaces</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="integrity-life-cycle.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Integrity life-cycle"></i></a>
+    
+    
+    <a href="case-studies.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Case studies"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Management interfaces</a><ul>
+<li><a class="reference internal" href="#dashboard">Dashboard</a><ul>
+<li><a class="reference internal" href="#capabilities">Capabilities</a></li>
+<li><a class="reference internal" href="#security-considerations">Security considerations</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#openstack-api">OpenStack API</a><ul>
+<li><a class="reference internal" href="#id1">Capabilities</a></li>
+<li><a class="reference internal" href="#id2">Security considerations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#secure-shell-ssh">Secure shell (SSH)</a><ul>
+<li><a class="reference internal" href="#host-key-fingerprints">Host key fingerprints</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#management-utilities">Management utilities</a><ul>
+<li><a class="reference internal" href="#id3">Security considerations</a></li>
+<li><a class="reference internal" href="#id4">Bibliography</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#out-of-band-management-interface">Out-of-band management interface</a><ul>
+<li><a class="reference internal" href="#id5">Security considerations</a></li>
+<li><a class="reference internal" href="#id6">Bibliography</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="management-interfaces">
+<h1>Management interfaces<a class="headerlink" href="#management-interfaces" title="Permalink to this headline">¶</a></h1>
+<p>It is necessary for administrators to perform command and control over
+the cloud for various operational functions. It is important these
+command and control facilities are understood and secured.</p>
+<p>OpenStack provides several management interfaces for operators and
+tenants:</p>
+<ul class="simple">
+<li>OpenStack dashboard (horizon)</li>
+<li>OpenStack API</li>
+<li><a class="reference internal" href="../common/glossary.html#term-secure-shell-ssh"><span class="xref std std-term">Secure shell (SSH)</span></a></li>
+<li>OpenStack management utilities such as nova-manage and glance-manage</li>
+<li>Out-of-band management interfaces, such as IPMI</li>
+</ul>
+<div class="section" id="dashboard">
+<h2>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h2>
+<p>The OpenStack dashboard (horizon) provides administrators and tenants
+with a web-based graphical interface to provision and access cloud-based
+resources. The dashboard communicates with the back-end services through
+calls to the OpenStack API.</p>
+<div class="section" id="capabilities">
+<h3>Capabilities<a class="headerlink" href="#capabilities" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>As a cloud administrator, the dashboard provides an overall view of
+the size and state of your cloud. You can create users and
+tenants/projects, assign users to tenant/projects and set limits on
+the resources available for them.</li>
+<li>The dashboard provides tenant-users a self-service portal to
+provision their own resources within the limits set by
+administrators.</li>
+<li>The dashboard provides GUI support for routers and load-balancers.
+For example, the dashboard now implements all of the main Networking
+features.</li>
+<li>It is an extensible <a class="reference internal" href="../common/glossary.html#term-django"><span class="xref std std-term">Django</span></a> web application that
+allows easy plug-in of third-party products and services, such as
+billing, monitoring, and additional management tools.</li>
+<li>The dashboard can also be branded for service providers and other
+commercial vendors.</li>
+</ul>
+</div>
+<div class="section" id="security-considerations">
+<h3>Security considerations<a class="headerlink" href="#security-considerations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The dashboard requires cookies and JavaScript to be enabled in the
+web browser.</li>
+<li>The web server that hosts the dashboard should be configured for TLS
+to ensure data is encrypted.</li>
+<li>Both the horizon web service and the OpenStack API it uses to
+communicate with the back end are susceptible to web attack vectors
+such as denial of service and must be monitored.</li>
+<li>It is now possible (though there are numerous deployment/security
+implications) to upload an image file directly from a user&#8217;s hard
+disk to OpenStack Image service through the dashboard. For
+multi-gigabyte images it is still strongly recommended that the
+upload be done using the <code class="docutils literal"><span class="pre">glance</span></code> CLI.</li>
+<li>Create and manage security groups through dashboard. The security
+groups allows L3-L4 packet filtering for security policies to protect
+virtual machines.</li>
+</ul>
+</div>
+<div class="section" id="bibliography">
+<h3>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h3>
+<p>OpenStack.org, ReleaseNotes/Liberty. 2015.
+<a class="reference external" href="https://wiki.openstack.org/wiki/ReleaseNotes/Liberty">OpenStack Liberty Release Notes</a></p>
+</div>
+</div>
+<div class="section" id="openstack-api">
+<h2>OpenStack API<a class="headerlink" href="#openstack-api" title="Permalink to this headline">¶</a></h2>
+<p>The OpenStack API is a RESTful web service endpoint to access, provision
+and automate cloud-based resources. Operators and users typically access
+the API through command-line utilities (for example, <code class="docutils literal"><span class="pre">nova</span></code> or
+<code class="docutils literal"><span class="pre">glance</span></code>), language-specific libraries, or third-party tools.</p>
+<div class="section" id="id1">
+<h3>Capabilities<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>To the cloud administrator, the API provides an overall view of the
+size and state of the cloud deployment and allows the creation of
+users, tenants/projects, assigning users to tenants/projects, and
+specifying resource quotas on a per tenant/project basis.</li>
+<li>The API provides a tenant interface for provisioning, managing, and
+accessing their resources.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Security considerations<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The API service should be configured for TLS to ensure data is
+encrypted.</li>
+<li>As a web service, OpenStack API is susceptible to familiar web site
+attack vectors such as denial of service attacks.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="secure-shell-ssh">
+<h2>Secure shell (SSH)<a class="headerlink" href="#secure-shell-ssh" title="Permalink to this headline">¶</a></h2>
+<p>It has become industry practice to use secure shell (SSH) access for the
+management of Linux and Unix systems. SSH uses secure cryptographic
+primitives for communication. With the scope and importance of SSH in
+typical OpenStack deployments, it is important to understand best
+practices for deploying SSH.</p>
+<div class="section" id="host-key-fingerprints">
+<h3>Host key fingerprints<a class="headerlink" href="#host-key-fingerprints" title="Permalink to this headline">¶</a></h3>
+<p>Often overlooked is the need for key management for SSH hosts. As most
+or all hosts in an OpenStack deployment will provide an SSH service, it
+is important to have confidence in connections to these hosts. It cannot
+be understated that failing to provide a reasonably secure and
+accessible method to verify SSH host key fingerprints is ripe for abuse
+and exploitation.</p>
+<p>All SSH daemons have private host keys and, upon connection, offer a
+host key fingerprint. This host key fingerprint is the hash of an
+unsigned public key. It is important these host key fingerprints are
+known in advance of making SSH connections to those hosts. Verification
+of host key fingerprints is instrumental in detecting man-in-the-middle
+attacks.</p>
+<p>Typically, when an SSH daemon is installed, host keys will be generated.
+It is necessary that the hosts have sufficient entropy during host key
+generation. Insufficient entropy during host key generation can result
+in the possibility to eavesdrop on SSH sessions.</p>
+<p>Once the SSH host key is generated, the host key fingerprint should be
+stored in a secure and queryable location. One particularly convenient
+solution is DNS using SSHFP resource records as defined in RFC-4255. For
+this to be secure, it is necessary that DNSSEC be deployed.</p>
+</div>
+</div>
+<div class="section" id="management-utilities">
+<h2>Management utilities<a class="headerlink" href="#management-utilities" title="Permalink to this headline">¶</a></h2>
+<p>The OpenStack Management Utilities are open-source Python command-line
+clients that make API calls. There is a client for each OpenStack
+service (for example, nova, glance). In addition to the standard CLI
+client, most of the services have a management command-line utility
+which makes direct calls to the database. These dedicated management
+utilities are slowly being deprecated.</p>
+<div class="section" id="id3">
+<h3>Security considerations<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>The dedicated management utilities (*-manage) in some cases use the
+direct database connection.</li>
+<li>Ensure that the .rc file which has your credential information is
+secured.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Bibliography<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>OpenStack.org, OpenStack End User Guide section. 2016.
+<a class="reference external" href="http://docs.openstack.org/user-guide/common/cli_overview.html">OpenStack command-line clients overview</a></p>
+<p>OpenStack.org, Set environment variables using the OpenStack RC file. 2016.
+<a class="reference external" href="http://docs.openstack.org/user-guide/common/cli_set_environment_variables_using_openstack_rc.html#download-and-source-the-openstack-rc-file">Download and source the OpenStack RC file</a></p>
+</div>
+</div>
+<div class="section" id="out-of-band-management-interface">
+<h2>Out-of-band management interface<a class="headerlink" href="#out-of-band-management-interface" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack management relies on out-of-band management interfaces such as
+the IPMI protocol to access into nodes running OpenStack components.
+IPMI is a very popular specification to remotely manage, diagnose, and
+reboot servers whether the operating system is running or the system has
+crashed.</p>
+<div class="section" id="id5">
+<h3>Security considerations<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Use strong passwords and safeguard them, or use client-side TLS
+authentication.</li>
+<li>Ensure that the network interfaces are on their own
+private(management or a separate) network. Segregate management
+domains with firewalls or other network gear.</li>
+<li>If you use a web interface to interact with the
+<a class="reference internal" href="../common/glossary.html#term-bmc-baseboard-management-controller"><span class="xref std std-term">BMC</span></a>/IPMI,
+always use the TLS interface, such as HTTPS or port 443.
+This TLS interface should <strong>NOT</strong> use self-signed certificates,
+as is often default, but should have trusted certificates using
+the correctly defined fully qualified domain names (FQDNs).</li>
+<li>Monitor the traffic on the management network. The anomalies might be
+easier to track than on the busier compute nodes.</li>
+</ul>
+<p>Out of band management interfaces also often include graphical machine
+console access. It is often possible, although not necessarily default,
+that these interfaces are encrypted. Consult with your system software
+documentation for encrypting these interfaces.</p>
+</div>
+<div class="section" id="id6">
+<h3>Bibliography<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>SANS Technology Institute, InfoSec Handlers Diary Blog. 2012.
+<a class="reference external" href="https://isc.sans.edu/diary/IPMI%3A+Hacking+servers+that+are+turned+%22off%22/13399">Hacking servers that are turned off</a></p>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="integrity-life-cycle.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Integrity life-cycle"></i></a>
+          
+          
+            <a href="case-studies.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Case studies"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 04:19</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">System documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../management.html">Management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="continuous-systems-management.html">Continuous systems management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integrity-life-cycle.html">Integrity life-cycle</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Management interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="case-studies.html">Case studies</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-communication.html">Secure communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-endpoints.html">API endpoints</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../object-storage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../messaging.html">Message queuing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data processing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../databases.html">Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tenant-data.html">Tenant data privacy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instance-management.html">Instance security management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring-logging.html">Monitoring and logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compliance.html">Compliance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../security-review.html">Security Review</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../checklist.html">Security Checklist</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "management/management-interfaces" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/security-doc/tree/security-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 055d541813458cf736077816d60a91a7e58b4add";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Management interfaces in Security Guide";
+    var fieldTags = "sec-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.0.1 on 2016-12-30 04:19";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/security-guide/management/management-interfaces.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:16:38 GMT -->
+</html>

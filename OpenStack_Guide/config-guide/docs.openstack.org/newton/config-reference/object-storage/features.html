@@ -1,0 +1,1443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Configure Object Storage features</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../_static/css/combined.css" rel="stylesheet">
+<link href="../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="//www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="//www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="//superuser.openstack.org">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="//ask.openstack.org">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Configure Object Storage features</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="rsyncd.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Rsyncd configuration"></i></a>
+    
+    
+    <a href="configure-s3.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Configure Object Storage with the S3 API"></i></a>
+    
+    <a id="logABugLink1" href="" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../index.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Configure Object Storage features</a><ul>
+<li><a class="reference internal" href="#object-storage-zones">Object Storage zones</a><ul>
+<li><a class="reference internal" href="#rackspace-zone-recommendations">Rackspace zone recommendations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#raid-controller-configuration">RAID controller configuration</a></li>
+<li><a class="reference internal" href="#throttle-resources-through-rate-limits">Throttle resources through rate limits</a><ul>
+<li><a class="reference internal" href="#configure-rate-limiting">Configure rate limiting</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#health-check">Health check</a></li>
+<li><a class="reference internal" href="#domain-remap">Domain remap</a></li>
+<li><a class="reference internal" href="#cname-lookup">CNAME lookup</a></li>
+<li><a class="reference internal" href="#temporary-url">Temporary URL</a></li>
+<li><a class="reference internal" href="#name-check-filter">Name check filter</a></li>
+<li><a class="reference internal" href="#constraints">Constraints</a></li>
+<li><a class="reference internal" href="#cluster-health">Cluster health</a></li>
+<li><a class="reference internal" href="#static-large-object-slo-support">Static Large Object (SLO) support</a></li>
+<li><a class="reference internal" href="#container-quotas">Container quotas</a></li>
+<li><a class="reference internal" href="#account-quotas">Account quotas</a></li>
+<li><a class="reference internal" href="#bulk-delete">Bulk delete</a></li>
+<li><a class="reference internal" href="#drive-audit">Drive audit</a></li>
+<li><a class="reference internal" href="#form-post">Form post</a></li>
+<li><a class="reference internal" href="#static-web-sites">Static web sites</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="configure-object-storage-features">
+<h1>Configure Object Storage features<a class="headerlink" href="#configure-object-storage-features" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="object-storage-zones">
+<h2>Object Storage zones<a class="headerlink" href="#object-storage-zones" title="Permalink to this headline">¶</a></h2>
+<p>In OpenStack Object Storage, data is placed across different tiers of failure
+domains. First, data is spread across regions, then zones, then servers, and
+finally across drives. Data is placed to get the highest failure domain
+isolation. If you deploy multiple regions, the Object Storage service places
+the data across the regions. Within a region, each replica of the data should
+be stored in unique zones, if possible. If there is only one zone, data should
+be placed on different servers. And if there is only one server, data should
+be placed on different drives.</p>
+<p>Regions are widely separated installations with a high-latency or otherwise
+constrained network link between them. Zones are arbitrarily assigned, and it
+is up to the administrator of the Object Storage cluster to choose an isolation
+level and attempt to maintain the isolation level through appropriate zone
+assignment. For example, a zone may be defined as a rack with a single power
+source. Or a zone may be a DC room with a common utility provider. Servers are
+identified by a unique IP/port. Drives are locally attached storage volumes
+identified by mount point.</p>
+<p>In small clusters (five nodes or fewer), everything is normally in a single
+zone. Larger Object Storage deployments may assign zone designations
+differently; for example, an entire cabinet or rack of servers may be
+designated as a single zone to maintain replica availability if the cabinet
+becomes unavailable (for example, due to failure of the top of rack switches or
+a dedicated circuit). In very large deployments, such as service provider level
+deployments, each zone might have an entirely autonomous switching and power
+infrastructure, so that even the loss of an electrical circuit or switching
+aggregator would result in the loss of a single replica at most.</p>
+<div class="section" id="rackspace-zone-recommendations">
+<h3>Rackspace zone recommendations<a class="headerlink" href="#rackspace-zone-recommendations" title="Permalink to this headline">¶</a></h3>
+<p>For ease of maintenance on OpenStack Object Storage, Rackspace recommends that
+you set up at least five nodes. Each node is assigned its own zone (for a total
+of five zones), which gives you host level redundancy. This enables you to take
+down a single zone for maintenance and still guarantee object availability in
+the event that another zone fails during your maintenance.</p>
+<p>You could keep each server in its own cabinet to achieve cabinet level
+isolation, but you may wish to wait until your Object Storage service is better
+established before developing cabinet-level isolation. OpenStack Object Storage
+is flexible; if you later decide to change the isolation level, you can take
+down one zone at a time and move them to appropriate new homes.</p>
+</div>
+</div>
+<div class="section" id="raid-controller-configuration">
+<h2>RAID controller configuration<a class="headerlink" href="#raid-controller-configuration" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack Object Storage does not require RAID. In fact, most RAID
+configurations cause significant performance degradation. The main reason for
+using a RAID controller is the battery-backed cache. It is very important for
+data integrity reasons that when the operating system confirms a write has been
+committed that the write has actually been committed to a persistent location.
+Most disks lie about hardware commits by default, instead writing to a faster
+write cache for performance reasons. In most cases, that write cache exists
+only in non-persistent memory. In the case of a loss of power, this data may
+never actually get committed to disk, resulting in discrepancies that the
+underlying file system must handle.</p>
+<p>OpenStack Object Storage works best on the XFS file system, and this document
+assumes that the hardware being used is configured appropriately to be mounted
+with the <code class="docutils literal"><span class="pre">nobarriers</span></code> option. For more information, see the <a class="reference external" href="http://xfs.org/index.php/XFS_FAQ">XFS FAQ</a>.</p>
+<p>To get the most out of your hardware, it is essential that every disk used in
+OpenStack Object Storage is configured as a standalone, individual RAID 0 disk;
+in the case of 6 disks, you would have six RAID 0s or one JBOD. Some RAID
+controllers do not support JBOD or do not support battery backed cache with
+JBOD. To ensure the integrity of your data, you must ensure that the individual
+drive caches are disabled and the battery backed cache in your RAID card is
+configured and used.  Failure to configure the controller properly in this case
+puts data at risk in the case of sudden loss of power.</p>
+<p>You can also use hybrid drives or similar options for battery backed up cache
+configurations without a RAID controller.</p>
+</div>
+<div class="section" id="throttle-resources-through-rate-limits">
+<h2>Throttle resources through rate limits<a class="headerlink" href="#throttle-resources-through-rate-limits" title="Permalink to this headline">¶</a></h2>
+<p>Rate limiting in OpenStack Object Storage is implemented as a pluggable
+middleware that you configure on the proxy server. Rate limiting is performed
+on requests that result in database writes to the account and container SQLite
+databases. It uses memcached and is dependent on the proxy servers having
+highly synchronized time. The rate limits are limited by the accuracy of the
+proxy server clocks.</p>
+<div class="section" id="configure-rate-limiting">
+<h3>Configure rate limiting<a class="headerlink" href="#configure-rate-limiting" title="Permalink to this headline">¶</a></h3>
+<p>All configuration is optional. If no account or container limits are provided,
+no rate limiting occurs. Available configuration options include:</p>
+<table border="1" class="config-ref-table docutils" id="id1">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-ratelimit]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">account_blacklist</span></code> = <code class="docutils literal"><span class="pre">c,d</span></code></td>
+<td>Comma separated lists of account names that will not be allowed. Returns a 497 response. r: for containers of size x, limit requests per second to r. Will limit PUT, DELETE, and POST requests to /a/c/o. container_listing_ratelimit_x = r: for containers of size x, limit listing requests per second to r. Will limit GET requests to /a/c.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">account_ratelimit</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>If set, will limit PUT and DELETE requests to /account_name/container_name. Number is in requests per second.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">account_whitelist</span></code> = <code class="docutils literal"><span class="pre">a,b</span></code></td>
+<td>Comma separated lists of account names that will not be rate limited.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">clock_accuracy</span></code> = <code class="docutils literal"><span class="pre">1000</span></code></td>
+<td>Represents how accurate the proxy servers&#8217; system clocks are with each other. 1000 means that all the proxies&#8217; clock are accurate to each other within 1 millisecond. No ratelimit should be higher than the clock accuracy.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container_listing_ratelimit_0</span></code> = <code class="docutils literal"><span class="pre">100</span></code></td>
+<td>with container_listing_ratelimit_x = r, for containers of size x, limit container GET (listing) requests per second to r. The container rate will be linearly interpolated from the values given. With the default values, a container of size 5 will get a rate of 75.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">container_listing_ratelimit_10</span></code> = <code class="docutils literal"><span class="pre">50</span></code></td>
+<td>with container_listing_ratelimit_x = r, for containers of size x, limit container GET (listing) requests per second to r. The container rate will be linearly interpolated from the values given. With the default values, a container of size 5 will get a rate of 75.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container_listing_ratelimit_50</span></code> = <code class="docutils literal"><span class="pre">20</span></code></td>
+<td>with container_listing_ratelimit_x = r, for containers of size x, limit container GET (listing) requests per second to r. The container rate will be linearly interpolated from the values given. With the default values, a container of size 5 will get a rate of 75.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">container_ratelimit_0</span></code> = <code class="docutils literal"><span class="pre">100</span></code></td>
+<td>with container_ratelimit_x = r, for containers of size x, limit write requests per second to r. The container rate will be linearly interpolated from the values given. With the default values, a container of size 5 will get a rate of 75.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container_ratelimit_10</span></code> = <code class="docutils literal"><span class="pre">50</span></code></td>
+<td>with container_ratelimit_x = r, for containers of size x, limit write requests per second to r. The container rate will be linearly interpolated from the values given. With the default values, a container of size 5 will get a rate of 75.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">container_ratelimit_50</span></code> = <code class="docutils literal"><span class="pre">20</span></code></td>
+<td>with container_ratelimit_x = r, for containers of size x, limit write requests per second to r. The container rate will be linearly interpolated from the values given. With the default values, a container of size 5 will get a rate of 75.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_sleep_time_seconds</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>To allow visibility into rate limiting set this value &gt; 0 and all sleeps greater than the number will be logged.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_sleep_time_seconds</span></code> = <code class="docutils literal"><span class="pre">60</span></code></td>
+<td>App will immediately return a 498 response if the necessary sleep time ever exceeds the given max_sleep_time_seconds.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">rate_buffer_seconds</span></code> = <code class="docutils literal"><span class="pre">5</span></code></td>
+<td>Number of seconds the rate counter can drop and be allowed to catch up (at a faster than listed rate). A larger number will result in larger spikes in rate but better average accuracy.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If True, log headers in each request.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">ratelimit</span></code></td>
+<td>Label to use when logging.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#ratelimit</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+<p>The container rate limits are linearly interpolated from the values given. A
+sample container rate limiting could be:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">container_ratelimit_100</span> <span class="o">=</span> <span class="s">100</span>
+<span class="na">container_ratelimit_200</span> <span class="o">=</span> <span class="s">50</span>
+<span class="na">container_ratelimit_500</span> <span class="o">=</span> <span class="s">20</span>
+</pre></div>
+</div>
+<p>This would result in:</p>
+<table border="1" class="docutils" id="id2">
+<caption><span class="caption-text">Values for Rate Limiting with Sample Configuration Settings</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Container Size</th>
+<th class="head">Rate Limit</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0-99</td>
+<td>No limiting</td>
+</tr>
+<tr class="row-odd"><td>100</td>
+<td>100</td>
+</tr>
+<tr class="row-even"><td>150</td>
+<td>75</td>
+</tr>
+<tr class="row-odd"><td>500</td>
+<td>20</td>
+</tr>
+<tr class="row-even"><td>1000</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="health-check">
+<h2>Health check<a class="headerlink" href="#health-check" title="Permalink to this headline">¶</a></h2>
+<p>Provides an easy way to monitor whether the Object Storage proxy server is
+alive. If you access the proxy with the path <code class="docutils literal"><span class="pre">/healthcheck</span></code>, it responds with
+<code class="docutils literal"><span class="pre">OK</span></code> in the response body, which monitoring tools can use.</p>
+<table border="1" class="config-ref-table docutils" id="id3">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-healthcheck]</span></code> in <code class="docutils literal"><span class="pre">account-server.conf</span></code></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">disable_path</span></code> =</td>
+<td>An optional filesystem path, which if present, will cause the healthcheck URL to return &#8220;503 Service Unavailable&#8221; with a body of &#8220;DISABLED BY FILE&#8221;</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#healthcheck</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="domain-remap">
+<h2>Domain remap<a class="headerlink" href="#domain-remap" title="Permalink to this headline">¶</a></h2>
+<p>Middleware that translates container and account parts of a domain to path
+parameters that the proxy server understands.</p>
+<table border="1" class="config-ref-table docutils" id="id4">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-domain_remap]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">default_reseller_prefix</span></code> =</td>
+<td>If the reseller prefixes do not match, the default reseller prefix is used. When no default reseller prefix is configured, any request with an account prefix not in that list will be ignored by this middleware.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">path_root</span></code> = <code class="docutils literal"><span class="pre">v1</span></code></td>
+<td>Root path.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">reseller_prefixes</span></code> = <code class="docutils literal"><span class="pre">AUTH</span></code></td>
+<td>Browsers can convert a host header to lowercase, so check that reseller prefix on the account is the correct case. This is done by comparing the items in the reseller_prefixes config option to the found prefix. If they match except for case, the item from reseller_prefixes will be used instead of the found reseller prefix.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If True, log headers in each request.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">domain_remap</span></code></td>
+<td>Label to use when logging.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storage_domain</span></code> = <code class="docutils literal"><span class="pre">example.com</span></code></td>
+<td>Domain that matches your cloud. Multiple domains can be specified using a comma-separated list.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#domain_remap</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cname-lookup">
+<h2>CNAME lookup<a class="headerlink" href="#cname-lookup" title="Permalink to this headline">¶</a></h2>
+<p>Middleware that translates an unknown domain in the host header to
+something that ends with the configured <code class="docutils literal"><span class="pre">storage_domain</span></code> by looking up
+the given domain&#8217;s CNAME record in DNS.</p>
+<table border="1" class="config-ref-table docutils" id="id5">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-cname_lookup]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">lookup_depth</span></code> = <code class="docutils literal"><span class="pre">1</span></code></td>
+<td>Because CNAMES can be recursive, specifies the number of levels through which to search.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_headers</span></code> = <code class="docutils literal"><span class="pre">false</span></code></td>
+<td>If True, log headers in each request</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Log level</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">set</span> <span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">cname_lookup</span></code></td>
+<td>Label to use when logging</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">storage_domain</span></code> = <code class="docutils literal"><span class="pre">example.com</span></code></td>
+<td>Domain that matches your cloud. Multiple domains can be specified using a comma-separated list.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#cname_lookup</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="temporary-url">
+<h2>Temporary URL<a class="headerlink" href="#temporary-url" title="Permalink to this headline">¶</a></h2>
+<p>Allows the creation of URLs to provide temporary access to objects. For
+example, a website may wish to provide a link to download a large object in
+OpenStack Object Storage, but the Object Storage account has no public access.
+The website can generate a URL that provides GET access for a limited time to
+the resource. When the web browser user clicks on the link, the browser
+downloads the object directly from Object Storage, eliminating the need for the
+website to act as a proxy for the request.  If the user shares the link with
+all his friends, or accidentally posts it on a forum, the direct access is
+limited to the expiration time set when the website created the link.</p>
+<p>A temporary URL is the typical URL associated with an object, with two
+additional query parameters:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">temp_url_sig</span></code></dt>
+<dd>A cryptographic signature.</dd>
+<dt><code class="docutils literal"><span class="pre">temp_url_expires</span></code></dt>
+<dd>An expiration date, in Unix time.</dd>
+</dl>
+<p>An example of a temporary URL:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>https://swift-cluster.example.com/v1/AUTH_a422b2-91f3-2f46-74b7-d7c9e8958f5d30/container/object?
+temp_url_sig=da39a3ee5e6b4b0d3255bfef95601890afd80709&amp;
+temp_url_expires=1323479485
+</pre></div>
+</div>
+<p>To create temporary URLs, first set the <code class="docutils literal"><span class="pre">X-Account-Meta-Temp-URL-Key</span></code> header
+on your Object Storage account to an arbitrary string. This string serves as a
+secret key. For example, to set a key of <code class="docutils literal"><span class="pre">b3968d0207b54ece87cccc06515a89d4</span></code>
+by using the <code class="docutils literal"><span class="pre">swift</span></code> command-line tool:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> swift post -m <span class="s2">&quot;Temp-URL-Key:b3968d0207b54ece87cccc06515a89d4&quot;</span>
+</pre></div>
+</div>
+<p>Next, generate an HMAC-SHA1 (RFC 2104) signature to specify:</p>
+<ul class="simple">
+<li>Which HTTP method to allow (typically <code class="docutils literal"><span class="pre">GET</span></code> or <code class="docutils literal"><span class="pre">PUT</span></code>).</li>
+<li>The expiry date as a Unix timestamp.</li>
+<li>The full path to the object.</li>
+<li>The secret key set as the <code class="docutils literal"><span class="pre">X-Account-Meta-Temp-URL-Key</span></code>.</li>
+</ul>
+<p>Here is code generating the signature for a GET for 24 hours on
+<code class="docutils literal"><span class="pre">/v1/AUTH_account/container/object</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">sha1</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;GET&#39;</span>
+<span class="n">duration_in_seconds</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="mi">60</span><span class="o">*</span><span class="mi">24</span>
+<span class="n">expires</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">duration_in_seconds</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/v1/AUTH_a422b2-91f3-2f46-74b7-d7c9e8958f5d30/container/object&#39;</span>
+<span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;mykey&#39;</span>
+<span class="n">hmac_body</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">expires</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="n">sig</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">hmac_body</span><span class="p">,</span> <span class="n">sha1</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;https://{host}/{path}?temp_url_sig={sig}&amp;temp_url_expires={expires}&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;swift-cluster.example.com&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">sig</span><span class="o">=</span><span class="n">sig</span><span class="p">,</span> <span class="n">expires</span><span class="o">=</span><span class="n">expires</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Any alteration of the resource path or query arguments results in a 401
+Unauthorized error. Similarly, a PUT where GET was the allowed method returns a
+401 error. HEAD is allowed if GET or PUT is allowed. Using this in combination
+with browser form post translation middleware could also allow
+direct-from-browser uploads to specific locations in Object Storage.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Changing the <code class="docutils literal"><span class="pre">X-Account-Meta-Temp-URL-Key</span></code> invalidates any previously
+generated temporary URLs within 60 seconds, which is the memcache time for
+the key. Object Storage supports up to two keys, specified by
+<code class="docutils literal"><span class="pre">X-Account-Meta-Temp-URL-Key</span></code> and <code class="docutils literal"><span class="pre">X-Account-Meta-Temp-URL-Key-2</span></code>.
+Signatures are checked against both keys, if present. This process enables
+key rotation without invalidating all existing temporary URLs.</p>
+</div>
+<p>Object Storage includes the <code class="docutils literal"><span class="pre">swift-temp-url</span></code> script that generates the
+query parameters automatically:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> bin/swift-temp-url GET <span class="m">3600</span> /v1/AUTH_account/container/object mykey<span class="se">\</span>
+<span class="go">/v1/AUTH_account/container/object?\</span>
+<span class="go">temp_url_sig=5c4cc8886f36a9d0919d708ade98bf0cc71c9e91&amp;\</span>
+<span class="go">temp_url_expires=1374497657</span>
+</pre></div>
+</div>
+<p>Because this command only returns the path, you must prefix the Object Storage
+host name (for example, <code class="docutils literal"><span class="pre">https://swift-cluster.example.com</span></code>).</p>
+<p>With GET Temporary URLs, a <code class="docutils literal"><span class="pre">Content-Disposition</span></code> header is set on the
+response so that browsers interpret this as a file attachment to be saved. The
+file name chosen is based on the object name, but you can override this with a
+<code class="docutils literal"><span class="pre">filename</span></code> query parameter. The following example specifies a filename of
+<code class="docutils literal"><span class="pre">My</span> <span class="pre">Test</span> <span class="pre">File.pdf</span></code>:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>https://swift-cluster.example.com/v1/AUTH_a422b2-91f3-2f46-74b7-d7c9e8958f5d30/container/object?
+temp_url_sig=da39a3ee5e6b4b0d3255bfef95601890afd80709&amp;
+temp_url_expires=1323479485&amp;
+filename=My+Test+File.pdf
+</pre></div>
+</div>
+<p>If you do not want the object to be downloaded, you can cause
+<code class="docutils literal"><span class="pre">Content-Disposition:</span> <span class="pre">inline</span></code> to be set on the response by adding the
+<code class="docutils literal"><span class="pre">inline</span></code> parameter to the query string, as follows:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>https://swift-cluster.example.com/v1/AUTH_account/container/object?
+temp_url_sig=da39a3ee5e6b4b0d3255bfef95601890afd80709&amp;
+temp_url_expires=1323479485&amp;inline
+</pre></div>
+</div>
+<p>To enable Temporary URL functionality, edit <code class="docutils literal"><span class="pre">/etc/swift/proxy-server.conf</span></code> to
+add <code class="docutils literal"><span class="pre">tempurl</span></code> to the <code class="docutils literal"><span class="pre">pipeline</span></code> variable defined in the <code class="docutils literal"><span class="pre">[pipeline:main]</span></code>
+section. The <code class="docutils literal"><span class="pre">tempurl</span></code> entry should appear immediately before the
+authentication filters in the pipeline, such as <code class="docutils literal"><span class="pre">authtoken</span></code>, <code class="docutils literal"><span class="pre">tempauth</span></code> or
+<code class="docutils literal"><span class="pre">keystoneauth</span></code>. For example:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[pipeline:main]</span>
+<span class="na">pipeline</span> <span class="o">=</span> <span class="s">healthcheck cache tempurl authtoken keystoneauth proxy-server</span>
+</pre></div>
+</div>
+<table border="1" class="config-ref-table docutils" id="id6">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-tempurl]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">incoming_allow_headers</span></code> =</td>
+<td>Headers allowed as exceptions to incoming_remove_headers. Simply a whitespace delimited list of header names and names can optionally end with &#8216;*&#8217; to indicate a prefix match.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">incoming_remove_headers</span></code> = <code class="docutils literal"><span class="pre">x-timestamp</span></code></td>
+<td>Headers to remove from incoming requests. Simply a whitespace delimited list of header names and names can optionally end with &#8216;*&#8217; to indicate a prefix match.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">methods</span></code> = <code class="docutils literal"><span class="pre">GET</span> <span class="pre">HEAD</span> <span class="pre">PUT</span> <span class="pre">POST</span> <span class="pre">DELETE</span></code></td>
+<td>HTTP methods allowed with Temporary URLs.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">outgoing_allow_headers</span></code> = <code class="docutils literal"><span class="pre">x-object-meta-public-*</span></code></td>
+<td>Headers allowed as exceptions to outgoing_allow_headers. Simply a whitespace delimited list of header names and names can optionally end with &#8216;*&#8217; to indicate a prefix match.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">outgoing_remove_headers</span></code> = <code class="docutils literal"><span class="pre">x-object-meta-*</span></code></td>
+<td>Headers to remove from outgoing responses. Simply a whitespace delimited list of header names and names can optionally end with &#8216;*&#8217; to indicate a prefix match.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#tempurl</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="name-check-filter">
+<h2>Name check filter<a class="headerlink" href="#name-check-filter" title="Permalink to this headline">¶</a></h2>
+<p>Name Check is a filter that disallows any paths that contain defined forbidden
+characters or that exceed a defined length.</p>
+<table border="1" class="config-ref-table docutils" id="id7">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-name_check]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">forbidden_chars</span></code> = <code class="docutils literal"><span class="pre">'&quot;`&lt;&gt;</span></code></td>
+<td>Characters that are not allowed in a name</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">forbidden_regexp</span></code> = <code class="docutils literal"><span class="pre">/\./|/\.\./|/\.$|/\.\.$</span></code></td>
+<td>Substrings to forbid, using regular expression syntax</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">maximum_length</span></code> = <code class="docutils literal"><span class="pre">255</span></code></td>
+<td>Maximum length of a name</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#name_check</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="constraints">
+<h2>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
+<p>To change the OpenStack Object Storage internal limits, update the values in
+the <code class="docutils literal"><span class="pre">swift-constraints</span></code> section in the <code class="docutils literal"><span class="pre">swift.conf</span></code> file.  Use caution when
+you update these values because they affect the performance in the entire
+cluster.</p>
+<table border="1" class="config-ref-table docutils" id="id8">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[swift-constraints]</span></code> in <code class="docutils literal"><span class="pre">swift.conf</span></code></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">account_listing_limit</span></code> = <code class="docutils literal"><span class="pre">10000</span></code></td>
+<td>The default (and maximum) number of items returned for an account listing request.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">container_listing_limit</span></code> = <code class="docutils literal"><span class="pre">10000</span></code></td>
+<td>The default (and maximum) number of items returned for a container listing request.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">extra_header_count</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>By default the maximum number of allowed headers depends on the number of max allowed metadata settings plus a default value of 32 for regular http headers. If for some reason this is not enough (custom middleware for example) it can be increased with the extra_header_count constraint.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_account_name_length</span></code> = <code class="docutils literal"><span class="pre">256</span></code></td>
+<td>The maximum number of bytes in the utf8 encoding of an account name.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_container_name_length</span></code> = <code class="docutils literal"><span class="pre">256</span></code></td>
+<td>The maximum number of bytes in the utf8 encoding of a container name.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_file_size</span></code> = <code class="docutils literal"><span class="pre">5368709122</span></code></td>
+<td>The largest normal object that can be saved in the cluster. This is also the limit on the size of each segment of a large object when using the large object manifest support. This value is set in bytes. Setting it to lower than 1MiB will cause some tests to fail. It is STRONGLY recommended to leave this value at the default (5 * 2**30 + 2).</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_header_size</span></code> = <code class="docutils literal"><span class="pre">8192</span></code></td>
+<td>The max number of bytes in the utf8 encoding of each header. Using 8192 as default because eventlet use 8192 as maximum size of header line. You may need to increase this value when using identity v3 API tokens including more than 7 catalog entries. See also include_service_catalog in proxy-server.conf-sample (documented in overview_auth.rst).</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_meta_count</span></code> = <code class="docutils literal"><span class="pre">90</span></code></td>
+<td>The max number of metadata keys that can be stored on a single account, container, or object.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_meta_name_length</span></code> = <code class="docutils literal"><span class="pre">128</span></code></td>
+<td>The max number of bytes in the utf8 encoding of the name portion of a metadata header.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_meta_overall_size</span></code> = <code class="docutils literal"><span class="pre">4096</span></code></td>
+<td>The max number of bytes in the utf8 encoding of the metadata (keys + values).</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_meta_value_length</span></code> = <code class="docutils literal"><span class="pre">256</span></code></td>
+<td>The max number of bytes in the utf8 encoding of a metadata value.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_object_name_length</span></code> = <code class="docutils literal"><span class="pre">1024</span></code></td>
+<td>The max number of bytes in the utf8 encoding of an object name.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">valid_api_versions</span></code> = <code class="docutils literal"><span class="pre">v0,v1,v2</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cluster-health">
+<h2>Cluster health<a class="headerlink" href="#cluster-health" title="Permalink to this headline">¶</a></h2>
+<p>Use the <code class="docutils literal"><span class="pre">swift-dispersion-report</span></code> tool to measure overall cluster health.
+This tool checks if a set of deliberately distributed containers and objects
+are currently in their proper places within the cluster. For instance, a common
+deployment has three replicas of each object. The health of that object can be
+measured by checking if each replica is in its proper place. If only 2 of the 3
+is in place the object&#8217;s health can be said to be at 66.66%, where 100% would
+be perfect. A single object&#8217;s health, especially an older object, usually
+reflects the health of that entire partition the object is in. If you make
+enough objects on a distinct percentage of the partitions in the cluster,you
+get a good estimate of the overall cluster health.</p>
+<p>In practice, about 1% partition coverage seems to balance well between accuracy
+and the amount of time it takes to gather results. To provide this health
+value, you must create an account solely for this usage.  Next, you must place
+the containers and objects throughout the system so that they are on distinct
+partitions. Use the <code class="docutils literal"><span class="pre">swift-dispersion-populate</span></code> tool to create random
+container and object names until they fall on distinct partitions.</p>
+<p>Last, and repeatedly for the life of the cluster, you must run the
+<code class="docutils literal"><span class="pre">swift-dispersion-report</span></code> tool to check the health of each container and
+object.</p>
+<p>These tools must have direct access to the entire cluster and ring files.
+Installing them on a proxy server suffices.</p>
+<p>The <code class="docutils literal"><span class="pre">swift-dispersion-populate</span></code> and <code class="docutils literal"><span class="pre">swift-dispersion-report</span></code> commands both
+use the same <code class="docutils literal"><span class="pre">/etc/swift/dispersion.conf</span></code> configuration file. Example
+<code class="docutils literal"><span class="pre">dispersion.conf</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[dispersion]</span>
+<span class="na">auth_url</span> <span class="o">=</span> <span class="s">http://localhost:8080/auth/v1.0</span>
+<span class="na">auth_user</span> <span class="o">=</span> <span class="s">test:tester</span>
+<span class="na">auth_key</span> <span class="o">=</span> <span class="s">testing</span>
+</pre></div>
+</div>
+<p>You can use configuration options to specify the dispersion coverage, which
+defaults to 1%, retries, concurrency, and so on. However, the defaults are
+usually fine. After the configuration is in place, run the
+<code class="docutils literal"><span class="pre">swift-dispersion-populate</span></code> tool to populate the containers and objects
+throughout the cluster. Now that those containers and objects are in place, you
+can run the <code class="docutils literal"><span class="pre">swift-dispersion-report</span></code> tool to get a dispersion report or view
+the overall health of the cluster. Here is an example of a cluster in perfect
+health:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> swift-dispersion-report
+<span class="go">Queried 2621 containers for dispersion reporting, 19s, 0 retries</span>
+<span class="go">100.00% of container copies found (7863 of 7863)</span>
+<span class="go">Sample represents 1.00% of the container partition space</span>
+
+<span class="go">Queried 2619 objects for dispersion reporting, 7s, 0 retries</span>
+<span class="go">100.00% of object copies found (7857 of 7857)</span>
+<span class="go">Sample represents 1.00% of the object partition space</span>
+</pre></div>
+</div>
+<p>Now, deliberately double the weight of a device in the object ring (with
+replication turned off) and re-run the dispersion report to show what impact
+that has:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> swift-ring-builder object.builder set_weight d0 200
+<span class="gp">$</span> swift-ring-builder object.builder rebalance
+<span class="go">...</span>
+<span class="gp">$</span> swift-dispersion-report
+<span class="go">Queried 2621 containers for dispersion reporting, 8s, 0 retries</span>
+<span class="go">100.00% of container copies found (7863 of 7863)</span>
+<span class="go">Sample represents 1.00% of the container partition space</span>
+
+<span class="go">Queried 2619 objects for dispersion reporting, 7s, 0 retries</span>
+<span class="go">There were 1763 partitions missing one copy.</span>
+<span class="go">77.56% of object copies found (6094 of 7857)</span>
+<span class="go">Sample represents 1.00% of the object partition space</span>
+</pre></div>
+</div>
+<p>You can see the health of the objects in the cluster has gone down
+significantly. Of course, this test environment has just four devices, in a
+production environment with many devices the impact of one device change is
+much less. Next, run the replicators to get everything put back into place and
+then rerun the dispersion report:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span># start object replicators and monitor logs until they&#39;re caught up ...
+$ swift-dispersion-report
+Queried 2621 containers for dispersion reporting, 17s, 0 retries
+100.00% of container copies found (7863 of 7863)
+Sample represents 1.00% of the container partition space
+
+Queried 2619 objects for dispersion reporting, 7s, 0 retries
+100.00% of object copies found (7857 of 7857)
+Sample represents 1.00% of the object partition space
+</pre></div>
+</div>
+<p>Alternatively, the dispersion report can also be output in JSON format. This
+allows it to be more easily consumed by third-party utilities:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> swift-dispersion-report -j
+<span class="go">{&quot;object&quot;: {&quot;retries:&quot;: 0, &quot;missing_two&quot;: 0, &quot;copies_found&quot;: 7863, &quot;missing_one&quot;: 0,</span>
+<span class="go">&quot;copies_expected&quot;: 7863, &quot;pct_found&quot;: 100.0, &quot;overlapping&quot;: 0, &quot;missing_all&quot;: 0}, &quot;container&quot;:</span>
+<span class="go">{&quot;retries:&quot;: 0, &quot;missing_two&quot;: 0, &quot;copies_found&quot;: 12534, &quot;missing_one&quot;: 0, &quot;copies_expected&quot;:</span>
+<span class="go">12534, &quot;pct_found&quot;: 100.0, &quot;overlapping&quot;: 15, &quot;missing_all&quot;: 0}}</span>
+</pre></div>
+</div>
+<table border="1" class="config-ref-table docutils" id="id9">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[dispersion]</span></code> in <code class="docutils literal"><span class="pre">dispersion.conf</span></code></span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">auth_key</span></code> = <code class="docutils literal"><span class="pre">testing</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">auth_url</span></code> = <code class="docutils literal"><span class="pre">http://localhost:8080/auth/v1.0</span></code></td>
+<td>Endpoint for auth server, such as keystone</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">auth_user</span></code> = <code class="docutils literal"><span class="pre">test:tester</span></code></td>
+<td>Default user for dispersion in this context</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">auth_version</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>Indicates which version of auth</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">concurrency</span></code> = <code class="docutils literal"><span class="pre">25</span></code></td>
+<td>Number of replication workers to spawn</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">container_populate</span></code> = <code class="docutils literal"><span class="pre">yes</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">container_report</span></code> = <code class="docutils literal"><span class="pre">yes</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">dispersion_coverage</span></code> = <code class="docutils literal"><span class="pre">1.0</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">dump_json</span></code> = <code class="docutils literal"><span class="pre">no</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">endpoint_type</span></code> = <code class="docutils literal"><span class="pre">publicURL</span></code></td>
+<td>Indicates whether endpoint for auth is public or internal</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">keystone_api_insecure</span></code> = <code class="docutils literal"><span class="pre">no</span></code></td>
+<td>Allow accessing insecure keystone server. The keystone&#8217;s certificate will not be verified.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">object_populate</span></code> = <code class="docutils literal"><span class="pre">yes</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">object_report</span></code> = <code class="docutils literal"><span class="pre">yes</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">project_domain_name</span></code> = <code class="docutils literal"><span class="pre">project_domain</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">project_name</span></code> = <code class="docutils literal"><span class="pre">project</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">retries</span></code> = <code class="docutils literal"><span class="pre">5</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">swift_dir</span></code> = <code class="docutils literal"><span class="pre">/etc/swift</span></code></td>
+<td>Swift configuration directory</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">user_domain_name</span></code> = <code class="docutils literal"><span class="pre">user_domain</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="static-large-object-slo-support">
+<h2>Static Large Object (SLO) support<a class="headerlink" href="#static-large-object-slo-support" title="Permalink to this headline">¶</a></h2>
+<p>This feature is very similar to Dynamic Large Object (DLO) support in that it
+enables the user to upload many objects concurrently and afterwards download
+them as a single object. It is different in that it does not rely on eventually
+consistent container listings to do so.  Instead, a user-defined manifest of
+the object segments is used.</p>
+<p>For more information regarding SLO usage and support, please see: <a class="reference external" href="http://docs.openstack.org/developer/swift/middleware.html#slo-doc">Static Large
+Objects</a>.</p>
+<table border="1" class="config-ref-table docutils" id="id10">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-slo]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_get_time</span></code> = <code class="docutils literal"><span class="pre">86400</span></code></td>
+<td>Time limit on GET requests (seconds)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_manifest_segments</span></code> = <code class="docutils literal"><span class="pre">1000</span></code></td>
+<td>Maximum number of segments.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_manifest_size</span></code> = <code class="docutils literal"><span class="pre">2097152</span></code></td>
+<td>Maximum size of segments.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">min_segment_size</span></code> = <code class="docutils literal"><span class="pre">1048576</span></code></td>
+<td>Minimum size of segments.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">rate_limit_after_segment</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td>Rate limit the download of large object segments after this segment is downloaded.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">rate_limit_segments_per_sec</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>Rate limit large object downloads at this rate. contact for a normal request. You can use &#8216;* replicas&#8217; at the end to have it use the number given times the number of replicas for the ring being used for the request. paste.deploy to use for auth. To use tempauth set to:</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#slo</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="container-quotas">
+<h2>Container quotas<a class="headerlink" href="#container-quotas" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">container_quotas</span></code> middleware implements simple quotas that can be
+imposed on Object Storage containers by a user with the ability to set
+container metadata, most likely the account administrator. This can be useful
+for limiting the scope of containers that are delegated to non-admin users,
+exposed to form POST uploads, or just as a self-imposed sanity check.</p>
+<p>Any object PUT operations that exceed these quotas return a <code class="docutils literal"><span class="pre">Forbidden</span> <span class="pre">(403)</span></code>
+status code.</p>
+<p>Quotas are subject to several limitations: eventual consistency, the timeliness
+of the cached container_info (60 second TTL by default), and it is unable to
+reject chunked transfer uploads that exceed the quota (though once the quota is
+exceeded, new chunked transfers are refused).</p>
+<p>Set quotas by adding meta values to the container. These values are validated
+when you set them:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">X-Container-Meta-Quota-Bytes</span></code></dt>
+<dd>Maximum size of the container, in bytes.</dd>
+<dt><code class="docutils literal"><span class="pre">X-Container-Meta-Quota-Count</span></code></dt>
+<dd>Maximum object count of the container.</dd>
+</dl>
+</div>
+<div class="section" id="account-quotas">
+<h2>Account quotas<a class="headerlink" href="#account-quotas" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">x-account-meta-quota-bytes</span></code> metadata entry must be requests (PUT, POST)
+if a given account quota (in bytes) is exceeded while DELETE requests are still
+allowed.</p>
+<p>The <code class="docutils literal"><span class="pre">x-account-meta-quota-bytes</span></code> metadata entry must be set to store and
+enable the quota. Write requests to this metadata entry are only permitted for
+resellers. There is no account quota limitation on a reseller account even if
+<code class="docutils literal"><span class="pre">x-account-meta-quota-bytes</span></code> is set.</p>
+<p>Any object PUT operations that exceed the quota return a 413 response (request
+entity too large) with a descriptive body.</p>
+<p>The following command uses an admin account that owns the Reseller role to
+set a quota on the test account:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> swift -A http://127.0.0.1:8080/auth/v1.0 -U admin:admin -K admin <span class="se">\</span>
+<span class="go">--os-storage-url http://127.0.0.1:8080/v1/AUTH_test post -m quota-bytes:10000</span>
+</pre></div>
+</div>
+<p>Here is the stat listing of an account where quota has been set:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> swift -A http://127.0.0.1:8080/auth/v1.0 -U test:tester -K testing stat
+<span class="go">Account: AUTH_test</span>
+<span class="go">Containers: 0</span>
+<span class="go">Objects: 0</span>
+<span class="go">Bytes: 0</span>
+<span class="go">Meta Quota-Bytes: 10000</span>
+<span class="go">X-Timestamp: 1374075958.37454</span>
+<span class="go">X-Trans-Id: tx602634cf478546a39b1be-0051e6bc7a</span>
+</pre></div>
+</div>
+<p>This command removes the account quota:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> swift -A http://127.0.0.1:8080/auth/v1.0 -U admin:admin -K admin <span class="se">\</span>
+<span class="go">  --os-storage-url http://127.0.0.1:8080/v1/AUTH_test post -m quota-bytes:</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bulk-delete">
+<h2>Bulk delete<a class="headerlink" href="#bulk-delete" title="Permalink to this headline">¶</a></h2>
+<p>Use <code class="docutils literal"><span class="pre">bulk-delete</span></code> to delete multiple files from an account with a single
+request. Responds to DELETE requests with a header &#8216;X-Bulk-Delete:
+true_value&#8217;. The body of the DELETE request is a new line-separated list of
+files to delete. The files listed must be URL encoded and in the form:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>/container_name/obj_name
+</pre></div>
+</div>
+<p>If all files are successfully deleted (or did not exist), the operation returns
+<code class="docutils literal"><span class="pre">HTTPOk</span></code>. If any files failed to delete, the operation returns
+<code class="docutils literal"><span class="pre">HTTPBadGateway</span></code>. In both cases, the response body is a JSON dictionary that
+shows the number of files that were successfully deleted or not found. The
+files that failed are listed.</p>
+<table border="1" class="config-ref-table docutils" id="id11">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-bulk]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">delete_container_retry_count</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>The parameter is used during a bulk delete of objects and their container. This would frequently fail because it is very likely that all replicated objects have not been deleted by the time the middleware got a successful response. It can be configured the number of retries. And the number of seconds to wait between each retry will be 1.5**retry.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_containers_per_extraction</span></code> = <code class="docutils literal"><span class="pre">10000</span></code></td>
+<td>The maximum numbers of containers per extraction.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_deletes_per_request</span></code> = <code class="docutils literal"><span class="pre">10000</span></code></td>
+<td>The maximum numbers of deletion per request.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">max_failed_deletes</span></code> = <code class="docutils literal"><span class="pre">1000</span></code></td>
+<td>The maximum number of tries to delete before failure.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">max_failed_extractions</span></code> = <code class="docutils literal"><span class="pre">1000</span></code></td>
+<td>The maximum number of tries to extract before failure.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#bulk</span></code></td>
+<td>Entry point of paste.deploy in the server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">yield_frequency</span></code> = <code class="docutils literal"><span class="pre">10</span></code></td>
+<td>In order to keep a connection active during a potentially long bulk request, Swift may return whitespace prepended to the actual response body. This whitespace will be yielded no more than every yield_frequency seconds.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="drive-audit">
+<h2>Drive audit<a class="headerlink" href="#drive-audit" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">swift-drive-audit</span></code> configuration items reference a script that can be
+run by using <code class="docutils literal"><span class="pre">cron</span></code> to watch for bad drives. If errors are detected, it
+unmounts the bad drive so that OpenStack Object Storage can work around it. It
+takes the following options:</p>
+<table border="1" class="config-ref-table docutils" id="id12">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[drive-audit]</span></code> in <code class="docutils literal"><span class="pre">drive-audit.conf</span></code></span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">device_dir</span></code> = <code class="docutils literal"><span class="pre">/srv/node</span></code></td>
+<td>Directory devices are mounted under</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">error_limit</span></code> = <code class="docutils literal"><span class="pre">1</span></code></td>
+<td>Number of errors to find before a device is unmounted</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_address</span></code> = <code class="docutils literal"><span class="pre">/dev/log</span></code></td>
+<td>Location where syslog sends the logs to</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_facility</span></code> = <code class="docutils literal"><span class="pre">LOG_LOCAL0</span></code></td>
+<td>Syslog log facility</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_file_pattern</span></code> = <code class="docutils literal"><span class="pre">/var/log/kern.*[!.][!g][!z]</span></code></td>
+<td>Location of the log file with globbing pattern to check against device errors locate device blocks with errors in the log file</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_level</span></code> = <code class="docutils literal"><span class="pre">INFO</span></code></td>
+<td>Logging level</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_max_line_length</span></code> = <code class="docutils literal"><span class="pre">0</span></code></td>
+<td>Caps the length of log lines to the value given; no limit if set to 0, the default.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">log_name</span></code> = <code class="docutils literal"><span class="pre">drive-audit</span></code></td>
+<td>Label used when logging</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">log_to_console</span></code> = <code class="docutils literal"><span class="pre">False</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">minutes</span></code> = <code class="docutils literal"><span class="pre">60</span></code></td>
+<td>Number of minutes to look back in</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">recon_cache_path</span></code> = <code class="docutils literal"><span class="pre">/var/cache/swift</span></code></td>
+<td>Directory where stats for a few items will be stored</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">regex_pattern_1</span></code> = <code class="docutils literal"><span class="pre">\berror\b.*\b(dm-[0-9]{1,2}\d?)\b</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">unmount_failed_device</span></code> = <code class="docutils literal"><span class="pre">True</span></code></td>
+<td>No help text available for this option.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="form-post">
+<h2>Form post<a class="headerlink" href="#form-post" title="Permalink to this headline">¶</a></h2>
+<p>Middleware that enables you to upload objects to a cluster by using an HTML
+form POST.</p>
+<p>The format of the form is:</p>
+<div class="highlight-html"><div class="highlight"><pre><span></span><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;&lt;swift-url&gt;&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span>
+      <span class="na">enctype</span><span class="o">=</span><span class="s">&quot;multipart/form-data&quot;</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;redirect&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;redirect-url&gt;&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;max_file_size&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;bytes&gt;&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;max_file_count&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;count&gt;&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;expires&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;unix-timestamp&gt;&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;signature&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;hmac&gt;&quot;</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;x_delete_at&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;unix-timestamp&gt;&quot;</span><span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;hidden&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;x_delete_after&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;&lt;seconds&gt;&quot;</span><span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;file&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;file1&quot;</span> <span class="p">/&gt;&lt;</span><span class="nt">br</span> <span class="p">/&gt;</span>
+  <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+<p>In the form:</p>
+<dl class="docutils">
+<dt><code class="docutils literal"><span class="pre">action=&quot;&lt;swift-url&gt;&quot;</span></code></dt>
+<dd><p class="first">The URL to the Object Storage destination, such as
+<a class="reference external" href="https://swift-cluster.example.com/v1/AUTH_account/container/object_prefix">https://swift-cluster.example.com/v1/AUTH_account/container/object_prefix</a>.</p>
+<p>The name of each uploaded file is appended to the specified <code class="docutils literal"><span class="pre">swift-url</span></code>.
+So, you can upload directly to the root of container with a URL like
+<a class="reference external" href="https://swift-cluster.example.com/v1/AUTH_account/container/">https://swift-cluster.example.com/v1/AUTH_account/container/</a>.</p>
+<p class="last">Optionally, you can include an object prefix to separate different users&#8217;
+uploads, such as
+<a class="reference external" href="https://swift-cluster.example.com/v1/AUTH_account/container/object_prefix">https://swift-cluster.example.com/v1/AUTH_account/container/object_prefix</a>.</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">method=&quot;POST&quot;</span></code></dt>
+<dd>The form <code class="docutils literal"><span class="pre">method</span></code> must be POST.</dd>
+<dt><code class="docutils literal"><span class="pre">enctype=&quot;multipart/form-data</span></code></dt>
+<dd>The <code class="docutils literal"><span class="pre">enctype</span></code> must be set to <code class="docutils literal"><span class="pre">multipart/form-data</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">name=&quot;redirect&quot;</span></code></dt>
+<dd>The URL to which to redirect the browser after the upload completes.
+The URL has status and message query parameters added to it that
+indicate the HTTP status code for the upload and, optionally,
+additional error information. The 2<em>nn</em> status code indicates
+success. If an error occurs, the URL might include error information,
+such as <code class="docutils literal"><span class="pre">&quot;max_file_size</span> <span class="pre">exceeded&quot;</span></code>.</dd>
+<dt><code class="docutils literal"><span class="pre">name=&quot;max_file_size&quot;</span></code></dt>
+<dd>Required. The maximum number of bytes that can be uploaded in a single file
+upload.</dd>
+<dt><code class="docutils literal"><span class="pre">name=&quot;max_file_count&quot;</span></code></dt>
+<dd>Required. The maximum number of files that can be uploaded with the form.</dd>
+<dt><code class="docutils literal"><span class="pre">name=&quot;expires&quot;</span></code></dt>
+<dd><p class="first">The expiration date and time for the form in <a class="reference external" href="https://en.wikipedia.org/wiki/Unix_time">UNIX Epoch time stamp format</a>. After this date and time, the
+form is no longer valid.</p>
+<p class="last">For example, <code class="docutils literal"><span class="pre">1440619048</span></code> is equivalent to <code class="docutils literal"><span class="pre">Mon,</span> <span class="pre">Wed,</span> <span class="pre">26</span> <span class="pre">Aug</span> <span class="pre">2015</span>
+<span class="pre">19:57:28</span> <span class="pre">GMT</span></code>.</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">name=&quot;signature&quot;</span></code></dt>
+<dd><p class="first">The HMAC-SHA1 signature of the form. This sample Python code shows
+how to compute the signature:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">from</span> <span class="nn">hashlib</span> <span class="kn">import</span> <span class="n">sha1</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/v1/account/container/object_prefix&#39;</span>
+<span class="n">redirect</span> <span class="o">=</span> <span class="s1">&#39;https://myserver.com/some-page&#39;</span>
+<span class="n">max_file_size</span> <span class="o">=</span> <span class="mi">104857600</span>
+<span class="n">max_file_count</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">expires</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="mi">600</span><span class="p">)</span>
+<span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;mykey&#39;</span>
+<span class="n">hmac_body</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">redirect</span><span class="p">,</span>
+    <span class="n">max_file_size</span><span class="p">,</span> <span class="n">max_file_count</span><span class="p">,</span> <span class="n">expires</span><span class="p">)</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">hmac_body</span><span class="p">,</span> <span class="n">sha1</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The key is the value of the <code class="docutils literal"><span class="pre">X-Account-Meta-Temp-URL-Key</span></code> header on the
+account.</p>
+<p>Use the full path from the <code class="docutils literal"><span class="pre">/v1/</span></code> value and onward.</p>
+<p class="last">During testing, you can use the <code class="docutils literal"><span class="pre">swift-form-signature</span></code> command-line tool
+to compute the <code class="docutils literal"><span class="pre">expires</span></code> and <code class="docutils literal"><span class="pre">signature</span></code> values.</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">name=&quot;x_delete_at&quot;</span></code></dt>
+<dd><p class="first">The date and time in <a class="reference external" href="https://en.wikipedia.org/wiki/Unix_time">UNIX Epoch time stamp format</a> when the object will be
+removed.</p>
+<p>For example, <code class="docutils literal"><span class="pre">1440619048</span></code> is equivalent to <code class="docutils literal"><span class="pre">Mon,</span> <span class="pre">Wed,</span> <span class="pre">26</span> <span class="pre">Aug</span> <span class="pre">2015</span>
+<span class="pre">19:57:28</span> <span class="pre">GMT</span></code>.</p>
+<p class="last">This attribute enables you to specify the <code class="docutils literal"><span class="pre">X-Delete-</span> <span class="pre">At</span></code> header value in
+the form POST.</p>
+</dd>
+<dt><code class="docutils literal"><span class="pre">name=&quot;x_delete_after&quot;</span></code></dt>
+<dd>The number of seconds after which the object is removed. Internally, the
+Object Storage system stores this value in the <code class="docutils literal"><span class="pre">X-Delete-At</span></code> metadata
+item. This attribute enables you to specify the <code class="docutils literal"><span class="pre">X-Delete-After</span></code> header
+value in the form POST.</dd>
+<dt><code class="docutils literal"><span class="pre">type=&quot;file&quot;</span> <span class="pre">name=&quot;filexx&quot;</span></code></dt>
+<dd>Optional. One or more files to upload. Must appear after the other
+attributes to be processed correctly. If attributes come after the <code class="docutils literal"><span class="pre">file</span></code>
+attribute, they are not sent with the sub- request because on the server
+side, all attributes in the file cannot be parsed unless the whole file is
+read into memory and the server does not have enough memory to service these
+requests. So, attributes that follow the <code class="docutils literal"><span class="pre">file</span></code> attribute are ignored.</dd>
+</dl>
+<table border="1" class="config-ref-table docutils" id="id13">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-formpost]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id13" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#formpost</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="static-web-sites">
+<h2>Static web sites<a class="headerlink" href="#static-web-sites" title="Permalink to this headline">¶</a></h2>
+<p>When configured, this middleware serves container data as a static web site
+with index file and error file resolution and optional file listings. This mode
+is normally only active for anonymous requests.</p>
+<table border="1" class="config-ref-table docutils" id="id14">
+<caption><span class="caption-text">Description of configuration options for <code class="docutils literal"><span class="pre">[filter-staticweb]</span></code> in <code class="docutils literal"><span class="pre">proxy-server.conf</span></code></span><a class="headerlink" href="#id14" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration option = Default value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">use</span></code> = <code class="docutils literal"><span class="pre">egg:swift#staticweb</span></code></td>
+<td>Entry point of paste.deploy in the server</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="rsyncd.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Rsyncd configuration"></i></a>
+          
+          
+            <a href="configure-s3.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Configure Object Storage with the S3 API"></i></a>
+          
+            <a id="logABugLink3" href="" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../index.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../block-storage.html">Block Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../networking.html">Networking service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../object-storage.html">Object Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="about.html">Introduction to Object Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-service-conf.html">Object Storage general service configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object-server.html">Object server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="object-expirer.html">Object expirer configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-server.html">Container server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-sync-realms.html">Container sync realms configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container-reconciler.html">Container reconciler configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="account-server.html">Account server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="proxy-server.html">Proxy server configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memcache.html">Proxy server memcache configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rsyncd.html">Rsyncd configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Configure Object Storage features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configure-s3.html">Configure Object Storage with the S3 API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="listendpoints.html">Endpoint listing middleware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logs.html">Object storage log files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tables/conf-changes/swift.html">New, updated, and deprecated options in Newton for OpenStack Object Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS --

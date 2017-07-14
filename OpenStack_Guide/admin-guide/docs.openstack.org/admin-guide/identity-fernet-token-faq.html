@@ -1,0 +1,756 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/identity-fernet-token-faq.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:02:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Fernet - Frequently Asked Questions</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Fernet - Frequently Asked Questions</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="identity-token-binding.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Configure Identity service for token binding"></i></a>
+    
+    
+    <a href="identity-use-trusts.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Use trusts"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Fernet - Frequently Asked Questions</a><ul>
+<li><a class="reference internal" href="#what-are-the-different-types-of-keys">What are the different types of keys?</a></li>
+<li><a class="reference internal" href="#so-how-does-a-staged-key-help-me-and-why-do-i-care-about-it">So, how does a staged key help me and why do I care about it?</a></li>
+<li><a class="reference internal" href="#where-do-i-put-my-key-repository">Where do I put my key repository?</a></li>
+<li><a class="reference internal" href="#what-is-the-recommended-way-to-rotate-and-distribute-keys">What is the recommended way to rotate and distribute keys?</a></li>
+<li><a class="reference internal" href="#do-fernet-tokens-still-expire">Do fernet tokens still expire?</a></li>
+<li><a class="reference internal" href="#why-should-i-choose-fernet-tokens-over-uuid-tokens">Why should I choose fernet tokens over UUID tokens?</a></li>
+<li><a class="reference internal" href="#why-should-i-choose-fernet-tokens-over-pki-or-pkiz-tokens">Why should I choose fernet tokens over PKI or PKIZ tokens?</a></li>
+<li><a class="reference internal" href="#should-i-rotate-and-distribute-keys-from-the-same-keystone-node-every-rotation">Should I rotate and distribute keys from the same keystone node every rotation?</a></li>
+<li><a class="reference internal" href="#how-do-i-add-new-keystone-nodes-to-a-deployment">How do I add new keystone nodes to a deployment?</a></li>
+<li><a class="reference internal" href="#how-should-i-approach-key-distribution">How should I approach key distribution?</a></li>
+<li><a class="reference internal" href="#how-long-should-i-keep-my-keys-around">How long should I keep my keys around?</a></li>
+<li><a class="reference internal" href="#is-a-fernet-token-still-a-bearer-token">Is a fernet token still a bearer token?</a></li>
+<li><a class="reference internal" href="#what-if-i-need-to-revoke-all-my-tokens">What if I need to revoke all my tokens?</a></li>
+<li><a class="reference internal" href="#what-can-an-attacker-do-if-they-compromise-a-fernet-key-in-my-deployment">What can an attacker do if they compromise a fernet key in my deployment?</a></li>
+<li><a class="reference internal" href="#i-rotated-keys-and-now-tokens-are-invalidating-early-what-did-i-do">I rotated keys and now tokens are invalidating early, what did I do?</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="fernet-frequently-asked-questions">
+<h1>Fernet - Frequently Asked Questions<a class="headerlink" href="#fernet-frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
+<p>The following questions have been asked periodically since the initial release
+of the fernet token format in Kilo.</p>
+<div class="section" id="what-are-the-different-types-of-keys">
+<h2>What are the different types of keys?<a class="headerlink" href="#what-are-the-different-types-of-keys" title="Permalink to this headline">¶</a></h2>
+<p>A key repository is required by keystone in order to create fernet tokens.
+These keys are used to encrypt and decrypt the information that makes up the
+payload of the token. Each key in the repository can have one of three states.
+The state of the key determines how keystone uses a key with fernet tokens. The
+different types are as follows:</p>
+<dl class="docutils">
+<dt>Primary key:</dt>
+<dd>There is only ever one primary key in a key repository. The primary key is
+allowed to encrypt and decrypt tokens. This key is always named as the
+highest index in the repository.</dd>
+<dt>Secondary key:</dt>
+<dd>A secondary key was at one point a primary key, but has been demoted in place
+of another primary key. It is only allowed to decrypt tokens. Since it was
+the primary at some point in time, its existence in the key repository is
+justified. Keystone needs to be able to decrypt tokens that were created with
+old primary keys.</dd>
+<dt>Staged key:</dt>
+<dd>The staged key is a special key that shares some similarities with secondary
+keys. There can only ever be one staged key in a repository and it must
+exist. Just like secondary keys, staged keys have the ability to decrypt
+tokens. Unlike secondary keys, staged keys have never been a primary key. In
+fact, they are opposites since the staged key will always be the next primary
+key. This helps clarify the name because they are the next key staged to be
+the primary key. This key is always named as <code class="docutils literal"><span class="pre">0</span></code> in the key repository.</dd>
+</dl>
+</div>
+<div class="section" id="so-how-does-a-staged-key-help-me-and-why-do-i-care-about-it">
+<h2>So, how does a staged key help me and why do I care about it?<a class="headerlink" href="#so-how-does-a-staged-key-help-me-and-why-do-i-care-about-it" title="Permalink to this headline">¶</a></h2>
+<p>The fernet keys have a natural lifecycle. Each key starts as a staged key, is
+promoted to be the primary key, and then demoted to be a secondary key. New
+tokens can only be encrypted with a primary key. Secondary and staged keys are
+never used to encrypt token. The staged key is a special key given the order of
+events and the attributes of each type of key. The staged key is the only key
+in the repository that has not had a chance to encrypt any tokens yet, but it
+is still allowed to decrypt tokens. As an operator, this gives you the chance
+to perform a key rotation on one keystone node, and distribute the new key set
+over a span of time. This does not require the distribution to take place in an
+ultra short period of time. Tokens encrypted with a primary key can be
+decrypted, and validated, on other nodes where that key is still staged.</p>
+</div>
+<div class="section" id="where-do-i-put-my-key-repository">
+<h2>Where do I put my key repository?<a class="headerlink" href="#where-do-i-put-my-key-repository" title="Permalink to this headline">¶</a></h2>
+<p>The key repository is specified using the <code class="docutils literal"><span class="pre">key_repository</span></code> option in the
+keystone configuration file. The keystone process should be able to read and
+write to this location but it should be kept secret otherwise. Currently,
+keystone only supports file-backed key repositories.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[fernet_tokens]</span>
+<span class="na">key_repository</span> <span class="o">=</span> <span class="s">/etc/keystone/fernet-keys/</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="what-is-the-recommended-way-to-rotate-and-distribute-keys">
+<h2>What is the recommended way to rotate and distribute keys?<a class="headerlink" href="#what-is-the-recommended-way-to-rotate-and-distribute-keys" title="Permalink to this headline">¶</a></h2>
+<p>The <strong class="command">keystone-manage</strong> command line utility includes a key rotation
+mechanism. This mechanism will initialize and rotate keys but does not make
+an effort to distribute keys across keystone nodes. The distribution of keys
+across a keystone deployment is best handled through configuration management
+tooling. Use <strong class="command">keystone-manage fernet_rotate</strong> to rotate the key
+repository.</p>
+</div>
+<div class="section" id="do-fernet-tokens-still-expire">
+<h2>Do fernet tokens still expire?<a class="headerlink" href="#do-fernet-tokens-still-expire" title="Permalink to this headline">¶</a></h2>
+<p>Yes, fernet tokens can expire just like any other keystone token formats.</p>
+</div>
+<div class="section" id="why-should-i-choose-fernet-tokens-over-uuid-tokens">
+<h2>Why should I choose fernet tokens over UUID tokens?<a class="headerlink" href="#why-should-i-choose-fernet-tokens-over-uuid-tokens" title="Permalink to this headline">¶</a></h2>
+<p>Even though fernet tokens operate very similarly to UUID tokens, they do not
+require persistence. The keystone token database no longer suffers bloat as a
+side effect of authentication. Pruning expired tokens from the token database
+is no longer required when using fernet tokens. Because fernet tokens do not
+require persistence, they do not have to be replicated. As long as each
+keystone node shares the same key repository, fernet tokens can be created and
+validated instantly across nodes.</p>
+</div>
+<div class="section" id="why-should-i-choose-fernet-tokens-over-pki-or-pkiz-tokens">
+<h2>Why should I choose fernet tokens over PKI or PKIZ tokens?<a class="headerlink" href="#why-should-i-choose-fernet-tokens-over-pki-or-pkiz-tokens" title="Permalink to this headline">¶</a></h2>
+<p>The arguments for using fernet over PKI and PKIZ remain the same as UUID, in
+addition to the fact that fernet tokens are much smaller than PKI and PKIZ
+tokens. PKI and PKIZ tokens still require persistent storage and can sometimes
+cause issues due to their size. This issue is mitigated when switching to
+fernet because fernet tokens are kept under a 250 byte limit. PKI and PKIZ
+tokens typically exceed 1600 bytes in length. The length of a PKI or PKIZ token
+is dependent on the size of the deployment. Bigger service catalogs will result
+in longer token lengths. This pattern does not exist with fernet tokens because
+the contents of the encrypted payload is kept to a minimum.</p>
+</div>
+<div class="section" id="should-i-rotate-and-distribute-keys-from-the-same-keystone-node-every-rotation">
+<h2>Should I rotate and distribute keys from the same keystone node every rotation?<a class="headerlink" href="#should-i-rotate-and-distribute-keys-from-the-same-keystone-node-every-rotation" title="Permalink to this headline">¶</a></h2>
+<p>No, but the relationship between rotation and distribution should be lock-step.
+Once you rotate keys on one keystone node, the key repository from that node
+should be distributed to the rest of the cluster. Once you confirm that each
+node has the same key repository state, you could rotate and distribute from
+any other node in the cluster.</p>
+<p>If the rotation and distribution are not lock-step, a single keystone node in
+the deployment will create tokens with a primary key that no other node has as
+a staged key. This will cause tokens generated from one keystone node to fail
+validation on other keystone nodes.</p>
+</div>
+<div class="section" id="how-do-i-add-new-keystone-nodes-to-a-deployment">
+<h2>How do I add new keystone nodes to a deployment?<a class="headerlink" href="#how-do-i-add-new-keystone-nodes-to-a-deployment" title="Permalink to this headline">¶</a></h2>
+<p>The keys used to create fernet tokens should be treated like super secret
+configuration files, similar to an SSL secret key. Before a node is allowed to
+join an existing cluster, issuing and validating tokens, it should have the
+same key repository as the rest of the nodes in the cluster.</p>
+</div>
+<div class="section" id="how-should-i-approach-key-distribution">
+<h2>How should I approach key distribution?<a class="headerlink" href="#how-should-i-approach-key-distribution" title="Permalink to this headline">¶</a></h2>
+<p>Remember that key distribution is only required in multi-node keystone
+deployments. If you only have one keystone node serving requests in your
+deployment, key distribution is unnecessary.</p>
+<p>Key distribution is a problem best approached from the deployment&#8217;s current
+configuration management system. Since not all deployments use the same
+configuration management systems, it makes sense to explore options around what
+is already available for managing keys, while keeping the secrecy of the keys
+in mind. Many configuration management tools can leverage something like
+<code class="docutils literal"><span class="pre">rsync</span></code> to manage key distribution.</p>
+<p>Key rotation is a single operation that promotes the current staged key to
+primary, creates a new staged key, and prunes old secondary keys. It is easiest
+to do this on a single node and verify the rotation took place properly before
+distributing the key repository to the rest of the cluster. The concept behind
+the staged key breaks the expectation that key rotation and key distribution
+have to be done in a single step. With the staged key, we have time to inspect
+the new key repository before syncing state with the rest of the cluster. Key
+distribution should be an operation that can run in succession until it
+succeeds. The following might help illustrate the isolation between key
+rotation and key distribution.</p>
+<ol class="arabic simple">
+<li>Ensure all keystone nodes in the deployment have the same key repository.</li>
+<li>Pick a keystone node in the cluster to rotate from.</li>
+<li>Rotate keys.<ol class="arabic">
+<li>Was it successful?<ol class="arabic">
+<li>If no, investigate issues with the particular keystone node you
+rotated keys on. Fernet keys are small and the operation for
+rotation is trivial. There should not be much room for error in key
+rotation. It is possible that the user does not have the ability to
+write new keys to the key repository. Log output from
+<code class="docutils literal"><span class="pre">keystone-manage</span> <span class="pre">fernet_rotate</span></code> should give more information into
+specific failures.</li>
+<li>If yes, you should see a new staged key. The old staged key should
+be the new primary. Depending on the <code class="docutils literal"><span class="pre">max_active_keys</span></code> limit you
+might have secondary keys that were pruned. At this point, the node
+that you rotated on will be creating fernet tokens with a primary
+key that all other nodes should have as the staged key. This is why
+we checked the state of all key repositories in Step one. All other
+nodes in the cluster should be able to decrypt tokens created with
+the new primary key. At this point, we are ready to distribute the
+new key set.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Distribute the new key repository.<ol class="arabic">
+<li>Was it successful?<ol class="arabic">
+<li>If yes, you should be able to confirm that all nodes in the cluster
+have the same key repository that was introduced in Step 3.  All
+nodes in the cluster will be creating tokens with the primary key
+that was promoted in Step 3. No further action is required until the
+next schedule key rotation.</li>
+<li>If no, try distributing again. Remember that we already rotated the
+repository and performing another rotation at this point will
+result in tokens that cannot be validated across certain hosts.
+Specifically, the hosts that did not get the latest key set. You
+should be able to distribute keys until it is successful. If certain
+nodes have issues syncing, it could be permission or network issues
+and those should be resolved before subsequent rotations.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="how-long-should-i-keep-my-keys-around">
+<h2>How long should I keep my keys around?<a class="headerlink" href="#how-long-should-i-keep-my-keys-around" title="Permalink to this headline">¶</a></h2>
+<p>The fernet tokens that keystone creates are only secure as the keys creating
+them. With staged keys the penalty of key rotation is low, allowing you to err
+on the side of security and rotate weekly, daily, or even hourly.  Ultimately,
+this should be less time than it takes an attacker to break a <code class="docutils literal"><span class="pre">AES256</span></code> key
+and a <code class="docutils literal"><span class="pre">SHA256</span> <span class="pre">HMAC</span></code>.</p>
+</div>
+<div class="section" id="is-a-fernet-token-still-a-bearer-token">
+<h2>Is a fernet token still a bearer token?<a class="headerlink" href="#is-a-fernet-token-still-a-bearer-token" title="Permalink to this headline">¶</a></h2>
+<p>Yes, and they follow exactly the same validation path as UUID tokens, with the
+exception of being written to, and read from, a back end. If someone
+compromises your fernet token, they have the power to do all the operations you
+are allowed to do.</p>
+</div>
+<div class="section" id="what-if-i-need-to-revoke-all-my-tokens">
+<h2>What if I need to revoke all my tokens?<a class="headerlink" href="#what-if-i-need-to-revoke-all-my-tokens" title="Permalink to this headline">¶</a></h2>
+<p>To invalidate every token issued from keystone and start fresh, remove the
+current key repository, create a new key set, and redistribute it to all nodes
+in the cluster. This will render every token issued from keystone as invalid
+regardless if the token has actually expired. When a client goes to
+re-authenticate, the new token will have been created with a new fernet key.</p>
+</div>
+<div class="section" id="what-can-an-attacker-do-if-they-compromise-a-fernet-key-in-my-deployment">
+<h2>What can an attacker do if they compromise a fernet key in my deployment?<a class="headerlink" href="#what-can-an-attacker-do-if-they-compromise-a-fernet-key-in-my-deployment" title="Permalink to this headline">¶</a></h2>
+<p>If any key used in the key repository is compromised, an attacker will be able
+to build their own tokens. If they know the ID of an administrator on a
+project, they could generate administrator tokens for the project. They will be
+able to generate their own tokens until the compromised key has been removed
+from from the repository.</p>
+</div>
+<div class="section" id="i-rotated-keys-and-now-tokens-are-invalidating-early-what-did-i-do">
+<h2>I rotated keys and now tokens are invalidating early, what did I do?<a class="headerlink" href="#i-rotated-keys-and-now-tokens-are-invalidating-early-what-did-i-do" title="Permalink to this headline">¶</a></h2>
+<p>Using fernet tokens requires some awareness around token expiration and the key
+lifecycle. You do not want to rotate so often that secondary keys are removed
+that might still be needed to decrypt unexpired tokens. If this happens, you
+will not be able to decrypt the token because the key the was used to encrypt
+it is now gone. Only remove keys that you know are not being used to encrypt or
+decrypt tokens.</p>
+<p>For example, your token is valid for 24 hours and we want to rotate keys every
+six hours. We will need to make sure tokens that were created at 08:00 AM on
+Monday are still valid at 07:00 AM on Tuesday, assuming they were not
+prematurely revoked. To accomplish this, we will want to make sure we set
+<code class="docutils literal"><span class="pre">max_active_keys=6</span></code> in our keystone configuration file. This will allow us to
+hold all keys that might still be required to validate a previous token, but
+keeps the key repository limited to only the keys that are needed.</p>
+<p>The number of <code class="docutils literal"><span class="pre">max_active_keys</span></code> for a deployment can be determined by
+dividing the token lifetime, in hours, by the frequency of rotation in hours
+and adding two. Better illustrated as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">token_expiration</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">rotation_frequency</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">max_active_keys</span> <span class="o">=</span> <span class="p">(</span><span class="n">token_expiration</span> <span class="o">/</span> <span class="n">rotation_frequency</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>The reason for adding two additional keys to the count is to include the staged
+key and a buffer key. This can be shown based on the previous example. We
+initially setup the key repository at 6:00 AM on Monday, and the initial state
+looks like:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ls -la /etc/keystone/fernet-keys/
+<span class="go">drwx------ 2 keystone keystone 4096 .</span>
+<span class="go">drwxr-xr-x 3 keystone keystone 4096 ..</span>
+<span class="go">-rw------- 1 keystone keystone   44 0    (staged key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 1    (primary key)</span>
+</pre></div>
+</div>
+<p>All tokens created after 6:00 AM are encrypted with key <code class="docutils literal"><span class="pre">1</span></code>. At 12:00 PM we
+will rotate keys again, resulting in,</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ls -la /etc/keystone/fernet-keys/
+<span class="go">drwx------ 2 keystone keystone 4096 .</span>
+<span class="go">drwxr-xr-x 3 keystone keystone 4096 ..</span>
+<span class="go">-rw------- 1 keystone keystone   44 0    (staged key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 1    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 2    (primary key)</span>
+</pre></div>
+</div>
+<p>We are still able to validate tokens created between 6:00 - 11:59 AM because
+the <code class="docutils literal"><span class="pre">1</span></code> key still exists as a secondary key. All tokens issued after 12:00 PM
+will be encrypted with key <code class="docutils literal"><span class="pre">2</span></code>. At 6:00 PM we do our next rotation, resulting
+in:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ls -la /etc/keystone/fernet-keys/
+<span class="go">drwx------ 2 keystone keystone 4096 .</span>
+<span class="go">drwxr-xr-x 3 keystone keystone 4096 ..</span>
+<span class="go">-rw------- 1 keystone keystone   44 0    (staged key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 1    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 2    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 3    (primary key)</span>
+</pre></div>
+</div>
+<p>It is still possible to validate tokens issued from 6:00 AM - 5:59 PM because
+keys <code class="docutils literal"><span class="pre">1</span></code> and <code class="docutils literal"><span class="pre">2</span></code> exist as secondary keys. Every token issued until 11:59 PM
+will be encrypted with key <code class="docutils literal"><span class="pre">3</span></code>, and at 12:00 AM we do our next rotation:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ls -la /etc/keystone/fernet-keys/
+<span class="go">drwx------ 2 keystone keystone 4096 .</span>
+<span class="go">drwxr-xr-x 3 keystone keystone 4096 ..</span>
+<span class="go">-rw------- 1 keystone keystone   44 0    (staged key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 1    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 2    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 3    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 4    (primary key)</span>
+</pre></div>
+</div>
+<p>Just like before, we can still validate tokens issued from 6:00 AM the previous
+day until 5:59 AM today because keys <code class="docutils literal"><span class="pre">1</span></code> - <code class="docutils literal"><span class="pre">4</span></code> are present. At 6:00 AM,
+tokens issued from the previous day will start to expire and we do our next
+scheduled rotation:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ls -la /etc/keystone/fernet-keys/
+<span class="go">drwx------ 2 keystone keystone 4096 .</span>
+<span class="go">drwxr-xr-x 3 keystone keystone 4096 ..</span>
+<span class="go">-rw------- 1 keystone keystone   44 0    (staged key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 1    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 2    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 3    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 4    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 5    (primary key)</span>
+</pre></div>
+</div>
+<p>Tokens will naturally expire after 6:00 AM, but we will not be able to remove
+key <code class="docutils literal"><span class="pre">1</span></code> until the next rotation because it encrypted all tokens from 6:00 AM
+to 12:00 PM the day before. Once we do our next rotation, which is at 12:00 PM,
+the <code class="docutils literal"><span class="pre">1</span></code> key will be pruned from the repository:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> ls -la /etc/keystone/fernet-keys/
+<span class="go">drwx------ 2 keystone keystone 4096 .</span>
+<span class="go">drwxr-xr-x 3 keystone keystone 4096 ..</span>
+<span class="go">-rw------- 1 keystone keystone   44 0    (staged key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 2    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 3    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 4    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 5    (secondary key)</span>
+<span class="go">-rw------- 1 keystone keystone   44 6    (primary key)</span>
+</pre></div>
+</div>
+<p>If keystone were to receive a token that was created between 6:00 AM and 12:00
+PM the day before, encrypted with the <code class="docutils literal"><span class="pre">1</span></code> key, it would not be valid because
+it was already expired. This makes it possible for us to remove the <code class="docutils literal"><span class="pre">1</span></code> key
+from the repository without negative validation side-effects.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="identity-token-binding.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Configure Identity service for token binding"></i></a>
+          
+          
+            <a href="identity-use-trusts.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Use trusts"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="identity-management.html">Identity management</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="identity-concepts.html">Identity concepts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-certificates-for-pki.html">Certificates for PKI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-domain-specific-config.html">Domain-specific configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-external-authentication.html">External authentication with Identity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-integrate-with-ldap.html">Integrate Identity with LDAP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-tokens.html">Keystone tokens</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-token-binding.html">Configure Identity service for token binding</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fernet - Frequently Asked Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-use-trusts.html">Use trusts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-caching-layer.html">Caching layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-security-compliance.html">Security compliance and PCI-DSS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-keystone-usage-and-features.html">Example usage and Identity features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-auth-token-middleware.html">Authentication middleware with user name and password</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-service-api-protection.html">Identity API protection with role-based access control (RBAC)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="identity-troubleshoot.html">Troubleshoot the Identity service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compute.html">Compute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "identity-fernet-token-faq" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Fernet - Frequently Asked Questions in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/identity-fernet-token-faq.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 08:02:30 GMT -->
+</html>

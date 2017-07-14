@@ -1,0 +1,682 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-cpu-topologies.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:14:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: CPU topologies</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="_static/css/combined.css" rel="stylesheet">
+<link href="_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>CPU topologies</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="compute-pci-passthrough.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Attaching physical PCI devices to guests"></i></a>
+    
+    
+    <a href="compute-huge-pages.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Huge pages"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">CPU topologies</a><ul>
+<li><a class="reference internal" href="#smp-numa-and-smt">SMP, NUMA, and SMT</a></li>
+<li><a class="reference internal" href="#customizing-instance-numa-placement-policies">Customizing instance NUMA placement policies</a></li>
+<li><a class="reference internal" href="#customizing-instance-cpu-pinning-policies">Customizing instance CPU pinning policies</a></li>
+<li><a class="reference internal" href="#customizing-instance-cpu-topologies">Customizing instance CPU topologies</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="cpu-topologies">
+<span id="compute-cpu-topologies"></span><h1>CPU topologies<a class="headerlink" href="#cpu-topologies" title="Permalink to this headline">¶</a></h1>
+<p>The NUMA topology and CPU pinning features in OpenStack provide high-level
+control over how instances run on hypervisor CPUs and the topology of virtual
+CPUs available to instances. These features help minimize latency and maximize
+performance.</p>
+<div class="section" id="smp-numa-and-smt">
+<h2>SMP, NUMA, and SMT<a class="headerlink" href="#smp-numa-and-smt" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Symmetric multiprocessing (SMP)</dt>
+<dd>SMP is a design found in many modern multi-core systems. In an SMP system,
+there are two or more CPUs and these CPUs are connected by some interconnect.
+This provides CPUs with equal access to system resources like memory and
+input/output ports.</dd>
+<dt>Non-uniform memory access (NUMA)</dt>
+<dd>NUMA is a derivative of the SMP design that is found in many multi-socket
+systems. In a NUMA system, system memory is divided into cells or nodes that
+are associated with particular CPUs. Requests for memory on other nodes are
+possible through an interconnect bus. However, bandwidth across this shared
+bus is limited. As a result, competition for this resource can incur
+performance penalties.</dd>
+<dt>Simultaneous Multi-Threading (SMT)</dt>
+<dd>SMT is a design complementary to SMP. Whereas CPUs in SMP systems share a bus
+and some memory, CPUs in SMT systems share many more components. CPUs that
+share components are known as thread siblings.  All CPUs appear as usable
+CPUs on the system and can execute workloads in parallel. However, as with
+NUMA, threads compete for shared resources.</dd>
+</dl>
+<p>In OpenStack, SMP CPUs are known as <em>cores</em>, NUMA cells or nodes are known as
+<em>sockets</em>, and SMT CPUs are known as <em>threads</em>. For example, a quad-socket,
+eight core system with Hyper-Threading would have four sockets, eight cores per
+socket and two threads per core, for a total of 64 CPUs.</p>
+</div>
+<div class="section" id="customizing-instance-numa-placement-policies">
+<h2>Customizing instance NUMA placement policies<a class="headerlink" href="#customizing-instance-numa-placement-policies" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The functionality described below is currently only supported by the
+libvirt/KVM driver.</p>
+</div>
+<p>When running workloads on NUMA hosts, it is important that the vCPUs executing
+processes are on the same NUMA node as the memory used by these processes.
+This ensures all memory accesses are local to the node and thus do not consume
+the limited cross-node memory bandwidth, adding latency to memory accesses.
+Similarly, large pages are assigned from memory and benefit from the same
+performance improvements as memory allocated using standard pages. Thus, they
+also should be local. Finally, PCI devices are directly associated with
+specific NUMA nodes for the purposes of DMA. Instances that use PCI or SR-IOV
+devices should be placed on the NUMA node associated with these devices.</p>
+<p>By default, an instance floats across all NUMA nodes on a host. NUMA awareness
+can be enabled implicitly through the use of huge pages or pinned CPUs or
+explicitly through the use of flavor extra specs or image metadata.  In all
+cases, the <code class="docutils literal"><span class="pre">NUMATopologyFilter</span></code> filter must be enabled. Details on this
+filter are provided in <a class="reference external" href="http://docs.openstack.org/newton/config-reference/compute/scheduler.html">Scheduling</a> configuration guide.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">The NUMA node(s) used are normally chosen at random. However, if a PCI
+passthrough or SR-IOV device is attached to the instance, then the NUMA
+node that the device is associated with will be used. This can provide
+important performance improvements. However, booting a large number of
+similar instances can result in unbalanced NUMA node usage. Care should
+be taken to mitigate this issue. See this <a class="reference external" href="http://lists.openstack.org/pipermail/openstack-dev/2016-March/090367.html">discussion</a> for more details.</p>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Inadequate per-node resources will result in scheduling failures. Resources
+that are specific to a node include not only CPUs and memory, but also PCI
+and SR-IOV resources. It is not possible to use multiple resources from
+different nodes without requesting a multi-node layout. As such, it may be
+necessary to ensure PCI or SR-IOV resources are associated with the same
+NUMA node or force a multi-node layout.</p>
+</div>
+<p>When used, NUMA awareness allows the operating system of the instance to
+intelligently schedule the workloads that it runs and minimize cross-node
+memory bandwidth. To restrict an instance&#8217;s vCPUs to a single host NUMA node,
+run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:numa_nodes<span class="o">=</span>1
+</pre></div>
+</div>
+<p>Some workloads have very demanding requirements for memory access latency or
+bandwidth that exceed the memory bandwidth available from a single NUMA node.
+For such workloads, it is beneficial to spread the instance across multiple
+host NUMA nodes, even if the instance&#8217;s RAM/vCPUs could theoretically fit on a
+single NUMA node. To force an instance&#8217;s vCPUs to spread across two host NUMA
+nodes, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:numa_nodes<span class="o">=</span>2
+</pre></div>
+</div>
+<p>The allocation of instances vCPUs and memory from different host NUMA nodes can
+be configured. This allows for asymmetric allocation of vCPUs and memory, which
+can be important for some workloads. To spread the 6 vCPUs and 6 GB of memory
+of an instance across two NUMA nodes and create an asymmetric 1:2 vCPU and
+memory mapping between the two nodes, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:numa_nodes<span class="o">=</span>2
+<span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large <span class="se">\ </span> <span class="c1"># configure guest node 0</span>
+<span class="go">  --property hw:numa_cpus.0=0,1 \</span>
+<span class="go">  --property hw:numa_mem.0=2048</span>
+<span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large <span class="se">\ </span> <span class="c1"># configure guest node 1</span>
+<span class="go">  --property hw:numa_cpus.1=2,3,4,5 \</span>
+<span class="go">  --property hw:numa_mem.1=4096</span>
+</pre></div>
+</div>
+<p>For more information about the syntax for <code class="docutils literal"><span class="pre">hw:numa_nodes</span></code>, <code class="docutils literal"><span class="pre">hw:numa_cpus.N</span></code>
+and <code class="docutils literal"><span class="pre">hw:num_mem.N</span></code>, refer to the <a class="reference external" href="compute-flavors.html">Flavors</a> guide.</p>
+</div>
+<div class="section" id="customizing-instance-cpu-pinning-policies">
+<h2>Customizing instance CPU pinning policies<a class="headerlink" href="#customizing-instance-cpu-pinning-policies" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The functionality described below is currently only supported by the
+libvirt/KVM driver.</p>
+</div>
+<p>By default, instance vCPU processes are not assigned to any particular host
+CPU, instead, they float across host CPUs like any other process. This allows
+for features like overcommitting of CPUs. In heavily contended systems, this
+provides optimal system performance at the expense of performance and latency
+for individual instances.</p>
+<p>Some workloads require real-time or near real-time behavior, which is not
+possible with the latency introduced by the default CPU policy. For such
+workloads, it is beneficial to control which host CPUs are bound to an
+instance&#8217;s vCPUs. This process is known as pinning. No instance with pinned
+CPUs can use the CPUs of another pinned instance, thus preventing resource
+contention between instances. To configure a flavor to use pinned vCPUs, a
+use a dedicated CPU policy. To force this, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:cpu_policy<span class="o">=</span>dedicated
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Host aggregates should be used to separate pinned instances from unpinned
+instances as the latter will not respect the resourcing requirements of
+the former.</p>
+</div>
+<p>When running workloads on SMT hosts, it is important to be aware of the impact
+that thread siblings can have. Thread siblings share a number of components
+and contention on these components can impact performance. To configure how
+to use threads, a CPU thread policy should be specified. For workloads where
+sharing benefits performance, use thread siblings. To force this, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large <span class="se">\</span>
+<span class="go">  --property hw:cpu_policy=dedicated \</span>
+<span class="go">  --property hw:cpu_thread_policy=require</span>
+</pre></div>
+</div>
+<p>For other workloads where performance is impacted by contention for resources,
+use non-thread siblings or non-SMT hosts. To force this, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large <span class="se">\</span>
+<span class="go">  --property hw:cpu_policy=dedicated \</span>
+<span class="go">  --property hw:cpu_thread_policy=isolate</span>
+</pre></div>
+</div>
+<p>Finally, for workloads where performance is minimally impacted, use thread
+siblings if available. This is the default, but it can be set explicitly:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large <span class="se">\</span>
+<span class="go">  --property hw:cpu_policy=dedicated \</span>
+<span class="go">  --property hw:cpu_thread_policy=prefer</span>
+</pre></div>
+</div>
+<p>For more information about the syntax for <code class="docutils literal"><span class="pre">hw:cpu_policy</span></code> and
+<code class="docutils literal"><span class="pre">hw:cpu_thread_policy</span></code>, refer to the <a class="reference external" href="compute-flavors.html">Flavors</a> guide.</p>
+<p>Applications are frequently packaged as images. For applications that require
+real-time or near real-time behavior, configure image metadata to ensure
+created instances are always pinned regardless of flavor. To configure an
+image to use pinned vCPUs and avoid thread siblings, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image <span class="nb">set</span> <span class="o">[</span>IMAGE_ID<span class="o">]</span> <span class="se">\</span>
+<span class="go">  --property hw_cpu_policy=dedicated \</span>
+<span class="go">  --property hw_cpu_thread_policy=isolate</span>
+</pre></div>
+</div>
+<p>Image metadata takes precedence over flavor extra specs. Thus, configuring
+competing policies causes an exception. By setting a <code class="docutils literal"><span class="pre">shared</span></code> policy
+through image metadata, administrators can prevent users configuring CPU
+policies in flavors and impacting resource utilization. To configure this
+policy, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image <span class="nb">set</span> <span class="o">[</span>IMAGE_ID<span class="o">]</span> --property <span class="nv">hw_cpu_policy</span><span class="o">=</span>shared
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is no correlation required between the NUMA topology exposed in the
+instance and how the instance is actually pinned on the host. This is by
+design. See this <a class="reference external" href="https://bugs.launchpad.net/nova/+bug/1466780">invalid bug</a> for more information.</p>
+</div>
+<p>For more information about image metadata, refer to the <a class="reference external" href="http://docs.openstack.org/image-guide/image-metadata.html">Image metadata</a>
+guide.</p>
+</div>
+<div class="section" id="customizing-instance-cpu-topologies">
+<h2>Customizing instance CPU topologies<a class="headerlink" href="#customizing-instance-cpu-topologies" title="Permalink to this headline">¶</a></h2>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The functionality described below is currently only supported by the
+libvirt/KVM driver.</p>
+</div>
+<p>In addition to configuring how an instance is scheduled on host CPUs, it is
+possible to configure how CPUs are represented in the instance itself. By
+default, when instance NUMA placement is not specified, a topology of N
+sockets, each with one core and one thread, is used for an instance, where N
+corresponds to the number of instance vCPUs requested. When instance NUMA
+placement is specified, the number of sockets is fixed to the number of host
+NUMA nodes to use and the total number of instance CPUs is split over these
+sockets.</p>
+<p>Some workloads benefit from a custom topology. For example, in some operating
+systems, a different license may be needed depending on the number of CPU
+sockets. To configure a flavor to use a maximum of two sockets, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property hw:cpu_sockets<span class="o">=</span>2
+</pre></div>
+</div>
+<p>Similarly, to configure a flavor to use one core and one thread, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large <span class="se">\</span>
+<span class="go">  --property hw:cpu_cores=1 \</span>
+<span class="go">  --property hw:cpu_threads=1</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">If specifying all values, the product of sockets multiplied by cores
+multiplied by threads must equal the number of instance vCPUs. If specifying
+any one of these values or the multiple of two values, the values must be a
+factor of the number of instance vCPUs to prevent an exception. For example,
+specifying <code class="docutils literal"><span class="pre">hw:cpu_sockets=2</span></code> on a host with an odd number of cores fails.
+Similarly, specifying <code class="docutils literal"><span class="pre">hw:cpu_cores=2</span></code> and <code class="docutils literal"><span class="pre">hw:cpu_threads=4</span></code> on a host
+with ten cores fails.</p>
+</div>
+<p>For more information about the syntax for <code class="docutils literal"><span class="pre">hw:cpu_sockets</span></code>, <code class="docutils literal"><span class="pre">hw:cpu_cores</span></code>
+and <code class="docutils literal"><span class="pre">hw:cpu_threads</span></code>, refer to the <a class="reference external" href="compute-flavors.html">Flavors</a> guide.</p>
+<p>It is also possible to set upper limits on the number of sockets, cores, and
+threads used. Unlike the hard values above, it is not necessary for this exact
+number to used because it only provides a limit. This can be used to provide
+some flexibility in scheduling, while ensuring certains limits are not
+exceeded. For example, to ensure no more than two sockets are defined in the
+instance topology, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack flavor <span class="nb">set</span> m1.large --property<span class="o">=</span>hw:cpu_max_sockets<span class="o">=</span>2
+</pre></div>
+</div>
+<p>For more information about the syntax for <code class="docutils literal"><span class="pre">hw:cpu_max_sockets</span></code>,
+<code class="docutils literal"><span class="pre">hw:cpu_max_cores</span></code>, and <code class="docutils literal"><span class="pre">hw:cpu_max_threads</span></code>, refer to the <a class="reference external" href="compute-flavors.html">Flavors</a>
+guide.</p>
+<p>Applications are frequently packaged as images. For applications that prefer
+certain CPU topologies, configure image metadata to hint that created instances
+should have a given topology regardless of flavor. To configure an image to
+request a two-socket, four-core per socket topology, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image <span class="nb">set</span> <span class="o">[</span>IMAGE_ID<span class="o">]</span> <span class="se">\</span>
+<span class="go">  --property hw_cpu_sockets=2 \</span>
+<span class="go">  --property hw_cpu_cores=4</span>
+</pre></div>
+</div>
+<p>To constrain instances to a given limit of sockets, cores or threads, use the
+<code class="docutils literal"><span class="pre">max_</span></code> variants. To configure an image to have a maximum of two sockets and a
+maximum of one thread, run:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack image <span class="nb">set</span> <span class="o">[</span>IMAGE_ID<span class="o">]</span> <span class="se">\</span>
+<span class="go">  --property hw_cpu_max_sockets=2 \</span>
+<span class="go">  --property hw_cpu_max_threads=1</span>
+</pre></div>
+</div>
+<p>Image metadata takes precedence over flavor extra specs. Configuring competing
+constraints causes an exception. By setting a <code class="docutils literal"><span class="pre">max</span></code> value for sockets, cores,
+or threads, administrators can prevent users configuring topologies that might,
+for example, incur an additional licensing fees.</p>
+<p>For more information about image metadata, refer to the <a class="reference external" href="http://docs.openstack.org/image-guide/image-metadata.html">Image metadata</a>
+guide.</p>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="compute-pci-passthrough.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: Attaching physical PCI devices to guests"></i></a>
+          
+          
+            <a href="compute-huge-pages.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: Huge pages"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-30 18:29</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="common/conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="common/get-started-with-openstack.html">Get started with OpenStack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="identity-management.html">Identity management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="compute.html">Compute</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="compute-arch.html">System architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-images-instances.html">Images and instances</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compute-networking-nova.html">Networking with nova-network</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="compute-system-admin.html">System administration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="support-compute.html">Troubleshoot Compute</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="objectstorage.html">Object Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="blockstorage.html">Block Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shared-file-systems.html">Shared File Systems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networking.html">Networking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="telemetry.html">Telemetry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="baremetal.html">Bare Metal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orchestration.html">Orchestration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">OpenStack command-line clients</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cross-project.html">Cross-project features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "compute-cpu-topologies" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/admin-guide/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 522e4919f8db2885f022e41fa599c8c3056b8485";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "CPU topologies in Administrator Guide";
+    var fieldTags = "admin-guide";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-30 18:29";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/admin-guide/compute-cpu-topologies.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 09:14:16 GMT -->
+</html>

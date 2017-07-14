@@ -1,0 +1,880 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/huawei-storage-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: Huawei volume driver</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Huawei volume driver</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="hp-msa-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: HP MSA Fibre Channel and iSCSI drivers"></i></a>
+    
+    
+    <a href="ibm-gpfs-volume-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: IBM GPFS volume driver"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">Huawei volume driver</a><ul>
+<li><a class="reference internal" href="#version-mappings">Version mappings</a></li>
+<li><a class="reference internal" href="#block-storage-driver-installation-and-deployment">Block Storage driver installation and deployment</a></li>
+<li><a class="reference internal" href="#volume-driver-configuration">Volume driver configuration</a><ul>
+<li><a class="reference internal" href="#configuring-iscsi-multipathing">Configuring iSCSI Multipathing</a></li>
+<li><a class="reference internal" href="#configuring-chap-and-alua">Configuring CHAP and ALUA</a></li>
+<li><a class="reference internal" href="#configuring-multiple-storage">Configuring multiple storage</a></li>
+<li><a class="reference internal" href="#configuration-file-parameters">Configuration file parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="huawei-volume-driver">
+<h1>Huawei volume driver<a class="headerlink" href="#huawei-volume-driver" title="Permalink to this headline">¶</a></h1>
+<p>Huawei volume driver can be used to provide functions such as the logical
+volume and snapshot for virtual machines (VMs) in the OpenStack Block Storage
+driver that supports iSCSI and Fibre Channel protocols.</p>
+<div class="section" id="version-mappings">
+<h2>Version mappings<a class="headerlink" href="#version-mappings" title="Permalink to this headline">¶</a></h2>
+<p>The following table describes the version mappings among the Block Storage
+driver, Huawei storage system and OpenStack:</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text"><strong>Version mappings among the Block Storage driver and Huawei
+storage system</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Description</th>
+<th class="head">Storage System Version</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first">Create, delete, expand, attach, detach, manage, and unmanage volumes.</p>
+<p>Create, delete, manage, unmanage, and backup a snapshot.</p>
+<p>Create, delete, and update a consistency group.</p>
+<p>Create and delete a cgsnapshot.</p>
+<p>Copy an image to a volume.</p>
+<p>Copy a volume to an image.</p>
+<p>Create a volume from a snapshot.</p>
+<p>Clone a volume.</p>
+<p class="last">QoS</p>
+</td>
+<td><p class="first">OceanStor T series V2R2 C00/C20/C30</p>
+<p>OceanStor V3 V3R1C10/C20 V3R2C10 V3R3C00</p>
+<p>OceanStor 2200V3 V300R005C00</p>
+<p>OceanStor 2600V3 V300R005C00</p>
+<p class="last">OceanStor 18500/18800 V1R1C00/C20/C30 V3R3C00</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first">Volume Migration</p>
+<p>Auto zoning</p>
+<p>SmartTier</p>
+<p>SmartCache</p>
+<p>Smart Thin/Thick</p>
+<p class="last">Replication V2.1</p>
+</td>
+<td><p class="first">OceanStor T series V2R2 C00/C20/C30</p>
+<p>OceanStor V3 V3R1C10/C20 V3R2C10 V3R3C00</p>
+<p>OceanStor 2200V3 V300R005C00</p>
+<p>OceanStor 2600V3 V300R005C00</p>
+<p class="last">OceanStor 18500/18800V1R1C00/C20/C30</p>
+</td>
+</tr>
+<tr class="row-even"><td>SmartPartition</td>
+<td><p class="first">OceanStor T series V2R2 C00/C20/C30</p>
+<p>OceanStor V3 V3R1C10/C20 V3R2C10 V3R3C00</p>
+<p>OceanStor 2600V3 V300R005C00</p>
+<p class="last">OceanStor 18500/18800V1R1C00/C20/C30</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="block-storage-driver-installation-and-deployment">
+<h2>Block Storage driver installation and deployment<a class="headerlink" href="#block-storage-driver-installation-and-deployment" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Before installation, delete all the installation files of Huawei OpenStack
+Driver. The default path may be:
+<code class="docutils literal"><span class="pre">/usr/lib/python2.7/disk-packages/cinder/volume/drivers/huawei</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this example, the version of Python is 2.7. If another version is
+used, make corresponding changes to the driver path.</p>
+</div>
+</li>
+<li><p class="first">Copy <a class="reference external" href="http://git.openstack.org/cgit/openstack/cinder/tree/cinder/volume/drivers/huawei?h=stable/newton">the Block Storage driver</a>
+to the Block Storage driver installation directory.
+Refer to step 1 to find the default directory.</p>
+</li>
+<li><p class="first">Refer to chapter <a class="reference internal" href="#huawei-driver-configuration"><span>Volume driver configuration</span></a> to complete the
+configuration.</p>
+</li>
+<li><p class="first">After configuration, restart the <code class="docutils literal"><span class="pre">cinder-volume</span></code> service:</p>
+</li>
+<li><p class="first">Check the status of services using the <strong class="command">cinder service-list</strong>
+command. If the <code class="docutils literal"><span class="pre">State</span></code> of <code class="docutils literal"><span class="pre">cinder-volume</span></code> is <code class="docutils literal"><span class="pre">up</span></code>, that means
+<code class="docutils literal"><span class="pre">cinder-volume</span></code> is okay.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> cinder service-list
+<span class="go">+-----------------+-----------------+------+---------+-------+----------------------------+-----------------+</span>
+<span class="go">| Binary          | Host            | Zone | Status  | State | Updated_at                 | Disabled Reason |</span>
+<span class="go">+-----------------+-----------------+------+---------+-------+----------------------------+-----------------+</span>
+<span class="go">| cinderscheduler | controller      | nova | enabled | up    | 2016-02-01T16:26:00.000000 | -               |</span>
+<span class="go">+-----------------+-----------------+------+---------+-------+----------------------------+-----------------+</span>
+<span class="go">| cindervolume    | controller@v3r3 | nova | enabled | up    | 2016-02-01T16:25:53.000000 | -               |</span>
+<span class="go">+-----------------+-----------------+------+---------+-------+----------------------------+-----------------+</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="volume-driver-configuration">
+<span id="huawei-driver-configuration"></span><h2>Volume driver configuration<a class="headerlink" href="#volume-driver-configuration" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to configure the Huawei volume driver for either
+iSCSI storage or Fibre Channel storage.</p>
+<p><strong>Pre-requisites</strong></p>
+<p>When creating a volume from image, install the <code class="docutils literal"><span class="pre">multipath</span></code> tool and add the
+following configuration keys in the <code class="docutils literal"><span class="pre">[DEFAULT]</span></code> configuration group of
+the <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code> file:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">use_multipath_for_image_xfer</span> <span class="o">=</span> <span class="s">True</span>
+<span class="na">enforce_multipath_for_image_xfer</span> <span class="o">=</span> <span class="s">True</span>
+</pre></div>
+</div>
+<p>To configure the volume driver, follow the steps below:</p>
+<ol class="arabic">
+<li><p class="first">In <code class="docutils literal"><span class="pre">/etc/cinder</span></code>, create a Huawei-customized driver configuration file.
+The file format is XML.</p>
+</li>
+<li><p class="first">Change the name of the driver configuration file based on the site
+requirements, for example, <code class="docutils literal"><span class="pre">cinder_huawei_conf.xml</span></code>.</p>
+</li>
+<li><p class="first">Configure parameters in the driver configuration file.</p>
+<p>Each product has its own value for the <code class="docutils literal"><span class="pre">Product</span></code> parameter under the
+<code class="docutils literal"><span class="pre">Storage</span></code> xml block. The full xml file with the appropriate <code class="docutils literal"><span class="pre">Product</span></code>
+parameter is as below:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span>  <span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+     <span class="nt">&lt;config&gt;</span>
+        <span class="nt">&lt;Storage&gt;</span>
+           <span class="nt">&lt;Product&gt;</span>PRODUCT<span class="nt">&lt;/Product&gt;</span>
+           <span class="nt">&lt;Protocol&gt;</span>iSCSI<span class="nt">&lt;/Protocol&gt;</span>
+           <span class="nt">&lt;ControllerIP1&gt;</span>x.x.x.x<span class="nt">&lt;/ControllerIP1&gt;</span>
+           <span class="nt">&lt;UserName&gt;</span>xxxxxxxx<span class="nt">&lt;/UserName&gt;</span>
+           <span class="nt">&lt;UserPassword&gt;</span>xxxxxxxx<span class="nt">&lt;/UserPassword&gt;</span>
+        <span class="nt">&lt;/Storage&gt;</span>
+        <span class="nt">&lt;LUN&gt;</span>
+           <span class="nt">&lt;LUNType&gt;</span>xxx<span class="nt">&lt;/LUNType&gt;</span>
+           <span class="nt">&lt;StripUnitSize&gt;</span>xxx<span class="nt">&lt;/StripUnitSize&gt;</span>
+           <span class="nt">&lt;WriteType&gt;</span>xxx<span class="nt">&lt;/WriteType&gt;</span>
+           <span class="nt">&lt;MirrorSwitch&gt;</span>xxx<span class="nt">&lt;/MirrorSwitch&gt;</span>
+           <span class="nt">&lt;Prefetch</span> <span class="na">Type=</span><span class="s">&quot;xxx&quot;</span> <span class="na">Value=</span><span class="s">&quot;xxx&quot;</span> <span class="nt">/&gt;</span>
+           <span class="nt">&lt;StoragePool</span> <span class="na">Name=</span><span class="s">&quot;xxx&quot;</span> <span class="nt">/&gt;</span>
+           <span class="nt">&lt;StoragePool</span> <span class="na">Name=</span><span class="s">&quot;xxx&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/LUN&gt;</span>
+        <span class="nt">&lt;iSCSI&gt;</span>
+           <span class="nt">&lt;DefaultTargetIP&gt;</span>x.x.x.x<span class="nt">&lt;/DefaultTargetIP&gt;</span>
+           <span class="nt">&lt;Initiator</span> <span class="na">Name=</span><span class="s">&quot;xxxxxxxx&quot;</span> <span class="na">TargetIP=</span><span class="s">&quot;x.x.x.x&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/iSCSI&gt;</span>
+        <span class="nt">&lt;Host</span> <span class="na">OSType=</span><span class="s">&quot;Linux&quot;</span> <span class="na">HostIP=</span><span class="s">&quot;x.x.x.x, x.x.x.x&quot;</span><span class="nt">/&gt;</span>
+     <span class="nt">&lt;/config&gt;</span>
+
+The corresponding ``Product`` values for each product are as below:
+</pre></div>
+</div>
+<ul>
+<li><p class="first"><strong>For T series V2</strong></p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;Product&gt;</span>TV2<span class="nt">&lt;/Product&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>For V3</strong></p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;Product&gt;</span>V3<span class="nt">&lt;/Product&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><strong>For OceanStor 18000 series</strong></p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;Product&gt;</span>18000<span class="nt">&lt;/Product&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">Protocol</span></code> value to be used is <code class="docutils literal"><span class="pre">iSCSI</span></code> for iSCSI and <code class="docutils literal"><span class="pre">FC</span></code> for
+Fibre Channel as shown below:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span># For iSCSI
+<span class="nt">&lt;Protocol&gt;</span>iSCSI<span class="nt">&lt;/Protocol&gt;</span>
+
+# For Fibre channel
+<span class="nt">&lt;Protocol&gt;</span>FC<span class="nt">&lt;/Protocol&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For details about the parameters in the configuration file, see the
+<a class="reference internal" href="#configuration-file-parameters">Configuration file parameters</a> section.</p>
+</div>
+</li>
+<li><p class="first">Configure the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file.</p>
+<p>In the <code class="docutils literal"><span class="pre">[default]</span></code> block of <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code>, add the following
+contents:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">volume_driver</span></code> indicates the loaded driver.</li>
+<li><code class="docutils literal"><span class="pre">cinder_huawei_conf_file</span></code> indicates the specified Huawei-customized
+configuration file.</li>
+<li><code class="docutils literal"><span class="pre">hypermetro_devices</span></code> indicates the list of remote storage devices for
+which Hypermetro is to be used.</li>
+</ul>
+<p>The added content in the <code class="docutils literal"><span class="pre">[default]</span></code> block of <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code>
+with the appropriate <code class="docutils literal"><span class="pre">volume_driver</span></code> and the list of
+<code class="docutils literal"><span class="pre">remote</span> <span class="pre">storage</span> <span class="pre">devices</span></code> values for each product is as below:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">volume_driver</span> <span class="o">=</span> <span class="s">VOLUME_DRIVER</span>
+<span class="na">cinder_huawei_conf_file</span> <span class="o">=</span> <span class="s">/etc/cinder/cinder_huawei_conf.xml</span>
+<span class="na">hypermetro_devices</span> <span class="o">=</span> <span class="s">{STORAGE_DEVICE1, STORAGE_DEVICE2....}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, the value for <code class="docutils literal"><span class="pre">hypermetro_devices</span></code> is <code class="docutils literal"><span class="pre">None</span></code>.</p>
+</div>
+<p>The <code class="docutils literal"><span class="pre">volume-driver</span></code> value for every product is as below:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="c1"># For iSCSI</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.huawei.huawei_driver.HuaweiISCSIDriver</span>
+
+<span class="c1"># For FC</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.huawei.huawei_driver.HuaweiFCDriver</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run the <strong class="command">service cinder-volume restart</strong> command to restart the
+Block Storage service.</p>
+</li>
+</ol>
+<div class="section" id="configuring-iscsi-multipathing">
+<h3>Configuring iSCSI Multipathing<a class="headerlink" href="#configuring-iscsi-multipathing" title="Permalink to this headline">¶</a></h3>
+<p>To configure iSCSI Multipathing, follow the steps below:</p>
+<ol class="arabic">
+<li><p class="first">Create a port group on the storage device using the <code class="docutils literal"><span class="pre">DeviceManager</span></code> and add
+service links that require multipathing into the port group.</p>
+</li>
+<li><p class="first">Log in to the storage device using CLI commands and enable the multiport
+discovery switch in the multipathing.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="go">developer:/&gt;change iscsi discover_multiport switch=on</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add the port group settings in the Huawei-customized driver configuration
+file and configure the port group name needed by an initiator.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;iSCSI&gt;</span>
+   <span class="nt">&lt;DefaultTargetIP&gt;</span>x.x.x.x<span class="nt">&lt;/DefaultTargetIP&gt;</span>
+   <span class="nt">&lt;Initiator</span> <span class="na">Name=</span><span class="s">&quot;xxxxxx&quot;</span> <span class="na">TargetPortGroup=</span><span class="s">&quot;xxxx&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/iSCSI&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Enable the multipathing switch of the Compute service module.</p>
+<p>Add <code class="docutils literal"><span class="pre">iscsi_use_multipath</span> <span class="pre">=</span> <span class="pre">True</span></code> in <code class="docutils literal"><span class="pre">[libvirt]</span></code> of
+<code class="docutils literal"><span class="pre">/etc/nova/nova.conf</span></code>.</p>
+</li>
+<li><p class="first">Run the <strong class="command">service nova-compute restart</strong> command to restart the
+<code class="docutils literal"><span class="pre">nova-compute</span></code> service.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="configuring-chap-and-alua">
+<h3>Configuring CHAP and ALUA<a class="headerlink" href="#configuring-chap-and-alua" title="Permalink to this headline">¶</a></h3>
+<p>On a public network, any application server whose IP address resides on the
+same network segment as that of the storage systems iSCSI host port can access
+the storage system and perform read and write operations in it. This poses
+risks to the data security of the storage system. To ensure the storage
+systems access security, you can configure <code class="docutils literal"><span class="pre">CHAP</span></code> authentication to control
+application servers access to the storage system.</p>
+<p>Adjust the driver configuration file as follows:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span></span><span class="nt">&lt;Initiator</span> <span class="na">ALUA=</span><span class="s">&quot;xxx&quot;</span> <span class="na">CHAPinfo=</span><span class="s">&quot;xxx&quot;</span> <span class="na">Name=</span><span class="s">&quot;xxx&quot;</span> <span class="na">TargetIP=</span><span class="s">&quot;x.x.x.x&quot;</span><span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">ALUA</span></code> indicates a multipathing mode. 0 indicates that <code class="docutils literal"><span class="pre">ALUA</span></code> is disabled.
+1 indicates that <code class="docutils literal"><span class="pre">ALUA</span></code> is enabled. <code class="docutils literal"><span class="pre">CHAPinfo</span></code> indicates the user name and
+password authenticated by <code class="docutils literal"><span class="pre">CHAP</span></code>. The format is <code class="docutils literal"><span class="pre">mmuser;</span> <span class="pre">mm-user&#64;storage</span></code>.
+The user name and password are separated by semicolons (<code class="docutils literal"><span class="pre">;</span></code>).</p>
+</div>
+<div class="section" id="configuring-multiple-storage">
+<h3>Configuring multiple storage<a class="headerlink" href="#configuring-multiple-storage" title="Permalink to this headline">¶</a></h3>
+<p>Multiple storage systems configuration example:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">enabled_backends</span> <span class="o">=</span> <span class="s">v3_fc, 18000_fc</span>
+<span class="k">[v3_fc]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.huawei.huawei_t.HuaweiFCDriver</span>
+<span class="na">cinder_huawei_conf_file</span> <span class="o">=</span> <span class="s">/etc/cinder/cinder_huawei_conf_v3_fc.xml</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">HuaweiTFCDriver</span>
+<span class="k">[18000_fc]</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.huawei.huawei_driver.HuaweiFCDriver</span>
+<span class="na">cinder_huawei_conf_file</span> <span class="o">=</span> <span class="s">/etc/cinder/cinder_huawei_conf_18000_fc.xml</span>
+<span class="na">volume_backend_name</span> <span class="o">=</span> <span class="s">HuaweiFCDriver</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration-file-parameters">
+<h3>Configuration file parameters<a class="headerlink" href="#configuration-file-parameters" title="Permalink to this headline">¶</a></h3>
+<p>This section describes mandatory and optional configuration file parameters
+of the Huawei volume driver.</p>
+<table border="1" class="colwidths-given docutils" id="id2">
+<caption><span class="caption-text"><strong>Mandatory parameters</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="13%" />
+<col width="13%" />
+<col width="63%" />
+<col width="13%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Default value</th>
+<th class="head">Description</th>
+<th class="head">Applicable to</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Product</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>Type of a storage product. Possible values are <code class="docutils literal"><span class="pre">TV2</span></code>, <code class="docutils literal"><span class="pre">18000</span></code> and
+<code class="docutils literal"><span class="pre">V3</span></code>.</td>
+<td>All</td>
+</tr>
+<tr class="row-odd"><td>Protocol</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>Type of a connection protocol. The possible value is either <code class="docutils literal"><span class="pre">'iSCSI'</span></code>
+or <code class="docutils literal"><span class="pre">'FC'</span></code>.</td>
+<td>All</td>
+</tr>
+<tr class="row-even"><td>RestURL</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>Access address of the REST interface,
+<code class="docutils literal"><span class="pre">https://x.x.x.x/devicemanager/rest/</span></code>. The value <code class="docutils literal"><span class="pre">x.x.x.x</span></code> indicates
+the management IP address. OceanStor 18000 uses the preceding setting,
+and V2 and V3 requires you to add port number <code class="docutils literal"><span class="pre">8088</span></code>, for example,
+<code class="docutils literal"><span class="pre">https://x.x.x.x:8088/deviceManager/rest/</span></code>. If you need to configure
+multiple RestURL, separate them by semicolons (;).</td>
+<td><p class="first">T series V2</p>
+<p class="last">V3 18000</p>
+</td>
+</tr>
+<tr class="row-odd"><td>UserName</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>User name of a storage administrator.</td>
+<td>All</td>
+</tr>
+<tr class="row-even"><td>UserPassword</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>Password of a storage administrator.</td>
+<td>All</td>
+</tr>
+<tr class="row-odd"><td>StoragePool</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>Name of a storage pool to be used. If you need to configure multiple
+storage pools, separate them by semicolons (<code class="docutils literal"><span class="pre">;</span></code>).</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The value of <code class="docutils literal"><span class="pre">StoragePool</span></code> cannot contain Chinese characters.</p>
+</div>
+<table border="1" class="colwidths-given docutils" id="id3">
+<caption><span class="caption-text"><strong>Optional parameters</strong></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="21%" />
+<col width="11%" />
+<col width="53%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Default value</th>
+<th class="head">Description</th>
+<th class="head">Applicable to</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LUNType</td>
+<td>Thin</td>
+<td>Type of the LUNs to be created. The value can be <code class="docutils literal"><span class="pre">Thick</span></code> or <code class="docutils literal"><span class="pre">Thin</span></code>.</td>
+<td>All</td>
+</tr>
+<tr class="row-odd"><td>WriteType</td>
+<td>1</td>
+<td>Cache write type, possible values are: <code class="docutils literal"><span class="pre">1</span></code> (write back), <code class="docutils literal"><span class="pre">2</span></code>
+(write through), and <code class="docutils literal"><span class="pre">3</span></code> (mandatory write back).</td>
+<td>All</td>
+</tr>
+<tr class="row-even"><td>MirrorSwitch</td>
+<td>1</td>
+<td>Cache mirroring or not, possible values are: <code class="docutils literal"><span class="pre">0</span></code> (without mirroring)
+or <code class="docutils literal"><span class="pre">1</span></code> (with mirroring).</td>
+<td>All</td>
+</tr>
+<tr class="row-odd"><td>LUNcopyWaitInterval</td>
+<td>5</td>
+<td>After LUN copy is enabled, the plug-in frequently queries the copy
+progress. You can set a value to specify the query interval.</td>
+<td><p class="first">T series V2 V3</p>
+<p class="last">18000</p>
+</td>
+</tr>
+<tr class="row-even"><td>Timeout</td>
+<td>432000</td>
+<td>Timeout interval for waiting LUN copy of a storage device to complete.
+The unit is second.</td>
+<td><p class="first">T series V2 V3</p>
+<p class="last">18000</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Initiator Name</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>Name of a compute node initiator.</td>
+<td>All</td>
+</tr>
+<tr class="row-even"><td>Initiator TargetIP</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>IP address of the iSCSI port provided for compute nodes.</td>
+<td>All</td>
+</tr>
+<tr class="row-odd"><td>Initiator TargetPortGroup</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>IP address of the iSCSI target port that is provided for compute
+nodes.</td>
+<td><p class="first">T series V2 V3</p>
+<p class="last">18000</p>
+</td>
+</tr>
+<tr class="row-even"><td>DefaultTargetIP</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>Default IP address of the iSCSI target port that is provided for
+compute nodes.</td>
+<td>All</td>
+</tr>
+<tr class="row-odd"><td>OSType</td>
+<td>Linux</td>
+<td>Operating system of the Nova compute node&#8217;s host.</td>
+<td>All</td>
+</tr>
+<tr class="row-even"><td>HostIP</td>
+<td><code class="docutils literal"><span class="pre">-</span></code></td>
+<td>IP address of the Nova compute node&#8217;s host.</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">The <code class="docutils literal"><span class="pre">Initiator</span> <span class="pre">Name</span></code>, <code class="docutils literal"><span class="pre">Initiator</span> <span class="pre">TargetIP</span></code>, and
+<code class="docutils literal"><span class="pre">Initiator</span> <span class="pre">TargetPortGroup</span></code> are <code class="docutils literal"><span class="pre">ISCSI</span></code> parameters and therefore not
+applicable to <code class="docutils literal"><span class="pre">FC</span></code>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="hp-msa-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: HP MSA Fibre Channel and iSCSI drivers"></i></a>
+          
+          
+            <a href="ibm-gpfs-volume-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: IBM GPFS volume driver"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../block-storage.html">Block Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../block-storage-overview.html">Introduction to the Block Storage service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../volume-drivers.html">Volume drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backup-drivers.html">Backup drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../schedulers.html">Block Storage schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Log files used by Block Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fc-zoning.html">Fibre Channel Zone Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nested-quota.html">Nested quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../volume-encryption.html">Volume encryption supported by the key manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Block Storage service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/cinder.html">New, updated, and deprecated options in Newton for Block Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "block-storage/drivers/huawei-storage-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "Huawei volume driver in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/huawei-storage-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:54 GMT -->
+</html>

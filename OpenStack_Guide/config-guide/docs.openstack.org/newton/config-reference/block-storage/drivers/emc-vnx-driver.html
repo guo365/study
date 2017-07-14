@@ -1,0 +1,1460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/emc-vnx-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+
+    <title>OpenStack Docs: EMC VNX driver</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap CSS -->
+<link href="../../_static/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Pygments CSS -->
+<link href="../../_static/css/native.css" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="../../../../../maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+
+<!-- Custom CSS -->
+<link href="../../_static/css/combined.css" rel="stylesheet">
+<link href="../../_static/css/styles.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" href="../../_static/sphinxmark.css" type="text/css" />
+  
+
+
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','../../../../../www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-17511903-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+  </head>
+  <body>
+<nav class="navbar navbar-default inner" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="brand-wrapper">
+        <a class="navbar-brand" href="http://docs.openstack.org/"></a>
+      </div>
+      <div class="search-icon show"><i class="fa fa-search"></i> Search</div></div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="search-container tiny">
+        <div id="gcse">
+          <script type="text/javascript">
+(function() {
+  var cx = '000108871792296872333:noj9nikm74i';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();
+          </script>
+          <gcse:search gname="standard"></gcse:search>
+        </div>
+        <i class="fa fa-times close-search"></i>
+      </div>
+      <ul class="nav navbar-nav navbar-main show">
+        <li>
+          <div id="gcse-mobile">
+            <gcse:search gname="mobile"></gcse:search>
+          </div>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/software/" class="drop" id="dropdownMenuSoftware">Software <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuSoftware">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/project-navigator/">Project Navigator</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sample-configs/">Sample Configs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/start/">Get Started</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/roadmap/">Roadmap</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/latest-release/">Latest Release</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/software/sourcecode/">Source Code</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/user-stories/" class="drop" id="dropdownMenuUsers">Users <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuUsers">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/user-stories/">Overview</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/enterprise/">OpenStack in the Enterprise</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/appdev/">Application Developers</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/surveys/landing">User Survey</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/community/" class="drop" id="dropdownMenuCommunity">Community <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuCommunity">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/">Welcome! Start Here</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/">OpenStack Foundation</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://wiki.openstack.org/">OpenStack Wiki</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://groups.openstack.org/">User Groups</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/speakers/">Speakers Bureau</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/foundation/companies/">Supporting Companies</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/jobs/">Jobs</a></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/join/">Join The Community</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/marketplace/">Marketplace</a>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/events/" class="drop" id="dropdownMenuEvents">Events <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">Overview</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="https://www.openstack.org/summit/">The OpenStack Summit</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/">More OpenStack Events</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/community/events/#openstack_days">OpenStack Days</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://www.openstack.org/learn/" class="drop" id="dropdownMenuLearn">Learn <i class="fa fa-caret-down"></i></a>
+          <ul class="dropdown-menu dropdown-hover" role="menu" aria-labelledby="dropdownMenuEvents">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/marketplace/training/">Training</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://superuser.openstack.org/">Superuser Magazine</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://ask.openstack.org/">Ask a Technical Question</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/news/">News</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/blog/">Blog</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="http://www.openstack.org/videos/summits">Summit Videos</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="http://docs.openstack.org/">Docs</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="container docs-book-wrapper">
+      <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-8 col-lg-push-3 col-md-push-4 col-sm-push-4">
+<div class="row">
+  <div class="col-lg-8">
+    <h2>EMC VNX driver</h2>
+  </div>
+  <div class="docs-actions">
+    
+    <a href="emc-vmax-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: EMC VMAX iSCSI and FC drivers"></i></a>
+    
+    
+    <a href="emc-xtremio-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: EMC XtremIO Block Storage driver configuration"></i></a>
+    
+    <a id="logABugLink1" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+  </div>
+</div>
+          <div class="row docs-byline">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="docs-top-contents">
+
+<h5><a href="../../index-2.html">Contents</a></h5>
+<ul>
+<li><a class="reference internal" href="#">EMC VNX driver</a><ul>
+<li><a class="reference internal" href="#system-requirements">System requirements</a></li>
+<li><a class="reference internal" href="#supported-operations">Supported operations</a></li>
+<li><a class="reference internal" href="#preparation">Preparation</a><ul>
+<li><a class="reference internal" href="#install-navisphere-cli">Install Navisphere CLI</a></li>
+<li><a class="reference internal" href="#install-python-library-storops">Install Python library storops</a></li>
+<li><a class="reference internal" href="#check-array-software">Check array software</a></li>
+<li><a class="reference internal" href="#network-configuration">Network configuration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#back-end-configuration">Back-end configuration</a><ul>
+<li><a class="reference internal" href="#minimum-configuration">Minimum configuration</a></li>
+<li><a class="reference internal" href="#multiple-back-end-configuration">Multiple back-end configuration</a></li>
+<li><a class="reference internal" href="#required-configurations">Required configurations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optional-configurations">Optional configurations</a><ul>
+<li><a class="reference internal" href="#vnx-pool-names">VNX pool names</a></li>
+<li><a class="reference internal" href="#force-delete-volumes-in-storage-group">Force delete volumes in storage group</a></li>
+<li><a class="reference internal" href="#over-subscription-in-thin-provisioning">Over subscription in thin provisioning</a></li>
+<li><a class="reference internal" href="#storage-group-automatic-deletion">Storage group automatic deletion</a></li>
+<li><a class="reference internal" href="#initiator-auto-deregistration">Initiator auto deregistration</a></li>
+<li><a class="reference internal" href="#fc-san-auto-zoning">FC SAN auto zoning</a></li>
+<li><a class="reference internal" href="#volume-number-threshold">Volume number threshold</a></li>
+<li><a class="reference internal" href="#iscsi-initiators">iSCSI initiators</a></li>
+<li><a class="reference internal" href="#default-timeout">Default timeout</a></li>
+<li><a class="reference internal" href="#max-luns-per-storage-group">Max LUNs per storage group</a></li>
+<li><a class="reference internal" href="#ignore-pool-full-threshold">Ignore pool full threshold</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#extra-spec-options">Extra spec options</a><ul>
+<li><a class="reference internal" href="#provisioning-type">Provisioning type</a></li>
+<li><a class="reference internal" href="#storage-tiering-support">Storage tiering support</a></li>
+<li><a class="reference internal" href="#fast-cache-support">FAST cache support</a></li>
+<li><a class="reference internal" href="#pool-name">Pool name</a></li>
+<li><a class="reference internal" href="#obsolete-extra-specs">Obsolete extra specs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-features">Advanced features</a><ul>
+<li><a class="reference internal" href="#snap-copy">Snap copy</a></li>
+<li><a class="reference internal" href="#efficient-non-disruptive-volume-backup">Efficient non-disruptive volume backup</a></li>
+<li><a class="reference internal" href="#configurable-migration-rate">Configurable migration rate</a></li>
+<li><a class="reference internal" href="#replication-v2-1-support">Replication v2.1 support</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#best-practice">Best practice</a><ul>
+<li><a class="reference internal" href="#multipath-setup">Multipath setup</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#restrictions-and-limitations">Restrictions and limitations</a><ul>
+<li><a class="reference internal" href="#iscsi-port-cache">iSCSI port cache</a></li>
+<li><a class="reference internal" href="#no-extending-for-volume-with-snapshots">No extending for volume with snapshots</a></li>
+<li><a class="reference internal" href="#limitations-for-deploying-cinder-on-computer-node">Limitations for deploying cinder on computer node</a></li>
+<li><a class="reference internal" href="#storage-group-with-host-names-in-vnx">Storage group with host names in VNX</a></li>
+<li><a class="reference internal" href="#emc-storage-assisted-volume-migration">EMC storage-assisted volume migration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#appendix">Appendix</a><ul>
+<li><a class="reference internal" href="#authenticate-by-security-file">Authenticate by security file</a></li>
+<li><a class="reference internal" href="#register-fc-port-with-vnx">Register FC port with VNX</a></li>
+<li><a class="reference internal" href="#register-iscsi-port-with-vnx">Register iSCSI port with VNX</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <div class="docs-body">
+
+  <div class="section" id="emc-vnx-driver">
+<h1>EMC VNX driver<a class="headerlink" href="#emc-vnx-driver" title="Permalink to this headline">¶</a></h1>
+<p>EMC VNX driver interacts with configured VNX array. It supports
+both iSCSI and FC protocol.</p>
+<p>The VNX cinder driver performs the volume operations by
+executing Navisphere CLI (NaviSecCLI) which is a command-line interface used
+for management, diagnostics, and reporting functions for VNX. It also
+supports both iSCSI and FC protocol.</p>
+<div class="section" id="system-requirements">
+<h2>System requirements<a class="headerlink" href="#system-requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>VNX Operational Environment for Block version 5.32 or higher.</li>
+<li>VNX Snapshot and Thin Provisioning license should be activated for VNX.</li>
+<li>Python library <code class="docutils literal"><span class="pre">storops</span></code> to interact with VNX.</li>
+<li>Navisphere CLI v7.32 or higher is installed along with the driver.</li>
+</ul>
+</div>
+<div class="section" id="supported-operations">
+<h2>Supported operations<a class="headerlink" href="#supported-operations" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Create, delete, attach, and detach volumes.</li>
+<li>Create, list, and delete volume snapshots.</li>
+<li>Create a volume from a snapshot.</li>
+<li>Copy an image to a volume.</li>
+<li>Clone a volume.</li>
+<li>Extend a volume.</li>
+<li>Migrate a volume.</li>
+<li>Retype a volume.</li>
+<li>Get volume statistics.</li>
+<li>Create and delete consistency groups.</li>
+<li>Create, list, and delete consistency group snapshots.</li>
+<li>Modify consistency groups.</li>
+<li>Efficient non-disruptive volume backup.</li>
+<li>Create a cloned consistency group.</li>
+<li>Create a consistency group from consistency group snapshots.</li>
+<li>Replication v2.1 support.</li>
+</ul>
+</div>
+<div class="section" id="preparation">
+<h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
+<p>This section contains instructions to prepare the Block Storage nodes to
+use the EMC VNX driver. You should install the Navisphere CLI and ensure you
+have correct zoning configurations.</p>
+<div class="section" id="install-navisphere-cli">
+<h3>Install Navisphere CLI<a class="headerlink" href="#install-navisphere-cli" title="Permalink to this headline">¶</a></h3>
+<p>Navisphere CLI needs to be installed on all Block Storage nodes within
+an OpenStack deployment. You need to download different versions for
+different platforms:</p>
+<ul class="simple">
+<li>For Ubuntu x64, DEB is available at <a class="reference external" href="https://github.com/emc-openstack/naviseccli">EMC OpenStack
+Github</a>.</li>
+<li>For all other variants of Linux, Navisphere CLI is available at
+<a class="reference external" href="https://support.emc.com/downloads/36656_VNX2-Series">Downloads for VNX2
+Series</a> or
+<a class="reference external" href="https://support.emc.com/downloads/12781_VNX1-Series">Downloads for VNX1
+Series</a>.</li>
+</ul>
+</div>
+<div class="section" id="install-python-library-storops">
+<h3>Install Python library storops<a class="headerlink" href="#install-python-library-storops" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">storops</span></code> is a Python library that interacts with VNX array through
+Navisphere CLI.
+Use the following command to install the <code class="docutils literal"><span class="pre">storops</span></code> library:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install storops
+</pre></div>
+</div>
+</div>
+<div class="section" id="check-array-software">
+<h3>Check array software<a class="headerlink" href="#check-array-software" title="Permalink to this headline">¶</a></h3>
+<p>Make sure your have the following software installed for certain features:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="68%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">Software Required</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>All</td>
+<td>ThinProvisioning</td>
+</tr>
+<tr class="row-odd"><td>All</td>
+<td>VNXSnapshots</td>
+</tr>
+<tr class="row-even"><td>FAST cache support</td>
+<td>FASTCache</td>
+</tr>
+<tr class="row-odd"><td>Create volume with type <code class="docutils literal"><span class="pre">compressed</span></code></td>
+<td>Compression</td>
+</tr>
+<tr class="row-even"><td>Create volume with type <code class="docutils literal"><span class="pre">deduplicated</span></code></td>
+<td>Deduplication</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Required software</strong></p>
+<p>You can check the status of your array software in the <span class="guilabel">Software</span>
+page of <span class="guilabel">Storage System Properties</span>. Here is how it looks like:</p>
+<div class="figure">
+<img alt="../../_images/emc-enabler.png" src="../../_images/emc-enabler.png" />
+</div>
+</div>
+<div class="section" id="network-configuration">
+<h3>Network configuration<a class="headerlink" href="#network-configuration" title="Permalink to this headline">¶</a></h3>
+<p>For the FC Driver, FC zoning is properly configured between the hosts and
+the VNX. Check <a class="reference internal" href="#register-fc-port-with-vnx"><span>Register FC port with VNX</span></a> for reference.</p>
+<p>For the iSCSI Driver, make sure your VNX iSCSI port is accessible by
+your hosts. Check <a class="reference internal" href="#register-iscsi-port-with-vnx"><span>Register iSCSI port with VNX</span></a> for reference.</p>
+<p>You can use <code class="docutils literal"><span class="pre">initiator_auto_registration</span> <span class="pre">=</span> <span class="pre">True</span></code> configuration to avoid
+registering the ports manually. Check the detail of the configuration in
+<a class="reference internal" href="#emc-vnx-conf"><span>Back-end configuration</span></a> for reference.</p>
+<p>If you are trying to setup multipath, refer to <a class="reference internal" href="#multipath-setup"><span>Multipath setup</span></a>.</p>
+</div>
+</div>
+<div class="section" id="back-end-configuration">
+<span id="emc-vnx-conf"></span><h2>Back-end configuration<a class="headerlink" href="#back-end-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Make the following changes in the <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code> file.</p>
+<div class="section" id="minimum-configuration">
+<h3>Minimum configuration<a class="headerlink" href="#minimum-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Here is a sample of minimum back-end configuration. See the following sections
+for the detail of each option.
+Set <code class="docutils literal"><span class="pre">storage_protocol</span> <span class="pre">=</span> <span class="pre">iscsi</span></code> if iSCSI protocol is used.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">enabled_backends</span> <span class="o">=</span> <span class="s">vnx_array1</span>
+
+<span class="k">[vnx_array1]</span>
+<span class="na">san_ip</span> <span class="o">=</span> <span class="s">10.10.72.41</span>
+<span class="na">san_login</span> <span class="o">=</span> <span class="s">sysadmin</span>
+<span class="na">san_password</span> <span class="o">=</span> <span class="s">sysadmin</span>
+<span class="na">naviseccli_path</span> <span class="o">=</span> <span class="s">/opt/Navisphere/bin/naviseccli</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.vnx.driver.EMCVNXDriver</span>
+<span class="na">initiator_auto_registration</span> <span class="o">=</span> <span class="s">True</span>
+<span class="na">storage_protocol</span> <span class="o">=</span> <span class="s">fc</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-back-end-configuration">
+<h3>Multiple back-end configuration<a class="headerlink" href="#multiple-back-end-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Here is a sample of a minimum back-end configuration. See following sections
+for the detail of each option.
+Set <code class="docutils literal"><span class="pre">storage_protocol</span> <span class="pre">=</span> <span class="pre">iscsi</span></code> if iSCSI protocol is used.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="k">[DEFAULT]</span>
+<span class="na">enabled_backends</span> <span class="o">=</span> <span class="s">backendA, backendB</span>
+
+<span class="k">[backendA]</span>
+<span class="na">storage_vnx_pool_names</span> <span class="o">=</span> <span class="s">Pool_01_SAS, Pool_02_FLASH</span>
+<span class="na">san_ip</span> <span class="o">=</span> <span class="s">10.10.72.41</span>
+<span class="na">storage_vnx_security_file_dir</span> <span class="o">=</span> <span class="s">/etc/secfile/array1</span>
+<span class="na">naviseccli_path</span> <span class="o">=</span> <span class="s">/opt/Navisphere/bin/naviseccli</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.vnx.driver.EMCVNXDriver</span>
+<span class="na">initiator_auto_registration</span> <span class="o">=</span> <span class="s">True</span>
+<span class="na">storage_protocol</span> <span class="o">=</span> <span class="s">fc</span>
+
+<span class="k">[backendB]</span>
+<span class="na">storage_vnx_pool_names</span> <span class="o">=</span> <span class="s">Pool_02_SAS</span>
+<span class="na">san_ip</span> <span class="o">=</span> <span class="s">10.10.26.101</span>
+<span class="na">san_login</span> <span class="o">=</span> <span class="s">username</span>
+<span class="na">san_password</span> <span class="o">=</span> <span class="s">password</span>
+<span class="na">naviseccli_path</span> <span class="o">=</span> <span class="s">/opt/Navisphere/bin/naviseccli</span>
+<span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.vnx.driver.EMCVNXDriver</span>
+<span class="na">initiator_auto_registration</span> <span class="o">=</span> <span class="s">True</span>
+<span class="na">storage_protocol</span> <span class="o">=</span> <span class="s">fc</span>
+</pre></div>
+</div>
+<p>The value of the option <code class="docutils literal"><span class="pre">storage_protocol</span></code> can be either <code class="docutils literal"><span class="pre">fc</span></code> or <code class="docutils literal"><span class="pre">iscsi</span></code>,
+which is case insensitive.</p>
+<p>For more details on multiple back ends, see <a class="reference external" href="http://docs.openstack.org/admin-guide/blockstorage-multi-backend.html">Configure multiple-storage
+back ends</a></p>
+</div>
+<div class="section" id="required-configurations">
+<h3>Required configurations<a class="headerlink" href="#required-configurations" title="Permalink to this headline">¶</a></h3>
+<p><strong>IP of the VNX Storage Processors</strong></p>
+<p>Specify SP A or SP B IP to connect:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">san_ip</span> <span class="o">=</span> <span class="s">&lt;IP of VNX Storage Processor&gt;</span>
+</pre></div>
+</div>
+<p><strong>VNX login credentials</strong></p>
+<p>There are two ways to specify the credentials.</p>
+<ul>
+<li><p class="first">Use plain text username and password.</p>
+<p>Supply for plain username and password:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">san_login</span> <span class="o">=</span> <span class="s">&lt;VNX account with administrator role&gt;</span>
+<span class="na">san_password</span> <span class="o">=</span> <span class="s">&lt;password for VNX account&gt;</span>
+<span class="na">storage_vnx_authentication_type</span> <span class="o">=</span> <span class="s">global</span>
+</pre></div>
+</div>
+<p>Valid values for <code class="docutils literal"><span class="pre">storage_vnx_authentication_type</span></code> are: <code class="docutils literal"><span class="pre">global</span></code>
+(default), <code class="docutils literal"><span class="pre">local</span></code>, and <code class="docutils literal"><span class="pre">ldap</span></code>.</p>
+</li>
+<li><p class="first">Use Security file.</p>
+<p>This approach avoids the plain text password in your cinder
+configuration file. Supply a security file as below:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">storage_vnx_security_file_dir</span> <span class="o">=</span> <span class="s">&lt;path to security file&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Check Unisphere CLI user guide or <a class="reference internal" href="#authenticate-by-security-file"><span>Authenticate by security file</span></a>
+for how to create a security file.</p>
+<p><strong>Path to your Unisphere CLI</strong></p>
+<p>Specify the absolute path to your naviseccli:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">naviseccli_path</span> <span class="o">=</span> <span class="s">/opt/Navisphere/bin/naviseccli</span>
+</pre></div>
+</div>
+<p><strong>Driver&#8217;s storage protocol</strong></p>
+<ul>
+<li><p class="first">For the FC Driver, add the following option:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.vnx.driver.EMCVNXDriver</span>
+<span class="na">storage_protocol</span> <span class="o">=</span> <span class="s">fc</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">For iSCSI Driver, add the following option:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">volume_driver</span> <span class="o">=</span> <span class="s">cinder.volume.drivers.emc.vnx.driver.EMCVNXDriver</span>
+<span class="na">storage_protocol</span> <span class="o">=</span> <span class="s">iscsi</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="optional-configurations">
+<h2>Optional configurations<a class="headerlink" href="#optional-configurations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="vnx-pool-names">
+<h3>VNX pool names<a class="headerlink" href="#vnx-pool-names" title="Permalink to this headline">¶</a></h3>
+<p>Specify the list of pools to be managed, separated by commas. They should
+already exist in VNX.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">storage_vnx_pool_names</span> <span class="o">=</span> <span class="s">pool 1, pool 2</span>
+</pre></div>
+</div>
+<p>If this value is not specified, all pools of the array will be used.</p>
+<p><strong>Initiator auto registration</strong></p>
+<p>When <code class="docutils literal"><span class="pre">initiator_auto_registration</span></code> is set to <code class="docutils literal"><span class="pre">True</span></code>, the driver will
+automatically register initiators to all working target ports of the VNX array
+during volume attaching (The driver will skip those initiators that have
+already been registered) if the option <code class="docutils literal"><span class="pre">io_port_list</span></code> is not specified in
+the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file.</p>
+<p>If the user wants to register the initiators with some specific ports but not
+register with the other ports, this functionality should be disabled.</p>
+<p>When a comma-separated list is given to <code class="docutils literal"><span class="pre">io_port_list</span></code>, the driver will only
+register the initiator to the ports specified in the list and only return
+target port(s) which belong to the target ports in the <code class="docutils literal"><span class="pre">io_port_list</span></code> instead
+of all target ports.</p>
+<ul>
+<li><p class="first">Example for FC ports:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">io_port_list</span> <span class="o">=</span> <span class="s">a-1,B-3</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">a</span></code> or <code class="docutils literal"><span class="pre">B</span></code> is <em>Storage Processor</em>, number <code class="docutils literal"><span class="pre">1</span></code> and <code class="docutils literal"><span class="pre">3</span></code> are
+<em>Port ID</em>.</p>
+</li>
+<li><p class="first">Example for iSCSI ports:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">io_port_list</span> <span class="o">=</span> <span class="s">a-1-0,B-3-0</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">a</span></code> or <code class="docutils literal"><span class="pre">B</span></code> is <em>Storage Processor</em>, the first numbers <code class="docutils literal"><span class="pre">1</span></code> and <code class="docutils literal"><span class="pre">3</span></code> are
+<em>Port ID</em> and the second number <code class="docutils literal"><span class="pre">0</span></code> is <em>Virtual Port ID</em></p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>Rather than de-registered, the registered ports will be simply
+bypassed whatever they are in <code class="docutils literal"><span class="pre">io_port_list</span></code> or not.</li>
+<li>The driver will raise an exception if ports in <code class="docutils literal"><span class="pre">io_port_list</span></code>
+do not exist in VNX during startup.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="force-delete-volumes-in-storage-group">
+<h3>Force delete volumes in storage group<a class="headerlink" href="#force-delete-volumes-in-storage-group" title="Permalink to this headline">¶</a></h3>
+<p>Some <code class="docutils literal"><span class="pre">available</span></code> volumes may remain in storage group on the VNX array due to
+some OpenStack timeout issue. But the VNX array do not allow the user to delete
+the volumes which are in storage group. Option
+<code class="docutils literal"><span class="pre">force_delete_lun_in_storagegroup</span></code> is introduced to allow the user to delete
+the <code class="docutils literal"><span class="pre">available</span></code> volumes in this tricky situation.</p>
+<p>When <code class="docutils literal"><span class="pre">force_delete_lun_in_storagegroup</span></code> is set to <code class="docutils literal"><span class="pre">True</span></code> in the back-end
+section, the driver will move the volumes out of the storage groups and then
+delete them if the user tries to delete the volumes that remain in the storage
+group on the VNX array.</p>
+<p>The default value of <code class="docutils literal"><span class="pre">force_delete_lun_in_storagegroup</span></code> is <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</div>
+<div class="section" id="over-subscription-in-thin-provisioning">
+<h3>Over subscription in thin provisioning<a class="headerlink" href="#over-subscription-in-thin-provisioning" title="Permalink to this headline">¶</a></h3>
+<p>Over subscription allows that the sum of all volume&#8217;s capacity (provisioned
+capacity) to be larger than the pool&#8217;s total capacity.</p>
+<p><code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> in the back-end section is the ratio of
+provisioned capacity over total capacity.</p>
+<p>The default value of <code class="docutils literal"><span class="pre">max_over_subscription_ratio</span></code> is 20.0, which means
+the provisioned capacity can be 20 times of the total capacity.
+If the value of this ratio is set larger than 1.0, the provisioned
+capacity can exceed the total capacity.</p>
+</div>
+<div class="section" id="storage-group-automatic-deletion">
+<h3>Storage group automatic deletion<a class="headerlink" href="#storage-group-automatic-deletion" title="Permalink to this headline">¶</a></h3>
+<p>For volume attaching, the driver has a storage group on VNX for each compute
+node hosting the vm instances which are going to consume VNX Block Storage
+(using compute node&#8217;s host name as storage group&#8217;s name).  All the volumes
+attached to the VM instances in a Compute node will be put into the storage
+group. If <code class="docutils literal"><span class="pre">destroy_empty_storage_group</span></code> is set to <code class="docutils literal"><span class="pre">True</span></code>, the driver will
+remove the empty storage group after its last volume is detached. For data
+safety, it does not suggest to set <code class="docutils literal"><span class="pre">destroy_empty_storage_group=True</span></code> unless
+the VNX is exclusively managed by one Block Storage node because consistent
+<code class="docutils literal"><span class="pre">lock_path</span></code> is required for operation synchronization for this behavior.</p>
+</div>
+<div class="section" id="initiator-auto-deregistration">
+<h3>Initiator auto deregistration<a class="headerlink" href="#initiator-auto-deregistration" title="Permalink to this headline">¶</a></h3>
+<p>Enabling storage group automatic deletion is the precondition of this function.
+If <code class="docutils literal"><span class="pre">initiator_auto_deregistration</span></code> is set to <code class="docutils literal"><span class="pre">True</span></code> is set, the driver will
+deregister all FC and iSCSI initiators of the host after its storage group is
+deleted.</p>
+</div>
+<div class="section" id="fc-san-auto-zoning">
+<h3>FC SAN auto zoning<a class="headerlink" href="#fc-san-auto-zoning" title="Permalink to this headline">¶</a></h3>
+<p>The EMC VNX driver supports FC SAN auto zoning when <code class="docutils literal"><span class="pre">ZoneManager</span></code> is
+configured and <code class="docutils literal"><span class="pre">zoning_mode</span></code> is set to <code class="docutils literal"><span class="pre">fabric</span></code> in <code class="docutils literal"><span class="pre">cinder.conf</span></code>.
+For ZoneManager configuration, refer to <a class="reference internal" href="../fc-zoning.html"><em>Fibre Channel Zone Manager</em></a>.</p>
+</div>
+<div class="section" id="volume-number-threshold">
+<h3>Volume number threshold<a class="headerlink" href="#volume-number-threshold" title="Permalink to this headline">¶</a></h3>
+<p>In VNX, there is a limitation on the number of pool volumes that can be created
+in the system. When the limitation is reached, no more pool volumes can be
+created even if there is remaining capacity in the storage pool. In other
+words, if the scheduler dispatches a volume creation request to a back end that
+has free capacity but reaches the volume limitation, the creation fails.</p>
+<p>The default value of <code class="docutils literal"><span class="pre">check_max_pool_luns_threshold</span></code> is <code class="docutils literal"><span class="pre">False</span></code>.  When
+<code class="docutils literal"><span class="pre">check_max_pool_luns_threshold=True</span></code>, the pool-based back end will check the
+limit and will report 0 free capacity to the scheduler if the limit is reached.
+So the scheduler will be able to skip this kind of pool-based back end that
+runs out of the pool volume number.</p>
+</div>
+<div class="section" id="iscsi-initiators">
+<h3>iSCSI initiators<a class="headerlink" href="#iscsi-initiators" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">iscsi_initiators</span></code> is a dictionary of IP addresses of the iSCSI
+initiator ports on OpenStack Compute and Block Storage nodes which want to
+connect to VNX via iSCSI. If this option is configured, the driver will
+leverage this information to find an accessible iSCSI target portal for the
+initiator when attaching volume. Otherwise, the iSCSI target portal will be
+chosen in a relative random way.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This option is only valid for iSCSI driver.</p>
+</div>
+<p>Here is an example. VNX will connect <code class="docutils literal"><span class="pre">host1</span></code> with <code class="docutils literal"><span class="pre">10.0.0.1</span></code> and
+<code class="docutils literal"><span class="pre">10.0.0.2</span></code>. And it will connect <code class="docutils literal"><span class="pre">host2</span></code> with <code class="docutils literal"><span class="pre">10.0.0.3</span></code>.</p>
+<p>The key name (<code class="docutils literal"><span class="pre">host1</span></code> in the example) should be the output of
+<strong class="command">hostname</strong> command.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">iscsi_initiators</span> <span class="o">=</span> <span class="s">{&quot;host1&quot;:[&quot;10.0.0.1&quot;, &quot;10.0.0.2&quot;],&quot;host2&quot;:[&quot;10.0.0.3&quot;]}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="default-timeout">
+<h3>Default timeout<a class="headerlink" href="#default-timeout" title="Permalink to this headline">¶</a></h3>
+<p>Specify the timeout in minutes for operations like LUN migration, LUN creation,
+etc. For example, LUN migration is a typical long running operation, which
+depends on the LUN size and the load of the array. An upper bound in the
+specific deployment can be set to avoid unnecessary long wait.</p>
+<p>The default value for this option is <code class="docutils literal"><span class="pre">infinite</span></code>.</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">default_timeout</span> <span class="o">=</span> <span class="s">60</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="max-luns-per-storage-group">
+<h3>Max LUNs per storage group<a class="headerlink" href="#max-luns-per-storage-group" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">max_luns_per_storage_group</span></code> specify the maximum number of LUNs in a
+storage group. Default value is 255. It is also the maximum value supported by
+VNX.</p>
+</div>
+<div class="section" id="ignore-pool-full-threshold">
+<h3>Ignore pool full threshold<a class="headerlink" href="#ignore-pool-full-threshold" title="Permalink to this headline">¶</a></h3>
+<p>If <code class="docutils literal"><span class="pre">ignore_pool_full_threshold</span></code> is set to <code class="docutils literal"><span class="pre">True</span></code>, driver will force LUN
+creation even if the full threshold of pool is reached. Default to <code class="docutils literal"><span class="pre">False</span></code>.</p>
+</div>
+</div>
+<div class="section" id="extra-spec-options">
+<h2>Extra spec options<a class="headerlink" href="#extra-spec-options" title="Permalink to this headline">¶</a></h2>
+<p>Extra specs are used in volume types created in Block Storage as the preferred
+property of the volume.</p>
+<p>The Block Storage scheduler will use extra specs to find the suitable back end
+for the volume and the Block Storage driver will create the volume based on the
+properties specified by the extra spec.</p>
+<p>Use the following command to create a volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create demoVolumeType
+</pre></div>
+</div>
+<p>Use the following command to update the extra spec of a volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property provisioning:type<span class="o">=</span>thin <span class="nv">thick_provisioning_support</span><span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> demoVolumeType
+</pre></div>
+</div>
+<p>The following sections describe the VNX extra keys.</p>
+<div class="section" id="provisioning-type">
+<h3>Provisioning type<a class="headerlink" href="#provisioning-type" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">Key: <code class="docutils literal"><span class="pre">provisioning:type</span></code></p>
+</li>
+<li><p class="first">Possible Values:</p>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">thick</span></code></p>
+<p>Volume is fully provisioned.</p>
+<p>Run the following commands to create a <code class="docutils literal"><span class="pre">thick</span></code> volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create ThickVolumeType
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property provisioning:type<span class="o">=</span>thick <span class="nv">thick_provisioning_support</span><span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> ThickVolumeType
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">thin</span></code></p>
+<p>Volume is virtually provisioned.</p>
+<p>Run the following commands to create a <code class="docutils literal"><span class="pre">thin</span></code> volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create ThinVolumeType
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property provisioning:type<span class="o">=</span>thin <span class="nv">thin_provisioning_support</span><span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> ThinVolumeType
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">deduplicated</span></code></p>
+<p>Volume is <code class="docutils literal"><span class="pre">thin</span></code> and deduplication is enabled. The administrator shall
+go to VNX to configure the system level deduplication settings. To
+create a deduplicated volume, the VNX Deduplication license must be
+activated on VNX, and specify <code class="docutils literal"><span class="pre">deduplication_support=True</span></code> to let Block
+Storage scheduler find the proper volume back end.</p>
+<p>Run the following commands to create a <code class="docutils literal"><span class="pre">deduplicated</span></code> volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create DeduplicatedVolumeType
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property provisioning:type<span class="o">=</span>deduplicated <span class="nv">deduplicated_support</span><span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> DeduplicatedVolumeType
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">compressed</span></code></p>
+<p>Volume is <code class="docutils literal"><span class="pre">thin</span></code> and compression is enabled. The administrator shall go
+to the VNX to configure the system level compression settings. To create
+a compressed volume, the VNX Compression license must be activated on
+VNX, and use <code class="docutils literal"><span class="pre">compression_support=True</span></code> to let Block Storage scheduler
+find a volume back end. VNX does not support creating snapshots on a
+compressed volume.</p>
+<p>Run the following commands to create a <code class="docutils literal"><span class="pre">compressed</span></code> volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create CompressedVolumeType
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property provisioning:type<span class="o">=</span>compressed <span class="nv">compression_support</span><span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> CompressedVolumeType
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li><p class="first">Default: <code class="docutils literal"><span class="pre">thick</span></code></p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal"><span class="pre">provisioning:type</span></code> replaces the old spec key <code class="docutils literal"><span class="pre">storagetype:provisioning</span></code>.
+The latter one is obsolete since the <em>Mitaka</em> release.</p>
+</div>
+</div>
+<div class="section" id="storage-tiering-support">
+<h3>Storage tiering support<a class="headerlink" href="#storage-tiering-support" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Key: <code class="docutils literal"><span class="pre">storagetype:tiering</span></code></li>
+<li>Possible values:<ul>
+<li><code class="docutils literal"><span class="pre">StartHighThenAuto</span></code></li>
+<li><code class="docutils literal"><span class="pre">Auto</span></code></li>
+<li><code class="docutils literal"><span class="pre">HighestAvailable</span></code></li>
+<li><code class="docutils literal"><span class="pre">LowestAvailable</span></code></li>
+<li><code class="docutils literal"><span class="pre">NoMovement</span></code></li>
+</ul>
+</li>
+<li>Default: <code class="docutils literal"><span class="pre">StartHighThenAuto</span></code></li>
+</ul>
+<p>VNX supports fully automated storage tiering which requires the FAST license
+activated on the VNX. The OpenStack administrator can use the extra spec key
+<code class="docutils literal"><span class="pre">storagetype:tiering</span></code> to set the tiering policy of a volume and use the key
+<code class="docutils literal"><span class="pre">fast_support='&lt;is&gt;</span> <span class="pre">True'</span></code> to let Block Storage scheduler find a volume back
+end which manages a VNX with FAST license activated. Here are the five
+supported values for the extra spec key <code class="docutils literal"><span class="pre">storagetype:tiering</span></code>:</p>
+<p>Run the following commands to create a volume type with tiering policy:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create ThinVolumeOnAutoTier
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property provisioning:type<span class="o">=</span>thin storagetype:tiering<span class="o">=</span>Auto <span class="nv">fast_support</span><span class="o">=</span><span class="s1">&#39;&lt;is&gt; True&#39;</span> ThinVolumeOnAutoTier
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The tiering policy cannot be applied to a deduplicated volume. Tiering
+policy of the deduplicated LUN align with the settings of the pool.</p>
+</div>
+</div>
+<div class="section" id="fast-cache-support">
+<h3>FAST cache support<a class="headerlink" href="#fast-cache-support" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Key: <code class="docutils literal"><span class="pre">fast_cache_enabled</span></code></li>
+<li>Possible values:<ul>
+<li><code class="docutils literal"><span class="pre">True</span></code></li>
+<li><code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+</li>
+<li>Default: <code class="docutils literal"><span class="pre">False</span></code></li>
+</ul>
+<p>VNX has FAST Cache feature which requires the FAST Cache license activated on
+the VNX. Volume will be created on the backend with FAST cache enabled when
+<code class="docutils literal"><span class="pre">&lt;is&gt;</span> <span class="pre">True</span></code> is specified.</p>
+</div>
+<div class="section" id="pool-name">
+<h3>Pool name<a class="headerlink" href="#pool-name" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Key: <code class="docutils literal"><span class="pre">pool_name</span></code></li>
+<li>Possible values: name of the storage pool managed by cinder</li>
+<li>Default: None</li>
+</ul>
+<p>If the user wants to create a volume on a certain storage pool in a back end
+that manages multiple pools, a volume type with a extra spec specified storage
+pool should be created first, then the user can use this volume type to create
+the volume.</p>
+<p>Run the following commands to create the volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> openstack volume <span class="nb">type</span> create HighPerf
+<span class="gp">$</span> openstack volume <span class="nb">type</span> <span class="nb">set</span> --property <span class="nv">pool_name</span><span class="o">=</span>Pool_02_SASFLASH <span class="nv">volume_backend_name</span><span class="o">=</span>vnx_41 HighPerf
+</pre></div>
+</div>
+</div>
+<div class="section" id="obsolete-extra-specs">
+<h3>Obsolete extra specs<a class="headerlink" href="#obsolete-extra-specs" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><em>DO NOT</em> use the following obsolete extra spec keys:</p>
+<ul class="last simple">
+<li><code class="docutils literal"><span class="pre">storagetype:provisioning</span></code></li>
+<li><code class="docutils literal"><span class="pre">storagetype:pool</span></code></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="advanced-features">
+<h2>Advanced features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="snap-copy">
+<h3>Snap copy<a class="headerlink" href="#snap-copy" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Metadata Key: <code class="docutils literal"><span class="pre">snapcopy</span></code></li>
+<li>Possible Values:<ul>
+<li><code class="docutils literal"><span class="pre">True</span></code> or <code class="docutils literal"><span class="pre">true</span></code></li>
+<li><code class="docutils literal"><span class="pre">False</span></code> or <code class="docutils literal"><span class="pre">false</span></code></li>
+</ul>
+</li>
+<li>Default: <cite>False</cite></li>
+</ul>
+<p>VNX driver supports snap copy which accelerates the process for
+creating a copied volume.</p>
+<p>By default, the driver will do full data copy when creating a
+volume from a snapshot or cloning a volume. This is time-consuming, especially
+for large volumes. When snap copy is used, driver creates a
+snapshot and mounts it as a volume for the 2 kinds of operations which will be
+instant even for large volumes.</p>
+<p>To enable this functionality, append <code class="docutils literal"><span class="pre">--metadata</span> <span class="pre">snapcopy=True</span></code>
+when creating cloned volume or creating volume from snapshot.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder create --source-volid &lt;source-void&gt; --name <span class="s2">&quot;cloned_volume&quot;</span> --metadata <span class="nv">snapcopy</span><span class="o">=</span>True
+</pre></div>
+</div>
+<p>Or</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder create --snapshot-id &lt;snapshot-id&gt; --name <span class="s2">&quot;vol_from_snapshot&quot;</span> --metadata <span class="nv">snapcopy</span><span class="o">=</span>True
+</pre></div>
+</div>
+<p>The newly created volume is a snap copy instead of
+a full copy. If a full copy is needed, retype or migrate can be used
+to convert the snap-copy volume to a full-copy volume which may be
+time-consuming.</p>
+<p>You can determine whether the volume is a snap-copy volume or not by
+showing its metadata. If the <code class="docutils literal"><span class="pre">snapcopy</span></code> in metadata is <code class="docutils literal"><span class="pre">True</span></code> or <code class="docutils literal"><span class="pre">true</span></code>,
+the volume is a snap-copy volume. Otherwise, it is a full-copy volume.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder metadata-show &lt;volume&gt;
+</pre></div>
+</div>
+<p><strong>Constraints</strong></p>
+<ul class="simple">
+<li>The number of snap-copy volumes created from a single source volume is
+limited to 255 at one point in time.</li>
+<li>The source volume which has snap-copy volume can not be deleted or migrated.</li>
+<li>snapcopy volume will be change to full-copy volume after host-assisted or
+storage-assisted migration.</li>
+<li>snapcopy volume can not be added to consisgroup because of VNX limitation.</li>
+</ul>
+</div>
+<div class="section" id="efficient-non-disruptive-volume-backup">
+<h3>Efficient non-disruptive volume backup<a class="headerlink" href="#efficient-non-disruptive-volume-backup" title="Permalink to this headline">¶</a></h3>
+<p>The default implementation in Block Storage for non-disruptive volume backup is
+not efficient since a cloned volume will be created during backup.</p>
+<p>The approach of efficient backup is to create a snapshot for the volume and
+connect this snapshot (a mount point in VNX) to the Block Storage host for
+volume backup. This eliminates migration time involved in volume clone.</p>
+<p><strong>Constraints</strong></p>
+<ul class="simple">
+<li>Backup creation for a snap-copy volume is not allowed if the volume
+status is <code class="docutils literal"><span class="pre">in-use</span></code> since snapshot cannot be taken from this volume.</li>
+</ul>
+</div>
+<div class="section" id="configurable-migration-rate">
+<h3>Configurable migration rate<a class="headerlink" href="#configurable-migration-rate" title="Permalink to this headline">¶</a></h3>
+<p>VNX cinder driver is leveraging the LUN migration from the VNX. LUN migration
+is involved in cloning, migrating, retyping, and creating volume from snapshot.
+When admin set <code class="docutils literal"><span class="pre">migrate_rate</span></code> in volume&#8217;s <code class="docutils literal"><span class="pre">metadata</span></code>, VNX driver can start
+migration with specified rate. The available values for the <code class="docutils literal"><span class="pre">migrate_rate</span></code>
+are <code class="docutils literal"><span class="pre">high</span></code>, <code class="docutils literal"><span class="pre">asap</span></code>, <code class="docutils literal"><span class="pre">low</span></code> and <code class="docutils literal"><span class="pre">medium</span></code>.</p>
+<p>The following is an example to set <code class="docutils literal"><span class="pre">migrate_rate</span></code> to <code class="docutils literal"><span class="pre">asap</span></code>:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder metadata &lt;volume-id&gt; <span class="nb">set</span> <span class="nv">migrate_rate</span><span class="o">=</span>asap
+</pre></div>
+</div>
+<p>After set, any cinder volume operations involving VNX LUN migration will
+take the value as the migration rate. To restore the migration rate to
+default, unset the metadata as following:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder metadata &lt;volume-id&gt; <span class="nb">unset</span> migrate_rate
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not use the <code class="docutils literal"><span class="pre">asap</span></code> migration rate when the system is in production, as the normal
+host I/O may be interrupted. Use asap only when the system is offline
+(free of any host-level I/O).</p>
+</div>
+</div>
+<div class="section" id="replication-v2-1-support">
+<h3>Replication v2.1 support<a class="headerlink" href="#replication-v2-1-support" title="Permalink to this headline">¶</a></h3>
+<p>Cinder introduces Replication v2.1 support in Mitaka, it supports
+fail-over and fail-back replication for specific back end. In VNX cinder
+driver, <strong>MirrorView</strong> is used to set up replication for the volume.</p>
+<p>To enable this feature, you need to set configuration in <code class="docutils literal"><span class="pre">cinder.conf</span></code> as
+below:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span></span><span class="na">replication_device</span> <span class="o">=</span> <span class="s">backend_id:&lt;secondary VNX serial number&gt;,</span>
+<span class="s">                     san_ip:192.168.1.2,</span>
+<span class="s">                     san_login:admin,</span>
+<span class="s">                     san_password:admin,</span>
+<span class="s">                     naviseccli_path:/opt/Navisphere/bin/naviseccli,</span>
+<span class="s">                     storage_vnx_authentication_type:global,</span>
+<span class="s">                     storage_vnx_security_file_dir:</span>
+</pre></div>
+</div>
+<p>Currently, only synchronized mode <strong>MirrorView</strong> is supported, and one volume
+can only have 1 secondary storage system. Therefore, you can have only one
+<code class="docutils literal"><span class="pre">replication_device</span></code> presented in driver configuration section.</p>
+<p>To create a replication enabled volume, you need to create a volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder type-create replication-type
+<span class="gp">$</span> cinder type-key replication-type <span class="nb">set</span> <span class="nv">replication_enabled</span><span class="o">=</span><span class="s2">&quot;&lt;is&gt; True&quot;</span>
+</pre></div>
+</div>
+<p>And then create volume with above volume type:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder create --volume-type replication-type --name replication-volume 1
+</pre></div>
+</div>
+<p><strong>Supported operations</strong></p>
+<ul>
+<li><p class="first">Create volume</p>
+</li>
+<li><p class="first">Create cloned volume</p>
+</li>
+<li><p class="first">Create volume from snapshot</p>
+</li>
+<li><p class="first">Fail-over volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder failover-host --backend_id &lt;secondary VNX serial number&gt; &lt;hostname&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">Fail-back volume:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">$</span> cinder failover-host --backend_id default &lt;hostname&gt;
+</pre></div>
+</div>
+</li>
+</ul>
+<p><strong>Requirements</strong></p>
+<ul class="simple">
+<li>2 VNX systems must be in same domain.</li>
+<li>For iSCSI MirrorView, user needs to setup iSCSI connection before enable
+replication in Cinder.</li>
+<li>For FC MirrorView, user needs to zone specific FC ports from 2
+VNX system together.</li>
+<li>MirrorView Sync enabler( <strong>MirrorView/S</strong> ) installed on both systems.</li>
+<li>Write intent log enabled on both VNX systems.</li>
+</ul>
+<p>For more information on how to configure, please refer to: <a class="reference external" href="https://support.emc.com/docu32906_MirrorView-Knowledgebook:-Releases-30-–-33---A-Detailed-Review.pdf?language=en_US">MirrorView-Knowledgebook:-Releases-30-–-33</a></p>
+</div>
+</div>
+<div class="section" id="best-practice">
+<h2>Best practice<a class="headerlink" href="#best-practice" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="multipath-setup">
+<span id="id1"></span><h3>Multipath setup<a class="headerlink" href="#multipath-setup" title="Permalink to this headline">¶</a></h3>
+<p>Enabling multipath volume access is recommended for robust data access.
+The major configuration includes:</p>
+<ol class="arabic simple">
+<li>Install <code class="docutils literal"><span class="pre">multipath-tools</span></code>, <code class="docutils literal"><span class="pre">sysfsutils</span></code> and <code class="docutils literal"><span class="pre">sg3-utils</span></code> on the
+nodes hosting Nova-Compute and Cinder-Volume services. Check
+the operating system manual for the system distribution for specific
+installation steps. For Red Hat based distributions, they should be
+<code class="docutils literal"><span class="pre">device-mapper-multipath</span></code>, <code class="docutils literal"><span class="pre">sysfsutils</span></code> and <code class="docutils literal"><span class="pre">sg3_utils</span></code>.</li>
+<li>Specify <code class="docutils literal"><span class="pre">use_multipath_for_image_xfer=true</span></code> in the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file
+for each FC/iSCSI back end.</li>
+<li>Specify <code class="docutils literal"><span class="pre">iscsi_use_multipath=True</span></code> in <code class="docutils literal"><span class="pre">libvirt</span></code> section of the
+<code class="docutils literal"><span class="pre">nova.conf</span></code> file. This option is valid for both iSCSI and FC driver.</li>
+</ol>
+<p>For multipath-tools, here is an EMC recommended sample of
+<code class="docutils literal"><span class="pre">/etc/multipath.conf</span></code> file.</p>
+<p><code class="docutils literal"><span class="pre">user_friendly_names</span></code> is not specified in the configuration and thus
+it will take the default value <code class="docutils literal"><span class="pre">no</span></code>. It is not recommended to set it
+to <code class="docutils literal"><span class="pre">yes</span></code> because it may fail operations such as VM live migration.</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>blacklist {
+    # Skip the files under /dev that are definitely not FC/iSCSI devices
+    # Different system may need different customization
+    devnode &quot;^(ram|raw|loop|fd|md|dm-|sr|scd|st)[0-9]*&quot;
+    devnode &quot;^hd[a-z][0-9]*&quot;
+    devnode &quot;^cciss!c[0-9]d[0-9]*[p[0-9]*]&quot;
+
+    # Skip LUNZ device from VNX
+    device {
+        vendor &quot;DGC&quot;
+        product &quot;LUNZ&quot;
+        }
+}
+
+defaults {
+    user_friendly_names no
+    flush_on_last_del yes
+}
+
+devices {
+    # Device attributed for EMC CLARiiON and VNX series ALUA
+    device {
+        vendor &quot;DGC&quot;
+        product &quot;.*&quot;
+        product_blacklist &quot;LUNZ&quot;
+        path_grouping_policy group_by_prio
+        path_selector &quot;round-robin 0&quot;
+        path_checker emc_clariion
+        features &quot;1 queue_if_no_path&quot;
+        hardware_handler &quot;1 alua&quot;
+        prio alua
+        failback immediate
+    }
+}
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When multipath is used in OpenStack, multipath faulty devices may
+come out in Nova-Compute nodes due to different issues (<a class="reference external" href="https://bugs.launchpad.net/nova/+bug/1336683">Bug
+1336683</a> is a
+typical example).</p>
+</div>
+<p>A solution to completely avoid faulty devices has not been found yet.
+<code class="docutils literal"><span class="pre">faulty_device_cleanup.py</span></code> mitigates this issue when VNX iSCSI storage is
+used. Cloud administrators can deploy the script in all Nova-Compute nodes and
+use a CRON job to run the script on each Nova-Compute node periodically so that
+faulty devices will not stay too long. Refer to: <a class="reference external" href="https://github.com/emc-openstack/vnx-faulty-device-cleanup">VNX faulty device
+cleanup</a> for
+detailed usage and the script.</p>
+</div>
+</div>
+<div class="section" id="restrictions-and-limitations">
+<h2>Restrictions and limitations<a class="headerlink" href="#restrictions-and-limitations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="iscsi-port-cache">
+<h3>iSCSI port cache<a class="headerlink" href="#iscsi-port-cache" title="Permalink to this headline">¶</a></h3>
+<p>EMC VNX iSCSI driver caches the iSCSI ports information, so that the user
+should restart the <code class="docutils literal"><span class="pre">cinder-volume</span></code> service or wait for seconds (which is
+configured by <code class="docutils literal"><span class="pre">periodic_interval</span></code> in the <code class="docutils literal"><span class="pre">cinder.conf</span></code> file) before any
+volume attachment operation after changing the iSCSI port configurations.
+Otherwise the attachment may fail because the old iSCSI port configurations
+were used.</p>
+</div>
+<div class="section" id="no-extending-for-volume-with-snapshots">
+<h3>No extending for volume with snapshots<a class="headerlink" href="#no-extending-for-volume-with-snapshots" title="Permalink to this headline">¶</a></h3>
+<p>VNX does not support extending the thick volume which has a snapshot. If the
+user tries to extend a volume which has a snapshot, the status of the volume
+would change to <code class="docutils literal"><span class="pre">error_extending</span></code>.</p>
+</div>
+<div class="section" id="limitations-for-deploying-cinder-on-computer-node">
+<h3>Limitations for deploying cinder on computer node<a class="headerlink" href="#limitations-for-deploying-cinder-on-computer-node" title="Permalink to this headline">¶</a></h3>
+<p>It is not recommended to deploy the driver on a compute node if <code class="docutils literal"><span class="pre">cinder</span>
+<span class="pre">upload-to-image</span> <span class="pre">--force</span> <span class="pre">True</span></code> is used against an in-use volume. Otherwise,
+<code class="docutils literal"><span class="pre">cinder</span> <span class="pre">upload-to-image</span> <span class="pre">--force</span> <span class="pre">True</span></code> will terminate the data access of the
+vm instance to the volume.</p>
+</div>
+<div class="section" id="storage-group-with-host-names-in-vnx">
+<h3>Storage group with host names in VNX<a class="headerlink" href="#storage-group-with-host-names-in-vnx" title="Permalink to this headline">¶</a></h3>
+<p>When the driver notices that there is no existing storage group that has the
+host name as the storage group name, it will create the storage group and also
+add the compute node&#8217;s or Block Storage node&#8217;s registered initiators into the
+storage group.</p>
+<p>If the driver notices that the storage group already exists, it will assume
+that the registered initiators have also been put into it and skip the
+operations above for better performance.</p>
+<p>It is recommended that the storage administrator does not create the storage
+group manually and instead relies on the driver for the preparation. If the
+storage administrator needs to create the storage group manually for some
+special requirements, the correct registered initiators should be put into the
+storage group as well (otherwise the following volume attaching operations will
+fail).</p>
+</div>
+<div class="section" id="emc-storage-assisted-volume-migration">
+<h3>EMC storage-assisted volume migration<a class="headerlink" href="#emc-storage-assisted-volume-migration" title="Permalink to this headline">¶</a></h3>
+<p>EMC VNX driver supports storage-assisted volume migration, when the user starts
+migrating with <code class="docutils literal"><span class="pre">cinder</span> <span class="pre">migrate</span> <span class="pre">--force-host-copy</span> <span class="pre">False</span> <span class="pre">&lt;volume_id&gt;</span> <span class="pre">&lt;host&gt;</span></code> or
+<code class="docutils literal"><span class="pre">cinder</span> <span class="pre">migrate</span> <span class="pre">&lt;volume_id&gt;</span> <span class="pre">&lt;host&gt;</span></code>, cinder will try to leverage the VNX&#8217;s
+native volume migration functionality.</p>
+<p>In following scenarios, VNX storage-assisted volume migration will not be
+triggered:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">in-use</span></code> volume migration between back ends with different storage
+protocol, for example, FC and iSCSI.</li>
+<li>Volume is to be migrated across arrays.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="appendix">
+<h2>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="authenticate-by-security-file">
+<span id="id2"></span><h3>Authenticate by security file<a class="headerlink" href="#authenticate-by-security-file" title="Permalink to this headline">¶</a></h3>
+<p>VNX credentials are necessary when the driver connects to the VNX system.
+Credentials in <code class="docutils literal"><span class="pre">global</span></code>, <code class="docutils literal"><span class="pre">local</span></code> and <code class="docutils literal"><span class="pre">ldap</span></code> scopes are supported. There
+are two approaches to provide the credentials.</p>
+<p>The recommended one is using the Navisphere CLI security file to provide the
+credentials which can get rid of providing the plain text credentials in the
+configuration file. Following is the instruction on how to do this.</p>
+<ol class="arabic">
+<li><p class="first">Find out the Linux user id of the <code class="docutils literal"><span class="pre">cinder-volume</span></code> processes. Assuming the
+<code class="docutils literal"><span class="pre">cinder-volume</span></code> service is running by the account <code class="docutils literal"><span class="pre">cinder</span></code>.</p>
+</li>
+<li><p class="first">Run <code class="docutils literal"><span class="pre">su</span></code> as root user.</p>
+</li>
+<li><p class="first">In <code class="docutils literal"><span class="pre">/etc/passwd</span></code> file, change
+<code class="docutils literal"><span class="pre">cinder:x:113:120::/var/lib/cinder:/bin/false</span></code>
+to <code class="docutils literal"><span class="pre">cinder:x:113:120::/var/lib/cinder:/bin/bash</span></code> (This temporary change is
+to make step 4 work.)</p>
+</li>
+<li><p class="first">Save the credentials on behalf of <code class="docutils literal"><span class="pre">cinder</span></code> user to a security file
+(assuming the array credentials are <code class="docutils literal"><span class="pre">admin/admin</span></code> in <code class="docutils literal"><span class="pre">global</span></code> scope). In
+the command below, the <code class="docutils literal"><span class="pre">-secfilepath</span></code> switch is used to specify the
+location to save the security file.</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span># su -l cinder -c &#39;/opt/Navisphere/bin/naviseccli \
+  -AddUserSecurity -user admin -password admin -scope 0 -secfilepath &lt;location&gt;&#39;
+</pre></div>
+</div>
+</li>
+<li><p class="first">Change <code class="docutils literal"><span class="pre">cinder:x:113:120::/var/lib/cinder:/bin/bash</span></code> back to
+<code class="docutils literal"><span class="pre">cinder:x:113:120::/var/lib/cinder:/bin/false</span></code> in <code class="docutils literal"><span class="pre">/etc/passwd</span></code> file.</p>
+</li>
+<li><p class="first">Remove the credentials options <code class="docutils literal"><span class="pre">san_login</span></code>, <code class="docutils literal"><span class="pre">san_password</span></code> and
+<code class="docutils literal"><span class="pre">storage_vnx_authentication_type</span></code> from <code class="docutils literal"><span class="pre">cinder.conf</span></code> file. (normally
+it is <code class="docutils literal"><span class="pre">/etc/cinder/cinder.conf</span></code> file). Add option
+<code class="docutils literal"><span class="pre">storage_vnx_security_file_dir</span></code> and set its value to the directory path of
+your security file generated in the above step. Omit this option if
+<code class="docutils literal"><span class="pre">-secfilepath</span></code> is not used in the above step.</p>
+</li>
+<li><p class="first">Restart the <code class="docutils literal"><span class="pre">cinder-volume</span></code> service to validate the change.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="register-fc-port-with-vnx">
+<span id="id3"></span><h3>Register FC port with VNX<a class="headerlink" href="#register-fc-port-with-vnx" title="Permalink to this headline">¶</a></h3>
+<p>This configuration is only required when <code class="docutils literal"><span class="pre">initiator_auto_registration=False</span></code>.</p>
+<p>To access VNX storage, the Compute nodes should be registered on VNX first if
+initiator auto registration is not enabled.</p>
+<p>To perform <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Image</span> <span class="pre">to</span> <span class="pre">Volume</span></code> and <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Volume</span> <span class="pre">to</span> <span class="pre">Image</span></code> operations,
+the nodes running the <code class="docutils literal"><span class="pre">cinder-volume</span></code> service (Block Storage nodes) must be
+registered with the VNX as well.</p>
+<p>The steps mentioned below are for the compute nodes. Follow the same
+steps for the Block Storage nodes also (The steps can be skipped if initiator
+auto registration is enabled).</p>
+<ol class="arabic simple">
+<li>Assume <code class="docutils literal"><span class="pre">20:00:00:24:FF:48:BA:C2:21:00:00:24:FF:48:BA:C2</span></code> is the WWN of a
+FC initiator port name of the compute node whose host name and IP are
+<code class="docutils literal"><span class="pre">myhost1</span></code> and <code class="docutils literal"><span class="pre">10.10.61.1</span></code>. Register
+<code class="docutils literal"><span class="pre">20:00:00:24:FF:48:BA:C2:21:00:00:24:FF:48:BA:C2</span></code> in Unisphere:</li>
+<li>Log in to <span class="guilabel">Unisphere</span>, go to
+<span class="menuselection">FNM0000000000 &gt; Hosts &gt; Initiators</span>.</li>
+<li>Refresh and wait until the initiator
+<code class="docutils literal"><span class="pre">20:00:00:24:FF:48:BA:C2:21:00:00:24:FF:48:BA:C2</span></code> with SP Port <code class="docutils literal"><span class="pre">A-1</span></code>
+appears.</li>
+<li>Click the <span class="guilabel">Register</span> button, select <span class="guilabel">CLARiiON/VNX</span>
+and enter the host name (which is the output of the <strong class="command">hostname</strong>
+command) and IP address:<ul>
+<li>Hostname: <code class="docutils literal"><span class="pre">myhost1</span></code></li>
+<li>IP: <code class="docutils literal"><span class="pre">10.10.61.1</span></code></li>
+<li>Click <span class="guilabel">Register</span>.</li>
+</ul>
+</li>
+<li>Then host <code class="docutils literal"><span class="pre">10.10.61.1</span></code> will appear under
+<span class="menuselection">Hosts &gt; Host List</span> as well.</li>
+<li>Register the <code class="docutils literal"><span class="pre">wwn</span></code> with more ports if needed.</li>
+</ol>
+</div>
+<div class="section" id="register-iscsi-port-with-vnx">
+<span id="id4"></span><h3>Register iSCSI port with VNX<a class="headerlink" href="#register-iscsi-port-with-vnx" title="Permalink to this headline">¶</a></h3>
+<p>This configuration is only required when <code class="docutils literal"><span class="pre">initiator_auto_registration=False</span></code>.</p>
+<p>To access VNX storage, the compute nodes should be registered on VNX first if
+initiator auto registration is not enabled.</p>
+<p>To perform <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Image</span> <span class="pre">to</span> <span class="pre">Volume</span></code> and <code class="docutils literal"><span class="pre">Copy</span> <span class="pre">Volume</span> <span class="pre">to</span> <span class="pre">Image</span></code> operations,
+the nodes running the <code class="docutils literal"><span class="pre">cinder-volume</span></code> service (Block Storage nodes) must be
+registered with the VNX as well.</p>
+<p>The steps mentioned below are for the compute nodes. Follow the
+same steps for the Block Storage nodes also (The steps can be skipped if
+initiator auto registration is enabled).</p>
+<ol class="arabic">
+<li><p class="first">On the compute node with IP address <code class="docutils literal"><span class="pre">10.10.61.1</span></code> and host name <code class="docutils literal"><span class="pre">myhost1</span></code>,
+execute the following commands (assuming <code class="docutils literal"><span class="pre">10.10.61.35</span></code> is the iSCSI
+target):</p>
+<ol class="arabic">
+<li><p class="first">Start the iSCSI initiator service on the node:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> /etc/init.d/open-iscsi start
+</pre></div>
+</div>
+</li>
+<li><p class="first">Discover the iSCSI target portals on VNX:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> iscsiadm -m discovery -t st -p 10.10.61.35
+</pre></div>
+</div>
+</li>
+<li><p class="first">Change directory to <code class="docutils literal"><span class="pre">/etc/iscsi</span></code> :</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> <span class="nb">cd</span> /etc/iscsi
+</pre></div>
+</div>
+</li>
+<li><p class="first">Find out the <code class="docutils literal"><span class="pre">iqn</span></code> of the node:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> more initiatorname.iscsi
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first">Log in to <span class="guilabel">VNX</span> from the compute node using the target
+corresponding to the SPA port:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> iscsiadm -m node -T iqn.1992-04.com.emc:cx.apm01234567890.a0 -p 10.10.61.35 -l
+</pre></div>
+</div>
+</li>
+<li><p class="first">Assume <code class="docutils literal"><span class="pre">iqn.1993-08.org.debian:01:1a2b3c4d5f6g</span></code> is the initiator name of
+the compute node. Register <code class="docutils literal"><span class="pre">iqn.1993-08.org.debian:01:1a2b3c4d5f6g</span></code> in
+Unisphere:</p>
+<ol class="arabic simple">
+<li>Log in to <span class="guilabel">Unisphere</span>, go to
+<span class="menuselection">FNM0000000000 &gt; Hosts &gt; Initiators</span>.</li>
+<li>Refresh and wait until the initiator
+<code class="docutils literal"><span class="pre">iqn.1993-08.org.debian:01:1a2b3c4d5f6g</span></code> with SP Port <code class="docutils literal"><span class="pre">A-8v0</span></code>
+appears.</li>
+<li>Click the <span class="guilabel">Register</span> button, select <span class="guilabel">CLARiiON/VNX</span>
+and enter the host name
+(which is the output of the <strong class="command">hostname</strong> command) and IP address:<ul>
+<li>Hostname: <code class="docutils literal"><span class="pre">myhost1</span></code></li>
+<li>IP: <code class="docutils literal"><span class="pre">10.10.61.1</span></code></li>
+<li>Click <span class="guilabel">Register</span>.</li>
+</ul>
+</li>
+<li>Then host <code class="docutils literal"><span class="pre">10.10.61.1</span></code> will appear under
+<span class="menuselection">Hosts &gt; Host List</span> as well.</li>
+</ol>
+</li>
+<li><p class="first">Log out <span class="guilabel">iSCSI</span> on the node:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> iscsiadm -m node -u
+</pre></div>
+</div>
+</li>
+<li><p class="first">Log in to <span class="guilabel">VNX</span> from the compute node using the target
+corresponding to the SPB port:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> iscsiadm -m node -T iqn.1992-04.com.emc:cx.apm01234567890.b8 -p 10.10.61.36 -l
+</pre></div>
+</div>
+</li>
+<li><p class="first">In <code class="docutils literal"><span class="pre">Unisphere</span></code>, register the initiator with the SPB port.</p>
+</li>
+<li><p class="first">Log out <span class="guilabel">iSCSI</span> on the node:</p>
+<div class="highlight-console"><div class="highlight"><pre><span></span><span class="gp">#</span> iscsiadm -m node -u
+</pre></div>
+</div>
+</li>
+<li><p class="first">Register the <code class="docutils literal"><span class="pre">iqn</span></code> with more ports if needed.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="docs-actions">
+          
+            <a href="emc-vmax-driver.html"><i class="fa fa-angle-double-left" data-toggle="tooltip" data-placement="top" title="Previous: EMC VMAX iSCSI and FC drivers"></i></a>
+          
+          
+            <a href="emc-xtremio-driver.html"><i class="fa fa-angle-double-right" data-toggle="tooltip" data-placement="top" title="Next: EMC XtremIO Block Storage driver configuration"></i></a>
+          
+            <a id="logABugLink3" href="#" target="_blank" title="Found an error? Report a bug against this page"><i class="fa fa-bug" data-toggle="tooltip" data-placement="top" title="Report a Bug"></i></a>
+          </div>
+          <div class="row docs-byline bottom">
+            <div class="docs-updated">updated: 2016-12-31 09:03</div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 docs-license">
+<a href="https://creativecommons.org/licenses/by/3.0/">
+ <img src="../../_static/images/docs/license.png" alt="Creative Commons Attribution 3.0 License"/>
+</a>
+<p>
+ Except where otherwise noted, this document is licensed under
+ <a href="https://creativecommons.org/licenses/by/3.0/">Creative Commons
+ Attribution 3.0 License</a>. See all <a href="http://www.openstack.org/legal">
+ OpenStack Legal Documents</a>.
+</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 docs-actions-wrapper">
+            <!-- ID buglinkbottom added so that pre-filled doc bugs
+                 are sent to Launchpad projects related to the document -->
+              <a href="#" id="logABugLink2" class="docs-footer-actions"><i class="fa fa-bug"></i> found an error? report a bug</a>
+              <a href="http://ask.openstack.org/" class="docs-footer-actions"><i class="fa fa-question-circle"></i> questions?</a>
+            </div>
+          </div>
+        </div>
+<div class="col-lg-3 col-md-4 col-sm-4 col-lg-pull-9 col-md-pull-8 col-sm-pull-8 docs-sidebar">
+  <div class="search-icon show">
+    <i class="fa fa-search"></i> Search
+  </div>
+  <div class="btn-group docs-sidebar-releases">
+    <button onclick="location.href='http://docs.openstack.org/'" class="btn docs-sidebar-home" data-toggle="tooltip" data-placement="top" title="Docs Home"><i class="fa fa-arrow-circle-o-left"></i></button>
+<button href="#" type="button" data-toggle="dropdown" class="btn docs-sidebar-release-select">OpenStack Documentation<i class="fa fa-caret-down"></i></button>
+    <ul class="dropdown-menu docs-sidebar-dropdown" role="menu" aria-labelledby="dLabel">
+      <li role="presentation" class="dropdown-header">Guides</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#install-guides">Install Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#user-guides">User Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#configuration-guides">Configuration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#ops-and-admin-guides">Operations and Administration Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#api-guides">API Guides</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/index.html#contributor-guides">Contributor Guides</a></li>
+      <li role="presentation" class="dropdown-header">Languages</li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ja/">日本語 (Japanese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/de/">Deutsch (German)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/fr/">Français (French)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/pt_BR/">Português (Portuguese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/zh_CN/">简体中文 (Simplified Chinese)</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="http://docs.openstack.org/ko_KR/">한국어 (Korean)</a></li>
+    </ul>
+  </div>
+  <div class="docs-sidebar-toc">
+    <div class="docs-sidebar-section" id="table-of-contents">
+      <a href="../../index-2.html" class="docs-sidebar-section-title"><h4>Contents</h4></a>
+      <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../config-overview.html">OpenStack configuration overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common-configurations.html">Common configurations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-catalog.html">Application Catalog service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bare-metal.html">Bare Metal service</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../block-storage.html">Block Storage service</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../block-storage-overview.html">Introduction to the Block Storage service</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../volume-drivers.html">Volume drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../backup-drivers.html">Backup drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../schedulers.html">Block Storage schedulers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logs.html">Log files used by Block Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fc-zoning.html">Fibre Channel Zone Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nested-quota.html">Nested quotas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../volume-encryption.html">Volume encryption supported by the key manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../config-options.html">Additional options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samples/index.html">Block Storage service sample configuration files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tables/conf-changes/cinder.html">New, updated, and deprecated options in Newton for Block Storage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../clustering.html">Clustering service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../compute.html">Compute service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dashboard.html">Dashboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../data-processing.html">Data Processing service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../database.html">Database service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../identity.html">Identity service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image.html">Image service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../message.html">Message service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../networking.html">Networking service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../object-storage.html">Object Storage service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../orchestration.html">Orchestration service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../shared-file-systems.html">Shared File Systems service</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../telemetry.html">Telemetry service</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../policy-json-file.html">The policy.json file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../firewalls-default-ports.html">Firewalls and default ports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/app-support.html">Community support</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../common/glossary.html">Glossary</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+<footer>
+  <div class="container">
+    <div class="row footer-links">
+      <div class="col-lg-2 col-sm-2">
+        <h3>OpenStack</h3>
+        <ul>
+          <li><a href="http://openstack.org/projects/">Projects</a></li>
+          <li><a href="http://openstack.org/projects/openstack-security/">OpenStack Security</a></li>
+          <li><a href="http://openstack.org/projects/openstack-faq/">Common Questions</a></li>
+          <li><a href="http://openstack.org/blog/">Blog</a></li>
+          <li><a href="http://openstack.org/news/">News</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Community</h3>
+        <ul>
+          <li><a href="http://openstack.org/community/">User Groups</a></li>
+          <li><a href="http://openstack.org/community/events/">Events</a></li>
+          <li><a href="http://openstack.org/community/jobs/">Jobs</a></li>
+          <li><a href="http://openstack.org/foundation/companies/">Companies</a></li>
+          <li><a href="http://docs.openstack.org/infra/manual/developers.html">Contribute</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="http://docs.openstack.org/">OpenStack Manuals</a></li>
+          <li><a href="http://openstack.org/software/start/">Getting Started</a></li>
+          <li><a href="http://developer.openstack.org/">API Documentation</a></li>
+          <li><a href="https://wiki.openstack.org/">Wiki</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-2">
+        <h3>Branding & Legal</h3>
+        <ul>
+          <li><a href="http://openstack.org/brand/">Logos & Guidelines</a></li>
+          <li><a href="http://openstack.org/brand/openstack-trademark-policy/">Trademark Policy</a></li>
+          <li><a href="http://openstack.org/privacy/">Privacy Policy</a></li>
+          <li><a href="https://wiki.openstack.org/wiki/How_To_Contribute#Contributor_License_Agreement">OpenStack CLA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <h3>Stay In Touch</h3>
+        <a href="https://twitter.com/OpenStack" target="_blank" class="social-icons footer-twitter"></a>
+        <a href="https://www.facebook.com/openstack" target="_blank" class="social-icons footer-facebook"></a>
+        <a href="https://www.linkedin.com/company/openstack" target="_blank" class="social-icons footer-linkedin"></a>
+        <a href="https://www.youtube.com/user/OpenStackFoundation" target="_blank" class="social-icons footer-youtube"></a>
+        <p class="fine-print">
+          The OpenStack project is provided under the
+          <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 license</a>. Openstack.org is powered by
+          <a href="http://rackspace.com/" target="_blank">Rackspace Cloud Computing</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- jQuery -->
+<script type="text/javascript" src="../../_static/js/jquery-1.11.3.js"></script>
+
+<!-- Bootstrap JavaScript -->
+<script type="text/javascript" src="../../_static/js/bootstrap.min.js"></script>
+
+<!-- The rest of the JS -->
+<script type="text/javascript" src="../../_static/js/navigation.js"></script>
+
+<!-- Docs JS -->
+<script type="text/javascript" src="../../_static/js/docs.js"></script>
+
+<!-- Popovers -->
+<script type="text/javascript" src="../../_static/js/webui-popover.js"></script>
+
+<!-- Javascript for page -->
+<script language="JavaScript">
+/* build a description of this page including SHA, source location on git repo,
+   build time and the project's launchpad bug tag. Set the HREF of the bug
+   buttons */
+
+    var lineFeed = "%0A";
+    var gitURL = "Source: Can't derive source file URL";
+
+    /* there have been cases where "pagename" wasn't set; better check for it */
+        /* The URL of the source file on Git is based on the giturl variable
+           in conf.py, which must be manually initialized to the source file
+           URL in Git.
+           "pagename" is a standard sphinx parameter containing the name of
+           the source file, without extension.                             */
+
+        var sourceFile = "block-storage/drivers/emc-vnx-driver" + ".rst";
+        gitURL = "Source: http://git.openstack.org/cgit/openstack/openstack-manuals/tree/doc/config-reference/source" + "/" + sourceFile;
+
+    /* gitsha, project and bug_tag rely on variables in conf.py */
+    var gitSha = "SHA: 8769323640f01e3e92c0a6af672b0e6fab8a4af7";
+        var bugProject = "openstack-manuals";
+        var bugTitle = "EMC VNX driver in Configuration Reference";
+    var fieldTags = "config-reference";
+
+    /* "last_updated" is the build date and time. It relies on the
+       conf.py variable "html_last_updated_fmt", which should include
+       year/month/day as well as hours and minutes                   */
+    var buildstring = "Release: 0.9 on 2016-12-31 09:03";
+
+    var fieldComment = encodeURI(buildstring) +
+                       lineFeed + encodeURI(gitSha) +
+                       lineFeed + encodeURI(gitURL) ;
+
+    logABug(bugTitle, bugProject, fieldComment, fieldTags);
+</script>
+
+<!-- Javascript for search boxes (both sidebar and top nav) -->
+<script type="text/javascript">
+(function() {
+var cx = '000108871792296872333:noj9nikm74i';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+'//www.google.com/cse/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+
+  </body>
+
+<!-- Mirrored from docs.openstack.org/newton/config-reference/block-storage/drivers/emc-vnx-driver.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 01 Jan 2017 10:12:54 GMT -->
+</html>
