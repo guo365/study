@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>configure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+Open Source Nginx
+</head>
+<body>
+<h2><center>Building nginx from Sources</center></h2><p>
+The build is configured using the <code>configure</code> command.
+It defines various aspects of the system, including the methods nginx
+is allowed to use for connection processing.
+At the end it creates a <code>Makefile</code>.
+The <code>configure</code> command supports the following parameters:
+</p> <ul class="compact">
+
+<li>
+<p>
+<code>--prefix=<code><i>path</i></code></code> — defines
+a directory that will keep server files.
+This same directory will also be used for all relative paths set by
+<code>configure</code> (except for paths to libraries sources)
+and in the <code>nginx.conf</code> configuration file.
+It is set to the <code>/usr/local/nginx</code> directory by default.
+</p>
+</li>
+
+<li>
+<p>
+<code>--sbin-path=<code><i>path</i></code></code> — sets
+the name of an nginx executable file.
+This name is used only during installation.
+By default the file is named
+<code><code><i>prefix</i></code>/sbin/nginx</code>.
+</p>
+</li>
+
+<li>
+<p>
+<code>--conf-path=<code><i>path</i></code></code> — sets
+the name of an <code>nginx.conf</code> configuration file.
+If needs be, nginx can always be started with a different configuration file,
+by specifying it in the command-line parameter
+<nobr><code>-c <code><i>file</i></code></code></nobr>.
+By default the file is named
+<code><code><i>prefix</i></code>/conf/nginx.conf</code>.
+</p>
+</li>
+
+<li>
+<p>
+<code>--pid-path=<code><i>path</i></code></code> — sets
+the name of an nginx.pid file that will store the process ID
+of the main process.
+After installation, the file name can always be changed in the
+<code>nginx.conf</code> configuration file using the
+<a href="ngx_core_module.html#pid">pid</a> directive.
+By default the file is named
+<code><code><i>prefix</i></code>/logs/nginx.pid</code>.
+</p>
+</li>
+
+<li>
+<p>
+<code>--error-log-path=<code><i>path</i></code></code> — sets
+the name of the primary error, warnings, and diagnostic file.
+After installation, the file name can always be changed in the
+<code>nginx.conf</code> configuration file using the
+<a href="ngx_core_module.html#error_log">error_log</a> directive.
+By default the file is named
+<code><code><i>prefix</i></code>/logs/error.log</code>.
+</p>
+</li>
+
+<li>
+<p>
+<code>--http-log-path=<code><i>path</i></code></code> — sets
+the name of the primary request log file of the HTTP server.
+After installation, the file name can always be changed in the
+<code>nginx.conf</code> configuration file using the
+<a href="http/ngx_http_log_module.html#access_log">access_log</a> directive.
+By default the file is named
+<code><code><i>prefix</i></code>/logs/access.log</code>.
+</p>
+</li>
+
+<li>
+<p>
+<code>--user=<code><i>name</i></code></code> — sets
+the name of an unprivileged user whose credentials will be used
+by worker processes.
+After installation, the name can always be changed in the
+<code>nginx.conf</code> configuration file using the
+<a href="ngx_core_module.html#user">user</a> directive.
+The default user name is nobody.
+</p>
+</li>
+
+<li>
+<p>
+<code>--group=<code><i>name</i></code></code> — sets
+the name of a group whose credentials will be used
+by worker processes.
+After installation, the name can always be changed in the
+<code>nginx.conf</code> configuration file using the
+<a href="ngx_core_module.html#user">user</a> directive.
+By default, a group name is set to the name of an unprivileged user.
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-select_module</code><br>
+<code>--without-select_module</code> — enables or disables
+building a module that allows the server to work with the
+<code>select()</code> method.
+This module is built automatically if the platform does not appear
+to support more appropriate methods such as kqueue, epoll, or /dev/poll.
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-poll_module</code><br>
+<code>--without-poll_module</code> — enables or disables
+building a module that allows the server to work with the
+<code>poll()</code> method.
+This module is built automatically if the platform does not appear
+to support more appropriate methods such as kqueue, epoll, or /dev/poll.
+</p>
+</li>
+
+<li>
+<p>
+<code>--without-http_gzip_module</code> — disables building a module
+that <a href="http/ngx_http_gzip_module.html">compresses responses</a>
+of an HTTP server.
+The zlib library is required to build and run this module.
+</p>
+</li>
+
+<li>
+<p>
+<code>--without-http_rewrite_module</code> — disables building a
+module that allows an HTTP server to
+<a href="http/ngx_http_rewrite_module.html">redirect requests and change URI
+of requests</a>.
+The PCRE library is required to build and run this module.
+</p>
+</li>
+
+<li>
+<p>
+<code>--without-http_proxy_module</code> — disables building an
+HTTP server <a href="http/ngx_http_proxy_module.html">proxying module</a>.
+
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-http_ssl_module</code> — enables building a module
+that adds the <a href="http/ngx_http_ssl_module.html">HTTPS protocol
+support</a> to an HTTP server.
+This module is not built by default.
+The OpenSSL library is required to build and run this module.
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-pcre=<code><i>path</i></code></code> — sets
+the path to the sources of the PCRE library.
+The library distribution (version
+4.4 — 8.39) needs to be downloaded from the
+<a href="http://www.pcre.org/">PCRE</a> site and extracted.
+The rest is done by nginx’s <code>./configure</code> and
+<code>make</code>.
+The library is required for regular expressions support in the
+<a href="http/ngx_http_core_module.html#location">location</a> directive
+and for the
+<a href="http/ngx_http_rewrite_module.html">ngx_http_rewrite_module</a>
+module.
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-pcre-jit</code> — builds the PCRE library with
+“just-in-time compilation” support (1.1.12, the
+<a href="ngx_core_module.html#pcre_jit">pcre_jit</a> directive).
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-zlib=<code><i>path</i></code></code> — sets
+the path to the sources of the zlib library.
+The library distribution (version
+1.1.3 — 1.2.8) needs to be downloaded from the
+<a href="http://zlib.net/">zlib</a> site and extracted.
+The rest is done by nginx’s <code>./configure</code> and
+<code>make</code>.
+The library is required for the
+<a href="http/ngx_http_gzip_module.html">ngx_http_gzip_module</a> module.
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-cc-opt=<code><i>parameters</i></code></code> — sets
+additional parameters that will be added to the CFLAGS variable.
+When using the system PCRE library under FreeBSD,
+<code>--with-cc-opt="-I /usr/local/include"</code>
+should be specified.
+If the number of files supported by <code>select()</code> needs to be
+increased it can also be specified here such as this:
+<code>--with-cc-opt="-D FD_SETSIZE=2048"</code>.
+</p>
+</li>
+
+<li>
+<p>
+<code>--with-ld-opt=<code><i>parameters</i></code></code> — sets
+additional parameters that will be used during linking.
+When using the system PCRE library under FreeBSD,
+<code>--with-ld-opt="-L /usr/local/lib"</code>
+should be specified.
+</p>
+</li>
+
+</ul><p> 
+
+</p><p>
+Example of parameters usage (all of this needs to be typed in one line):
+</p> <blockquote class="example"><pre>
+./configure
+    --sbin-path=/usr/local/nginx/nginx
+    --conf-path=/usr/local/nginx/nginx.conf
+    --pid-path=/usr/local/nginx/nginx.pid
+    --with-http_ssl_module
+    --with-pcre=../pcre-8.39
+    --with-zlib=../zlib-1.2.8
+</pre></blockquote><p> 
+</p><p>
+After configuration,
+nginx is compiled and installed using <code>make</code>.
+</p><p></div></div></body></p>
+<!-- Mirrored from nginx.org/en/docs/configure.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 02 Jan 2017 05:28:15 GMT -->
+<p></html></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

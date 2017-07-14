@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Node.js</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This deployment guide explains how to use NGINX and NGINX&nbsp;Plus to load balance HTTP and HTTPS traffic across a pool of Node.js&reg; application servers. The detailed instructions in this guide apply to both cloud&#8209;based and on&#8209;premises deployments of Node.js. </p>
+<ul>
+<li><a href="#about-nginx">About NGINX and NGINX Plus</a></li>
+<li><a href="#about-nodejs">About Node.js</a></li>
+<li><a href="#prereqs">Prerequisites and System Requirements</a></li>
+<li><a href="#tls-certificate">Configuring an SSL/TLS Certificate for Client Traffic</a></li>
+<li><a href="#config-files">Creating and Modifying Configuration Files</a></li>
+<li><a href="#basic">Configuring Basic Load Balancing with NGINX or NGINX Plus</a>
+<ul>
+<li><a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a></li>
+<li><a href="#load-balancing-basic">Configuring Basic Load Balancing</a></li>
+<li><a href="#session-persistence-basic">Configuring Basic Session Persistence</a></li>
+<li><a href="#websocket">Configuring Load Balancing of WebSocket Traffic</a></li>
+<li><a href="#caching">Configuring Content Caching</a></li>
+<li><a href="#http2">Configuring HTTP/2 Support</a></li>
+<li><a href="#full-configuration-basic">Full Configuration for Basic Load Balancing</a></li>
+</ul>
+</li>
+<li><a href="#enhanced">Configuring Enhanced Load Balancing with NGINX&nbsp;Plus</a>
+<ul>
+<li><a href="#session-persistence-advanced">Configuring Advanced Session Persistence</a></li>
+<li><a href="#health-checks">Configuring Application Health Checks</a></li>
+<li><a href="#live-activity-monitoring">Enabling Live Activity Monitoring</a></li>
+<li><a href="#reconfiguration">Enabling On-the-Fly Reconfiguration of Upstream Groups</a></li>
+<li><a href="#full-configuration-enhanced">Full Configuration for Enhanced Load Balancing</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="about-nginx">About NGINX and NGINX&nbsp;Plus</h2>
+<p><a target="_blank" href="http://nginx.org/en">NGINX</a> is an open source web server and reverse proxy that is becoming increasingly popular because of its scalability, outstanding performance, and small footprint. NGINX was first created to solve the C10K problem (serving 10,000&nbsp;simultaneous connections on a single web server). NGINX’s features and performance have made it a staple of high performance sites&nbsp;&ndash; powering more than <a target="_blank" href="http://w3techs.com/technologies/cross/web_server/ranking">1 in 3 of the world&#8217;s million busiest web properties</a>.</p>
+<p><a href="http://www.nginx.com/products">NGINX&nbsp;Plus</a> is the commercially supported version of the open source NGINX software. NGINX&nbsp;Plus is a complete application delivery platform, extending the power of NGINX with a host of enterprise-ready capabilities that enhance a Node.js deployment and are instrumental to building web applications at scale:</p>
+<ul>
+<li><a href="https://www.nginx.com/solutions/load-balancing/">Full&#8209;featured HTTP, TCP, and UDP load balancing</a></li>
+<li><a href="https://www.nginx.com/products/session-persistence/">Intelligent session persistence</a></li>
+<li><a href="https://www.nginx.com/resources/admin-guide/reverse-proxy/">High&#8209;performance reverse proxy</a></li>
+<li><a href="https://www.nginx.com/resources/admin-guide/content-caching/">Caching and offload of dynamic and static content</a></li>
+<li><a href="https://www.nginx.com/products/streaming-media-delivery/">Adaptive streaming to deliver audio and video to any device</a></li>
+<li><a href="https://www.nginx.com/products/application-health-checks/">Application&#8209;aware health checks</a> and <a href="https://www.nginx.com/products/high-availability/">high availability</a></li>
+<li><a href="https://www.nginx.com/products/live-activity-monitoring/">Advanced activity monitoring available via a dashboard or API</a></li>
+<li><a href="https://www.nginx.com/products/on-the-fly-reconfiguration/">Management and real&#8209;time configuration changes with DevOps&#8209;friendly tools</a></li>
+</ul>
+<h2 id="about-nodejs">About Node.js</h2>
+<p><a target="_blank" href="https://nodejs.org/en/about/">Node.js&reg;</a> is a JavaScript runtime built on <a target="_blank" href="https://developers.google.com/v8/">Chrome&#8217;s V8 JavaScript engine</a>. Node.js uses an event&#8209;driven, non&#8209;blocking I/O model that makes it lightweight and efficient. The package ecosystem for Node.js, <a target="_blank" href="https://www.npmjs.com/"><code>npm</code></a>, is the largest ecosystem of open source libraries in the world.</p>
+<p>To download the Node.js software and get installation instructions, visit the <a target="_blank" href="https://nodejs.org/en/download/">Node.js</a> website.</p>
+<p>The information in this deployment guide applies equally to open source Node.js software and commercially supported Node.js frameworks.</p>
+<h2 id="prereqs">Prerequisites and System Requirements</h2>
+<ul>
+<li>A Node.js application server installed and configured on a physical or virtual system.</li>
+<li>A Linux system to host NGINX or NGINX&nbsp;Plus. To avoid potential conflicts with other applications, we recommend you install NGINX&nbsp;Plus on a fresh physical or virtual system. For the list of Linux distributions supported by NGINX&nbsp;Plus, see <a href="http://nginx.com/products/technical-specs/">NGINX&nbsp;Plus Technical Specifications</a>.</li>
+<li>NGINX or NGINX&nbsp;Plus installed on the physical or virtual system. Some features are available only with <a href="#enhanced">NGINX&nbsp;Plus</a>, including sophisticated session persistence, application health checks, live activity monitoring, and on&#8209;the&#8209;fly reconfiguration of upstream groups. For installation instructions for both products, see the <a href="https://www.nginx.com/resources/admin-guide/">NGINX&nbsp;Plus Admin&nbsp;Guide</a>.
+</ul>
+<p>The instructions assume you have basic Linux system administration skills, including the following. Full instructions are not provided for these tasks.</p>
+<ul>
+<li>Configuring and deploying a Node.js application</li>
+<li>Installing Linux software from vendor&#8209;supplied packages</li>
+<li>Editing configuration files</li>
+<li>Copying files between a central administrative system and Linux servers</li>
+<li>Running basic commands to start and stop services</li>
+<li>Reading log files</li>
+</ul>
+<h3><strong>About Sample Values and Copying of Text</strong></h3>
+<ul>
+<li><code>example.com</code> is used as a sample domain name (in key names and configuration blocks). Replace it with your organization&#8217;s name.</li>
+<li>Many NGINX and NGINX&nbsp;Plus configuration blocks in this guide list two sample Node.js application servers with IP addresses 192.168.33.11 and 192.168.33.12. Replace these addresses with the IP addresses of your Node.js servers. Include a line in the configuration block for each server if you have more or fewer than two.</li>
+<li>For readability reasons, some commands appear on multiple lines. If you want to copy and paste them into a terminal window, we recommend that you first copy them into a text editor, where you can substitute the object names that are appropriate for your deployment and remove any extraneous formatting characters that your browser might insert.</li>
+<li>The configuration examples in the step&#8209;by&#8209;step instructions include hyperlinks to the NGINX reference documentation, for easy access to more information about the directives. (If a directive appears multiple times in a section, only the first occurrence is hyperlinked.) We recommend that you do not copy hyperlinked text (or any other text) from this guide into your configuration files, because it might include unwanted link text and might not include whitespace and other formatting that makes the configuration easy to read. For more information, see <a href="#config-files">Creating and Modifying Configuration Files</a>.</li>
+</ul>
+<h2 id="tls-certificate">Configuring an SSL/TLS Certificate for Client Traffic</h2>
+<p>If you plan to enable SSL/TLS encryption of traffic between NGINX or NGINX&nbsp;Plus and clients of your Node.js application, you need to configure a server certificate for NGINX or NGINX&nbsp;Plus.</p>
+<ul>
+<li>SSL/TLS support is enabled by default in all <span style="white-space: nowrap;"><a target="_blank" href="https://cs.nginx.com/">NGINX&nbsp;Plus packages</a></span> and <a target="_blank" href="http://nginx.org/en/linux_packages.html">NGINX&nbsp;binaries</a> provided by NGINX,&nbsp;Inc.</li>
+<li>If you are compiling NGINX from source, include the <code>&#8209;&#8209;with&#8209;http_ssl_module</code> parameter to enable SSL/TLS support for HTTP traffic (the corresponding parameter for TCP/UDP is <code>&#8209;&#8209;with&#8209;stream_ssl_module</code>, and for email is <code>&#8209;&#8209;with&#8209;mail_ssl_module</code>, but this guide does not cover those protocol types).</li>
+<li>If using binaries from other providers, consult the provider documentation to determine if they support SSL/TLS.</li>
+</ul>
+<p>There are several ways to obtain a server certificate, including the following. For your convenience, step&#8209;by&#8209;step instructions are provided for the second and third options.</p>
+<ul>
+<li>If you already have an SSL certificate for NGINX or NGINX&nbsp;Plus installed on another UNIX or Linux system (including systems running Apache HTTP Server), copy it to the <strong>/etc/nginx/ssl</strong> directory on the NGINX or NGINX&nbsp;Plus server.</li>
+<li>Generate a self&#8209;signed certificate as described in <a href="#certificate-self-signed">Generating a Self&#8209;Signed Certificate</a> below. This is sufficient for testing scenarios, but clients of production deployments generally require a certificate signed by a certificate authority (CA).</li>
+<li>Request a new certificate from a CA or your organization&#8217;s security group, as described in <a href="#certificate-request">Generating a Certificate Request</a> below.</li>
+</ul>
+<p>For more details on SSL/TLS termination, see the <a href="https://www.nginx.com/resources/admin-guide/nginx-ssl-termination/">NGINX&nbsp;Plus Admin&nbsp;Guide</a>.</p>
+<h3 id="certificate-self-signed"><strong>Generating a Self&#8209;Signed Certificate</strong></h3>
+<p>Generate a public&#8209;private key pair and a self&#8209;signed server certificate in PEM format that is based on them.</p>
+<ol>
+<li>Log in as the root user on a machine that has the <code>openssl</code> software installed.</li>
+<li>
+<p>Generate the key pair in PEM format (the default). To encrypt the private key, include the <code>&#8209;des3</code> parameter. (Other encryption algorithms are available, listed on the man page for the <a target="_blank" href="https://www.openssl.org/docs/man1.1.0/apps/genrsa.html"><code>genrsa</code></a> command.) You are prompted for the passphrase used as the basis for encryption.</p>
+<p><pre><code class="terminal">root# <strong>openssl genrsa -des3 -out ~/private-key.pem 2048</strong><br />
+Generating RSA private key ...<br />
+Enter pass phrase for private-key.pem:</pre></code>
+</li>
+<li>
+<p>Create a backup of the key file in a secure location. If you lose the key, the certificate becomes unusable.</p>
+<p><pre><code class="terminal">root# <strong>cp ~/private-key.pem <em>secure-dir</em>/private-key.pem.backup</strong></pre></code>
+</li>
+<li>
+<p>Generate the certificate. Include the <code>&#8209;new</code> and <code>&#8209;x509</code> parameters to make a new self&#8209;signed certificate. Optionally include the <code>&#8209;days</code> parameter to change the key&#8217;s validity lifetime from the default of 30&nbsp;days (10950&nbsp;days is about 30&nbsp;years). Respond to the prompts with values appropriate for your testing deployment.</p>
+<p><pre><code class="terminal">root# <strong>openssl req -new -x509 -key ~/private-key.pem -out ~/self-cert.pem</strong> \<br />
+                  <strong>-days 10950</strong></pre></code>
+</li>
+<li>
+<p>Copy or move the certificate file and associated key files to the <strong>/etc/nginx/ssl</strong> directory on the NGINX or NGINX&nbsp;Plus server.</p>
+</li>
+</ol>
+<h3 id="certificate-request"><strong>Generating a Certificate Request</strong></h3>
+<ol>
+<li>
+<p>Log in as the root user on a machine that has the <code>openssl</code> software installed.</li>
+<li>
+<p>Create a private key to be packaged in the certificate.<br />
+<pre><code class="terminal">root# <strong>openssl genrsa -out ~/example.com.key 2048</strong></pre></code>
+</li>
+<li>
+<p>Create a backup of the key file in a secure location. If you lose the key, the certificate becomes unusable.</p>
+<p><pre><code class="terminal">root# <strong>cp ~/example.com.key <em>secure-dir</em>/example.com.key.backup</strong></pre></code>
+</li>
+<li>
+<p>Create a Certificate Signing Request (CSR) file.</p>
+<p><pre><code class="terminal">root# <strong>openssl req -new -sha256 -key ~/example.com.key -out ~/example.com.csr</strong></pre></code>
+</li>
+<li>
+<p>Request a certificate from a CA or your internal security group, providing the CSR file (<strong>example.com.csr</strong>). As a reminder, never share private keys (<strong>.key</strong> files) directly with third parties.</p>
+<p>The certificate needs to be PEM format rather than in the Windows&#8209;compatible PFX format. If you request the certificate from a CA website yourself, choose NGINX or Apache (if available) when asked to select the server platform for which to generate the certificate.</p>
+</li>
+<li>
+<p>Copy or move the certificate file and associated key files to the <strong>/etc/nginx/ssl</strong> directory on the NGINX&nbsp;Plus server.</p>
+</li>
+</ol>
+<h2 id="config-files">Creating and Modifying Configuration Files</h2>
+<p>To reduce errors, this guide has you copy directives from files provided by NGINX,&nbsp;Inc. into your configuration files, instead of using a text editor to type in the directives yourself. Then you go through the sections in this guide (starting with <a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a>) to learn how to modify the directives as required for your deployment.</p>
+<p>As provided, there is one file for basic load balancing (with NGINX or NGINX&nbsp;Plus) and one file for enhanced load balancing (with NGINX&nbsp;Plus). If you are installing and configuring NGINX or NGINX&nbsp;Plus on a fresh Linux system and using it only to load balance Node.js traffic, you can use the provided file as your main configuration file, which by convention is called <strong>/etc/nginx/nginx.conf</strong>.</p>
+<p>We recommend, however, that instead of a single configuration file you use the scheme that is set up automatically when you install an NGINX&nbsp;Plus package, especially if you already have an existing NGINX or NGINX&nbsp;Plus deployment or plan to expand your use of NGINX or NGINX&nbsp;Plus to other purposes in future. In the conventional scheme, the main configuration file is still called <strong>/etc/nginx/nginx.conf</strong>, but instead of including all directives in it, you create separate configuration files for different functions and store the files in the <strong>/etc/nginx/conf.d</strong> directory. You then use the <code>include</code> directive in the appropriate contexts of the main file to read in the contents of the function&#8209;specific files.</p>
+<p>If you have just installed NGINX or NGINX Plus there is a default configuration file, <strong>default.conf</strong>, in the <strong>/etc/nginx/conf.d</strong> directory. This configuration defined there is not appropriate for the deployment described in this guide, but you want to leave a file with that name in the directory so it does not get replaced with a new version the next time you upgrade NGINX or NGINX&nbsp;Plus. To save a copy for future reference you can copy it to a new name without the <strong>.conf</strong> extension. </p>
+<p>To download the complete configuration file for basic load balancing:</p>
+<pre><code class="terminal">root# <strong>cd /etc/nginx/conf.d</strong><br />
+root# <strong>curl https://www.nginx.com/resource/conf/nodejs-basic.conf &gt; nodejs-basic.conf</strong></pre><p></code></p>
+<p>To download the complete configuration file for enhanced load balancing:</p>
+<pre><code class="terminal">root# <strong>cd /etc/nginx/conf.d</strong><br />
+root# <strong>curl https://www.nginx.com/resource/conf/nodejs-enhanced.conf &gt; nodejs-enhanced.conf</strong></pre><p></code></p>
+<p>(You can also access the URL in a browser and and copy the text into the indicated file.)</p>
+<p><strong>Note:</strong> If you download both files, place only one of them in the <strong>/etc/nginx/conf.d</strong> directory.</p>
+<p>To set up the conventional configuration scheme, add an <code>http</code> configuration block in the main <strong>nginx.conf</strong> file, if it does not already exist. (The standard placement is below any global directives.) Add this <code>include</code> directive with the appropriate filename:</p>
+<pre><code class="config"><a target="_blank" href="http://nginx.org/r/http">http</a> {<br />
+    <a target="_blank" href="http://nginx.org/r/include">include</a> conf.d/nodejs-(basic|enhanced).conf;<br />
+}</pre><p></code></p>
+<p>You can also use wildcard notation to reference all files that pertain to a certain function or traffic type in the appropriate context block. For example, if you name all HTTP configuration files <strong><em>function</em>&#8209;http.conf</strong>, this is an appropriate <code>include</code> directive:</p>
+<pre><code class="config">http {<br />
+    include conf.d/*-http.conf;<br />
+}</pre><p></code></p>
+<p>For reference purposes, the full configuration files are also provided in this document:</p>
+<ul>
+<li><a href="#full-configuration-basic">Full Configuration for Basic Load Balancing</a></li>
+<li><a href="#full-configuration-enhanced">Full Configuration for Enhanced Load Balancing</a></li>
+</ul>
+<p>We recommend, however, that you do not copy text directly from this document. It does not necessarily use the same mechanisms for positioning text (such as line breaks and white space) as text editors do. In text copied into an editor, lines might run together and indenting of child statements in configuration blocks might be missing or inconsistent. The absence of formatting does not present a problem for NGINX or NGINX&nbsp;Plus, because (like many compilers) they ignore white space during parsing, relying solely on semicolons and curly braces as delimiters. The absence of white space does, however, make it more difficult for humans to interpret the configuration and modify it without making mistakes.</p>
+<h3 id="reloading"><strong>About Reloading Updated Configuration</strong></h3>
+<p>We recommend that each time you complete a set of updates to the configuration, you run the <code>nginx</code>&nbsp;<code>&#8209;t</code> command to test the configuration file for syntactic validity.</p>
+<pre><code class="terminal">root# <strong>nginx -t</strong><br />
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br />
+nginx: configuration file /etc/nginx/nginx.conf test is successful</pre><p></code></p>
+<p>To tell NGINX or NGINX&nbsp;Plus to start using the new configuration, run one of the following commands:</p>
+<pre><code class="terminal">root# <strong>nginx -s reload</strong></pre><p></code></p>
+<p>or</p>
+<pre><code class="terminal">root# <strong>service nginx reload</strong></pre><p></code></p>
+<h2 id="basic">Configuring Basic Load Balancing with NGINX or NGINX&nbsp;Plus</h2>
+<p>This section explains how to set up NGINX or NGINX&nbsp;Plus as a load balancer in front of two Node.js servers. The instructions in the first two sections are mandatory:</p>
+<ul>
+<li><a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a></li>
+<li><a href="#load-balancing-basic">Configuring Basic Load Balancing</a></li>
+</ul>
+<p>The instructions in the remaining sections are optional, depending on the requirements of your application:</p>
+<ul>
+<li><a href="#session-persistence-basic">Configuring Basic Session Persistence</a></li>
+<li><a href="#websocket">Configuring Load Balancing of WebSocket Traffic</a></li>
+<li><a href="#caching">Configuring Content Caching</a></li>
+<li><a href="#http2">Configuring HTTP/2 Support</a></li>
+</ul>
+<p>The complete configuration file appears in <a href="#full-configuration-basic">Full Configuration for Basic Load Balancing</a>.</p>
+<p>If you are using NGINX&nbsp;Plus, you can configure additional enhanced features after you complete the configuration of basic load balancing. See <a href="#enhanced">Configuring Enhanced Load Balancing with NGINX&nbsp;Plus</a>.</p>
+<h3 id="virtual-servers"><strong>Configuring Virtual Servers for HTTP and HTTPS Traffic</strong></h3>
+<p>These directives define virtual servers for HTTP and HTTPS traffic in separate <code>server</code> blocks in the top&#8209;level <code>http</code> configuration block. All HTTP requests are redirected to the HTTPS server.</p>
+<ol>
+<li>
+<p>Configure a <code>server</code> block that permanently redirects requests received on port&nbsp;80 for <strong>http://example.com</strong> to the HTTPS server, which is defined in the next step.</p>
+<p>If you&#8217;re not using SSL/TLS for client connections, omit or comment out the <code>location</code> block. When instructed in the remainder of this guide to add directives to the <code>server</code> block for HTTPS traffic, add them to this <code>server</code> block instead.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+server {<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen">listen</a> 80;<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_core_module.html#server_name">server_name</a> example.com;</p>
+<p>    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header">proxy_set_header</a> Host $host;<br />
+    <a target="_blank" href="http://nginx.org/r/proxy_http_version">proxy_http_version</a> 1.1;<br />
+    proxy_set_header Connection "";</p>
+<p>    # Redirect all HTTP requests to HTTPS<br />
+    <a target="_blank" href="http://nginx.org/r/location">location</a> / {<br />
+        <a target="_blank" href="http://nginx.org/r/return">return</a> 301 https://$server_name$request_uri;<br />
+    }<br />
+}</pre></code>
+</li>
+<li>
+<p>Configure a <code>server</code> block that listens for requests for <strong>https://example.com</strong> received on port&nbsp;443.</p>
+<p>The <code>ssl_certificate</code> and <code>ssl_certificate_key</code> directives are required; substitute the names of the certificate and private key you chose in <a href="#tls-certificate">Configuring an SSL/TLS Certificate for Client Traffic</a>.</p>
+<p>The other directives are optional but recommended.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+server {<br />
+    listen 443 ssl;<br />
+    server_name</a> example.com;</p>
+<p>    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate">ssl_certificate</a>           /etc/nginx/ssl/<em>certificate-name</em>;<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate_key">ssl_certificate_key</a>       /etc/nginx/ssl/<em>private-key</em>;<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_cache">ssl_session_cache</a>         shared:SSL:1m;<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_prefer_server_ciphers">ssl_prefer_server_ciphers</a> on;<br />
+}</pre></code>
+</li>
+</ol>
+<p>For more information about configuring SSL/TLS, see the <a href="https://www.nginx.com/resources/admin-guide/nginx-ssl-termination/">NGINX&nbsp;Plus Admin&nbsp;Guide</a> and the reference documentation for the <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html">HTTP SSL/TLS module</a>.</p>
+<h3 id="load-balancing-basic"><strong>Configuring Basic Load Balancing</strong></h3>
+<p>To configure load balancing, you first create a named “upstream group,” which lists the backend servers. You then set up NGINX or NGINX&nbsp;Plus as a reverse proxy and load balancer by referring to the upstream group in one or more <code>proxy_pass</code> directives.</p>
+<ol>
+<li>
+<p>Configure an upstream group called <strong>nodejs</strong> with two Node.js application servers listening on port&nbsp;8080, one on IP&nbsp;address&nbsp;192.168.33.11 and the other on&nbsp;192.168.33.12. The servers in the upstream group handle only HTTP and HTTPS traffic, because we&#8217;re creating the upstream group in the <code>http</code> block. For information about WebSocket, see <a href="#websocket">Configuring Load Balancing of WebSocket Traffic</a>.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+<a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">upstream</a> nodejs {<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a> 192.168.33.11:8080;<br />
+    server 192.168.33.12:8080;<br />
+}</pre></code>
+</li>
+<li>
+<p>In the <code>server</code> block for HTTPS traffic that we created in <a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a>, include these two <code>location</code> blocks:</p>
+<ul>
+<li>The first one matches HTTPS requests in which the path starts with <strong>/webapp/</strong>, and proxies them to the <strong>nodejs</strong> upstream group we created in the previous step.</li>
+<li>The second one funnels all traffic to the first <code>location</code> block, by doing a temporary redirect of all requests for <strong>http://example.com/</strong>.</li>
+</ul>
+<p><pre><code class="config"># in the 'server' block for HTTPS traffic<br />
+<a target="_blank" href="http://nginx.org/r/location">location</a> /webapp/ {<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a> http://nodejs;<br />
+}</p>
+<p>location = / {<br />
+   return 302 /webapp/;<br />
+}</pre></code>
+</li>
+</ol>
+<p>By default, NGINX and NGINX&nbsp;Plus use the Round Robin algorithm for load balancing among servers. The load balancer runs through the list of servers in the upstream group in order, forwarding each new request to the next server. In our example, the first request goes to 192.168.33.11, the second to 192.168.33.12, the third to 192.168.33.11, and so on. For information about the other available load&#8209;balancing algorithms, see <a href="https://www.nginx.com/products/application-load-balancing/">Application Load Balancing with NGINX&nbsp;Plus</a>.</p>
+<p>In NGINX&nbsp;Plus, you can also set up dynamic reconfiguration of an upstream group when the set of backend servers changes, using the Domain Name System (DNS) or an API; see <a href="#reconfiguration">Enabling On&#8209;the&#8209;Fly Reconfiguration of Upstream Groups</a>.</p>
+<p>For more information about proxying and load balancing, see <a href="https://www.nginx.com/resources/admin-guide/reverse-proxy">Reverse&nbsp;Proxy</a> and <a href="https://www.nginx.com/resources/admin-guide/load-balancer/">Load&nbsp;Balancing</a> in the NGINX&nbsp;Plus Admin Guide, and the documentation for the HTTP <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html">Proxy</a> and <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html">Upstream</a> modules.</p>
+<h3 id="session-persistence-basic"><strong>Configuring Basic Session Persistence</strong></h3>
+<p>If your application requires basic session persistence (also known as <em>sticky sessions</em>), you can implement it in open source by using the IP Hash load&#8209;balancing algorithm. (NGINX&nbsp;Plus offers a more sophisticated form of session persistence, as described in <a href="#session-persistence-advanced">Configuring Advanced Session Persistence</a>.)</p>
+<p>With the IP Hash algorithm, for each request NGINX calculates a hash based on the client&#8217;s IP address, and associates the hash with one of the upstream servers. It sends all requests with that hash to that server, thus establishing session persistence.</p>
+<p>If the client has an IPv6 address, the hash is based on the entire address. If it has an IPv4 address, the hash is based on just the first three octets of the address. This is designed to optimize for ISP clients that are assigned IP addresses dynamically from a subnetwork (/24) range. However, it is not effective in these cases:</p>
+<ul>
+<li>The majority of the traffic to your site is coming from one forward proxy or from clients on the same /24 network, because in that case IP Hash maps all clients to the same server.</li>
+<li>A client’s IP address can change during the session, for example when a mobile client switches from a WiFi network to a cellular one.</li>
+</ul>
+<p>To configure session persistence in open source NGINX, add the <code>ip_hash</code> directive to the <code>upstream</code> block created in <a href="#load-balancing-basic">Configuring Basic Load Balancing</a>:</p>
+<pre><code class="config"># in the 'http' block<br />
+upstream nodejs {<br />
+    <a target="_blank" href="http://nginx.org/r/ip_hash">ip_hash</a>;<br />
+    server 192.168.33.11:8080;<br />
+    server 192.168.33.12:8080;<br />
+}</pre><p></code></p>
+<p>You can also use the Hash load balancing method for session persistence, with the hash based on any combination of text and <a target="_blank" href="http://nginx.org/en/docs/varindex.html">NGINX variables</a> you specify. For example, you can hash on full (four&#8209;octet) client IP addresses with the following configuration.</p>
+<pre><code class="config"># in the 'http' block<br />
+upstream nodejs {<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#hash">hash</a> $remote_addr;<br />
+    server 192.168.33.11:8080;<br />
+    server 192.168.33.12:8080;<br />
+}</pre><p></code></p>
+<h3 id="websocket"><strong>Configuring Load Balancing of WebSocket Traffic</strong></h3>
+<p>The WebSocket protocol (defined in <a target="_blank" href="https://tools.ietf.org/html/rfc6455">RFC 6455</a>) enables simultaneous two&#8209;way communication over a single TCP connection between clients and servers, where each side can send data independently from the other. To initiate the WebSocket connection, the client sends a handshake request to the server, upgrading the request from standard HTTP to WebSocket. The connection is established if the handshake request passes validation, and the server accepts the request. When a WebSocket connection is created, a browser client can send data to a server while simultaneously receiving data from that server. </p>
+<p>The Node.js app server supports WebSocket out of the box, so you don&#8217;t need to amend the Node.js configuration to enable it. If you want to use NGINX or NGINX&nbsp;Plus to proxy WebSocket traffic to your Node.js application servers, add the directives discussed in this section.</p>
+<p>NGINX and NGINX&nbsp;Plus by default use HTTP/1.0 for upstream connections. To be proxied correctly, WebSocket connections require HTTP/1.1 along with some other configuration directives that set HTTP headers:</p>
+<pre><code class="config">#in the 'http' block<br />
+<a target="_blank" href="http://nginx.org/r/map">map</a> $http_upgrade $connection_upgrade {<br />
+    default upgrade;<br />
+    ''      close;<br />
+}</p>
+<p># in the 'server' block for HTTPS traffic<br />
+location /wstunnel/ {<br />
+    proxy_pass http://nodejs;<br />
+    proxy_http_version 1.1;<br />
+    proxy_set_header Upgrade $http_upgrade;<br />
+    proxy_set_header Connection $connection_upgrade;<br />
+}</pre><p></code></p>
+<p>The first <code>proxy_set_header</code> directive is needed because the <code>Upgrade</code> request header is hop&#8209;by&#8209;hop; that is, the HTTP specification explicitly forbids proxies from forwarding it. This directive overrides the prohibition.</p>
+<p>The second <code>proxy_set_header</code> directive sets the <code>Connection</code> header to a value that depends on the test in the <code>map</code> block: if the request has an <code>Upgrade</code> header, the <code>Connection</code> header is set to <code>upgrade</code>; otherwise, it is set to <code>close</code>.</p>
+<p>For more information about proxying WebSocket traffic, see <a target="_blank" href="http://nginx.org/en/docs/http/websocket.html">WebSocket proxying</a> and <a href="https://www.nginx.com/blog/websocket-nginx/">NGINX as a WebSocket Proxy</a>.</p>
+<h3 id="caching"><strong>Configuring Content Caching</strong></h3>
+<p>Caching responses from your Node.js app servers can both improve response time to clients and reduce load on the servers, because eligible responses are served immediately from the cache instead of being generated again on the server. There are a variety of useful directives that can be used to fine&#8209;tune caching behavior; for a detailed discussion, see <a href="https://www.nginx.com/blog/nginx-caching-guide/">A Guide to Caching with NGINX</a>.</p>
+<p>To enable basic caching of responses from the Node.js app server, add the following configuration:</p>
+<ol>
+<li>
+<p>Include the <code>proxy_cache_path</code> directive to create the local disk directory <strong>/tmp/NGINX_cache/</strong> for use as a cache. The <code>keys_zone</code> parameter allocates 10&nbsp;megabytes (MB) of shared memory for a zone called <strong>backcache</strong>, which is used to store cache keys and metadata such as usage timers. A 1&#8209;MB zone can store data for about 8,000&nbsp;keys.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+<a target="_blank" href="http://nginx.org/r/proxy_cache_path">proxy_cache_path</a> /tmp/NGINX_cache/ keys_zone=backcache:10m;</pre></code>
+</li>
+<li>
+<p>In the <code>location</code> block that matches HTTPS requests in which the path starts with <strong>/webapp/</strong>, include the <code>proxy_cache</code> directive to reference the cache created in the previous step.</p>
+<p><pre><code class="config"># in the 'server' block for HTTPS traffic<br />
+location /webapp/ {<br />
+    proxy_pass http://nodejs;<br />
+    <a target="_blank" href="http://nginx.org/r/proxy_cache">proxy_cache</a> backcache;<br />
+}</pre></code>
+</li>
+</ol>
+<p>By default, the cache key is similar to this string of NGINX variables<http://nginx.org/en/docs/varindex.html>: <code>$scheme$proxy_host$request_uri</code>. To change the list of variables, specify them with the <code>proxy_cache_key</code> directive. One effective use of this directive is to create a cache key for each user based on the <code>JSESSIONID</code> cookie. This is useful when the cache is private, for example containing shopping cart data or other user&#8209;specific resources. Include the <code>JSESSIONID</code> cookie in the cache key with this directive:</p>
+<pre><code class="config"><a target="_blank" href="http://nginx.org/r/proxy_cache_key">proxy_cache_key</a> $proxy_host$request_uri$cookie_jsessionid;</pre><p></code></p>
+<p>For more complete information about caching, refer to the documentation for the <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html">HTTP Proxy</a> module and the <a href="http://nginx.com/resources/admin-guide/content-caching/">NGINX&nbsp;Plus Admin&nbsp;Guide</a>.</p>
+<h3 id="http2"><strong>Configuring HTTP/2 Support</strong></h3>
+<p>HTTP/2 is fully supported in both NGINX and NGINX&nbsp;Plus. (Full support for HTTP/2 became available in September&nbsp;2015, in NGINX&nbsp;1.9.5 and NGINX&nbsp;Plus&nbsp;R7. As always, we recommend you run the latest version of software to take advantage of improvements and bug fixes.)</p>
+<p>To enable HTTP/2 support for clients of your Node.js app server, add the <code>http2</code> parameter to the <code>listen</code> directive in the <code>server</code> block for HTTPS traffic that we created in <a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a>, so that it looks like this:</p>
+<pre><code class="config"># in the 'server' block for HTTPS traffic<br />
+listen 443 ssl http2;</pre><p></code></p>
+<p>To verify that HTTP/2 translation is working, you can use the “HTTP/2 and SPDY indicator” plug&#8209;in available for <a target="_blank" href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en">Google Chrome</a> and <a target="_blank" href="https://addons.mozilla.org/en-us/firefox/addon/spdy-indicator/">Firefox</a>.</p>
+<h3 id="full-configuration-basic"><strong>Full Configuration for Basic Load Balancing</strong></h3>
+<p>The full configuration for basic load balancing appears here for your convenience. It goes in the <code>http</code> context. The complete file is available for <a href="https://www.nginx.com/resource/conf/nodejs-basic.conf">download</a> from the NGINX,&nbsp;Inc. website.</p>
+<p>We recommend that you do not copy text directly from this document, but instead use the method described in <a href="#config-files">Creating and Modifying Configuration Files</a> to include these directives in your configuration&nbsp;&ndash; add an <code>include</code> directive to the <code>http</code> context of the main <strong>nginx.conf</strong> file to read in the contents of <span style="white-space: nowrap;"><strong>/etc/nginx/conf.d/nodejs-basic.conf</strong></span>.</p>
+<pre><code class="config">proxy_cache_path /tmp/NGINX_cache/ keys_zone=backcache:10m;</p>
+<p>map $http_upgrade $connection_upgrade {<br />
+    default upgrade;<br />
+    ' '     close;<br />
+}</p>
+<p>upstream nodejs {<br />
+    # Use IP Hash for session persistence<br />
+    ip_hash;</p>
+<p>    # List of Node.js application servers<br />
+    server 192.168.33.11:8080;<br />
+    server 192.168.33.12:8080;<br />
+}</p>
+<p>server {<br />
+    listen 80;<br />
+    server_name example.com;</p>
+<p>    # Redirect all HTTP requests to HTTPS<br />
+    location / {<br />
+        return 301 https://$server_name$request_uri;<br />
+    }<br />
+}</p>
+<p>server {<br />
+    listen 443 ssl http2;<br />
+    server_name example.com;</p>
+<p>    ssl_certificate           /etc/nginx/ssl/<em>certificate-name</em>;<br />
+    ssl_certificate_key       /etc/nginx/ssl/<em>private-key</em>;<br />
+    ssl_session_cache         shared:SSL:1m;<br />
+    ssl_prefer_server_ciphers on;</p>
+<p>    # Return a temporary redirect to the /webapp/ directory<br />
+    # when user requests '/'<br />
+    location = / {<br />
+         return 302 /webapp/;<br />
+    }</p>
+<p>    # Load balance requests for /webapp/ across Node.js app servers<br />
+    location /webapp/ {<br />
+        proxy_pass http://nodejs;<br />
+        proxy_cache backcache;<br />
+    }</p>
+<p>    # WebSocket configuration<br />
+    location /wstunnel/ {<br />
+        proxy_pass https://nodejs;<br />
+        proxy_http_version 1.1;<br />
+        proxy_set_header Upgrade $http_upgrade;<br />
+        proxy_set_header Connection $connection_upgrade;<br />
+    }<br />
+}</pre><p></code></p>
+<h2 id="enhanced">Configuring Enhanced Load Balancing with NGINX&nbsp;Plus</h2>
+<p>This section explains how to configure enhanced load balancing with some of the extended features in NGINX&nbsp;Plus.</p>
+<p><strong>Note:</strong> Before setting up the enhanced features described in this section, you must complete the instructions for basic load balancing in <a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a> and <a href="#load-balancing-basic">Configuring Basic Load Balancing</a>. Except as noted, all optional basic features (described in the other subsections of <a href="#basic">Configuring Basic Load Balancing in NGINX and NGINX&nbsp;Plus</a>) can be combined with the enhanced features described here.</p>
+<p>The features described in the following sections are all optional.</p>
+<ul>
+<li><a href="#session-persistence-advanced">Configuring Advanced Session Persistence</a></li>
+<li><a href="#health-checks">Configuring Application Health Checks</a></li>
+<li><a href="#live-activity-monitoring">Enabling Live Activity Monitoring</a></li>
+<li><a href="#reconfiguration">Enabling On&#8209;the&#8209;Fly Reconfiguration of Upstream Groups</a></li>
+</ul>
+<p>The complete configuration file appears in <a href="#full-configuration-enhanced">Full Configuration for Enhanced Load Balancing</a>.</p>
+<h3 id="session-persistence-advanced"><strong>Configuring Advanced Session Persistence</strong></h3>
+<p>NGINX&nbsp;Plus has more sophisticated session persistence methods than open source NGINX, implemented in three variants of the <code>sticky</code> directive. In the following example, we add the <code>sticky</code>&nbsp;<code>cookie</code> directive to the upstream group we created in <a href="#load-balancing-basic">Configuring Basic Load Balancing</a>.</p>
+<ol>
+<li>
+<p>Remove or comment out the <code>ip_hash</code> directive, leaving only the <code>server</code> directives:</p>
+<pre><code class="config"># in the 'http' block<br />
+upstream nodejs {<br />
+    #ip_hash;<br />
+    server 192.168.33.11:8080;<br />
+    server 192.168.33.12:8080;<br />
+}</pre></code>
+<li>
+<p>Configure NGINX&nbsp;Plus to generate a cookie and use it to implement session persistence.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+<a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">upstream</a> nodejs {<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a> nodejs 64k;<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a> 192.168.33.11:8080;<br />
+    server 192.168.33.12:8080;<br />
+    <a target="_blank" href="http://nginx.org/r/sticky">sticky</a> cookie srv_id expires=1h domain=.example.com path=/;<br />
+}</pre></code>
+</li>
+</ol>
+<p>With this method, NGINX Plus adds an HTTP session cookie to the first response to a given client from the upstream group, identifying which server generated the response (in an encoded fashion). Subsequent requests from the client include the cookie value and NGINX Plus uses it to route the request to the same upstream server, thereby achieving session persistence.</p>
+<p>The first parameter to <code>sticky</code>&nbsp;<code>cookie</code> (in the example, <code>srv_id</code>) sets the name of the cookie to be set or inspected. The <code>expires</code> parameter tells the browser how long the cookie is valid, here one hour. The <code>domain</code> parameter defines the domain and the <code>path</code> parameter defines the URL path for which the cookie is set.</p>
+<p>The <code>zone</code> directive creates a shared memory zone for storing information about sessions. The amount of memory allocated&nbsp;&ndash; here, 64 KB&nbsp;&ndash; determines how many sessions can be stored at a time (the number varies by platform). The name assigned to the zone&nbsp;&ndash; here, <code>nodejs</code>&nbsp;&ndash; must be unique for each <code>sticky</code> directive.</p>
+<p>For more information about session persistence, see the <a href="https://www.nginx.com/resources/admin-guide/load-balancer/#sticky">NGINX&nbsp;Plus Admin&nbsp;Guide</a>.</p>
+<h3 id="health-checks"><strong>Configuring Application Health Checks</strong></h3>
+<p>Health checks are out&#8209;of&#8209;band HTTP requests sent to a server at fixed intervals. They are used to determine whether a server is responsive and functioning correctly, without requiring an actual request from a client.</p>
+<p>Here we configure NGINX&nbsp;Plus to send an out&#8209;of&#8209;band request for the top&#8209;level URI <strong>/</strong> (slash) to each of the servers in the <strong>nodejs</strong> upstream group every 5&nbsp;seconds (that URI and frequency are the defaults). If a server does not respond correctly, it is marked down and NGINX&nbsp;Plus stops sending requests to it until it passes a subsequent health check. We include the <code>match</code> parameter to define a nondefault set of health&#8209;check tests.</p>
+<p>Because the <code>health_check</code> directive is placed in the <code>location</code> block, we can enable different health checks for each application.</p>
+<ol>
+<li>
+<p>In the <code>location</code> block (created in <a href="#load-balancing-basic">Configuring Basic Load Balancing</a>) that matches HTTPS requests in which the path starts with <strong>/webapp/</strong>, add the <code>health_check</code> directive:</p>
+<p><pre><code class="config"># in the 'server' block for HTTPS traffic<br />
+<a target="_blank" href="http://nginx.org/r/location">location</a> /webapp/ {<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a> http://nodejs;<br />
+    <a target="_blank" href="http://nginx.org/r/proxy_cache">proxy_cache</a> backcache;<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#health_check">health_check</a> match=nodejs_check;<br />
+}</pre></code>
+</li>
+<li>
+<p>In the <code>http</code> context, include a <code>match</code> directive to define the tests that a server must pass to be considered functional. In this example, it must return status code <code>200</code>, the <code>Content&#8209;Type</code> response header must contain <code>text/html</code>, and the response body must match the indicated character string.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+<a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#match">match</a> health_check {<br />
+    status 200;<br />
+    header Content-Type ~ text/html;<br />
+    body ~ "Hello world";<br />
+}</pre></code>
+</li>
+<li>
+<p>In the <strong>nodejs</strong> upstream group, add the following <code>zone</code> directive as necessary (if you configured <a href="#session-persistence-advanced">advanced session persistence</a> you already added it). It creates a shared memory zone that stores the group’s configuration and run&#8209;time state, which are accessible to all worker processes.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+upstream nodejs {<br />
+   zone nodejs 64k;<br />
+   server 192.168.33.11:8080;<br />
+   server 192.168.33.12:8080;<br />
+   ...<br />
+}</pre></code>
+</li>
+</ol>
+<p>NGINX&nbsp;Plus also has a slow&#8209;start feature that is a useful auxiliary to health checks. When a failed server recovers, or a new server is added to the upstream group, NGINX&nbsp;Plus slowly ramps up the traffic to it over a defined period of time. This gives the server time to “warm up” without being overwhelmed by more connections than it can handle as it starts up. For more information, see the <a href="https://www.nginx.com/resources/admin-guide/load-balancer/#slow_start">NGINX&nbsp;Plus Admin&nbsp;Guide</a>.</p>
+<p>For example, to set a slow&#8209;start period of 30&nbsp;seconds for your Node.js application servers, include the <code>slow_start</code> parameter to their <code>server</code> directives:</p>
+<pre><code class="config"># in the 'upstream' block<br />
+server 192.168.33.11:8080 <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#slow_start">slow_start</a>=30s;<br />
+server 192.168.33.12:8080 slow_start=30s;</pre><p></code></p>
+<p>For information about customizing health checks, see the <a href="https://www.nginx.com/resources/admin-guide/load-balancer/#health_active">NGINX&nbsp;Plus Admin&nbsp;Guide</a>.</p>
+<h3 id="live-activity-monitoring"><strong>Enabling Live Activity Monitoring</strong></h3>
+<p>NGINX&nbsp;Plus includes a <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_status_module.html">Status</a> module for live activity monitoring that tracks key load and performance metrics in real time. The module includes a built&#8209;in dashboard that graphically displays the statistics, along with a RESTful JSON API that makes it very easy to feed the data to a custom or third&#8209;party monitoring tool. These instructions show how to configure NGINX to enable the Status module and display the dashboard.</p>
+<p>For more information about live activity monitoring, see the <a href="https://www.nginx.com/resources/admin-guide/Monitoring">NGINX&nbsp;Plus Admin&nbsp;Guide</a>.</p>
+<p>The quickest way to configure the module and the built&#8209;in NGINX&nbsp;Plus dashboard is to download the sample configuration file from the NGINX,&nbsp;Inc. website and modify it as necessary. For more complete instructions, see <a href="https://www.nginx.com/blog/live-activity-monitoring-nginx-plus-3-simple-steps/">Live Activity Monitoring of NGINX&nbsp;Plus in 3 Simple Steps</a>.</p>
+<ol>
+<li>
+<p>Download the <strong>status.conf</strong> file to the NGINX&nbsp;Plus server:</p>
+<p><pre><code class="terminal"># <strong>cd /etc/nginx/conf.d</strong><br />
+# <strong>curl https://www.nginx.com/resource/conf/status.conf &gt; status.conf</strong></pre></code>
+</li>
+<li>
+<p>Customize the file for your deployment as specified by comments in the file. In particular, the default settings in the file allow anyone on any network to access the dashboard. We strongly recommend that you restrict access to the dashboard with one or more of the following methods:</p>
+<ul>
+<li>
+<p><strong>IP address&#8209;based access control lists (ACLs)</strong>. In the sample configuration file, uncomment the <code>allow</code> and <code>deny</code> directives, and substitute the address of your administrative network for 10.0.0.0/8. Only users on the specified network can access the dashboard.</p>
+<p><pre><code class="config"><a href="http://nginx.org/r/allow" target="_blank">allow</a> 10.0.0.0/8;<br />
+<a href="http://nginx.org/r/deny" target="_blank">deny</a> all;</pre></code>
+</li>
+<li>
+<p><strong>HTTP basic authentication</strong>. In the sample configuration file, uncomment the <code>auth_basic</code> and <code>auth_basic_user_file</code> directives and add user entries to the <strong>/etc/nginx/users</strong> file (for example, by using an <a target="_blank" href="http://httpd.apache.org/docs/2.4/programs/htpasswd.html"><code>htpasswd</code> generator</a>). If you have an Apache installation, another option is to reuse an existing <strong>htpasswd</strong> file.</p>
+<p><pre><code class="config"><a target="_blank" href="http://nginx.org/r/auth_basic">auth_basic</a> on;<br />
+<a target="_blank" href="http://nginx.org/r/auth_basic_user_file">auth_basic_user_file</a> /etc/nginx/users;</pre></code>
+</li>
+<li>
+<p><strong>Client certificates</strong>, which are part of a complete configuration of SSL or TLS. For more information, see the <a href="https://www.nginx.com/resources/admin-guide/nginx-ssl-termination/">NGINX&nbsp;Plus Admin&nbsp;Guide</a> and the documentation for the <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html">HTTP SSL/TLS module</a>.</p>
+</li>
+<li>
+<p><strong>Firewall</strong>. Configure your firewall to disallow outside access to the port for the dashboard (8080 in the sample configuration file).</p>
+</li>
+</ul>
+</li>
+<li>
+<p>In the <strong>nodejs</strong> upstream group, include the <code>zone</code> directive as necessary (if you configured <a href="#session-persistence-advanced">configured advanced session persistence</a> or <a href="#health-checks">application health checks</a>, you already added it). It creates a shared memory zone that stores the group’s configuration and run&#8209;time state, which are accessible to all worker processes.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+upstream nodejs {<br />
+   zone nodejs 64k;<br />
+   server 192.168.33.11:8080;<br />
+   server 192.168.33.12:8080;<br />
+   ...<br />
+}</pre></code>
+</li>
+<li>
+<p>In the <code>server</code> block for HTTPS traffic (created in <a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a>), add the <code>status_zone</code> directive:</p>
+<p><pre><code class="config"># in the 'server' block for HTTPS traffic<br />
+<a target="_blank" href="http://nginx.org/r/status_zone">status_zone</a> nodejs_server;</pre></code>
+</li>
+</ol>
+<p>When you reload the NGINX&nbsp;Plus configuration file, for example by running the <span style="white-space: nowrap;"><code>nginx</code> <code>&#8209;s</code> <code>reload</code></span> command, the NGINX&nbsp;Plus dashboard is available immediately at <span style="white-space: nowrap;"><strong>http://<em>nginx-server-address</em>:8080</strong></span>.</p>
+<h3 id="reconfiguration"><strong>Enabling On&#8209;the&#8209;Fly Reconfiguration of Upstream Groups</strong></h3>
+<p>With NGINX&nbsp;Plus, you can reconfigure load&#8209;balanced server groups (both HTTP and TCP/UDP on the fly using DNS or a simple HTTP API. For a detailed discussion, see the <a href="https://www.nginx.com/resources/admin-guide/load-balancer/#upstream_conf">NGINX&nbsp;Plus Admin&nbsp;Guide</a> and <a href="https://www.nginx.com/blog/dynamic-reconfiguration-with-nginx-plus/#upstream_conf">Dynamic Reconfiguration with NGINX&nbsp;Plus</a>.</p>
+<h4 id="reconfiguration-api"><strong>Configuring the HTTP API Method</strong></h4>
+<p>To enable on&#8209;the&#8209;fly reconfiguration of your upstream group of Node.js app servers using the API, you need to grant secured access to the <code>upstream_conf</code> handler. You can use the <code>upstream_conf</code> handler to add or remove servers, dynamically alter their weights, and set their status as <code>primary</code>, <code>backup</code>, or <code>down</code>.</p>
+<ol>
+<li>
+<p>In the <strong>nodejs</strong> upstream group, include the <code>zone</code> directive as necessary (if you configured <a href="#session-persistence-advanced">advanced session persistence</a>, <a href="#health-checks">application health checks</a>, or <a href="#live-activity-monitoring">live activity monitoring</a>, you already added it). It creates a shared memory zone that stores the group’s configuration and run&#8209;time state, which are accessible to all worker processes.</p>
+<p><pre><code class="config"># in the 'http' block<br />
+upstream nodejs {<br />
+   zone nodejs 64k;<br />
+   server 192.168.33.11:8080;<br />
+   server 192.168.33.12:8080;<br />
+   ...<br />
+}</pre></code>
+</li>
+<li>
+<p>In the <code>server</code> block for HTTPS traffic (created in <a href="#virtual-servers">Configuring Virtual Servers for HTTP and HTTPS Traffic</a>), add a new <code>location</code> block for the on&#8209;the&#8209;fly reconfiguration API. It contains the <code>upstream_conf</code> directive (<strong>upstream_conf</strong> is also the conventional name for the location, as used here).</p>
+<p>We strongly recommend that you restrict access to the location so that only authorized administrators can access the reconfiguration API. The <code>allow</code> and <code>deny</code> directives in the following example permit access only from the localhost address (127.0.0.1).</p>
+<p><pre><code class="config"># in the 'server' block for HTTPS traffic<br />
+location /upstream_conf {<br />
+    <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_conf_module.html">upstream_conf</a>;</p>
+<p>    <a target="_blank" href="http://nginx.org/r/allow">allow</a> 127.0.0.1;<br />
+    <a target="_blank" href="http://nginx.org/r/deny">deny</a> all;<br />
+}</pre></code>
+</li>
+</ol>
+<h4 id="reconfiguration-dns"><strong>Configuring the DNS Method</strong></h4>
+<p>In the <code>http</code> block, add the <code>resolver</code> directive pointing to your DNS server and then add the <code>resolve</code> parameter to the <code>server</code> directive, which instructs NGINX Plus to periodically re&#8209;resolve the domain name (<strong>example.com</strong> here) with DNS:</p>
+<pre><code class="config"># in the 'http' block<br />
+<a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_core_module.html#resolver">resolver</a> <em>DNS-server-IP-address</em>;<br />
+upstream nodejs {<br />
+    zone nodejs 64k;<br />
+    server example.com <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#resolve">resolve</a>;<br />
+}</pre><p></code></p>
+<p><a href="https://www.nginx.com/blog/nginx-plus-r9-released/#dns-srv">NGINX Plus Release 9</a> and later can also use the additional information in DNS <code>SRV</code> records, such as the port number. Include the <code>service</code> parameter to the <code>server</code> directive, along with the <code>resolve</code> parameter:</p>
+<pre><code class="config"># in the 'http' block<br />
+resolver <em>DNS-server-IP-address</em>;<br />
+upstream nodejs {<br />
+    zone nodejs 64k;<br />
+    server example.com <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#service">service</a>=http resolve;<br />
+}</pre><p></code></p>
+<h3 id="full-configuration-enhanced"><strong>Full Configuration for Enhanced Load Balancing</strong></h3>
+<p>The full configuration for enhanced load balancing appears here for your convenience. It goes in the <code>http</code> context. The complete file is available for <a href="https://www.nginx.com/resource/conf/nodejs-enhanced.conf">download</a> from the NGINX,&nbsp;Inc. website.</p>
+<p>We recommend that you do not copy text directly from this document, but instead use the method described in <a href="#config-files">Creating and Modifying Configuration Files</a> to include these directives in your configuration&nbsp;&ndash; namely, add an <code>include</code> directive to the <code>http</code> context of the main <strong>nginx.conf</strong> file to read in the contents of <span style="white-space: nowrap;"><strong>/etc/nginx/conf.d/nodejs-enhanced.conf</strong></span>.</p>
+<p><strong>Note:</strong> The <code>upstream</code> block in this configuration summary and the <a href="https://www.nginx.com/resource/conf/nodejs-enhanced.conf">downloadable</a> <strong>nodejs-enhanced.conf</strong> file is for the <a href="#reconfiguration-api">API method</a> of on&#8209;the&#8209;fly reconfiguration. If you want to use the <a href="#reconfiguration-dns">DNS method</a> instead, make the appropriate changes to the block. (You can also remove or comment out the directives for the <code>upstream_conf</code> handler in that case, but they do not conflict with using the DNS method.)</p>
+<pre><code class="config">proxy_cache_path /tmp/NGINX_cache/ keys_zone=backcache:10m;</p>
+<p>map $http_upgrade $connection_upgrade {<br />
+    default upgrade;<br />
+    ''      close;<br />
+}</p>
+<p>match nodejs_check {<br />
+    status 200;<br />
+    header Content-Type ~ "text/html";<br />
+    body ~ "Hello world";<br />
+}</p>
+<p>upstream nodejs {<br />
+    # Health-monitored upstream groups must have a zone defined<br />
+    zone nodejs 64k;</p>
+<p>    # List of Node.js application servers<br />
+    server 192.168.33.11:8080 slow_start=30s;<br />
+    server 192.168.33.12:8080 slow_start=30s;</p>
+<p>    # Session persistence using sticky cookie<br />
+    sticky cookie srv_id expires=1h domain=.example.com path=/;<br />
+}</p>
+<p>server {<br />
+    listen 80;<br />
+    server_name example.com;</p>
+<p>    # Redirect all HTTP requests to HTTPS<br />
+    location / {<br />
+        return 301 https://$server_name$request_uri;<br />
+    }<br />
+}</p>
+<p>server {<br />
+    listen 443 ssl http2;<br />
+    server_name example.com;</p>
+<p>    # Required for NGINX Plus to provide extended status information<br />
+    status_zone nodejs;</p>
+<p>    ssl_certificate            /etc/nginx/ssl/<em>certificate-name</em>;<br />
+    ssl_certificate_key        /etc/nginx/ssl/<em>private-key</em>;<br />
+    ssl_session_cache          shared:SSL:1m;<br />
+    ssl_prefer_server_ciphers  on;</p>
+<p>    # Return a 302 redirect to the /webapp/ directory<br />
+    # when user requests '/'<br />
+    location = / {<br />
+        return 302 /webapp/;<br />
+    }</p>
+<p>    # Load balance requests for /webapp/ across Node.js app servers<br />
+    location /webapp/ {<br />
+        proxy_pass http://nodejs;<br />
+        proxy_cache backcache;</p>
+<p>        # Set up active health checks<br />
+        health_check match=nodejs_check;<br />
+    }</p>
+<p>    # WebSocket configuration<br />
+    location /wstunnel/ {<br />
+        proxy_pass https://nodejs;<br />
+        proxy_http_version 1.1;<br />
+        proxy_set_header Upgrade $http_upgrade;<br />
+        proxy_set_header Connection $connection_upgrade;<br />
+    }</p>
+<p>    # Secured access to the upstream_conf handler<br />
+    location /upstream_conf {<br />
+        upstream_conf;</p>
+<p>        allow 127.0.0.1; # permit access from localhost<br />
+        deny all;        # deny access from everywhere else<br />
+    }<br />
+}</pre><p></code></p>
+<h2>Summary</h2>
+<p>NGINX and NGINX&nbsp;Plus can both be used to effectively load balance Node.js application servers, and NGINX&nbsp;Plus provides enhanced features to help you better manage and monitor your Node.js environment. For further information about NGINX and NGINX&nbsp;Plus, please see the following:</p>
+<ul>
+<li><a href="http://www.nginx.com/products">NGINX&nbsp;Plus Overview</a></li>
+<li><a href="http://nginx.com/resources/admin-guide/">NGINX&nbsp;Plus Admin Guide</a></li>
+<li><a target="_blank" href="http://wiki.nginx.org/Main">NGINX Wiki</a></li>
+</ul>
+<p><em><a target="_blank" href="https://nodesource.com/">NodeSource</a>, developers of N|Solid, contributed to this deployment guide.</em></p>
+<h3><strong>Revision History</strong></h3>
+<ul>
+<li>Version 1 (December 2016)&nbsp;&ndash; Initial version (NGINX&nbsp;Plus&nbsp;R11, NGINX&nbsp;1.11.5)</li>
+</ul>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

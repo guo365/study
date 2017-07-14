@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>install NGINX Open Source</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p><head></p>
+<p>This article explains how to install NGINX Open Source.</p>
+<h2 id="toc">Table of Contents</h2>
+<ul>
+<li><a href="#stable_vs_mainline">Choosing Between a Stable or a Mainline Version</a></li>
+<li><a href="#compile_vs_package">Choosing Between a Pre-built Package or Compiling From the Sources</a></li>
+<li><a href="#sources">Compiling and Installing From the Sources</a>
+<ul>
+<li><a href="#dependencies">Installing NGINX Dependencies</a></li>
+<li><a href="#sources_download">Downloading the Sources</a></li>
+<li><a href="#configure">Configuring the Build Options</a>
+<ul>
+<li><a href="#configure_paths">Configuring NGINX Paths</a></li>
+<li><a href="#configure_gcc">Configuring NGINX GCC Options</a></li>
+<li><a href="#configure_methods">Specifying NGINX Connection Processing Methods</a></li>
+<li><a href="#modules">NGINX Modules</a></li>
+<li><a href="#modules_default">Modules Built by Default</a></li>
+<li><a href="#modules_not_default">Modules Not Built by Default</a></li>
+<li><a href="#modules_third_party">Third Party Modules</a></li>
+</ul>
+</li>
+<li><a href="#install_complete">Completing the Installation</a></li>
+</ul>
+</li>
+<li><a href="#prebuilt">Installing a Pre-Built Package</a>
+<ul>
+<li><a href="#prebuilt_modules">Modules Included in a Pre-Built Package</a></li>
+<li><a href="#prebuilt_redhat">Installing Red Hat/CentOS Packages</a></li>
+<li><a href="#prebuilt_debian">Installing Debian Packages</a></li>
+<li><a href="#prebuilt_ubuntu">Installing Ubuntu Packages</a></li>
+<li><a href="#prebuilt_suse">Installing SUSE Packages</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="stable_vs_mainline">Choosing Between a Stable or a Mainline Version</h2>
+<p>NGINX Open Source is available in two versions:</p>
+<ul>
+<li>The <em>mainline</em> version. This version includes the latest features and bugfixes and is always up-to-date. It is reliable, but it may include some experimental modules, and it may also have some number of new bugs.</li>
+<li>The <em>stable</em> version. This version doesn’t have new features, but includes critical bug fixes that are always backported to the mainline version. The stable version is recommended for production servers.</li>
+</ul>
+<h2 id="compile_vs_package">Choosing Between a Pre-built Package or Compiling From the Sources</h2>
+<p>Both NGINX Open Source mainline and stable versions can be installed in two ways:</p>
+<ul>
+<li>from a pre-built package. This is a quick and easy way to install NGINX Open Source. The package includes almost all NGINX official modules and is available for most popular operating systems.</li>
+<li>compiled from the sources. This way is more flexible: you can add particular modules including 3rd party modules or apply latest security patches.</li>
+</ul>
+<h2 id="sources">Compiling and Installing From the Sources</h2>
+<p>Compiling NGINX from the sources provides you with more flexibility: you can add particular NGINX modules or 3rd party modules and apply latest security patches.</p>
+<h3 id="dependencies">Installing NGINX Dependencies</h3>
+<p>Prior to compiling NGINX from the sources, it is necessary to install its dependencies:</p>
+<ul>
+<li>the <a href="http://pcre.org/">PCRE</a> library &#8211; required by NGINX <a href="http://nginx.org/en/docs/ngx_core_module.html">Core</a> and <a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html">Rewrite</a> modules and provides support for regular expressions:<br />
+<pre><code class="terminal">$ wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz<br />
+$ tar -zxf pcre-8.39.tar.gz<br />
+$ cd pcre-8.39<br />
+$ ./configure<br />
+$ make<br />
+$ sudo make install</pre></code></li>
+<li>the <a href="http://www.zlib.net/">zlib</a> library &#8211; required by NGINX <a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html">Gzip</a> module for headers compression:<br />
+<pre><code class="terminal">$ wget http://zlib.net/zlib-1.2.8.tar.gz<br />
+$ tar -zxf zlib-1.2.8.tar.gz<br />
+$ cd zlib-1.2.8<br />
+$ ./configure<br />
+$ make<br />
+$ sudo make install</pre></code></li>
+<li>the <a href="https://www.openssl.org/">OpenSSL</a> library &#8211; required by NGINX SSL modules to support the HTTPS protocol:<br />
+<pre><code class="terminal">$ wget http://www.openssl.org/source/openssl-1.0.2f.tar.gz<br />
+$ tar -zxf openssl-1.0.2f.tar.gz<br />
+$ cd openssl-1.0.2f<br />
+$ ./configure darwin64-x86_64-cc --prefix=/usr<br />
+$ make<br />
+$ sudo make install</pre></code></li>
+</ul>
+<h3 id="sources_download">Downloading the Sources</h3>
+<p>NGINX provides source files for both stable and mainline versions. The source files can be downloaded from the NGINX Open Source download page at <a href="http://www.nginx.org/en/download.html">http://www.nginx.org/en/download.html</a>.</p>
+<p>To download and unpack source files for the latest <em>mainline</em> version, type-in the commands:<br />
+<pre><code class="terminal">$ wget http://nginx.org/download/nginx-1.11.7.tar.gz<br />
+$ tar zxf nginx-1.11.7.tar.gz<br />
+$ cd nginx-1.11.7</pre></code></p>
+<p>To download and unpack source files for the latest <em>stable</em> version, type-in the commands:<br />
+<pre><code class="terminal">$ wget http://nginx.org/download/nginx-1.10.2.tar.gz<br />
+$ tar zxf nginx-1.10.2.tar.gz<br />
+$ cd nginx-1.10.2</pre></code></p>
+<h3 id="configure">Configuring the Build Options</h3>
+<p>Configure options are specified with the <code>./configure</code> script that sets up various NGINX parameters including paths to source and configuration files, compiler options, connection processing methods and the list of modules. The script ends up with creation of the <code>Makefile</code> required to compile the code and install NGINX.</p>
+<p>Example of the configure script:<br />
+<pre><code class="terminal">$ ./configure<br />
+--sbin-path=/usr/local/nginx/nginx<br />
+--conf-path=/usr/local/nginx/nginx.conf<br />
+--pid-path=/usr/local/nginx/nginx.pid<br />
+--with-pcre=../pcre-8.39<br />
+--with-zlib=../zlib-1.2.8<br />
+--with-http_ssl_module<br />
+--with-stream<br />
+--with-mail=dynamic<br />
+--add-module=/usr/build/nginx-rtmp-module<br />
+--add-dynamic-module=/usr/build/3party_module<br />
+</pre></code></p>
+<h4 id="configure_paths">Configuring NGINX Paths</h4>
+<p>The configure script allows you to set paths to NIGNX binary and configuration files, and to dependent libraries such as PCRE or SSL in order to link them statically to NGINX binary.</p>
+<ul style="list-style: none;">
+<li>
+<code>--prefix=<em>path</em></code><br />
+defines a directory that will keep NGINX files. The directory will be also used for all relative paths set by the <code>./configure</code> script (excluding paths to libraries) and for the path to the <em>nginx.conf</em> configuration file.<br />
+By default the path is set to <code>/usr/local/nginx</code>.
+</li>
+<li>
+<code>--sbin-path=<em>path</em></code><br />
+sets the name of NGINX executable file. This name is used only during installation.<br />
+By default the file is named to <code><em>prefix</em>/sbin/nginx</code>.
+</li>
+<li>
+<code>--conf-path=<em>path</em></code><br />
+sets the name of the NGINX configuration file.<br />
+By default the file is named <code><em>prefix</em>/conf/nginx.conf</code>.<br />
+Note that regardless of this option you can always start NGINX with a different configuration file by specifying it with the <code>-c</code> option in command-line.
+</li>
+<li>
+<code>--pid-path=<em>path</em></code><br />
+sets the name of the <code>nginx.pid</code> file that stores the process ID of the main process. After installation, the path to the file name can always be changed in the <code>nginx.conf</code> configuration file using the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#pid">pid</a></code> directive.<br />
+By default the file is named <code><em>prefix</em>/logs/nginx.pid</code> .
+</li>
+<li>
+<code>--error-log-path=<em>path</em></code><br />
+sets the name of the primary error, warnings, and diagnostic file. After installation, the file name can always be changed in the <code>nginx.conf</code> configuration file using the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> directive.<br />
+By default the file is named <code><em>prefix</em>/logs/error.log</code>.
+</li>
+<li>
+<code>--http-log-path=<em>path</em></code><br />
+sets the name of the primary request log file of the HTTP server. After installation, the file name can always be changed in the <code>nginx.conf</code> configuration file using the <code><a href="http://nginx.org/en/docs/http/ngx_http_log_module.html">access_log</a></code> directive.<br />
+By default the file is named <code><em>prefix</em>/logs/access.log</code>.
+</li>
+<li>
+<code>--user=<em>name</em></code><br />
+sets the name of an unprivileged user whose credentials will be used by NGINX worker processes. After installation, the name can be changed in the <code>nginx.conf</code> configuration file using the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#user">user</a></code> directive.<br />
+The default user name is <code>nobody</code>.
+</li>
+<li>
+<code>--group=<em>name</em></code><br />
+sets the name of a group whose credentials will be used by NGINX worker processes. After installation, the name can always be changed in the <code>nginx.conf</code> configuration file using the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#user">user</a></code> directive.<br />
+By default, a group name is set to the name of an unprivileged user.
+</li>
+<li>
+<code>--with-pcre=<em>path</em></code><br />
+sets the path to the sources of the PCRE library. The library is required for regular expressions support in the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">location</a></code> directive and for the <a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html">ngx_http_rewrite_module</a> module.
+</li>
+<li>
+<code>--with-pcre-jit</code><br />
+builds the PCRE library with “just-in-time compilation” support (the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#pcre_jit">pcre_jit</a></code> directive).
+</li>
+<li>
+<code>--with-zlib=<em>path</em></code><br />
+sets the path to the sources of the <em>zlib</em> library. The library is required for the <a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html">ngx_http_gzip_module</a> module.
+</li>
+</ul>
+<h4 id="configure_gcc">Configuring NGINX GCC Options</h4>
+<p>In the configure script you can also specify compiler-related options.</p>
+<ul style="list-style: none;">
+<li>
+<code>--with-cc-opt=<em>parameters</em></code><br />
+sets additional parameters that will be added to the <em>CFLAGS</em> variable.<br />
+When using the system PCRE library under FreeBSD, <code>--with-cc-opt="-I /usr/local/include"</code> must be specified.<br />
+If the number of files supported by <em>select()</em> needs to be increased it can also be specified here such as this: <code>--with-cc-opt="-D FD_SETSIZE=2048"</code>.
+</li>
+<li>
+<code>--with-ld-opt=<em>parameters</em></code><br />
+sets additional parameters that will be used during linking. When using the system PCRE library under FreeBSD, <code>--with-ld-opt="-L /usr/local/lib"</code> must be specified.
+</li>
+</ul>
+<h4 id="configure_methods">Specifying NGINX Connection Processing Methods</h4>
+<p>In the configure script you can redefine an event-based polling method. See <a href="http://nginx.org/en/docs/events.html">Connection Processing Methods</a> for details.</p>
+<ul style="list-style: none;">
+<li>
+<code>--with-select_module</code>, <code>--without-select_module</code><br />
+enables or disables building a module that allows NGINX to work with the <em>select()</em> method. This module is built automatically if the platform does not appear to support more appropriate methods such as <em>kqueue</em>, <em>epoll</em>, or <em>/dev/poll</em>.
+</li>
+<li>
+<code>--with-poll_module</code>, <code>--without-poll_module</code><br />
+enables or disables building a module that allows NGINX to work with the <em>poll()</em> method. This module is built automatically if the platform does not appear to support more appropriate methods such as <em>kqueue</em>, <em>epoll</em>, or <em>/dev/poll</em>.
+</li>
+</ul>
+<h4 id="modules">NGINX Modules</h4>
+<p>NGINX consists of <em>modules</em>. The set of modules as well as other build options are configured with the <code>./configure</code> script.</p>
+<p>Some modules are built by default &#8211; they do not require to be specified in the configure script. However, any default module can be excluded from the NGINX binary with the <code>--without-<module></code> configure option in the configure script.</p>
+<p>Modules not included by default as well as third-party modules must be explicitly specified in the configure script together with other build options. Such modules can be linked to NGINX binary either <em>statically</em> and will be loaded each time NGINX starts; or <em>dynamically</em> and will be loaded only if they are specified in the NGINX configuration file.</p>
+<h4 id="modules_default">Modules Built by Default</h4>
+<p>If you do not need a module built by default, you can disable it by including it to the configure script with the <code>--without-</code> prefix :<br />
+<pre><code class="terminal">$ ./configure --sbin-path=/usr/local/nginx/nginx --conf-path=/usr/local/nginx/nginx.conf --pid-path=/usr/local/nginx/nginx.pid --with-http_ssl_module --with-stream --with-pcre=../pcre-8.39 --with-zlib=../zlib-1.2.8 <b>--without-http_empty_gif_module</b></pre></code></p>
+<table cellspacing="”10″" cellpadding="”10″">
+<tbody>
+<tr>
+<td><strong>Module Name</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_charset_module.html">http_charset_module</a></td>
+<td>Adds the specified charset to the “Content-Type” response header field, can convert data from one charset to another.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_gzip_module.html">http_gzip_module </a></td>
+<td>Compresses responses using the <em>gzip</em> method, helping to reduce the size of transmitted data by half or more.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_ssi_module.html">http_ssi_module</a></td>
+<td>Processes SSI (Server Side Includes) commands in responses passing through it.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_userid_module.html">http_userid_module</a></td>
+<td>Sets cookies suitable for client identification.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_access_module.html">http_access_module</a></td>
+<td>Limits access to certain client addresses.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_auth_basic_module.html">http_auth_basic_module</a></td>
+<td>Limits access to resources by validating the user name and password using the <em>HTTP Basic Authentication</em> protocol.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_autoindex_module.html">http_autoindex_module</a></td>
+<td>Processes requests ending with the slash character (‘/’) and produces a directory listing.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_geo_module.html">http_geo_module</a></td>
+<td>Creates variables with values depending on the client IP address.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_map_module.html">http_map_module</a></td>
+<td>Creates variables whose values depend on values of other variables.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_split_clients_module.html">http_split_clients_module</a></td>
+<td>Creates variables suitable for A/B testing, also known as split testing.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_referer_module.html">http_referer_module</a></td>
+<td>Blocks access to a site for requests with invalid values in the <em>Referer</em> header field.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html">http_rewrite_module</a></td>
+<td>Changes the request URI using regular expressions and return redirects; conditionally selects configurations. Requires the <a href="http://pcre.org/">PCRE</a> library.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html">http_proxy_module</a></td>
+<td>Passes requests to another server.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html">http_fastcgi_module</a></td>
+<td>Passes requests to a FastCGI server</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html">http_uwsgi_module</a></td>
+<td>Passes requests to a uwsgi server.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_scgi_module.html">http_scgi_module</a></td>
+<td>Passes requests to an SCGI server.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_memcached_module.html">http_memcached_module</a></td>
+<td>Obtains responses from a memcached server.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_limit_conn_module.html">http_limit_conn_module</a></td>
+<td>Limits the number of connections per the defined key, in particular, the number of connections from a single IP address.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_limit_req_module.html">http_limit_req_module</a></td>
+<td>Limits the request processing rate per a defined key, in particular, the processing rate of requests coming from a single IP address.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_empty_gif_module.html">http_empty_gif_module</a></td>
+<td>Emits single-pixel transparent GIF.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_browser_module.html">http_browser_module</a></td>
+<td>Creates variables whose values depend on the value of the “User-Agent” request header field.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#hash">http_upstream_hash_module</a></td>
+<td>Enables the <em>hash</em> load balancing method.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#ip_hash">http_upstream_ip_hash_module</a></td>
+<td>Enables the <em>IP hash</em> load balancing method.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn">http_upstream_least_conn_module</a></td>
+<td>Enables the <em>least_conn</em> load balancing method.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive">http_upstream_keepalive_module</a></td>
+<td>Enables keepalive connections.</td>
+</tr>
+<tr>
+<td><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">http_upstream_zone_module</a></td>
+<td>Enables the shared memory zone.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="modules_not_default">Modules Not Built by Default</h4>
+<p>Some NGINX modules are not built by default. You will need to enable them manually by adding to the <code>./configure</code> command. The <a href="http://nginx.org/en/docs/mail/ngx_mail_core_module.html">mail</a>, <a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html">stream</a>, <a href="http://nginx.org/en/docs/http/ngx_http_geoip_module.html">geoip</a>, <a href="http://nginx.org/en/docs/http/ngx_http_image_filter_module.html">image_filter</a>, <a href="http://nginx.org/en/docs/http/ngx_http_perl_module.html">perl</a> and <a href="http://nginx.org/en/docs/http/ngx_http_xslt_module.html">xslt</a> modules can be compiled as dynamic. See <a href="#modules_dynamic">Dynamic Modules</a> for details.</p>
+<p>Example of the <code>./configure</code> command that includes modules:<br />
+<pre><code class="terminal">$ ./configure --sbin-path=/usr/local/nginx/nginx --conf-path=/usr/local/nginx/nginx.conf --pid-path=/usr/local/nginx/nginx.pid --with-pcre=../pcre-8.39 --with-zlib=../zlib-1.2.8 <b>--with-http_ssl_module --with-stream --with-mail</b><br />
+</pre></code></p>
+<ul style="list-style: none;">
+<li><code>--with-threads</code><br />
+Enables NGINX to use thread pools.<br />
+See <a href="/blog/thread-pools-boost-performance-9x/">Thread Pools in NGINX Boost Performance 9x!</a> blog post for details.
+</li>
+<li><code>--with-file-aio</code><br />
+Enables asynchronous I/O.
+</li>
+<li><code>--with-ipv6</code><br />
+Enables IPv6 support.
+</li>
+<li>
+<code>--with-http_ssl_module</code><br />
+Provides support for HTTPS. Requires an SSL library such as <a href="https://www.openssl.org/">OpenSSL</a>.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html">ngx_http_ssl_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-http_v2_module</code><br />
+Provides support for<a href="http://tools.ietf.org/html/rfc7540"> HTTP/2</a>.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_v2_module.html">ngx_http_v2_module</a> reference for the list of directives and the &#8220;<a href="/blog/http2-module-nginx/">HTTP/2 Module in NGINX</a>&#8221; blog post for details.
+</li>
+<li>
+<code>--with-http_realip_module</code><br />
+Changes the client address to the one sent in the specified header field.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_realip_module.html">ngx_http_realip_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-http_addition_module</code><br />
+Adds text before and after a response.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_addition_module.html">ngx_http_addition_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-http_xslt_module</code> or <code>--with-http_xslt_module=dynamic</code><br />
+Transforms XML responses using one or more XSLT stylesheets. The module requires the <a href="http://xmlsoft.org/">Libxml2</a> and <a href="http://xmlsoft.org/XSLT/">XSLT</a> libraries.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_xslt_module.html">ngx_http_xslt_module</a> reference for the list of directives.<br />
+The module can also be compiled as <a href="#modules_dynamic">dynamic</a>.
+</li>
+<li>
+<code>--with-http_image_filter_module</code> or <code>--with-http_image_filter_module=dynamic</code><br />
+Transforms images in JPEG, GIF, and PNG formats. The module requires the <a href="http://libgd.github.io/">LibGD</a> library.<br />
+See <a href="http://nginx.org/en/docs/http/ngx_http_image_filter_module.html">ngx_http_image_filter_module</a> reference for the list of directives.<br />
+The module can also be compiled as <a href="#modules_dynamic">dynamic</a>.
+</li>
+<li>
+<code>--with-http_geoip_module</code> or <code>--with-http_geoip_module=dynamic</code><br />
+Allows creating variables whose values depend on the client IP address. The module uses <a href="http://www.maxmind.com">MaxMind</a> GeoIP databases.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_geoip_module.html">ngx_http_geoip_module</a> reference for the list of directives.<br />
+The module can also be compiled as <a href="#modules_dynamic">dynamic</a>.
+</li>
+<li>
+<code>--with-http_sub_module</code><br />
+Modifies a response by replacing one specified string by another.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_sub_module.html">ngx_http_sub_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-http_dav_module</code><br />
+Intended for file management automation via the WebDAV protocol.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_dav_module.html">ngx_http_dav_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-http_flv_module</code><br />
+Provides pseudo-streaming server-side support for Flash Video (FLV) files.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_flv_module.html">ngx http_flv_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-mp4_module</code><br />
+Provides pseudo-streaming server-side support for MP4 files.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_mp4_module.html">ngx_http_mp4_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-http_gunzip_module</code><br />
+Decompresses responses with <em>Content-Encoding: gzip</em> for clients that do not support <em>zip</em> encoding method.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_gunzip_module.html">ngx_http_gunzip_module</a> for the list of directives.
+</li>
+<li>
+<code>--with-http_gzip_static_module</code><br />
+Allows sending precompressed files with the <em>*.gz</em> filename extension instead of regular files.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_gzip_static_module.html">ngx_http_gzip_static_module</a> for the list of directives.
+</li>
+<li>
+<code>--with-http_auth_request_module</code><br />
+Implements client authorization based on the result of a subrequest.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_auth_request_module.html">http_auth_request_module</a> for the list of directives.
+</li>
+<li>
+<code>--with-http_random_index_module</code><br />
+Processes requests ending with the slash character (‘/’) and picks a random file in a directory to serve as an index file.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_random_index_module.html">ngx_http_random_index_module</a> for the list of directives.
+</li>
+<li>
+<code>--with-http_secure_link_module</code><br />
+Used to check authenticity of requested links, protect resources from unauthorized access, and limit link lifetime.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_secure_link_module.html">ngx_http_secure_link_module</a> for the list of directives.
+</li>
+<li>
+<code>--with-http_slice_module</code><br />
+Allows splitting a request into subrequests, each subrequest returns a certain range of response. Provides more effective caching of large files.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html">ngx_http_slice_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-http_degradation_module</code><br />
+Allows returning an error when a memory size exceeds the defined value.
+</li>
+<li>
+<code>--with-http_stub_status_module</code><br />
+Provides access to basic status information.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_stub_status_module.html">ngx_http_stub_status_module</a> reference for the list of directives.<br />
+Note that NGINX Plus customers do not require this module as they are already provided with extended status metrics and interactive dashboard.
+</li>
+<li>
+<code>--with-http_perl_module</code> or <code>--with-http_perl_module=dynamic</code><br />
+Used to implement location and variable handlers in Perl and insert Perl calls into SSI. Requires the <a href="https://www.perl.org/get.html">PERL</a> library.<br />
+See the <a href="http://nginx.org/en/docs/http/ngx_http_perl_module.html">ngx_http_perl_module</a> reference for the list of directives.<br />
+The module can also be compiled as <a href="#modules_dynamic">dynamic</a>.
+</li>
+<li>
+<code>--with-mail</code> or <code>--with-mail=dynamic</code><br />
+Enables mail proxy functionality.<br />
+See the <a href="http://nginx.org/en/docs/mail/ngx_mail_core_module.html">ngx_mail_core_module</a> reference for the list of directives.<br />
+The module can also be compiled as <a href="#modules_dynamic">dynamic</a>.
+</li>
+<li>
+<code>--with-mail_ssl_module</code><br />
+Provides support for a mail proxy server to work with the SSL/TLS protocol. Requires an SSL library such as <a href="https://www.openssl.org/">OpenSSL</a>.<br />
+See the <a href="http://nginx.org/en/docs/mail/ngx_mail_ssl_module.html">ngx_mail_ssl_module</a> reference for the list of directives.
+</li>
+<li>
+<code>--with-stream</code> or <code>--with-stream=dynamic</code><br />
+Enables the TCP proxy functionality.<br />
+See the <a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html">ngx_stream_core_module</a> reference for the list of directives.<br />
+The module can also be compiled as <a href="#modules_dynamic">dynamic</a>.
+</li>
+<li>
+<code>--with-stream_ssl_module</code><br />
+Provides support for a stream proxy server to work with the SSL/TLS protocol. Requires an SSL library such as <a href="https://www.openssl.org/">OpenSSL</a>.<br />
+See the <a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html">ngx_stream_ssl_module</a>  reference for the list of directives.
+</li>
+<li>
+<code>--with-google_perftools_module</code><br />
+Allows using Google Performance tools library.
+</li>
+<li>
+<code>--with-cpp_test_module</code>
+</li>
+<li>
+<code>--with-debug</code><br />
+Enables the <a href="/resources/admin-guide/debugging-nginx">debugging log</a>.
+</li>
+</ul>
+<h4 id="modules_third_party">Third Party Modules</h4>
+<p>You can extend NGINX functionality by compiling NGINX Open Source with your own module or a third-party module. Some third-party modules are listed in the <a href="/resources/wiki/modules/">https://nginx.com/resources/wiki/modules/</a> page. Use third-party modules at your own risk as their stability is not guaranteed.</p>
+<h5 id="modules_static">Statically Linked Modules</h5>
+<p>Most modules which are built into NGINX Open Source are <em>statically linked</em>: they are built into NGINX Open Source at compile time and are linked to the NGINX binary statically. These modules can be disabled only after NGINX recompilation.</p>
+<p>To compile NGINX Open Source with a statically linked third-party module, in the configure script specify the <code>--add-module=</code> option and type-in the path to the module:</p>
+<pre><code class="terminal">$  ./configure ... --add-module=/usr/build/nginx-rtmp-module</pre><p></code></p>
+<h5 id="modules_dynamic">Dynamically Linked Modules</h5>
+<p>NGINX modules can also be compiled as a shared object (<em>*.so</em> file) and then dynamically loaded into NGINX Open Source at runtime. This provides more flexibility, as the module can be loaded or unloaded at any time with the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#load_module">load_module</a></code> directive specified in the NGINX configuration file. Note that such a module must support dynamic linking.</p>
+<p>To compile NGINX Open Source with a dynamically loaded third-party module, in the configure script specify the <code>--add-dynamic-module=</code> configure option and provide the path to the module:</p>
+<pre><code class="terminal">$  ./configure ... --add-dynamic-module=/path/to/module</pre><p></code></p>
+<p>The resulting <em>*.so</em> files with dynamic modules can be found after compilation in the <code><em>prefix</em>/modules/</code> directory, where the <em>prefix</em> is a directory that keep server files, for example, <code>/usr/local/nginx/modules</code>. To load a dynamic module, use the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#load_module">load_module</a></code> directive after NGINX installation.</p>
+<p>See <a href="/blog/dynamic-modules-nginx-1-9-11/">Introducing Dynamic Modules in NGINX 1.9.11</a> and <a href="/resources/wiki/extending/">Extending NGINX</a> for more information.</p>
+<h3 id="install_complete">Completing the Installation</h3>
+<ul>
+<li>Compile and install the build:<br />
+<pre><code class="terminal">$ make<br />
+$ sudo make install</pre></code></li>
+<li>After the installation is finished, run NGINX Open Source:<br />
+<pre><code class="terminal">$ sudo nginx</pre></code></li>
+</ul>
+<h2 id="prebuilt">Installing a Pre-Built Package</h2>
+<p>Installing NGINX Open Source from a package is much easier and faster comparing to building NGINX from the sources, though it lacks flexibility. Pre-built packages are available for Red Hat, CentOS, Debian, Ubuntu and SLES operating systems.</p>
+<h3 id="prebuilt_modules">Modules Included in a Pre-Built Package</h3>
+<p>See <a href="http://nginx.org/en/linux_packages.html#arguments">Configure Arguments</a> on <a href="http://nginx.org">nginx.org</a> for the list of modules included in each pre-built package.</p>
+<h3 id="prebuilt_redhat">Installing Red Hat/CentOS Packages</h3>
+<p>NGINX provides packages for Red Hat/CentOS 5, 5.x, 6, 6.x, 7 and 7.x. The package can be installed from:</p>
+<ul>
+<li>a default Red Hat or CentOS repository. This is the quickest way, but generally the provided package is outdated. For example, CentOS 7.0 by default offers nginx/1.6.2 released in September, 2014.</li>
+<li>from NGINX repo. You will have to set up the <em>yum</em> repository once, but the provided package will always be up-to-date.</li>
+</ul>
+<h4 id="redhat_repo_default">Installing NGINX package From a Default Red Hat/CentOS Repository</h4>
+<ol>
+<li>Install the EPEL repository:<br />
+<pre><code class="terminal">$ sudo yum install epel-release</pre></code></li>
+<li>Update the repository and install NGINX Open Source:<br />
+<pre><code class="terminal">$ sudo yum update</pre></code></li>
+<li>Verify the installation:<br />
+<pre><code class="terminal">$ sudo nginx -v<br />
+nginx version: nginx/1.6.3</pre></code></li>
+</ol>
+<h4 id="redhat_repo_nginx">Installing From NGINX Repository</h4>
+<ol>
+<li>Set up the <em>yum</em> repository for RHEL or CentOS by creating a file <em>nginx.repo</em> in <em>/etc/yum.repos.d</em>, for example, using <em>vi</em>:<br />
+<pre><code class="terminal">$ sudo vi /etc/yum.repos.d/nginx.repo</pre></code></li>
+<li>Add the lines to the file:<br />
+<pre><code class="terminal">[nginx]<br />
+name=nginx repo<br />
+baseurl=http://nginx.org/packages/mainline/OS/OSRELEASE/$basearch/<br />
+gpgcheck=0<br />
+enabled=1</pre></code>where:</p>
+<ul>
+<ul>
+<li>&#8220;<em>OS</em>&#8221; is either <em>rhel</em> or <em>centos</em></li>
+<li>&#8220;<em>OSRELEASE</em>&#8221; is the release number: <em>5</em>, <em>5.x</em>, <em>6</em>, <em>6.x</em>, <em>7</em>, <em>7.x</em></li>
+<li>&#8220;<em>/mainline</em>&#8221; points to the latest mainline verson. Delete to get the latest stable version</li>
+</ul>
+</ul>
+<p>For example, to get the latest mainline package for CentOS 7.0, insert:<br />
+<pre><code class="terminal">[nginx]<br />
+name=nginx repo<br />
+baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/<br />
+gpgcheck=0<br />
+enabled=1</pre></code></li>
+<li>Save the changes and quit <em>vi</em>: press ESC and type-in <code>:wq</code></li>
+<li>Update the repository and install NGINX Open Source:<br />
+<pre><code class="terminal">$ sudo yum update</pre></code></li>
+<li>Run NGINX Open Source:<br />
+<pre><code class="terminal">$ sudo nginx</pre></code></li>
+<li>Verify that NGINX Open Source is up and running:<br />
+<pre><code class="terminal">$ curl -I 127.0.0.1<br />
+HTTP/1.1 200 OK<br />
+Server: nginx/1.11.7<br />
+</pre></code></li>
+</ol>
+<h3 id="prebuilt_debian">Installing Debian Packages</h3>
+<p>NGINX provides packages for Debian 7.x (&#8220;wheezy&#8221;) and 8.x (&#8220;jessie&#8221;). The package can be installed from:</p>
+<ul>
+<li>a default Debian repository. This is the quickest way, but generally the provided package is outdated. For example, Debian 8.2 by default offers nginx/1.6.2 released in September, 2014.</li>
+<li>from NGINX repo. You will have to set up the <em>apt-get</em> repository once, but the provided package will always be up-to-date.</li>
+</ul>
+<h4 id="debian_repo_default">Installing NGINX package From a Default Debian Repository</h4>
+<ol>
+<li>Update Debian repository information:<br />
+<pre><code class="terminal">$ sudo apt-get update</pre></code></li>
+<li>Install the package:<br />
+<pre><code class="terminal">$ sudo apt-get install nginx</pre></code></li>
+<li>Verify the installation:<br />
+<pre><code class="terminal">$ sudo nginx -v<br />
+nginx version: nginx/1.6.2</pre></code></li>
+</ol>
+<h4 id="debian_repo_nginx">Installing From NGINX Repository</h4>
+<ol>
+<li>Download the key used to sign NGINX packages and repository to the apt program keyring and add it:<br />
+<pre><code class="terminal">$ sudo wget http://nginx.org/keys/nginx_signing.key<br />
+$ sudo apt-key add nginx_signing.key</pre></code></li>
+<li>Add the &#8220;sources&#8221; from which NGINX Open Source packages can be obtained: open the <em>/etc/apt/sources.list</em> file in any text editor, for example, <em>vi</em>:<br />
+<pre><code class="terminal">$ sudo vi /etc/apt/sources.list</pre></code></li>
+<li>Add the lines to the file:<br />
+<pre><code class="terminal">deb http://nginx.org/packages/mainline/debian/ <b><em>codename</em></b> nginx<br />
+deb-src http://nginx.org/packages/mainline/debian/ <b><em>codename</em></b> nginx</pre></code>where:</p>
+<ul>
+<li><b><em>codename</em></b> is a codename of a Debian release:<br />
+<table cellspacing="”10″" cellpadding="”10″">
+<tbody>
+<tr>
+<td><strong>Version</strong></td>
+<td><strong>Codename</strong></td>
+<td><strong>Supported Platforms</strong></td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td>7.x</td>
+<td>wheezy</td>
+<td>x86_64, i386</td>
+</tr>
+<tr>
+<td>8.x</td>
+<td>jessie</td>
+<td>x86_64, i386</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>&#8220;<em>/mainline</em>&#8221; points to the latest mainline verson. Delete to get the latest stable version</li>
+</ul>
+<p>For example, to get the latest mainline package for Debian 8.2 (&#8220;jessie&#8221;), insert:<br />
+<pre><code class="terminal">deb http://nginx.org/packages/mainline/debian/ jessie nginx<br />
+deb-src http://nginx.org/packages/mainline/debian/ jessie nginx</pre></code></li>
+<li>Save the changes and quit <em>vi</em>: press ESC and type-in <code>:wq</code></li>
+<li>Run the commands:<br />
+<pre><code class="terminal">$ sudo apt-get remove nginx-common<br />
+$ sudo apt-get update<br />
+$ sudo apt-get install nginx</pre></code></li>
+<li>Run NGINX Open Source:<br />
+<pre><code class="terminal">$ sudo nginx</pre></code></li>
+<li>Verify that NGINX Open Source is up and running:<br />
+<pre><code class="terminal">$ curl -I 127.0.0.1<br />
+HTTP/1.1 200 OK<br />
+Server: nginx/1.11.7</pre></code></li>
+</ol>
+<h3 id="prebuilt_ubuntu">Installing Ubuntu Packages</h3>
+<p>NGINX provides packages for Ubuntu 12.04 (&#8220;precise&#8221;), 14.04 (&#8220;trusty&#8221;), 15.10 (&#8220;wily&#8221;) and 16.04 (&#8220;xenial&#8221;). The package can be installed from:</p>
+<ul>
+<li>a default Ubuntu repository. This is the quickest way, but generally the provided package is outdated. For example, Ubuntu 14.04 by default offers nginx/1.4.6 released in March, 2014.</li>
+<li>NGINX repo. You will have to set up the <em>apt-get</em> repository once, but the provided package will always be up-to-date.</li>
+</ul>
+<h4 id="ubuntu_repo_default">Installing NGINX package From a Default Ubuntu Repository</h4>
+<ol>
+<li>Update Ubuntu repository information:<br />
+<pre><code class="terminal">$ sudo apt-get update</pre></code></li>
+<li>Install the package:<br />
+<pre><code class="terminal">$ sudo apt-get install nginx</pre></code></li>
+<li>Verify the installation:<br />
+<pre><code class="terminal">nginx version: nginx/1.4.6 (Ubuntu)</pre></code></li>
+</ol>
+<h4 id="ubuntu_repo_nginx">Installing From NGINX Repository</h4>
+<ol>
+<li>Download the key used to sign NGINX packages and repository to the apt program keyring and add it:<br />
+<pre><code class="terminal">$ sudo wget http://nginx.org/keys/nginx_signing.key<br />
+$ sudo apt-key add nginx_signing.key</pre></code></li>
+<li>Add the &#8220;sources&#8221; from which NGINX Open Source packages can be obtained: open the <em>/etc/apt/sources.list</em> file in any text editor, for example, <em>vi</em>:<br />
+<pre><code class="terminal">$ sudo vi /etc/apt/sources.list</pre></code></li>
+<li>Add the lines to the file:<br />
+<pre><code class="terminal">deb http://nginx.org/packages/mainline/ubuntu/ <b><em>codename</em></b> nginx<br />
+deb-src http://nginx.org/packages/mainline/ubuntu/ <b><em>codename</em></b> nginx</pre></code>where:</p>
+<ul>
+<li><b><em>codename</em></b> is a codename of an Ubuntu release:<br />
+<table cellspacing="”10″" cellpadding="”10″">
+<tbody>
+<tr>
+<td><strong>Version</strong></td>
+<td><strong>Codename</strong></td>
+<td><strong>Supported Platforms</strong></td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td>12.04</td>
+<td>precise</td>
+<td>x86_64, i386</td>
+</tr>
+<tr>
+<td>14.04</td>
+<td>trusty</td>
+<td>x86_64, i386, aarch64/arm64</td>
+</tr>
+<tr>
+<td>15.10</td>
+<td>wily</td>
+<td>x86_64, i386</td>
+</tr>
+<tr>
+<td>16.04</td>
+<td>xenial</td>
+<td>x86_64, i386</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>&#8220;<em>/mainline</em>&#8221; points to the latest mainline verson. Delete to get the latest stable version</li>
+</ul>
+<p>For example, to get the latest mainline package for Ubuntu 14.04 (&#8220;trusty&#8221;), insert:<br />
+<pre><code class="terminal">deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx<br />
+deb-src http://nginx.org/packages/mainline/ubuntu/ trusty nginx</pre></code></li>
+<li>Save the changes and quit <em>vi</em>: press ESC and type-in <code>:wq</code></li>
+<li>Run the commands:<br />
+<pre><code class="terminal">$ sudo apt-get remove nginx-common<br />
+$ sudo apt-get update<br />
+$ sudo apt-get install nginx</pre></code></li>
+<li>Run NGINX Open Source:<br />
+<pre><code class="terminal">$ sudo nginx</pre></code></li>
+<li>Verify that NGINX Open Source is up and running:<br />
+<pre><code class="terminal">$ curl -I 127.0.0.1<br />
+HTTP/1.1 200 OK<br />
+Server: nginx/1.11.7</pre></code></li>
+</ol>
+<h3 id="prebuilt_suse">Installing SUSE Packages</h3>
+<p>NGINX provides packages for SUSE Linux Enterprise Server 12.</p>
+<p>To download and install the latest stable version, run the commands:<br />
+<pre><code class="terminal">$ zypper addrepo -G -t yum -c 'http://nginx.org/packages/sles/12' nginx<br />
+$ zypper install nginx</pre></code></p>
+<p>To download and install the latest mainline version, run the commands:<br />
+<pre><code class="terminal">$ zypper addrepo -G -t yum -c 'http://nginx.org/packages/mainline/sles/12' nginx<br />
+$ zypper install nginx</pre></code></p>
+<p></body>
+</html></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

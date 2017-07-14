@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web server</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This article explains how to configure NGINX&nbsp;Plus as a web server, and includes the following sections:</p>
+<ul>
+<li><a href="#virtual-server">Setting Up Virtual Servers</a></li>
+<li><a href="#locations">Configuring Locations</li>
+<li><a href="#variables">Using Variables</li>
+<li><a href="#return-codes">Returning Specific Status Codes</li>
+<li><a href="#rewrite">Rewriting URIs in Requests</li>
+<li><a href="#sub_filter">Rewriting HTTP Responses</a></li>
+<li><a href="#errors">Handling Errors</a></li>
+</ul>
+<p>For additional information on how to tune NGINX&nbsp;Plus and the open source NGINX software, watch our free webinar on-demand <a href="https://www.nginx.com/resources/webinars/installing-tuning-nginx/">Installing and Tuning NGINX</a>.</p>
+<p>At a high level, configuring NGINX&nbsp;Plus as a web server is a matter of defining which URLs it handles and how it processes HTTP requests for resources at those URLs. At a lower level, the configuration defines a set of <em>virtual servers</em> that control the processing of requests for particular domains or IP addresses. For more information about configuration files, see <a href="https://www.nginx.com/resources/admin-guide/configuration-files/">Creating NGINX&nbsp;Plus Configuration Files</a>.</p>
+<p>Each virtual server for HTTP traffic defines special configuration instances called <em>locations</em> that control processing of specific sets of URIs. Each location defines its own scenario of what happens to requests that are mapped to this location. NGINX&nbsp;Plus provides full control over this process. Each location can proxy the request or return a file. In addition, the URI can be modified, so that the request is redirected to another location or virtual server. Also, a specific error code can be returned and you can configure a specific page to correspond to each error code.</p>
+<h2 id="virtual-server">Setting Up Virtual Servers</h2>
+<p>The NGINX&nbsp;Plus configuration file must include at least one <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#server">server</a></code> directive to define a virtual server. When NGINX&nbsp;Plus processes a request, it first selects the virtual server that will serve the request.</p>
+<p>A virtual server is defined by a <code>server</code> directive in the <code>http</code> context, for example:</p>
+<pre><code>http {
+    server {
+        # Server configuration
+    }
+}</code></pre>
+<p>It is possible to add multiple <code>server</code> directives into the <code>http</code> context to define multiple virtual servers.</p>
+<p>The <code>server</code> configuration block usually includes a <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen">listen</a></code> directive to specify the IP address and port (or Unix domain socket and path) on which the server listens for requests. Both IPv4 and IPv6 addresses are accepted; enclose IPv6 addresses in square brackets (.</p>
+<p>The example below shows configuration of a server that listens on IP address 127.0.0.1 and port 8080:</p>
+<pre><code>server {
+    listen 127.0.0.1:8080;
+    # The rest of server configuration
+}</code></pre>
+<p>If a port is omitted, the standard port is used. Likewise, if an address is omitted, the server listens on all addresses. If the <code>listen</code> directive is not included at all, the &#8220;standard&#8221; port is <code>80/tcp</code> and the &#8220;default&#8221; port is <code>8000/tcp</code>, depending on superuser privileges.</p>
+<p>If there are several servers that match the IP address and port of the request, NGINX&nbsp;Plus tests the request’s <code>Host</code> header field against the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#server_name">server_name</a></code> directives in the <code>server</code> blocks. The parameter to <code>server_name</code> can be a full (exact) name, a wildcard, or a regular expression. A wildcard is a character string that includes the asterisk (<code>*</code>) at its beginning, end, or both; the asterisk matches any sequence of characters. NGINX&nbsp;Plus uses the Perl syntax for regular expressions; precede them with the tilde (<code>~</code>). This example  illustrates an exact name.</p>
+<pre><code>server {
+    listen      80;
+    server_name example.org www.example.org;
+    ...
+}</code></pre>
+<p>If several names match the <code>Host</code> header, NGINX&nbsp;Plus selects one by searching for names in the following order and using the first match it finds:</p>
+<ol>
+<li>Exact name</li>
+<li>Longest wildcard starting with an asterisk, such as <code>*.example.org</code></li>
+<li>Longest wildcard ending with an asterisk, such as <code>mail.*</code></li>
+<li>First matching regular expression (in order of appearance in the configuration file)</li>
+</ol>
+<p>If the <code>Host</code> header field does not match a server name, NGINX&nbsp;Plus routes the request to the default server for the port on which the request arrived. The default server is the first one listed in the <strong>nginx.conf</strong> file, unless you include the <code>default_server</code> parameter to the <code>listen</code> directive to explicitly designate a server as the default.</p>
+<pre><code>server {
+    listen      80 default_server;
+    ...
+}</code></pre>
+<h2 id="locations">Configuring Locations</h2>
+<p>NGINX&nbsp;Plus can send traffic to different proxies or serve different files based on the request URIs. These blocks are defined using the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">location</a></code> directive placed within a <code>server</code> directive.</p>
+<p>For example, you can define three <code>location</code> blocks to instruct the virtual server to send some requests to one proxied server, send other requests to a different proxied server, and serve the rest of the requests by delivering files from the local file system.</p>
+<p>NGINX&nbsp;Plus tests request URIs against the parameters of all <code>location</code> directives and applies the directives defined in the matching location. Inside each <code>location</code> block, it is usually possible (with a few exceptions) to place even more <code>location</code> directives to further refine the processing for specific groups of requests.</p>
+<p><strong>Note:</strong> In this guide, the word <em>location</em> refers to a single <code>location</code> context.</p>
+<p>There are two types of parameter to the <code>location</code> directive: <em>prefix&nbsp;strings</em> (pathnames) and regular expressions. For a request URI to match a prefix string, it must start with the prefix string.</p>
+<p>The following sample location with a pathname parameter matches request URIs that begin with <span style="white-space: nowrap;"><strong>/some/path/</strong></span>, such as <span style="white-space: nowrap;"><strong>/some/path/document.html</strong></span>. (It does not match <span style="white-space: nowrap;"><strong>/my-site/some/path</strong></span> because <span style="white-space: nowrap;"><strong>/some/path</strong></span> does not occur at the start of that URI.)</p>
+<pre><code>location /some/path/ {
+    ...
+}</code></pre>
+<p>A regular expression is preceded with the tilde (<code>~</code>) for case-sensitive matching, or the tilde-asterisk (<code>~*</code>) for case-insensitive matching. The following example matches URIs that include the string <strong>.html</strong> or <strong>.htm</strong> in any position.</p>
+<pre><code>location ~ \.html? {
+    ...
+}</code></pre>
+<p>To find the location that best matches a URI, NGINX&nbsp;Plus first compares the URI to the locations with a prefix string. It then searches the locations with a regular expression.</p>
+<p>Higher priority is given to regular expressions, unless the <code>^~</code> modifier is used. Among the prefix strings NGINX&nbsp;Plus selects the most specific one (that is, the longest and most complete string). The exact logic for selecting a location to process a request is given below:</p>
+<ol>
+<li>Test the URI against all prefix strings.</li>
+<li>The <code>=</code> (equals sign) modifier defines an exact match of the URI and a prefix string. If the exact match is found, the search stops.</li>
+<li>If the <code>^~</code> (caret-tilde) modifier prepends the longest matching prefix string, the regular expressions are not checked.</li>
+<li>Store the longest matching prefix string.</li>
+<li>Test the URI against regular expressions.</li>
+<li>Break on the first matching regular expression and use the corresponding location.</li>
+<li>If no regular expression matches, use the location corresponding to the stored prefix string.</li>
+</ol>
+<p>A typical use case for the <code>=</code> modifier is requests for <strong>/</strong> (forward slash). If requests for <strong>/</strong> are frequent, specifying <code>= /</code> as the parameter to the <code>location</code> directive speeds up processing, because the search for matches stops after the first comparison.</p>
+<pre><code>location = / {
+    ...
+}</code></pre>
+<p>A <code>location</code> context can contain directives that define how to resolve a request&nbsp;&ndash;&nbsp;either serve a static file or pass the request to a proxied server. In the following example, requests that match the first <code>location</code> context are served files from the <strong>/data</strong> directory and the requests that match the second are passed to the proxied server that hosts content for the <strong>www.example.com</strong> domain.</p>
+<pre><code>server {
+    location /images/ {
+        root /data;
+    }
+
+    location / {
+        proxy_pass http://www.example.com;
+    }
+}</code></pre>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root">root</a></code> directive specifies the file system path in which to search for the static files to serve. The request URI associated with the location is appended to the path to obtain the full name of the static file to serve. In the example above, in response to a request for <span style="white-space: nowrap;"><strong>/images/example.png</strong></span>, NGINX&nbsp;Plus delivers the file <span style="white-space: nowrap;"><strong>/data/images/example.png</strong></span>.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a></code> directive passes the request to the proxied server accessed with the configured URL. The response from the proxied server is then passed back to the client. In the example above, all requests with URIs that do not start with <strong>/images/</strong> are be passed to the proxied server.</p>
+<h2 id="variables">Using Variables</h2>
+<p>You can use variables in the configuration file to have NGINX&nbsp;Plus process requests differently depending on defined circumstances. Variables are named values that are calculated at runtime and are used as parameters to directives. A variable is denoted by the <code>$</code> (dollar) sign at the beginning of its name. Variables define information based upon NGINX’s state, such as the properties of the request being currently processed.</p>
+<p>There are a number of predefined variables, such as the <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#variables">core HTTP</a> variables, and you can define custom variables using the <code><a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#set">set</a></code>, <code><a href="http://nginx.org/en/docs/http/ngx_http_map_module.html#map">map</a></code>, and <code><a href="http://nginx.org/en/docs/http/ngx_http_geo_module.html#geo">geo</a></code> directives. Most variables are computed at runtime and contain information related to a specific request. For example, <code>$remote_addr</code> contains the client IP address and <code>$uri</code> holds the current URI value.</p>
+<h2 id="return-codes">Returning Specific Status Codes</h2>
+<p>Some website URIs require immediate return of a response with a specific error or redirect code, for example when a page has been moved temporarily or permanently. The easiest way to do this is to use the <code><a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#return">return</a></code> directive. For example:</p>
+<pre><code>location /wrong/url {
+    return 404;
+}</code></pre>
+<p>The first parameter of <code>return</code> is a response code. The optional second parameter can be the URL of a redirect (for codes <code>301</code>, <code>302</code>, <code>303</code>, and <code>307</code>) or the text to return in the response body. For example:</p>
+<pre><code>location /permanently/moved/url {
+    return 301 http://www.example.com/moved/here;
+}</code></pre>
+<p><a name="rewrite"></a></p>
+<p>The <code>return</code> directive can be included in both the <code>location</code> and <code>server</code> contexts.</p>
+<h2 id="rewrite">Rewriting URIs in Requests</h2>
+<p>A request URI can be modified multiple times during request processing through the use of the <code><a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite">rewrite</a></code> directive, which has one optional and two required parameters. The first (required) parameter is the regular expression that the request URI must match. The second parameter is the URI to substitute for the matching URI. The optional third parameter is a flag that can halt processing of further <code>rewrite</code> directives or send a redirect (code <code>301</code> or <code>302</code>). For example:</p>
+<pre><code>location /users/ {
+    rewrite ^/users/(.*)$ /show?user=$1 break;
+}</code></pre>
+<p>As this example shows, the second parameter <code>users</code> captures though matching of regular expressions.</p>
+<p>You can include multiple <code>rewrite</code> directives in both the <code>server</code> and <code>location</code> contexts. NGINX&nbsp;Plus executes the directives one-by-one in the order they occur. The <code>rewrite</code> directives in a <code>server</code> context are executed once when that context is selected.</p>
+<p>After NGINX processes a set of rewriting instructions, it selects a <code>location</code> context according to the new URI. If the selected location contains <code>rewrite</code> directives, they are executed in turn. If the URI matches any of those, a search for the new location starts after all defined <code>rewrite</code> directives are processed.</p>
+<p>The following example shows <code>rewrite</code> directives in combination with a <code>return</code> directive.</p>
+<pre><code>server {
+    ...
+    rewrite ^(/download/.*)/media/(.*)\..*$ $1/mp3/$2.mp3 last;
+    rewrite ^(/download/.*)/audio/(.*)\..*$ $1/mp3/$2.ra  last;
+    return  403;
+    ...
+}</code></pre>
+<p>This example configuration distinguishes between two sets of URIs. URIs such as <span style="white-space: nowrap;"><strong>/download/some/media/file</strong></span> are changed to <span style="white-space: nowrap;"><strong>/download/some/mp3/file.mp3</strong></span>. Because of the <code>last</code> flag, the subsequent directives (the second <code>rewrite</code> and the <code>return</code> directive) are skipped but NGINX&nbsp;Plus continues processing the request, which now has a different URI. Similarly, URIs such as <span style="white-space: nowrap;"><strong>/download/some/audio/file</strong></span> are replaced with <span style="white-space: nowrap;"><strong>/download/some/mp3/file.ra</strong></span>. If a URI doesn&#8217;t match either <code>rewrite</code> directive, NGINX&nbsp;Plus returns the <code>403</code> error code to the client.</p>
+<p>There are two parameters that interrupt processing of <code>rewrite</code> directives:</p>
+<ul>
+<li><code>last</code>&nbsp;&ndash;&nbsp;Stops execution of the <code>rewrite</code> directives in the current <code>server</code> or <code>location</code> context, but NGINX&nbsp;Plus searches for locations that match the rewritten URI, and any <code>rewrite</code> directives in the new location are applied (meaning the URI can be changed again).</li>
+<li><code>break</code>&nbsp;&ndash;&nbsp;Like the <code><a href="http://nginx.org/en/docs/http/ngx_http_rewrite_module.html#break">break</a></code> directive, stops processing of <code>rewrite</code> directives in the current context and cancels the search for locations that match the new URI. The <code>rewrite</code> directives in the new location are not executed.</li>
+</ul>
+<h2 id="sub_filter">Rewriting HTTP Responses</h2>
+<p>Sometimes you need to rewrite or change the content in an HTTP response, substituting one string for another. You can use the <code><a href="http://nginx.org/en/docs/http/ngx_http_sub_module.html#sub_filter">sub_filter</a></code> directive to define the rewrite to apply. The directive supports variables and chains of substitutions, making more complex changes possible.</p>
+<p>For example, you can change absolute links that refer to a server other than the proxy:</p>
+<pre><code>location / {
+    sub_filter      /blog/ /blog-staging/;
+    sub_filter_once off;
+}</code></pre>
+<p>Another example changes the method from <code>http://</code> to <code>http<i>s</i>://</code> and replaces the <code>localhost</code> address to the host name from the request header field. The <code><a href="http://nginx.org/en/docs/http/ngx_http_sub_module.html#sub_filter_once">sub_filter_once</a></code> directive tells NGINX to apply <code><a href="http://nginx.org/en/docs/http/ngx_http_sub_module.html#sub_filter">sub_filter</a></code> directives consecutively within a location:</p>
+<pre><code>location / {
+    sub_filter     'href="http://127.0.0.1:8080/'    'href="https://$host/';
+    sub_filter     'img src="http://127.0.0.1:8080/' 'img src="https://$host/';
+    sub_filter_once on;
+}</code></pre>
+<p>Note that the part of the response already modified with the <code>sub_filter</code> will not be replaced again if another <code>sub_filter</code> match occurs.</p>
+<h2 id="errors">Handling Errors</h2>
+<p>With the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#error_page">error_page</a></code> directive, you can configure NGINX&nbsp;Plus to return a custom page along with an error code, substitute a different error code in the response, or redirect the browser to a different URI. In the following example, the <code>error_page</code> directive specifies the page (<strong>/404.html</strong>) to return with the <code>404</code> error code.</p>
+<pre><code>error_page 404 /404.html;</code></pre>
+<p>Note that this directive does not mean that the error is returned immediately (the <code>return</code> directive does that), but simply specifies how to treat errors when they occur. The error code can come from a proxied server or occur during processing by NGINX&nbsp;Plus (for example, the <code>404</code> results when NGINX&nbsp;Plus can&#8217;t find the file requested by the client).</p>
+<p>In the following example, when NGINX&nbsp;Plus cannot find a page, it substitutes code <code>301</code> for code <code>404</code>, and redirects the client to <span style="white-space: nowrap;"><strong>http:/example.com/new/path.html</strong></span>. This configuration is useful when clients are still trying to access a page at its old URI. The <code>301</code> code informs the browser that the page has moved permanently, and it needs to replace the old address with the new one automatically upon return.</p>
+<pre><code>location /old/path.html {
+    error_page 404 =301 http:/example.com/new/path.html;
+}</code></pre>
+<p></p></p>
+<p>The following configuration is an example of passing a request to the back end when a file is not found. Because there is no status code specified after the equals sign in the <code>error_page</code> directive, the response to the client has the status code returned by the proxied server (not necessarily <code>404</code>).</p>
+<pre><code>server {
+    ...
+    location /images/ {
+        # Set the root directory to search for the file
+        root /data/www;
+
+        # Disable logging of errors related to file existence
+        open_file_cache_errors off;
+
+        # Make an internal redirect if the file is not found
+        error_page 404 = /fetch$uri;
+    }
+
+    location /fetch/ {
+        proxy_pass http://backend/;
+    }
+}</code></pre>
+<p>The <code>error_page</code> directive instructs NGINX&nbsp;Plus to make an internal redirect when a file is not found. The <code>$uri</code> variable in the final parameter to the <code>error_page</code> directive holds the URI of the current request, which gets passed in the redirect.</p>
+<p>For example, if <span style="white-space: nowrap;"><strong>/images/some/file</strong></span> is not found, it is replaced with <span style="white-space: nowrap;"><strong>/fetch/images/some/file</strong></span> and a new search for a location starts. As a result, the request ends up in the second <code>location</code> context and is <a href="https://www.nginx.com/resources/admin-guide/reverse-proxy/">proxied</a> to <strong>http://backend/</strong>.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#open_file_cache_errors">open_file_cache_errors</a></code> directive prevents writing an error message if a file is not found. This is not necessary here since missing files are correctly handled.</p>    
+<p></body>
+</html></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

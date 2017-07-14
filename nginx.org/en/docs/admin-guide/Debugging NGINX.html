@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Debugging NGINX</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<h2 id="toc">Table of Debugging Nginx Contents</h2>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#enable">Configuring NGINX Binary For Debugging</a>
+<ul>
+<li><a href="#enable_plus">Configuring NGINX Plus Binary</a></li>
+<li><a href="#enable_oss">Compiling NGINX Open Source Binary</a></li>
+<li><a href="#compile_symbols">NGINX and Debugging Symbols</a></li>
+</ul>
+</li>
+<li><a href="#error_log">Enabling Debug Logging in NGINX Configuration</a>
+<ul>
+<li><a href="#error_log_file">Writing the Debugging Log to a File</a></li>
+<li><a href="#error_log_memory">Writing the Debugging Log to Memory</a></li>
+<li><a href="#error_log_ip">Debugging Log for Selected IPs</a></li>
+<li><a href="#error_log_server">Debugging Log per Each Virtual Host</a></li>
+</ul>
+</li>
+<li><a href="#coredump">Enabling Core Dumps</a>
+<ul>
+<li><a href="#coredump_os">Configuring the Operating System</a></li>
+<li><a href="#coredump_nginx">Setting NGINX Configuration</a></li>
+</ul>
+</li>
+<li><a href="#backtrace">Obtaining Backtrace From Core Dump</a></li>
+<li><a href="#configdump">Dumping NGINX Configuration From a Running Process</a></li>
+<li><a href="#help">Asking For Help</a></li>
+</ul>
+<h2 id="intro">Introduction</h2>
+<p>Debugging helps to identify a bug in the program code if something goes wrong. It is generally used in developing or testing third-party or experimental modules.</p>
+<p>NGINX debugging features include the debugging log and creation of a core dump file with its further backtrace.</p>
+<h3 id="enable">Configuring NGINX Binary For Debugging</h3>
+<p>First, you will need to enable debugging in NGINX binary. NGINX Plus already provides you with <i>nginx-debug</i> binary while NGINX Open Source requires recompilation.</p>
+<h3 id="enable_plus">Configuring NGINX Plus Binary</h3>
+<p>Starting from <a href="/resources/admin-guide/nginx-plus-releases/#r8">Release 8</a>, NGINX Plus ships the <i>nginx-debug</i> binary together with the standard binary. To enable debugging in NGINX Plus, you will need to switch from <i>nginx</i> to <i>nginx-debug</i> binary. Open terminal and run the command:</p>
+<pre><code class="terminal">$ service nginx stop && service nginx-debug start</pre><p></code></p>
+<p>When finished, <a href="#error_log">enable</a> the debugging log in the configuration file.</p>
+<h3 id="enable_oss">Compiling NGINX Open Source Binary</h3>
+<p>To enable debugging in NGINX Open Source, you will need to recompile it with the <code>--with-debug</code> flag specified in the configure script.</p>
+<p>To compile NGINX Open Source with the debug support:</p>
+<ol>
+<li>
+Download and unpack NGINX source files, go to the directory with the source files. See <a href="/resources/admin-guide/installing-nginx-oss/#sources_download">Downloading the Sources</a>.
+</li>
+<li>
+Get the list of NGINX configure arguments. Run the command:</p>
+<p><pre><code class="terminal">$ nginx -V 2&gt;&amp;1 | grep arguments</pre></code>
+</li>
+<li>Add the <code>--with-debug</code> option to the list of configure commands and run the configure script:
+<p><pre><code class="terminal">$ ./configure --with-debug &lt;other configure arguments&gt;</pre></code>
+</li>
+<li>Compile and install NGINX:
+<p><pre><code class="terminal">$ sudo make<br />
+$ sudo make install</pre></code>
+</li>
+<li>Restart NGINX.</li>
+</ol>
+<h3 id="compile_symbols">NGINX and Debugging Symbols</h3>
+<p>Debug symbols helps obtain additional information for debugging, such as functions, variables, data structures, source file and line number information.</p>
+<p>NGINX by default is compiled with the “<em>-g</em>” flag that includes debug symbols.</p>
+<p>However, if you get the “No symbol table info available” error when you run a <a href="/resources/admin-guide/debugging-nginx#backtrace">backtrace</a>, then debugging symbols are missing and you will need to recompile NGINX with support of debugging symbols.</p>
+<p>The exact set of compiler flags depends on the compiler. For example, for the GCC compiler system:</p>
+<ul>
+<li>
+include debugging symbols with the “<em>-g</em>” flag
+</li>
+<li>
+make the debugger output easier to understand by disabling compiler optimization with the “<em>-O0</em>” flag:</p>
+<p><pre><code class="terminal">$ ./configure --with-debug --with-cc-opt='-O0 -g' ...</pre></code>
+</li>
+</ul>
+<h2 id="error_log">Enabling Debug Logging in NGINX Configuration</h2>
+<p>The debugging log records errors and any debugging-related information and is disabled by default. To enable it, make sure NGINX is compiled to support debugging (see <a href="#enable">Configuring NGINX Binary For Debugging</a>) and then enable it in NGINX configuration file with the <code>debug</code> parameter of the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> directive. The debugging log may be written to a file, an allocated <i>buffer</i> in memory, <i>stderr</i> output, or to <i>syslog</i>.</p>
+<p>It is recommended enabling the debugging log on the ”<i>main</i>“ level of NGINX configuration to get the full picture of what’s going on.</p>
+<h3 id="error_log_file">Writing the Debugging Log to a File</h3>
+<p>Writing the debugging log to a file may slow down performance under high load. Also note that the file can grow very large and quickly eat up disk space. To reduce the negative impact, you can configure the debugging log to be written into a memory buffer, or set the debugging log for particular IP addresses. See <a href="/resources/admin-guide/debugging-nginx#error_log_memory">Writing the Debugging Log to Memory</a> and <a href="/resources/admin-guide/debugging-nginx#error_log_ip">Debug Log for Selected IPs</a> for details.</p>
+<p>To enable writing the debugging log to a file:</p>
+<ol>
+<li>
+Make sure your NGINX is configured with the <code>--with-debug</code> configuration option. Run the command and check if the output contains the <code>--with-debug</code> line:</p>
+<p><pre><code class="terminal">$ nginx -V 2&gt;&amp;1 | grep -- '--with-debug'</pre></code>
+</li>
+<li>Open NGINX configuration file:
+<p><pre><code class="terminal">$ sudo vi /etc/nginx/nginx.conf</pre></code>
+</li>
+<li>
+Find the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> directive which is by default located in the <code>main</code> context, and change the logging level to <code>debug</code>. If necessary, change the path to the log file:</p>
+<p><pre><code class="terminal">error_log  /var/log/nginx/error.log debug;</pre></code>
+</li>
+<li>
+Save the configuration and exit the configuration file.
+</li>
+</ol>
+<h3 id="error_log_memory">Writing the Debugging Log to Memory</h3>
+<p>The debugging log can be written to a memory using a cyclic buffer. The advantage is that logging on the debug level will not have significant impact on performance under high load.</p>
+<p>To enable writing the debug log to memory:</p>
+<ol>
+<li>Make sure your NGINX is configured with the <code>--with-debug</code> configuration option. Run the command and check if the output contains the <code>--with-debug</code> line:
+<p><pre><code class="terminal">$ nginx -V 2&gt;&amp;1 | grep -- '--with-debug'</pre></code>
+</li>
+<li>
+In NGINX configuration file, enable a memory buffer for debug logging with the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> directive specified in the <code>main</code> context:</p>
+<pre><code>error_log memory:32m debug;
+...
+http {
+    ...
+}</code></pre>
+</li>
+</ol>
+<h4>Extracting Debug Log From Memory</h4>
+<p>The log can be extracted from the memory buffer using a script executed in the GDB debugger.</p>
+<p>To extract the debugging log from memory:</p>
+<ol>
+<li>
+Obtain the PID of NGINX worker process:</p>
+<p><pre><code class="terminal">$ ps axu |grep nginx</pre></code>
+</li>
+<li>Launch the GDB debugger:
+<p><pre><code class="terminal">$ sudo gdb -p &lt;nginx PID obtained at the previous step&gt;</pre></code>
+</li>
+<li>
+Copy the script, paste it to GDB and press “Enter”. The script will save the log in the <i>debug_log.txt</i> file located in the current directory:</p>
+<p><pre><code class="terminal">set $log = ngx_cycle->log</p>
+<p>while $log->writer != ngx_log_memory_writer<br />
+    set $log = $log->next<br />
+end</p>
+<p>set $buf = (ngx_log_memory_buf_t *) $log->wdata<br />
+dump binary memory debug_log.txt $buf->start $buf->end<br />
+</pre></code>
+</li>
+<li>
+Quit GDB by pressing CTRL+D.
+</li>
+<li>
+Open the file “<em>debug_log.txt</em>” located in the current directory:</p>
+<p><pre><code class="terminal">$ sudo less debug_log.txt</pre></code>
+</li>
+</ol>
+<h3 id="error_log_ip">Debug Log for Selected IPs</h3>
+<p>It is possible to enable the debugging log for a particular IP address or a range of IP addresses. Logging particular IPs may useful in a production environment as it will not negatively affect performance. The IP address is specified in the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#debug_connection">debug_connection</a></code> directive within the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#events">events</a></code> block; the directive can be defined more than once:</p>
+<pre><code>error_log /path/to/log;
+...
+events {
+    debug_connection 192.168.1.1;
+    debug_connection 192.168.10.0/24;
+}</code></pre>
+<h3 id="error_log_server">Debug Log for Each Virtual Host</h3>
+<p>Generally, the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> directive is specified in the <code>main</code> context and thus is applied to all other contexts including <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#server">server</a></code> and <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">location</a></code>. But if there is another <code>error_log</code> directive specified inside a particular <code>server</code> or a <code>location</code> block, the global settings will be overridden and such <code>error_log</code> directive will set its own path to the log file and the level of logging.</p>
+<p>To set up the debugging log for a particular virtual host, add the <code>error_log</code> directive inside a particular <code>server</code> block, in which set a new path to the log file and the <code>debug</code> logging level:</p>
+<pre><code>error_log /path1/to/log debug;
+...
+http {
+    ...
+    server {
+    error_log /path2/to/log debug;
+    ...
+    }
+}</code></pre>
+<p>To disable the debugging log per a particular virtual host, specify the <code>error_log</code> directive inside a particular <code>server</code> block, and specify a path to the log file only:</p>
+<pre><code>error_log /path/to/log debug;
+...
+http {
+    ...
+    server {
+    error_log /path/to/log;
+    ...
+    }
+}</code></pre>
+<h2 id="coredump">Enabling Core Dumps</h2>
+<p>A core dump file helps identify and fix a problem that lead to NGINX crash. Note that a core dump file may contain sensitive information such as passwords and private keys, so ensure that they are treated in a secure manner.</p>
+<p>Core dumps can be enabled in two different ways:</p>
+<ul>
+<li>in the operating system</li>
+<li>in the NGINX configuration file</li>
+</ul>
+<h3 id="coredump_os">Enabling Core Dumps in the Operating System</h3>
+<p>Perform the following steps in your operating system:</p>
+<ol>
+<li>
+Specify a working directory in which a core dump file will be saved, for example, “<i>/tmp/cores</i>”:</p>
+<p><pre><code class="terminal">$ mkdir /tmp/cores</pre></code>
+</li>
+<li>
+Make sure the directory is writable by NGINX worker process:</p>
+<p><pre><code class="terminal">$ sudo chown root:root /tmp/cores<br />
+$ sudo chmod 1777 /tmp/cores</pre></code>
+</li>
+<li>
+Disable the limit for the maximum size of a core dump file:</p>
+<pre><code class="terminal">$ ulimit -c unlimited</pre></code>
+<p>If the operation ends up with “Cannot modify limit: operation not permitted”, run the command:</p>
+<p><pre><code class="terminal">$ sudo sh -c "ulimit -c unlimited &amp;&amp; exec su $LOGNAME"</pre></code>
+</li>
+<li>
+Enable core dumps for the <i>setuid</i> and <i>setgid</i> processes.</p>
+<p>For CentOS 7.0, Debian 8.2, Ubuntu 14.04, run the commands:</p>
+<pre><code class="terminal">$ echo "/tmp/cores/core.%e.%p" | sudo tee /proc/sys/kernel/core_pattern<br />
+$ sudo sysctl -w fs.suid_dumpable=2<br />
+$ sysctl -p</pre></code>
+<p>For FreeBSD, run the commands:</p>
+<p><pre><code class="terminal">$ sudo sysctl kern.sugid_coredump=1<br />
+$ sudo sysctl kern.corefile=/tmp/cores/%N.core.%P</pre></code>
+</li>
+</ol>
+<h3 id="coredump_nginx">Enabling Core Dumps in NGINX Configuration</h3>
+<p>Skip these steps if you have already configured creation of a core dump file in your operating system.</p>
+<p>To enable core dumps in NGINX configuration file:</p>
+<ol>
+<li>
+Open the NGINX configuration file:</p>
+<p><pre><code class="terminal">$ sudo vi  /usr/local/etc/nginx/nginx.conf</pre></code>
+</li>
+<li>
+Define a directory that will keep core dump files with the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#working_directory">working_directory</a></code> directive. The directive is specified on the <i>main</i> configuration level:</p>
+<pre><code>working_directory /tmp/cores/;</code></pre>
+</li>
+<li>
+Make sure the directory exists and is writable by NGINX worker process. Open terminal and run the commands:</p>
+<p><pre><code class="terminal">$ sudo chown root:root /tmp/cores<br />
+$ sudo chmod 1777 /tmp/cores</pre></code>
+</li>
+<li>
+Specify the maximum possible size of the core dump file with the <code><a href="http://nginx.org/en/docs/ngx_core_module.html#worker_rlimit_core">worker_rlimit_core</a></code> directive. The directive is also specified on the <code>main</code> configuration level. If the core dump file size exceeds the value, the core dump file will not be created.</p>
+<pre><code>worker_rlimit_core 500M;</code></pre>
+</li>
+</ol>
+<p>Example:</p>
+<pre><code>worker_processes   auto;
+error_log          /var/log/nginx/error.log debug;
+working_directory  /tmp/cores/;
+worker_rlimit_core 500M;
+
+events {
+    ...
+}
+
+http {
+    ...
+}</code></pre>
+<p>With these settings, a core dump file will be created in the “<i>/tmp/cores/</i>” directory, and only if its size does not exceed 500 megabytes.</p>
+<h2 id="backtrace">Obtaining Backtrace From a Core Dump File</h2>
+<p>Backtraces provide information from a core dump file about what was wrong when a program crashed.</p>
+<p>To get a backtrace from a core dump file:</p>
+<ol>
+<li>
+Open a core dump file with the GDB debugger using the pattern:</p>
+<p><pre><code class="terminal">$ sudo gdb &lt;nginx_executable_path&gt; &lt;coredump_file_path&gt;</pre></code>
+</li>
+<li>
+Type-in the “<em>backtrace</em> command to get a stack trace from the time of the crash:</p>
+<p><pre><code class="terminal">(gdb) backtrace</pre></code>
+</li>
+</ol>
+<p>If the “<i>backtrace</i>” command resulted with the “No symbol table info available” message, you will need to recompile NGINX binary to include debugging symbols. See <a href="#compile_symbols">NGINX and Debugging Symbols</a>.</p>
+<h2 id="configdump">Dumping NGINX Configuration From a Running Process</h2>
+<p>You can extract the current NGINX configuration from the master process in memory. This can be useful when you need to:</p>
+<ul>
+<li>
+verify which configuration has been loaded
+</li>
+<li>
+restore a previous configuration if the version on disk has been accidentally removed or overwritten
+</li>
+</ul>
+<p>The configuration dump can be obtained with a GDB script provided that your NGINX has the debug support.</p>
+<ol>
+<li>
+Make sure your NGINX is built with the debug support (the <code>--with-debug</code> configure option in the list of the configure arguments). Run the command and check if the output contains the <code>--with-debug</code> line:</p>
+<p><pre><code class="terminal">$  nginx -V 2&gt;&amp;1 | grep -- '--with-debug'</pre></code>
+</li>
+<li>
+Obtain the PID of NGINX worker process:<br />
+<pre><code class="terminal">$ ps axu | grep nginx</pre></code>
+</li>
+<li>
+Launch the GDB debugger:</p>
+<p><pre><code class="terminal">$ sudo gdb -p &lt;nginx PID obtained at the previous step&gt;</pre></code>
+</li>
+<li>
+Copy and paste the script to GDB and press “Enter”. The script will save the configuration in the <em>nginx_conf.txt</em> file in the current directory:</p>
+<p><pre><code class="terminal">set $cd = ngx_cycle->config_dump<br />
+set $nelts = $cd.nelts<br />
+set $elts = (ngx_conf_dump_t*)($cd.elts)</p>
+<p>while ($nelts-- > 0) </p>
+<p>set $name = $elts[$nelts]->name.data<br />
+printf "Dumping %s to nginx_conf.txt\n", $name<br />
+append memory nginx_conf.txt \<br />
+      $elts[$nelts]->buffer.start $elts[$nelts]->buffer.end<br />
+end</pre></code>
+</li>
+<li>
+Quit GDB by pressing <em>CTRL+D</em>.
+</li>
+<li>
+Open the file <em>nginx_conf.txt</em> located in the current directory:</p>
+<p><pre><code class="terminal">$ sudo vi nginx.conf.txt</pre></code>
+</li>
+</ol>
+<h2 id="help">Asking for help</h2>
+<p>When asking for help with debugging, please provide the following information:</p>
+<ol>
+<li>NGINX version, compiler version, and configure parameters. Run the command:
+<p><pre><code class="terminal">$ nginx -V</pre></code>
+</li>
+<li>Current full NGINX configuration. See <a href="#configdump">Dumping NGINX Configuration From a Running Process</a>
+</li>
+<li>The debugging log. See <a href="#error_log">Enabling Debug Logging in NGINX Configuration</a>
+</li>
+<li>The obtained backtrace. See <a href="#coredump">Enabling Core Dumps</a>, <a href="#backtrace">Obtaining Backtrace</a>
+</li>
+</ol>
+<h2 id="see_also">See Also</h2>
+<ul>
+<li>
+<a href="/blog/new-debugging-features-probe-nginx-internals/">Using New Debugging Features to Probe NGINX Internals</a>
+</li>
+<li>
+<a href="/blog/capturing-5xx-errors-debug-server/">Capturing 5xx Errors with a Debug Server</a>
+</li>
+<li>
+<a href="/resources/admin-guide/logging-and-monitoring/">Logging and Monitoring</a>
+</li>
+</ul>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>uWSGI and Django</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This article explains how to use NGINX as an application gateway with uWSGI and Django.</p>
+<h2 id="toc">Table of Contents</h2>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#overview">An Overview of uWSGI</a></li>
+<li><a href="#configure">Configuring NGINX for Use with uWSGI and Django</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h2 id="intro">Introduction</h2>
+<p>NGINX is a high-performance, scalable, secure, and reliable web server and a reverse proxy. NGINX enables all the main web acceleration techniques aimed at HTTP connection and traffic management. For many years, NGINX capabilities such as <a href="https://www.nginx.com/resources/admin-guide/load-balancer/">load balancing</a>, <a href="https://www.nginx.com/resources/admin-guide/nginx-ssl-termination/">SSL termination</a>, connection and request <a href="https://www.nginx.com/resources/admin-guide/restricting-access/">policing</a>, static <a href="https://www.nginx.com/resources/admin-guide/serving-static-content/">content offload</a>, and <a href="https://www.nginx.com/resources/admin-guide/content-caching/">content caching</a> have helped NGINX users to build reliable and fast websites quickly and efficiently.</p>
+<p>NGINX can also act as a secure application gateway, offering a number of specialized built-in interfaces to pass traffic from users to applications. In this regard, not only can NGINX proxy HTTP and HTTPS traffic to an HTTP-enabled application container, it can also directly talk to most of the popular lightweight application servers and web frameworks via optimized app gateway interfaces via modules like <a href="http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html">uWSGI</a> and <a href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html">FastCGI</a>.</p>
+<p>One of the reasons for using NGINX as an application gateway is the following. Even though the most commonly used application containers have embedded external HTTP interfaces with some routing capabilities, NGINX provides an all-in-one solution for HTTP connection management, load balancing, content caching, and traffic security, with the application back end kept securely behind NGINX for better scalability and performance. It is also very easy to cluster application instances behind NGINX to build highly available applications.</p>
+<h2 id="overview">An Overview of uWSGI and Django</h2>
+<p>A few words about “specialized interfaces”. As useful as it is, HTTP hadn&#8217;t ever been optimized for modern lightweight application deployment scenarios. In recent years, a number of standardized interfaces evolved for use with various application frameworks and application containers. One of these interfaces is the Web Server Gateway Interface (<a href="http://wsgi.readthedocs.org/en/latest/">WSGI</a>), an interface between a web server/proxy and a Python-based application.</p>
+<p>One of the most commonly used application servers offering the <a href="http://uwsgi-docs.readthedocs.org/en/latest/Protocol.html">uwsgi</a> protocol – its own implementation of the WSGI protocol – is the <a href="https://github.com/unbit/uwsgi" target=">uWSGI application server container</a>.</p>
+<p>Other than that, the uWSGI application server supports HTTP, FastCGI, and SCGI – with the uwsgi protocol being recommended as the fastest means for talking to applications.</p>
+<h2 id="configure">Configuring NGINX for Use with uWSGI and Django</h2>
+<p>In this document we&#8217;ll provide a quick recommendation on how to configure NGINX for use with a <a href="http://uwsgi-docs.readthedocs.org/en/latest/" target=">uWSGI</a> server and a Python development environment.</p>
+<p>In version 0.8.40 and later, NGINX includes native support for passing traffic from users to Python applications via the uWSGI protocol. If you download NGINX from our <a href="http://nginx.org/en/download.html">official repositories</a> (either binaries or the source), you don&#8217;t have to do anything to enable support for the uwsgi protocol – it&#8217;s included in NGINX by default.</p>
+<p>Configuring the uWSGI application container itself is outside the scope of this document, so please refer to the excellent <a href="http://uwsgi-docs.readthedocs.org/en/latest/WSGIquickstart.html">Quickstart for Python/WSGI applications</a> for more information.</p>
+<p>For simplicity&#8217;s sake, let&#8217;s assume you&#8217;re going to use a <a href="https://www.djangoproject.com/">Django</a>-based setup for your Python app. Django is probably the most commonly used Python web framework, so it makes sense to use it in our example below. For extensive information on how to configure a Django environment, please refer to the <a href="https://docs.djangoproject.com/en/1.8/">Django documentation</a>.</p>
+<p>For illustrative purposes only, a quick example on how you might be invoking your uWSGI server with Django:</p>
+<pre><code>/usr/local/sbin/uwsgi \
+    --chdir=/var/django/projects/myapp \
+    --module=myapp.wsgi:application \
+    --env DJANGO_SETTINGS_MODULE=myapp.settings \
+    --master --pidfile=/usr/local/var/run/uwsgi/project-master.pid \
+    --socket=127.0.0.1:29000 \
+    --processes=5 \
+    --uid=505 --gid=505 \
+    --harakiri=20 \
+    --max-requests=5000 \
+    --vacuum \
+    --daemonize=/usr/local/var/log/uwsgi/myapp.log</code></pre>
+<p>Assuming the above, an example NGINX configuration for use with a Django project might look like the following:</p>
+<pre><code>http {
+
+    ...
+
+    upstream django {
+        server 127.0.0.1:29000;
+    }
+
+    server {
+        listen 80;
+        server_name myapp.example.com;
+
+        root /var/www/myapp/html;
+
+        location / {
+            index index.html;
+        }
+
+        location /static/  {
+            alias /var/django/projects/myapp/static/;
+        }
+
+        location /main {
+            include /etc/nginx/uwsgi_params;
+            uwsgi_pass django;
+
+            uwsgi_param Host $host;
+            uwsgi_param X-Real-IP $remote_addr;
+            uwsgi_param X-Forwarded-For $proxy_add_x_forwarded_for;
+            uwsgi_param X-Forwarded-Proto $http_x_forwarded_proto;
+        }
+    }
+}</code></pre>
+<p>Notice that the configuration defines an upstream called <b>django</b>. The port number matches the one the uWSGI server binds to, as specified by the <code>socket</code> argument in the sample <code>uwsgi</code> command. Here the static content is offloaded to NGINX, which serves it directly. Traffic to the “main” application is proxied and bridged from HTTP to the uwsgi protocol and passed to the Django app, running inside uWSGI application container.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Lightweight, heterogeneous application environments are becoming an increasingly popular way of building and deploying modern web applications. Newer, standardized application interface protocols like uwsgi and FastCGI enable faster communication between users and applications.</p>
+<p>Using NGINX in front of an application container has become a common way to lift the burden of HTTP traffic management from the application, protecting the application from unexpected spikes of user traffic, malicious behavior, denial-of-service attacks, and more. Unbundling real-world, external HTTP traffic from the actual application allows the developer to fully focus on the application logic, and leave the web acceleration and fundamental HTTP traffic security tasks to NGINX.</p>
+<p>For more information on configuring the uwsgi module for NGINX, please see:</p>
+<ul>
+<li><a href="http://uwsgi-docs.readthedocs.org/en/latest/Nginx.html">NGINX support</a> in the uWSGI project documentation</li>
+<li><a href="https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/uwsgi/">How to use Django with uWSGI</a> in the Django project documentation </li>
+</ul>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

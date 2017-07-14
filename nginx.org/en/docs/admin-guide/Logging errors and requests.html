@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Logging errors and requests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This section describes how to configure logging of errors and processed requests in NGINX Open Source and NGINX Plus.</p>
+<h2 id="toc">In This Section</h2>
+<ul>
+<li><a href="#error_log">Setting up the Error Log</a></li>
+<li><a href="#access_log">Setting up the Access Log</a></li>
+<li><a href="#conditional">Enabling Conditional Logging</a></li>
+<li><a href="#syslog">Logging to Syslog</a></li>
+<li><a href="#status">Live Activity Monitoring</a></li>
+</ul>
+<h2 id="error_log">Setting Up the Error Log</h2>
+<p>NGINX writes information about encountered issues of different severity levels to the error log. The <code><a target="_blank" href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> directive sets up logging to a particular file, <code>stderr</code>, or <code>syslog</code> and specifies the minimal severity level of messages to log. By default, the error log is located at <strong>logs/error.log</strong> (the absolute path depends on the operating system and installation), and messages from all severity levels above the one specified are logged.</p>
+<p>The configuration below changes the minimal severity level of error messages to log from <code>error</code> to <code>warn</code>:</p>
+<pre><code>error_log logs/error.log warn;</code></pre>
+<p>In this case, messages of <code>warn</code>, <code>error</code> <code>crit</code>, <code>alert</code>, and <code>emerg</code> levels are logged.</p>
+<p>The default setting of the error log works globally. To override it, place the <code><a target="_blank" href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> directive in the main (top-level) configuration context. Settings in the main context are always inherited by other configuration levels. The <code>error_log</code> directive can be also specified at the <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_core_module.html#http">http</a></code>, <code><a target="_blank" href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a></code>, <code>server</code> and <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">location</a></code> levels and overrides the setting inherited from the higher levels. In case of an error, the message is written to only one error log, the one closest to the level where the error has occurred. However, if several <code>error_log</code> directives are specified on the same level, the message are written to all specified logs.</p>
+<blockquote><p><strong>Note:</strong> The ability to specify multiple <code>error_log</code> directives on the same configuration level was added in open source NGINX version <a target="_blank" href="http://nginx.org/en/CHANGES">1.5.2</a>.</p></blockquote>
+<h2 id="access_log">Setting Up the Access Log</h2>
+<p>NGINX writes information about client requests in the access log right after the request is processed. By default, the access log is located at <strong>logs/access.log</strong>, and the information is written to the log in the predefined <strong>combined</strong> format. To override the default setting, use the <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format">log_format</a></code> directive to change the format of logged messages, as well as the <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#access_log">access_log</a></code> directive to specify the location of the log and its format. The log format is defined using variables.</p>
+<p>The following examples define the log format that extends the predefined <strong>combined</strong> format with the value indicating the ratio of gzip compression of the response. The format is then applied to a virtual server that enables compression.</p>
+<pre><code>http {
+    log_format compression '$remote_addr - $remote_user [$time_local] '
+                           '"$request" $status $body_bytes_sent '
+                           '"$http_referer" "$http_user_agent" "$gzip_ratio"';
+
+    server {
+        gzip on;
+        access_log /spool/logs/nginx-access.log compression;
+        ...
+    }
+}</code></pre>
+<p>Another example of the log format enables tracking different time values between NGINX and an upstream server that may help to diagnose a problem if your website experience slowdowns. You can use the following variables to log the indicated time values:</p>
+<ul>
+<li><code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_connect_time">$upstream_connect_time</a></code>&nbsp;&ndash;&nbsp;The time spent on establishing a connection with an upstream server</li>
+<li><code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_header_time">$upstream_header_time</a></code>&nbsp;&ndash;&nbsp;The time between establishing a connection and receiving the first byte of the response header from the upstream server</li>
+<li><code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#var_upstream_response_time">$upstream_response_time</a></code>&nbsp;&ndash;&nbsp;The time between establishing a connection and receiving the last byte of the response body from the upstream server</li>
+<li><code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#var_request_time">$request_time</a></code>&nbsp;&ndash;&nbsp;The total time spent processing a request</li>
+</ul>
+<p><p>All time values are measured in seconds with millisecond resolution.</p>
+<pre><code>http {
+    log_format upstream_time '$remote_addr - $remote_user [$time_local] '
+                             '"$request" $status $body_bytes_sent '
+                             '"$http_referer" "$http_user_agent"'
+                             'rt=$request_time uct="$upstream_connect_time" uht="$upstream_header_time" urt="$upstream_response_time"';
+
+    server {
+        access_log /spool/logs/nginx-access.log upstream_time;
+        ...
+    }
+}</code></pre>
+<p>Here are some rules how to read the resulting time values:</p>
+<ul>
+<li>When a request is processed through several servers, the variable contains several values separated by commas</li>
+<li>When there is an internal redirect from one upstream group to another, the values are separated by semicolons</li>
+<li>When a request is unable to reach an upstream server or a full header cannot be received, the variable contains “0” (zero)</li>
+<li>In case of internal error while connecting to an upstream or when a reply is taken from the cache, the variable contains “-” (hyphen)</li>
+</ul>
+<p>Logging can be optimized by enabling the buffer for log messages and the cache of descriptors of frequently used log files whose names contain variables. To enable buffering use the <code>buffer</code> parameter of the <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#access_log">access_log</a></code> directive to specify the size of the buffer. The buffered messages are then written to the log file when the next log message does not fit into the buffer as well as in some other <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#access_log">cases</a>.</p>
+<p>To enable caching of log file descriptors, use the <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#open_log_file_cache">open_log_file_cache</a></code> directive.</p>
+<p>Similar to the <code>error_log</code> directive, the <code>access_log</code> directive defined on a particular configuration level overrides the settings from the previous levels. When processing of a request is completed, the message is written to the log that is configured on the current level, or inherited from the previous levels. If one level defines multiple access logs, the message is written to all of them.</p>
+<h2 id="conditional">Enabling Conditional Logging</h2>
+<p>Conditional logging allows excluding trivial or unimportant log entries from the access log. In NGINX, conditional logging is enabled by the <code>if</code> parameter to the <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#access_log">access_log</a></code> directive.</p>
+<p>This example excludes requests with HTTP status codes <code>2xx</code> (Success) and <code>3xx</code> (Redirection):</p>
+<pre><code>map $status $loggable {
+    ~^[23]  0;
+    default 1;
+}
+
+access_log /path/to/access.log combined if=$loggable;
+</code></pre>
+<h2 id="syslog">Logging to Syslog</h2>
+<p>The <code>syslog</code> utility is a standard for computer message logging and allows collecting log messages from different devices on a single syslog server. In NGINX, logging to syslog is configured with the <code>syslog:</code> prefix in <code><a target="_blank" href="http://nginx.org/en/docs/ngx_core_module.html#error_log">error_log</a></code> and <code><a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_log_module.html#access_log">access_log</a></code> directives.</p>
+<p>Syslog messages can be sent to a <code>server=</code> which can be a domain name, an IP address, or a UNIX-domain socket path. A domain name or IP address can be specified with a port to override the default port, 514. A UNIX-domain socket path can be specified after the <code>unix:</code> prefix:</p>
+<pre><code>error_log server=unix:/var/log/nginx.sock debug;
+access_log syslog:server=[2001:db8::1]:1234,facility=local7,tag=nginx,severity=info;</code></pre>
+<p>In the example, NGINX error log messages are written to a UNIX domain socket at the <code>debug</code> logging level, and the access log is written to a syslog server with an IPv6 address and port 1234.</p>
+<p>The <code>facility=</code> parameter specifies the type of program that is logging the message. The default value is <code>local7</code>. Other possible values are: <code>auth</code>, <code>authpriv</code>, <code>daemon</code>, <code>cron</code>, <code>ftp</code>, <code>lpr</code>, <code>kern</code>, <code>mail</code>, <code>news</code>, <code>syslog</code>, <code>user</code>, <code>uucp</code>, <code>local0 ... local7</code>.</p>
+<p>The <code>tag=</code> parameter applies a custom tag to syslog messages (<code>nginx</code> in our example).</p>
+<p>The <code>severity=</code> parameter sets the severity level of syslog messages for access log. Possible values in order of increasing severity are: <code>debug</code>, <code>info</code>, <code>notice</code>, <code>warn</code>, <code>error</code> (default), <code>crit</code>, <code>alert</code>, and <code>emerg</code>. Messages are logged at the specified level and all more severe levels. In our example, the severity level <code>error</code> also enables <code>crit</code>, <code>alert</code>, and <code>emerg</code> levels to be logged.</p>
+<h2 id="status">Live Activity Monitoring</h2>
+<p>NGINX Plus provides a real-time live activity monitoring interface that shows key load and performance metrics of your <a href="https://www.nginx.com/resources/admin-guide/load-balancer/">HTTP</a> and <a href="https://www.nginx.com/resources/admin-guide/tcp-load-balancing/">TCP</a> upstream servers. See the <a href="/resources/admin-guide/Monitoring/">Live Activity Monitoring</a> article for more information.</p>
+<p>To learn more about NGINX Plus, please visit the <a href="https://www.nginx.com/products/">Products</a> page.</p>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

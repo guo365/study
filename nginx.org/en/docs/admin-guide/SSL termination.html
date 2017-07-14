@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SSL termination</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This section describes how to configure an HTTPS server on NGINX and NGINX Plus.</p>
+<h2 id="toc">In This Section</h2>
+<ul>
+<li><a href="#setup">Setting up an HTTPS Server</a></li>
+<li><a href="#optimize">Optimizing an HTTPS Server</a></li>
+<li><a href="#cert_chains">SSL Certificate Chains</a></li>
+<li><a href="#single">A Single HTTP/HTTPS Server</a></li>
+<li><a href="#name">Name-Based HTTPS Servers</a></li>
+<li><a href="#compatibility">Compatibility Notes</a></li>
+</ul>
+<h2 id="setup">Setting up an HTTPS Server</h2>
+<p>To set up an HTTPS server, in your <em>nginx.conf</em> file specify the <code>ssl</code> parameter with the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen">listen</a></code> directive in the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#server">server</a></code> block then set the locations of the server certificate and private key files:</p>
+<pre><code>server {
+    listen              443 ssl;
+    server_name         www.example.com;
+    ssl_certificate     www.example.com.crt;
+    ssl_certificate_key www.example.com.key;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ...
+}</code></pre>
+<p>The server certificate is a public entity. It is sent to every client that connects to the server. The private key is a secure entity and should be stored in a file with restricted access. However, nginx’s master process must be able to read this file. The private key may alternately be stored in the same file as the certificate:</p>
+<pre><code>ssl_certificate www.example.com.cert;
+ssl_certificate_key www.example.com.cert;</code></pre>
+<p>In this case the file access rights should also be restricted. Though the certificate and the key are be stored in one file in this case, only the certificate is sent to a client.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_protocols">ssl_protocols</a></code> and <code><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_ciphers ">ssl_ciphers</a></code> directives can be used to limit connections to include only the strong versions and ciphers of SSL/TLS.</p>
+<p>Since version 1.0.5, NGINX uses <code>ssl_protocols SSLv3 TLSv1</code> and <code>ssl_ciphers HIGH:!aNULL:!MD5</code> by default; since versions 1.1.13 and 1.0.12, the default was updated to <code>ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2</code>.</p>
+<p>Vulnerabilities are sometimes found in the design of older ciphers, and you would be wise to disable these in a modern NGINX configuration (unfortunately, the default configuration cannot easily be changed because of concerns of backward compatibility for existing NGINX deployments). Please note that CBC-mode ciphers might be vulnerable to a number of attacks, the BEAST attack in particular (see <a href="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2011-3389">CVE-2011-3389</a>), and SSLv3 is best avoided unless you need to support legacy clients due to the <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">POODLE</a> attack.</p>
+<h2 id="optimize">HTTPS Server Optimization</h2>
+<p>SSL operations consume extra CPU resources. The most CPU-intensive operation is the SSL handshake. There are two ways to minimize the number of these operations per client:</p>
+<ul>
+<li>Enabling keepalive connections to send several requests via one connection</li>
+<li>Reusing SSL session parameters to avoid SSL handshakes for parallel and subsequent connections</li>
+</ul>
+<p>Sessions are stored in the SSL session cache shared between worker processes and configured by the <code><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_cache">ssl_session_cache</a></code> directive. One megabyte of cache contains about 4000 sessions. The default cache timeout is 5 minutes. This timeout can be increased using the <code><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_timeout">ssl_session_timeout </a></code> directive. Below is a sample configuration optimized for a multi-core system with 10 megabyte shared session cache:</p>
+<pre><code>worker_processes auto;
+
+http {
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    server {
+        listen              443 ssl;
+        server_name         www.example.com;
+        keepalive_timeout   70;
+
+        ssl_certificate     www.example.com.crt;
+        ssl_certificate_key www.example.com.key;
+        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+        ssl_ciphers         HIGH:!aNULL:!MD5;
+        ...
+    }
+}</code></pre>
+<h2 id="cert_chains">SSL Certificate Chains</h2>
+<p>Some browsers may complain about a certificate signed by a well-known certificate authority, while other browsers may accept the certificate without issues. This occurs because the issuing authority has signed the server certificate using an intermediate certificate that is not present in the base of well-known trusted certificate authorities which is distributed in a particular browser. In this case the authority provides a bundle of chained certificates that should be concatenated to the signed server certificate. The server certificate must appear before the chained certificates in the combined file:</p>
+<pre><code class="terminal">$ <strong>cat www.example.com.crt bundle.crt &gt; www.example.com.chained.crt</strong></code></pre>
+<p>The resulting file should be used in the <code><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_certificate">ssl_certificate</a></code> directive:</p>
+<pre><code>server {
+    listen              443 ssl;
+    server_name         www.example.com;
+    ssl_certificate     www.example.com.chained.crt;
+    ssl_certificate_key www.example.com.key;
+    ...
+}</code></pre>
+<p>If the server certificate and the bundle have been concatenated in the wrong order, NGINX will fail to start and will display the following error message:</p>
+<pre><code>SSL_CTX_use_PrivateKey_file(" ... /www.example.com.key") failed
+   (SSL: error:0B080074:x509 certificate routines:
+    X509_check_private_key:key values mismatch)</code></pre>
+<p>The error happens because NGINX has tried to use the private key with the bundle’s first certificate instead of the server certificate.</p>
+<p>Browsers usually store intermediate certificates which they receive and are signed by trusted authorities. So actively used browsers may already have the required intermediate certificates and may not complain about a certificate sent without a chained bundle. To ensure the server sends the complete certificate chain the openssl command-line utility may be used:</p>
+<pre><code class="terminal">$ <strong>openssl s_client -connect www.godaddy.com:443</strong>
+...
+Certificate chain
+ 0 s:/C=US/ST=Arizona/L=Scottsdale/1.3.6.1.4.1.311.60.2.1.3=US
+     /1.3.6.1.4.1.311.60.2.1.2=AZ/O=GoDaddy.com, Inc
+     /OU=MIS Department/CN=www.GoDaddy.com
+     /serialNumber=0796928-7/2.5.4.15=V1.0, Clause 5.(b)
+   i:/C=US/ST=Arizona/L=Scottsdale/O=GoDaddy.com, Inc.
+     /OU=http://certificates.godaddy.com/repository
+     /CN=Go Daddy Secure Certification Authority
+     /serialNumber=07969287
+ 1 s:/C=US/ST=Arizona/L=Scottsdale/O=GoDaddy.com, Inc.
+     /OU=http://certificates.godaddy.com/repository
+     /CN=Go Daddy Secure Certification Authority
+     /serialNumber=07969287
+   i:/C=US/O=The Go Daddy Group, Inc.
+     /OU=Go Daddy Class 2 Certification Authority
+ 2 s:/C=US/O=The Go Daddy Group, Inc.
+     /OU=Go Daddy Class 2 Certification Authority
+   i:/L=ValiCert Validation Network/O=ValiCert, Inc.
+     /OU=ValiCert Class 2 Policy Validation Authority
+     /CN=http://www.valicert.com//emailAddress=info@valicert.com
+...</code></pre>
+<p>In this example the subject (“<code>s</code>”) of the <code>www.GoDaddy.com</code> server certificate <code>#0</code> is signed by an issuer (<code>“i”</code>) which itself is the subject of the certificate #1. This certificate #1 is signed by an issuer which itself is the subject of the certificate #2. This certificate, however, is signed by the well-known issuer <code>ValiCert, Inc.</code> whose certificate is stored in the browsers themselves.</p>
+<p>If a certificate bundle has not been added, only the server certificate #0 will be shown.</p>
+<h2 id="single">A Single HTTP/HTTPS Server</h2>
+<p>It is possible to configure a single server that handles both HTTP and HTTPS requests by placing one <code>listen</code> directive with the <code>ssl</code> parameter and one without in the same virtual server:</p>
+<pre><code>server {
+    listen              80;
+    listen              443 ssl;
+    server_name         www.example.com;
+    ssl_certificate     www.example.com.crt;
+    ssl_certificate_key www.example.com.key;
+    ...
+}</code></pre>
+<p>In NGINX version 0.7.13 and earlier, SSL cannot be enabled selectively for individual listening sockets, as shown above. SSL can only be enabled for the entire server using the <code><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl">ssl</a></code> directive, making it impossible to set up a single HTTP/HTTPS server. The <code>ssl</code> parameter to the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen">listen</a></code> directive was added to solve this issue. The <code><a href="http://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl">ssl</a></code> directive therefore is not be be used in version 0.7.14 and later.</p>
+<h2 id="name">Name-Based HTTPS Servers</h2>
+<p>A common issue arises when two or more HTTPS servers are configured to listen on a single IP address:</p>
+<pre><code>server {
+    listen          443 ssl;
+    server_name     www.example.com;
+    ssl_certificate www.example.com.crt;
+    ...
+}
+
+server {
+    listen          443 ssl;
+    server_name     www.example.org;
+    ssl_certificate www.example.org.crt;
+    ...
+}</code></pre>
+<p>With this configuration, a browser receives the default server’s certificate. In this case, it is <code>www.example.com</code> regardless of the requested server name. This is caused by the SSL protocol behaviour itself. The SSL connection is established before the browser sends an HTTP request and NGINX does not know the name of the requested server. Therefore, it may only offer the default server’s certificate.</p>
+<p>The best way to solve this issue is to assign a separate IP address to every HTTPS server:</p>
+<pre><code>server {
+    listen          192.168.1.1:443 ssl;
+    server_name     www.example.com;
+    ssl_certificate www.example.com.crt;
+    ...
+}
+
+server {
+    listen          192.168.1.2:443 ssl;
+    server_name     www.example.org;
+    ssl_certificate www.example.org.crt;
+    ...
+}</code></pre>
+<p>Note that there are also some specific proxy settings for HTTPS upstreams (<code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_ciphers">proxy_ssl_ciphers</a></code> /<code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_protocols">proxy_ssl_protocols</a></code>, and <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_ssl_session_reuse">proxy_ssl_session_reuse</a></code>) which can be used for fine tuning SSL between nginx and upstreams. You can read more about these in the <a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html">http proxy module documentation</a>.</p>
+<h3>An SSL Certificate With Several Names</h3>
+<p>There are other ways for sharing a single IP address between several HTTPS servers. However, all of them have their particular drawbacks. One way is to use a certificate with several names in the <code>SubjectAltName</code> certificate field, for example, <code>www.example.com</code> and <code>www.example.org</code>. However, the <code>SubjectAltName</code> field length is limited.</p>
+<p>Another way is to use a certificate with a wildcard name, for example, <code>*.example.org</code>. A wildcard certificate secures all subdomains of the specified domain, but only on one level. This certificate matches <code>www.example.org</code>, but does not match <code>example.org</code> or <code>www.sub.example.org</code>. These two methods can also be combined. A certificate may contain exact and wildcard names in the <code>SubjectAltName</code> field. For example, <code>example.org</code> and <code>*.example.org</code>.</p>
+<p>It is better to place a certificate file with several names and its private key file at the http level of your configuration so that they inherit the single memory copy across all servers:</p>
+<pre><code>ssl_certificate     common.crt;
+ssl_certificate_key common.key;
+
+server {
+    listen          443 ssl;
+    server_name     www.example.com;
+    ...
+}
+
+server {
+    listen          443 ssl;
+    server_name     www.example.org;
+    ...
+}</code></pre>
+<h3 id="sni">Server Name Indication</h3>
+<p>A more generic solution for running several HTTPS servers on a single IP address is the <a href="https://en.wikipedia.org/wiki/Server_Name_Indication">TLS Server Name Indication</a> extension (SNI, RFC 6066), which allows a browser to pass a requested server name during the SSL handshake. With this solution, the server will know which certificate it should use for the connection. However, SNI has limited browser support. Currently it is supported starting with the following browser versions:</p>
+<pre><code>Opera 8.0;
+MSIE 7.0 (but only on Windows Vista or higher);
+Firefox 2.0 and other browsers using Mozilla Platform rv:1.8.1;
+Safari 3.2.1 (Windows version supports SNI on Vista or higher);
+and Chrome (Windows version supports SNI on Vista or higher, too).</code></pre>
+<p>Only domain names can be passed in SNI. However, some browsers will pass the IP address of the server as its name if a request includes a literal IP address. It is best not to rely on this.</p>
+<p>In order to use SNI in nginx, it must be supported in both the OpenSSL library with which the NGINX binary has been built with as well as the library which it is being dynamically linked with at run time. OpenSSL supports SNI since the 0.9.8f version if it was built with configuration <code>option --enable-tlsext</code>. Since OpenSSL version 0.9.8j, this option is enabled by default. If NGINX was built with SNI support, NGINX shows the following when run with the <code>-V</code> switch:</p>
+<pre><code class="terminal">$ <strong>nginx -V</strong>
+...
+TLS SNI support enabled
+...</code></pre>
+<p>However, if the SNI-enabled NGINX is linked dynamically to an OpenSSL library without SNI support, NGINX displays the warning:</p>
+<pre><code class="terminal">NGINX was built with SNI support, however, now it is linked
+dynamically to an OpenSSL library which has no tlsext support,
+therefore SNI is not available</code></pre>
+<h2 id="compatibility">Compatibility Notes</h2>
+<ul>
+<li>The SNI support status has been shown by the “-V” switch since versions 0.8.21 and 0.7.62.</li>
+<li>The <code>ssl</code> parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen">listen</a></code> directive has been supported since version 0.7.14. Prior to version 0.8.21 it could only be specified along with the <code>default</code> parameter.</li>
+<li>SNI has been supported since version 0.5.32.</li>
+<li>
+<p>The shared SSL session cache has been supported since version 0.5.6.</p>
+</li>
+<li>
+<p>From version 0.7.65, 0.8.19 and later the default SSL protocols are SSLv3, TLSv1, TLSv1.1, and TLSv1.2 (if supported by the OpenSSL library).</p>
+</li>
+<li>
+<p>From version 0.7.64, 0.8.18 and earlier the default SSL protocols are SSLv2, SSLv3, and TLSv1.</p>
+</li>
+<li>
+<p>From version 1.0.5 and later the default SSL ciphers are <code>HIGH:!aNULL:!MD5</code></p>
+</li>
+<li>From version 0.7.65, 0.8.20 and later the default SSL ciphers are <code>HIGH:!ADH:!MD5</code></li>
+<li>From version 0.8.19 the default SSL ciphers are <code>ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM</code></li>
+<li>From version 0.7.64, 0.8.18 and earlier the default SSL ciphers are <code>ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP</code></li>
+</ul>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

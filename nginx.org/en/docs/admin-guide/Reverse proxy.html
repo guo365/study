@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reverse proxy</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This article describes the basic configuration of a proxy server. You will learn how to pass a request from NGINX to proxied servers over different protocols, modify client request headers that are sent to the proxied server, and configure buffering of responses coming from the proxied servers.</p>
+<h2 id="toc">Table of Contents</h2>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#pass">Passing a Request to a Proxied Server</a></li>
+<li><a href="#headers">Passing Request Headers</a></li>
+<li><a href="#buffers">Configuring Buffers</a></li>
+<li><a href="#proxy_bind">Choosing an Outgoing IP Address</a></li>
+</ul>
+<h2 id="intro">Introduction</h2>
+<p>Proxying is typically used to distribute the load among several servers, seamlessly show content from different websites, or pass requests for processing to application servers over protocols other than HTTP.</p>
+<h2 id="pass">Passing a Request to a Proxied Server</h2>
+<p>When NGINX proxies a request, it sends the request to a specified proxied server, fetches the response, and sends it back to the client. It is possible to proxy requests to an HTTP server (another NGINX server or any other server) or a non-HTTP server (which can run an application developed with a specific framework, such as PHP or Python) using a specified protocol. Supported protocols include <a href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html">FastCGI</a>, <a href="http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html">uwsgi</a>, <a href="http://nginx.org/en/docs/http/ngx_http_scgi_module.html">SCGI</a>, and <a href="http://nginx.org/en/docs/http/ngx_http_memcached_module.html">memcached</a>.</p>
+<p>To pass a request to an HTTP proxied server, the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a></code> directive is specified inside a <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">location</a></code>. For example:</p>
+<pre><code>location /some/path/ {
+    proxy_pass http://www.example.com/link/;
+}</code></pre>
+<p>This example configuration results in passing all requests processed in this location to the proxied server at the specified address. This address can be specified as a domain name or an IP address. The address may also include a port:</p>
+<pre><code>location ~ \.php {
+    proxy_pass http://127.0.0.1:8000;
+}</code></pre>
+<p>Note that in the first example above, the address of the proxied server is followed by a URI, <code>/link/</code>. If the URI is specified along with the address, it replaces the part of the request URI that matches the location parameter. For example, here the request with the <code>/some/path/page.html</code> URI will be proxied to <code>http://www.example.com/link/page.html</code>. If the address is specified without a URI, or it is not possible to determine the part of URI to be replaced, the full request URI is passed (possibly, modified).</p>
+<p>To pass a request to a non-HTTP proxied server, the appropriate <code>**_pass</code> directive should be used:</p>
+<ul>
+<li><code><a href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass">fastcgi_pass</a></code> passes a request to a FastCGI server</li>
+<li><code><a href="http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass">uwsgi_pass</a></code> passes a request to a uwsgi server</li>
+<li><code><a href="http://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass">scgi_pass</a></code> passes a request to an SCGI server</li>
+<li><code><a href="http://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_pass">memcached_pass</a> </code> passes a request to a memcached server</li>
+</ul>
+<p>Note that in these cases, the rules for specifying addresses may be different. You may also need to pass additional parameters to the server (see the <a href="http://nginx.org/en/docs/">reference documentation</a> for more detail).</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a></code> directive can also point to a <a href="http://nginx.org/en/docs/http/load_balancing.html#algorithms">named group</a> of servers. In this case, requests are distributed among the servers in the group according to the <a href="https://www.nginx.com/resources/admin-guide/load-balancer/">specified method</a>.</p>
+<h2 id="headers">Passing Request Headers</h2>
+<p>By default, NGINX redefines two header fields in proxied requests, “Host” and “Connection”, and eliminates the header fields whose values are empty strings. “Host” is set to the <code>$proxy_host</code> variable, and “Connection” is set to <code>close</code>.</p>
+<p>To change these setting, as well as modify other header fields, use the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header">proxy_set_header</a></code> directive. This directive can be specified in a <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">location</a></code> or higher. It can also be specified in a particular <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#server">server</a></code> context or in the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#http">http</a></code> block. For example:</p>
+<pre><code>location /some/path/ {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://localhost:8000;
+}</code></pre>
+<p>In this configuration the “Host” field is set to the <a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#variables">$host</a> variable.</p>
+<p>To prevent a header field from being passed to the proxied server, set it to an empty string as follows:</p>
+<pre><code>location /some/path/ {
+    proxy_set_header Accept-Encoding "";
+    proxy_pass http://localhost:8000;
+}</code></pre>
+<h2 id="buffers">Configuring Buffers</h2>
+<p>By default NGINX buffers responses from proxied servers. A response is stored in the internal buffers and is not sent to the client until the whole response is received. Buffering helps to optimize performance with slow clients, which can waste proxied server time if the response is passed from NGINX to the client synchronously. However, when buffering is enabled NGINX allows the proxied server to process responses quickly, while NGINX stores the responses for as much time as the clients need to download them.</p>
+<p>The directive that is responsible for enabling and disabling buffering is <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering">proxy_buffering</a></code>. By default it is set to <code>on</code> and buffering is enabled.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffers">proxy_buffers</a></code> directive controls the size and the number of buffers allocated for a request. The first part of the response from a proxied server is stored in a separate buffer, the size of which is set with the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size">proxy_buffer_size</a></code> directive. This part usually contains a comparatively small response header and can be made smaller than the buffers for the rest of the response.</p>
+<p>In the following example, the default number of buffers is increased and the size of the buffer for the first portion of the response is made smaller than the default.</p>
+<pre><code>location /some/path/ {
+    proxy_buffers 16 4k;
+    proxy_buffer_size 2k;
+    proxy_pass http://localhost:8000;
+}</code></pre>
+<p>If buffering is disabled, the response is sent to the client synchronously while it is receiving it from the proxied server. This behavior may be desirable for fast interactive clients that need to start receiving the response as soon as possible.</p>
+<p>To disable buffering in a specific location, place the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffering">proxy_buffering</a></code> directive in the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#location">location</a></code> with the <code>off</code> parameter, as follows:</p>
+<pre><code>location /some/path/ {
+    proxy_buffering off;
+    proxy_pass http://localhost:8000;
+}</code></pre>
+<p>In this case NGINX uses only the buffer configured by <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size">proxy_buffer_size</a></code> to store the current part of a response.</p>
+<p>A common use of a reverse proxy is to provide load balancing. Learn how to improve power, performance, and focus on your apps with rapid deployment in the free <a href="https://www.nginx.com/resources/library/five-reasons-choose-software-load-balancer/">Five Reasons to Choose a Software Load Balancer</a> ebook.</p>
+<h2 id="proxy_bind">Choosing an Outgoing IP Address</h2>
+<p>If your proxy server has several network interfaces, sometimes you might need to choose a particular source IP address for connecting to a proxied server or an upstream. This may be useful if a proxied server behind NGINX is configured to accept connections from particular IP networks or IP address ranges.</p>
+<p>Specify the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_bind">proxy_bind</a></code> directive and the IP address of the necessary network interface:</p>
+<pre><code>location /app1/ {
+    proxy_bind 127.0.0.1;
+    proxy_pass http://example.com/app1/;
+}
+
+location /app2/ {
+    proxy_bind 127.0.0.2;
+    proxy_pass http://example.com/app2/;
+}</code></pre>
+<p>The IP address can be also specified with a variable. For example, the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#var_server_addr">$server_addr</a></code> variable passes the IP address of the network interface that accepted the request:</p>
+<pre><code>location /app3/ {
+    proxy_bind $server_addr;
+    proxy_pass http://example.com/app3/;
+}</code></pre>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

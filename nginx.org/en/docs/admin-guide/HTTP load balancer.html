@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTTP load balancer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This chapter describes how to use NGINX and NGINX Plus as a <a href="https://www.nginx.com/solutions/load-balancing/">load balancer</a>.</p>
+<h2 id="toc">Table of Contents</h2>
+<ul>
+<li><a href="#overview">Load Balancing Overview</a></li>
+<li><a href="#proxy_pass">Proxying Traffic to a Group of Servers</a></li>
+<li><a href="#method">Choosing a Load Balancing Method</a></li>
+<li><a href="#weight">Server Weights</a></li>
+<li><a href="#slow_start">Server Slow Start</a></li>
+<li><a href="#sticky">Enabling Session Persistence</a></li>
+<li><a href="#maxconns">Limiting the Number of Connections</a></li>
+<li><a href="#health_passive">Passive Health Monitoring</a></li>
+<li><a href="#health_active">Active Health Monitoring</a></li>
+<li><a href="#zone">Sharing Data with Multiple Worker Processes</a></li>
+<li><a href="#resolve">Configuring Load Balancing Using DNS</a></li>
+<li><a href="#ntlm">Load Balancing of Microsoft Exchange Servers</a></li>
+<li><a href="#upstream_conf">On-the-Fly (runtime) Configuration</a></li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>Load balancing across multiple application instances is a commonly used technique for optimizing resource utilization, maximizing throughput, reducing latency, and ensuring fault-tolerant configurations.</p>
+<p>Watch the <a href="https://www.nginx.com/resources/webinars/nginx-plus-for-load-balancing-30-min/">NGINX Load Balancing Software Webinar On Demand</a> for a deep dive on techniques that NGINX users employ to build large scale, highly-available web services.</p>
+<p>NGINX can be used in different deployment scenarios as a <a href="https://www.nginx.com/blog/nginx-load-balance-deployment-models/">very efficient HTTP load balancer</a>.</p>
+<h2 id="proxy_pass">Proxying Traffic to a Group of Servers</h2>
+<p>To start using NGINX with a group of servers, first, you need to define the group with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">upstream</a></code> directive. The directive is placed in the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#http">http</a></code> context.</p>
+<p>Servers in the group are configured using the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a></code> directive (not to be confused with the <code>server</code> block that defines a virtual server running on NGINX). For example, the following configuration defines a group named <code>backend</code> and consists of three server configurations (which may resolve in more than three actual servers):</p>
+<pre><code>http {
+    upstream backend {
+        server backend1.example.com weight=5;
+        server backend2.example.com;
+        server 192.0.0.1 backup;
+    }
+}
+</code></pre>
+<p>To pass requests to a server group, the name of the group is specified in the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a></code> directive (or <code><a href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_pass">fastcgi_pass</a></code>, <code><a href="http://nginx.org/en/docs/http/ngx_http_memcached_module.html#memcached_pass">memcached_pass</a></code>, <code><a href="http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html#uwsgi_pass">uwsgi_pass</a></code>, <code><a href="http://nginx.org/en/docs/http/ngx_http_scgi_module.html#scgi_pass">scgi_pass</a></code> depending on the protocol). In the next example, a virtual server running on NGINX passes all requests to the <code>backend</code> server group defined in the previous example:</p>
+<pre><code>server {
+    location / {
+        proxy_pass http://backend;
+    }
+}
+</code></pre>
+<p>The following example sums up the two examples above and shows proxying requests to the <code>backend</code> server group, where the server group consists of three servers, two of them run two instances of the same application while one is a backup server, NGINX applies HTTP load balancing to distribute the requests:</p>
+<pre><code>http {
+    upstream backend {
+        server backend1.example.com;
+        server backend2.example.com;
+        server 192.0.0.1 backup;
+    }
+    server {
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+}
+</code></pre>
+<h2 id="method">Choosing a Load Balancing Method</h2>
+<p>NGINX supports four load balancing methods, and NGINX Plus an additional fifth method:</p>
+<ol>
+<li>
+<p>The <strong>round-robin</strong> method: requests are distributed evenly across the servers with <a href="#weight">server weights</a> taken into consideration. This method is used by default (there is no  directive for enabling it):</p>
+<pre><code>upstream backend {
+   server backend1.example.com;
+   server backend2.example.com;
+}</code></pre>
+</li>
+<li>
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn">least_conn</a> method: a request is sent to the server with the least number of active connections with <a href="#weight">server weights</a> taken into consideration:</p>
+<pre><code>upstream backend {
+    least_conn;
+
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+</li>
+<li>
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#ip_hash">ip_hash</a> method: the server to which a request is sent is determined from the client IP address. In this case, either the first three octets of IPv4 address or the whole IPv6 address are used to calculate the hash value. The method guarantees that requests from the same address get to the same server unless it is not available.</p>
+<pre><code>upstream backend {
+    ip_hash;
+
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+<p>If one of the servers needs to be temporarily removed, it can be marked with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#down">down</a></code> parameter in order to preserve the current hashing of client IP addresses. Requests that were to be processed by this server are automatically sent to the next server in the group:</p>
+<pre><code>upstream backend {
+    server backend1.example.com;
+    server backend2.example.com;
+    server backend3.example.com down;
+}</code></pre>
+</li>
+<li>
+<p>The generic <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#hash">hash</a> method: the server to which a request is sent is determined from a user-defined key which may be a text, variable, or their combination. For example, the key may be a source IP and port, or URI:</p>
+<pre><code>upstream backend {
+    hash $request_uri consistent;
+
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+<p>The optional <code>consistent</code> parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#hash">hash</a></code> directive enables <a href="http://www.last.fm/user/RJ/journal/2007/04/10/rz_libketama_-_a_consistent_hashing_algo_for_memcache_clients">ketama</a> consistent hash load balancing. Requests will be evenly distributed across all upstream servers based on the user-defined hashed key value. If an upstream server is added to or removed from an upstream group, only few keys will be remapped which will minimize cache misses in case of load balancing cache servers and other applications that accumulate state.</p>
+</li>
+<li>
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_time">least_time</a> method (NGINX&nbsp;Plus): for each request, NGINX Plus selects the server with the lowest average latency and the least number of active connections, where the lowest average latency is calculated based on which of the following parameters is included on the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_time">least_time</a></code> directive:</p>
+<ul>
+<li><code>header</code> – Time to receive the first byte from the server</li>
+<li><code>last_byte</code> – Time to receive the full response from the server</li>
+</ul>
+<pre style="padding-top:10px"><code>upstream backend {
+    least_time header;
+
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+</li>
+</ol>
+<p><strong>Note:</strong> When configuring any method other than round-robin, put the corresponding directive (<code>least_conn</code>, <code>ip_hash</code>, <code>hash</code>, <code>least_time</code>) above the list of <code>server</code> directives in the <code>upstream</code> block.</p>
+<h2 id="weight">Server Weights</h2>
+<p>By default, NGINX distributes requests among the servers in the group according to their weights using the round-robin method. The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#weight">weight</a></code> parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a></code> directive sets the weight of a server, by default, it is 1:</p>
+<pre><code>upstream backend {
+    server backend1.example.com weight=5;
+    server backend2.example.com;
+    server 192.0.0.1 backup;
+}</code></pre>
+<p>In the example, <strong>backend1.example.com</strong> has weight 5; the other two servers have the default weight (1), but the one with IP address 192.0.0.1 is marked as a backup server and does not receive requests unless both of the other servers are unavailable. With this configuration of weights, out of every six requests, five are sent <strong>backend1.example.com</strong> and one to <strong>backend2.example.com</strong>.</p>
+<h2 id="slow_start">Server Slow Start</h2>
+<p>The server slow start feature prevents a recently recovered server from being overwhelmed by connections, which may timeout and cause the server to be marked as failed again.</p>
+<p>In NGINX Plus, slow start allows an upstream server to gradually recover its weight from zero to its nominal value after it has been recovered or became available. This can be done with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#slow_start">slow_start</a></code> parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a></code> directive:</p>
+<pre><code>upstream backend {
+    server backend1.example.com slow_start=30s;
+    server backend2.example.com;
+    server 192.0.0.1 backup;
+}
+</code></pre>
+<p>The time value sets the time for the server will recover its weight.</p>
+<p>Note that if there is only a single server in a group, <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails">max_fails</a></code>, <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#fail_timeout">fail_timeout</a></code>, and <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#slow_start">slow_start</a></code> parameters will be ignored and this server will never be considered unavailable.</p>
+<h2 id="sticky">Enabling Session Persistence</h2>
+<p>Session persistence means that NGINX Plus identifies user sessions and routes the requests from this session to the same upstream server.</p>
+<p>NGINX Plus supports three session persistence methods. The methods are set with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky">sticky</a></code> directive.</p>
+<ul>
+<li>
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky_cookie">sticky cookie</a> method. With this method, NGINX Plus adds a session cookie to the first response from the upstream group and identifies the server which has sent the response. When a client issues next request, it will contain the cookie value and NGINX Plus will route the request to the same upstream server:</p>
+<pre><code>upstream backend {
+    server backend1.example.com;
+    server backend2.example.com;
+
+    sticky cookie srv_id expires=1h domain=.example.com path=/;
+}
+</code></pre>
+<p>In the example, the <code>srv_id</code> parameter sets the name of the cookie which will be set or inspected. The optional <code>expires</code> parameter sets the time for the browser to keep the cookie. The optional <code>domain</code> parameter defines a domain for which the cookie is set. The optional <code>path</code> parameter defines the path for which the cookie is set. This is the simplest session persistence method.</p>
+</li>
+<li>
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky_route">sticky route</a> method. With this method, NGINX Plus will assign a “route” to the client when it receives the first request. All subsequent requests will be compared with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#route">route</a></code> parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a></code> directive to identify the server where requests will be proxied. The route information is taken from either cookie, or URI.</p>
+<pre><code>upstream backend {
+    server backend1.example.com route=a;
+    server backend2.example.com route=b;
+
+    sticky route $route_cookie $route_uri;
+}
+</code></pre>
+</li>
+<li>
+<p>The <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#sticky_learn">cookie learn</a> method. With this method, NGINX Plus first finds session identifiers by inspecting requests and responses. Then NGINX Plus “learns” which upstream server corresponds to which session identifier. Generally, these identifiers are passed in a HTTP cookie. If a request contains a session identifier already “learned”, NGINX Plus will forward the request to the corresponding server:</p>
+<pre><code>upstream backend {
+   server backend1.example.com;
+   server backend2.example.com;
+
+   sticky learn 
+       create=$upstream_cookie_examplecookie
+       lookup=$cookie_examplecookie
+       zone=client_sessions:1m
+       timeout=1h;
+}
+</code></pre>
+<p>In the example, one of the upstream servers creates a session by setting the cookie “EXAMPLECOOKIE” in the response.</p>
+<p>The obligatory parameter <code>create</code> specifies a variable that indicates how a new session is created. In our example, new sessions are created from the cookie “EXAMPLECOOKIE” sent by the upstream server.</p>
+<p>The obligatory parameter <code>lookup</code> specifies how to search for existing sessions. In our example, existing sessions are searched in the cookie “EXAMPLECOOKIE” sent by the client.</p>
+<p>The obligatory parameter <code>zone</code> specifies a shared memory zone where all information about sticky sessions is kept. In our example, the zone is named <code>client_sessions</code> and has the size of 1 megabyte.</p>
+<p>This is a more sophisticated session persistence method as it does not require keeping any cookies on the client side: all info is kept server-side in the shared memory zone.</p>
+</li>
+</ul>
+<h2 id="maxconns">Limiting the Number of Connections</h2>
+<p>With NGINX Plus, it is possible to maintain the desired number of connections by setting the connection limit with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_conns">max_conns</a></code> parameter.</p>
+<p>If the <code>max_conns</code> limit has been reached, the request can be placed into the queue for its further processing provided that the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#queue">queue</a></code> directive is specified. The directive sets the maximum number of requests that can be simultaneously in the queue:</p>
+<pre><code>upstream backend {
+    server backend1.example.com  max_conns=3;
+    server backend2.example.com;
+
+    queue 100 timeout=70;
+}
+</code></pre>
+<p>If the queue is filled up with requests or the upstream server cannot be selected during the timeout specified in the optional <code>timeout</code> parameter, the client will receive an error.</p>
+<p>Note that the <code>max_conns</code> limit will be ignored if there are idle <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#keepalive">keepalive</a> connections opened in other <a href="http://nginx.org/en/docs/ngx_core_module.html#worker_processes">worker processes</a>. As a result, the total number of connections to the server may exceed the <code>max_conns</code> value in a configuration where the memory is <a href="#zone">shared with multiple worker processes</a>.</p>
+<h2 id="health_passive">Passive Health Monitoring</h2>
+<p>When NGINX considers a server unavailable, it temporarily stops sending requests to that server until it is considered active again. The following parameters of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a></code> directive configure the conditions to consider a server unavailable:</p>
+<ul>
+<li>The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#fail_timeout">fail_timeout</a></code> parameter sets the time during which the specified number of failed attempts should happen and still consider the server unavailable. In other words, the server is unavailable for the interval set by <code>fail_timeout</code>.</li>
+<li>The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails">max_fails</a></code> parameter sets the number of failed attempts that should happen during the specified time to still consider the server unavailable.</li>
+</ul>
+<p>The default values are 10&nbsp;seconds and 1&nbsp;attempt. So if NGINX fails to send a request to some server or does not receive a response from this server at least once, it immediately considers the server unavailable for 10&nbsp;seconds. The following example shows how to set these parameters:</p>
+<pre><code>upstream backend {                
+    server backend1.example.com;
+    server backend2.example.com max_fails=3 fail_timeout=30s;
+    server backend3.example.com max_fails=2;
+}
+</code></pre>
+<p>Next are some more sophisticated features for tracking server availability available in <a href="https://www.nginx.com/products/">NGINX Plus</a>.</p>
+<h2 id="health_active">Active Health Monitoring</h2>
+<p>Periodically sending special requests to each server and checking for a response that satisfies certain conditions can monitor the availability of servers.</p>
+<p>To enable this type of health monitoring in your nginx.conf file the location that passes requests to the group should include the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#health_check">health_check</a></code> directive. In addition, the server group should also be dynamically configurable with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive:</p>
+<pre><code>http {
+    upstream backend {
+        zone backend 64k;
+
+        server backend1.example.com;
+        server backend2.example.com;
+        server backend3.example.com;
+        server backend4.example.com;
+    }
+
+    server {
+        location / {
+            proxy_pass http://backend;
+            health_check;
+        }
+    }
+}
+</code></pre>
+<p>This configuration defines a server group and a virtual server with a single location that passes all requests to a server group. It also enables health monitoring with default parameters. In this case, every 5&nbsp;seconds NGINX Plus sends the “/” requests to each server in the backend group. If any communication error or timeout occurs (or a proxied server responds with a status code other than <code>2xx</code> or <code>3xx</code>) the health check fails for this proxied server. Any server that fails a health check is considered unhealthy, and NGINX Plus stops sending client requests to it until it once again passes a health check.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive defines a memory zone that is shared among worker processes and is used to store the configuration of the server group. This <a href="http://nginx.org/en/docs/http/load_balancing.html#shared">enables</a> the worker processes to use the same set of counters to keep track of responses from the servers in the group. The <code>zone</code> directive also makes the group <a href="http://nginx.org/en/docs/http/ngx_http_upstream_conf_module.html">dynamically configurable</a>.</p>
+<p>This behavior can be overridden using the parameters of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#health_check">health_check</a></code> directive:</p>
+<pre><code>location / {
+    proxy_pass http://backend;
+    health_check interval=10 fails=3 passes=2;
+}</code></pre>
+<p>Here, the duration between 2&nbsp;consecutive health checks has been increased to 10&nbsp;seconds using the <code>interval</code> parameter. In addition, a server will be considered unhealthy after 3&nbsp;consecutive failed health checks by setting the <code>fails=3</code> parameter. Finally, using the <code>passes</code> parameter, we have made it so that a server needs to pass 2&nbsp;consecutive checks to be considered healthy again.</p>
+<p>It is possible to set a specific URI to request in a health check. Use the <code>uri</code> parameter for this purpose:</p>
+<pre><code>location / {
+    proxy_pass http://backend;
+    health_check uri=/some/path;
+}</code></pre>
+<p>The provided URI will be appended to the server domain name or IP address specified for the server in the <code>upstream</code> directive. For example, for the first server in the <code>backend</code> group declared above, a health check request will have the <strong>http://backend1.example.com/some/path</strong> URI.</p>
+<p>Finally, it is possible to set custom conditions that a healthy response should satisfy. The conditions are specified in the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#match">match</a></code> block, which is defined in the match parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#health_check">health_check</a></code> directive.</p>
+<pre><code>http {
+    ...
+
+    match server_ok {
+        status 200-399;
+        body !~ "maintenance mode";
+    }
+
+    server {
+        ...
+
+        location / {
+            proxy_pass http://backend;
+            health_check match=server_ok;
+        }
+    }
+}</code></pre>
+<p>Here a health check is passed if the response has the status in the range from 200 to 399, and its body does not match the provided regular expression.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#match">match</a></code> directive allows NGINX Plus to check the status, header fields, and the body of a response. Using this directive it is possible to verify whether the status is in the specified range, whether a response includes a header, or whether the header or body matches a regular expression. The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#match">match</a></code> directive can contain one status condition, one body condition, and multiple header conditions. To correspond to the <code>match</code> block, the response must satisfy all of the conditions specified within it.</p>
+<p>For example, the following <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#match">match</a></code> directive looks for responses that have status code <code>200</code>, contain the <code>Content-Type</code> header with the exact value <code>text/html</code>, and have the text “Welcome to nginx!” in the body:</p>
+<pre><code>match welcome {
+    status 200;
+    header Content-Type = text/html;
+    body ~ "Welcome to nginx!";
+}</code></pre>
+<p>In the following example of using the exclamation point (<code>!</code>), conditions match responses where the status code is anything <strong>other</strong> than <code>301</code>, <code>302</code>, <code>303</code>, and <code>307</code>, and <code>Refresh</code> <strong>is not</strong> among the headers.</p>
+<pre><code>match not_redirect {
+    status ! 301-303 307;
+    header ! Refresh;
+}</code></pre>
+<p>Health checks can also be enabled for non-HTTP protocols, such as <a href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html">FastCGI</a>, <a href="http://nginx.org/en/docs/http/ngx_http_uwsgi_module.html">uwsgi</a>, <a href="http://nginx.org/en/docs/http/ngx_http_scgi_module.html">SCGI</a>, and <a href="http://nginx.org/en/docs/http/ngx_http_memcached_module.html">memcached</a>.</p>
+<h2 id="zone">Sharing Data with Multiple Worker Processes</h2>
+<p>If the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">upstream</a></code> directive <strong>does not</strong> include the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive, each worker process keeps its own copy of the server group configuration and maintains its own set of related counters. The counters include the current number of connections to each server in the group and the number of failed attempts to pass a request to a server. As a result, the server group configuration isn&#8217;t changeable.</p>
+<p>If the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">upstream</a></code> directive <strong>does</strong> include the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive, the configuration of the server group is placed in a memory area shared among all worker processes. This scenario is dynamically configurable, because the worker processes access the same copy of the group configuration and utilize the same related counters.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive is mandatory for <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#health_check">health checks</a> and <a href="http://nginx.org/en/docs/http/ngx_http_upstream_conf_module.html">on-the-fly reconfiguration</a> of the server group. However, other features of the server groups can benefit from the use of this directive as well.</p>
+<p>For example, if the configuration of a group is not shared, each worker process maintains its own counter for failed attempts to pass a request to a server (see the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails">max_fails</a></code> parameter). In this case, each request gets to only one worker process. When the worker process that is selected to process a request fails to transmit the request to a server, other worker processes don&#8217;t know anything about it. While some worker process can consider a server unavailable, others may still send requests to this server. For a server to be definitively considered unavailable, <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#max_fails">max_fails</a></code> multiplied by the number of workers processes of failed attempts should happen within the timeframe set by <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#fail_timeout">fail_timeout</a></code>. On the other hand, the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive guarantees the expected behavior.</p>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn">least_conn</a></code> load balancing method might not work as expected without the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive, at least on small loads. This method of tcp and http load balancing passes a request to the server with the least number of active connections. Again, if the configuration of the group is not shared, each worker process uses its own counter for the number of connections. And if one worker process passes by a request to a server, the other worker process can also pass a request to the same server. However, you can increase the number of requests to reduce this effect. On high loads requests are distributed among worker processes evenly, and the <em>least_conn</em> load balancing method works as expected.</p>
+<h3>Setting the Size for the Zone</h3>
+<p>There are no exact settings due to quite different usage patterns. Each feature, such as <code>sticky cookie</code>/<code>route</code>/<code>learn</code> load balancing, health checks, or re-resolving will affect the zone size.</p>
+<p>For example, the 256 Kb zone with the <code>sticky_route</code> session persistence method and a single health check can hold up to:</p>
+<ul>
+<li>128 servers (adding a single peer by specifying IP:port);</li>
+<li>88 servers (adding a single peer by specifying hostname:port, hostname resolves to single IP);</li>
+<li>12 servers (adding multiple peers by specifying hostname:port, hostname resolves to many IPs).</li>
+</ul>
+<h2 id="resolve">Configuring HTTP Load Balancing Using DNS</h2>
+<p>The configuration of a server group can be modified at run time using DNS.</p>
+<p>NGINX Plus can monitor changes of IP addresses that correspond to a domain name of the server and automatically apply these changes to NGINX without its restart. This can be done with the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#resolver">resolver</a></code> directive which must be specified in the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#http">http</a></code> block, and the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#resolve">resolve</a></code> parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a></code> directive in a server group:</p>
+<pre><code>http {
+    resolver 10.0.0.1 valid=300s ipv6=off;
+    resolver_timeout 10s;
+
+    server {
+        location / {
+            proxy_pass http://backend;
+        }
+    }
+   
+    upstream backend {
+        zone backend 32k;
+        least_conn;
+        ...
+        server backend1.example.com resolve;
+        server backend2.example.com resolve;
+    }
+}</code></pre>
+<p>In the example, the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#resolve">resolve</a></code> parameter of the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#server">server</a></code> directive will periodically re-resolve <strong>backend1.example.com</strong> and <strong>backend2.example.com</strong> servers into IP addresses. By default, NGINX re-resolves DNS records basing on their TTL, but the TTL value can be overridden with the <code>valid</code> parameter to the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#resolver">resolver</a></code> directive, in our example it is 5&nbsp;minutes.</p>
+<p>The optional <code>ipv6=off</code> parameter allows resolving only to IPv4 addresses, though both IPv4 and IPv6 resolving is supported.</p>
+<p>If a domain name resolves to several IP addresses, the addresses will be saved to the upstream configuration and load-balanced. In our example, the servers will be load balanced according to the <a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#least_conn">least_conn</a> load balancing method. If one or more IP addresses has been changed or added/removed, then the servers will be re-balanced.</p>
+<h2 id="ntlm">Load Balancing of Microsoft Exchange Servers</h2>
+<p>In <a href="https://www.nginx.com/resources/admin-guide/nginx-plus-releases/">Release 7</a> and later, NGINX Plus can proxy Microsoft Exchange traffic to a server or a group of servers and load balance it.</p>
+<p>To set up load balancing of Microsoft Exchange Servers:</p>
+<ol>
+<li>In a location, configure proxying to Microsoft Exchange upstream server group with the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a></code> directive:
+<pre><code>location / {
+    proxy_pass https://exchange;
+    ...
+}</code></pre>
+</li>
+<li>In order for Microsoft Exchange connections to pass to the upstream servers, in the <code>location</code> block set the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_http_version">proxy_http_version</a></code> directive value to <code>1.1</code>, and the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_set_header">proxy_set_header</a></code> directive to “Connection “” ”, just like for a keepalive connection:
+<pre><code>location / {
+    ...
+    proxy_http_version 1.1;
+    proxy_set_header   Connection "";
+    ...
+}</code></pre>
+</li>
+<li>In the <code>http</code> block, configure a load balancing group with Microsoft Exchange servers. Specify the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">upstream</a></code> directive with the name of the server group previously specified in the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass">proxy_pass</a></code> directive. Then specify the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#ntlm">ntlm</a></code> directive that will allow the group to accept the requests with NTLM authentication:
+<pre><code>http {
+    ...
+    upstream exchange {
+        zone exchange 64k;
+        ntlm;
+        ...
+    }
+}</code></pre>
+</li>
+<li>Add Microsoft Exchange servers to the upstream group and optionally specify a http load balancing method:
+<pre><code>http {
+    ...
+    upstream exchange {
+        zone exchange 64k;
+        ntlm;
+        server exchange1.example.com;
+        server exchange2.example.com;
+        ...
+    }
+}</code></pre>
+</li>
+</ol>
+<h3 id="ntlm_example">NTLM Example</h3>
+<pre><code>http {
+    ...
+    upstream exchange {
+        zone exchange 64k;
+        ntlm;
+        server exchange1.example.com;
+        server exchange2.example.com;
+    }
+
+    server {
+        listen              443 ssl;
+        ssl_certificate     /etc/nginx/ssl/company.com.crt;
+        ssl_certificate_key /etc/nginx/ssl/company.com.key;
+        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+
+        location / {
+            proxy_pass         https://exchange;
+            proxy_http_version 1.1;
+            proxy_set_header   Connection "";
+        }
+    }
+}
+</code></pre>
+<p>For more information about configuring Microsoft Exchange and NGINX Plus, see the <a target="_blank" href="https://cdn.wp.nginx.com/wp-content/uploads/2015/05/microsoft-exchange-deployment-guide-20150520.pdf">Load Balance Microsoft Exchange Servers</a> guide (PDF).</p>
+<h2 id="upstream_conf">On-the-Fly Configuration</h2>
+<p>With NGINX Plus, the configuration of a server group can be modified on-the-fly using the HTTP interface. A configuration command can be used to view all servers or a particular server in a group, modify parameter for a particular server, and add or remove servers.</p>
+<h3 id="upstream_conf_setup">Setting Up the On-the-Fly Configuration</h3>
+<ol>
+<li>Include the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#zone">zone</a></code> directive in the <code>upstream</code> block. The <code>zone</code> directive configures a zone in the shared memory and sets the zone name and size. The configuration of the server group is kept in this zone, so all worker processes use the same configuration:</li>
+<pre><code>http {
+    ...
+    upstream appservers {
+        <b>zone appservers 64k</b>;
+        server appserv1.example.com      weight=5;
+        server appserv2.example.com:8080 fail_timeout=5s;
+        server reserve1.example.com:8080 backup;
+        server reserve2.example.com:8080 backup;
+    }
+}</code></pre>
+<li>Place the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_conf_module.html">upstream_conf</a></code> directive in a separate location:
+<pre><code>server {
+    location /upstream_conf {
+        <b>upstream_conf;</b>
+        ...
+    }
+}</code></pre>
+<p>It is highly recommended <a href="http://dev.wp.nginx.com/resources/admin-guide/restricting-access/#restrict">restricting access</a> to this location, for example, allow access only from the <code>127.0.0.1</code> address:</p>
+<pre><code>server {
+    location /upstream_conf {
+        upstream_conf;
+        <b>allow</b> 127.0.0.1;
+        <b>deny</b>  all;
+    }
+}</code></pre>
+</li>
+</ol>
+<p>A complete example of this configuration:</p>
+<pre><code>http {
+    ...
+    # Configuration of the server group
+    upstream appservers {
+        zone appservers 64k;
+
+        server appserv1.example.com      weight=5;
+        server appserv2.example.com:8080 fail_timeout=5s;
+
+        server reserve1.example.com:8080 backup;
+        server reserve2.example.com:8080 backup;
+    }
+
+    server {
+        # Location that proxies requests to the group
+        location / {
+            proxy_pass http://appservers;
+            health_check;
+        }
+
+        # Location for configuration requests
+        location /upstream_conf {
+            upstream_conf;
+            allow 127.0.0.1;
+            deny  all;
+        }
+    }
+}</code></pre>
+<p>In the example, the access to the second location is allowed only from the 127.0.0.1 IP address. Access from all other IP addresses is denied.</p>
+<h3 id="state">Configuring Persistence of On-the-Fly Configuration</h3>
+<p>The configuration from the previous example allows storing the on-the-fly changes only in the shared memory. These changes will be discarded any time NGINX Plus configuration file is reloaded.</p>
+<p>To make these changes persistent across configuration reloads, you will need to move the list of upstream servers from the <i>upstream</i> block to a special <i>file</i> that will keep the state of the upstream servers. The path to the file is set with the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#state">state</a></code> directive. Recommended path for Linux distributions is <em>/var/lib/nginx/state/</em>, for FreeBSD distributions is <em> /var/db/nginx/state/</em>:</p>
+<pre><code>http {
+    ...
+    upstream appservers {
+        zone appservers 64k;
+        <b>state</b> /var/lib/nginx/state/appservers.conf;
+
+        # All these servers should be moved to the file using the upstream_conf API:
+        # server appserv1.example.com      weight=5;
+        # server appserv2.example.com:8080 fail_timeout=5s;
+        # server reserve1.example.com:8080 backup;
+        # server reserve2.example.com:8080 backup;
+    }
+}</code></pre>
+<p>Keep in mind that this file can be modified only with configuration commands from the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_conf_module.html">upstream_conf</a></code> API interface, modifying the file directly should be avoided.</p>
+<h3 id="upstream_conf_use">Configuring Upstream Servers On-the-Fly</h3>
+<p>To pass a configuration command to NGINX, send an HTTP request. The request should have an appropriate URI to get into the location that includes the <code>upstream_conf</code> directive. The request should also include the <code>upstream</code> argument set to the name of the server group.</p>
+<p>For example, to view all backup servers (marked with <code>backup</code>) in the group, send:</p>
+<pre><code>http://127.0.0.1/upstream_conf?upstream=appservers&amp;<strong>backup</strong>=</code></pre>
+<p>To add a new server to the group, send a request with <code>add</code> and <code>server</code> arguments:</p>
+<pre><code>http://127.0.0.1/upstream_conf?<strong>add</strong>=&amp;upstream=appservers&amp;<strong>server</strong>=appserv3.example.com:8080&amp;weight=2&amp;max_fails=3</code></pre>
+<p>To remove a server, send a request with the <code>remove</code> command and the <code>id</code> argument identifying the server:</p>
+<pre><code>http://127.0.0.1/upstream_conf?<strong>remove</strong>=&amp;upstream=appservers&amp;<strong>id</strong>=2</code></pre>
+<p>To modify a parameter of a specific server, send a request with the <code>id</code> argument identifying the server and the parameter:</p>
+<pre><code>http://127.0.0.1/upstream_conf?upstream=appservers&amp;<strong>id</strong>=2&amp;down=</code></pre>
+<p>See the <a href="http://nginx.org/en/docs/http/ngx_http_upstream_conf_module.html">upstream_conf module</a> for more examples.</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

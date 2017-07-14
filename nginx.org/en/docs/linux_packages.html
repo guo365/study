@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>linux_packages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p><center><h2>nginx: Linux packages</h2></center><p></p>
+<p>Currently, nginx packages are available for the following distributions and
+versions:
+</p><p>
+RHEL/CentOS:</p>
+<blockquote><table width="100%">
+
+<tr>
+<td width="20%">Version</td>
+<td>Supported Platforms</td>
+</tr>
+
+<tr>
+<td width="20%">5.x</td>
+<td>x86_64, i386</td>
+</tr>
+
+<tr>
+<td width="20%">6.x</td>
+<td>x86_64, i386</td>
+</tr>
+
+<tr>
+<td width="20%">7.x</td>
+<td>x86_64, ppc64le</td>
+</tr>
+
+</table></blockquote>
+<p></p><p>
+Debian:</p>
+<blockquote><table width="100%">
+
+<tr>
+<td width="20%">Version</td>
+<td width="20%">Codename</td>
+<td>Supported Platforms</td>
+</tr>
+
+<tr>
+<td width="20%">7.x</td>
+<td width="20%">wheezy</td>
+<td>x86_64, i386</td>
+</tr>
+
+<tr>
+<td width="20%">8.x</td>
+<td width="20%">jessie</td>
+<td>x86_64, i386</td>
+</tr>
+
+</table></blockquote>
+<p></p><p>
+Ubuntu:</p>
+<blockquote><table width="100%">
+
+<tr>
+<td width="20%">Version</td>
+<td width="20%">Codename</td>
+<td>Supported Platforms</td>
+</tr>
+
+<tr>
+<td width="20%">12.04</td>
+<td width="20%">precise</td>
+<td>x86_64, i386</td>
+</tr>
+
+<tr>
+<td width="20%">14.04</td>
+<td width="20%">trusty</td>
+<td>x86_64, i386, aarch64/arm64</td>
+</tr>
+
+<tr>
+<td width="20%">16.04</td>
+<td width="20%">xenial</td>
+<td>x86_64, i386, ppc64el</td>
+</tr>
+
+</table></blockquote>
+<p></p><p>
+SLES:</p>
+<blockquote><table width="100%">
+
+<tr>
+<td width="20%">Version</td>
+<td>Supported Platforms</td>
+</tr>
+
+<tr>
+<td width="20%">12</td>
+<td>x86_64</td>
+</tr>
+
+</table></blockquote>
+<p></p><p>
+To enable automatic updates of Linux packages
+set up the yum repository for the RHEL/CentOS distributions,
+the apt repository for the Debian/Ubuntu distributions,
+or the zypper repository for SLES.
+</p><a name="stable"></a><center><h4>Pre-Built Packages for Stable version</h4></center><p>
+To set up the yum repository for RHEL/CentOS, create the file named
+<code>/etc/yum.repos.d/nginx.repo</code>
+with the following contents:</p>
+<p></p> <blockquote class="example"><pre>
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/OS/OSRELEASE/$basearch/
+gpgcheck=0
+enabled=1
+</pre></blockquote><p> </p>
+<p>Replace “<code>OS</code>” with “<code>rhel</code>” or
+“<code>centos</code>”,
+depending on the distribution used, and “<code>OSRELEASE</code>”
+with “<code>5</code>”, “<code>6</code>”, or “<code>7</code>”,
+for 5.x, 6.x, or 7.x versions, respectively.
+</p><p>
+For Debian/Ubuntu, in order to authenticate the nginx repository signature
+and to eliminate warnings about missing PGP key during installation of the
+nginx package, it is necessary to add the key used to sign the nginx
+packages and repository to the <code>apt</code> program keyring.
+Please download <a href="/keys/nginx_signing.key">this
+key</a> from our web site, and add it to the <code>apt</code>
+program keyring with the following command:
+</p> <blockquote class="example"><pre>
+sudo apt-key add nginx_signing.key
+</pre></blockquote><p> 
+</p><p>
+For Debian replace <i>codename</i> with Debian distribution
+<a href="#distributions">codename</a>, and append the following to
+the end of the <code>/etc/apt/sources.list</code> file:</p>
+<p></p> <blockquote class="example"><pre>
+deb http://nginx.org/packages/debian/ <i>codename</i> nginx
+deb-src http://nginx.org/packages/debian/ <i>codename</i> nginx
+</pre></blockquote><p> 
+</p><p>
+For Ubuntu replace <i>codename</i> with Ubuntu distribution
+<a href="#distributions">codename</a>, and append the following to
+the end of the <code>/etc/apt/sources.list</code> file:</p>
+<p></p> <blockquote class="example"><pre>
+deb http://nginx.org/packages/ubuntu/ <i>codename</i> nginx
+deb-src http://nginx.org/packages/ubuntu/ <i>codename</i> nginx
+</pre></blockquote><p> 
+</p><p>
+For Debian/Ubuntu then run the following commands:
+</p> <blockquote class="example"><pre>
+apt-get update
+apt-get install nginx
+</pre></blockquote><p> 
+</p><p>
+For SLES run the following command:
+</p> <blockquote class="example"><pre>
+zypper addrepo -G -t yum -c 'http://nginx.org/packages/sles/12' nginx
+</pre></blockquote><p> 
+</p><a name="mainline"></a><center><h4>Pre-Built Packages for Mainline version</h4></center><p>
+To set up the yum repository for RHEL/CentOS, create the file named
+<code>/etc/yum.repos.d/nginx.repo</code>
+with the following contents:</p>
+<p></p> <blockquote class="example"><pre>
+[nginx]
+name=nginx repo
+baseurl=http://nginx.org/packages/mainline/OS/OSRELEASE/$basearch/
+gpgcheck=0
+enabled=1
+</pre></blockquote><p> </p>
+<p>Replace “<code>OS</code>” with “<code>rhel</code>” or
+“<code>centos</code>”,
+depending on the distribution used, and “<code>OSRELEASE</code>”
+with “<code>5</code>”, “<code>6</code>”, or “<code>7</code>”,
+for 5.x, 6.x, or 7.x versions, respectively.
+</p><p>
+For Debian/Ubuntu, in order to authenticate the nginx repository signature
+and to eliminate warnings about missing PGP key during installation of the
+nginx package, it is necessary to add the key used to sign the nginx
+packages and repository to the <code>apt</code> program keyring.
+Please download <a href="/keys/nginx_signing.key">this
+key</a> from our web site, and add it to the <code>apt</code>
+program keyring with the following command:
+</p> <blockquote class="example"><pre>
+sudo apt-key add nginx_signing.key
+</pre></blockquote><p> 
+</p><p>
+For Debian replace <i>codename</i> with Debian distribution
+<a href="#distributions">codename</a>, and append the following to
+the end of the <code>/etc/apt/sources.list</code> file:</p>
+<p></p> <blockquote class="example"><pre>
+deb http://nginx.org/packages/mainline/debian/ <i>codename</i> nginx
+deb-src http://nginx.org/packages/mainline/debian/ <i>codename</i> nginx
+</pre></blockquote><p> 
+</p><p>
+For Ubuntu replace <i>codename</i> with Ubuntu distribution
+<a href="#distributions">codename</a>, and append the following to
+the end of the <code>/etc/apt/sources.list</code> file:</p>
+<p></p> <blockquote class="example"><pre>
+deb http://nginx.org/packages/mainline/ubuntu/ <i>codename</i> nginx
+deb-src http://nginx.org/packages/mainline/ubuntu/ <i>codename</i> nginx
+</pre></blockquote><p> 
+</p><p>
+For Debian/Ubuntu then run the following commands:
+</p> <blockquote class="example"><pre>
+apt-get update
+apt-get install nginx
+</pre></blockquote><p> 
+</p><p>
+For SLES run the following command:
+</p> <blockquote class="example"><pre>
+zypper addrepo -G -t yum -c 'http://nginx.org/packages/mainline/sles/12' nginx
+</pre></blockquote><p> 
+</p><a name="arguments"></a><center><h4>Configure Arguments</h4></center><p>
+Configure arguments common for nginx binaries from pre-built packages for stable version:
+</p> <blockquote class="example"><pre>
+--prefix=/etc/nginx
+--sbin-path=/usr/sbin/nginx
+--conf-path=/etc/nginx/nginx.conf
+--error-log-path=/var/log/nginx/error.log
+--http-log-path=/var/log/nginx/access.log
+--pid-path=/var/run/nginx.pid
+--lock-path=/var/run/nginx.lock
+--http-client-body-temp-path=/var/cache/nginx/client<em>temp
+--http-proxy-temp-path=/var/cache/nginx/proxy</em>temp
+--http-fastcgi-temp-path=/var/cache/nginx/fastcgi<em>temp
+--http-uwsgi-temp-path=/var/cache/nginx/uwsgi<em>temp
+--http-scgi-temp-path=/var/cache/nginx/scgi</em>temp
+--user=nginx
+--group=nginx
+--with-http</em>ssl<em>module
+--with-http</em>realip<em>module
+--with-http<em>addition</em>module
+--with-http<em>sub<em>module
+--with-http</em>dav</em>module
+--with-http<em>flv</em>module
+--with-http</em>mp4<em>module
+--with-http</em>gunzip<em>module
+--with-http<em>gzip</em>static</em>module
+--with-http<em>random</em>index<em>module
+--with-http<em>secure</em>link<em>module
+--with-http<em>stub</em>status</em>module
+--with-http<em>auth</em>request<em>module
+--with-threads
+--with-stream
+--with-stream<em>ssl</em>module
+--with-http<em>slice<em>module
+--with-mail
+--with-mail</em>ssl</em>module
+--with-file-aio
+--with-http<em>v2</em>module
+--with-ipv6
+</pre></blockquote><p> 
+</p><p>
+Packages for mainline version also have the following arguments:
+</p> <blockquote class="example"><pre>
+--with-stream</em>realip</em>module
+</pre></blockquote><p> 
+</p><p>
+Main nginx package is built with all modules that do not require additional
+libraries to avoid extra dependencies.
+</p><a name="dynmodules"></a><center><h4>Dynamic Modules</h4></center><p>
+Since version 1.9.11, nginx supports
+<a href="docs/ngx_core_module.html#load_module">dynamic modules</a>.
+Currently, the following modules are built as dynamic
+and shipped as separate packages:
+</p> <blockquote class="example"><pre>
+nginx-module-geoip
+nginx-module-image-filter
+nginx-module-njs
+nginx-module-perl
+nginx-module-xslt
+</pre></blockquote><p> 
+</p><a name="signatures"></a><center><h4>Signatures</h4></center><p>
+Both RPM packages and Debian/Ubuntu repositories use digital signatures
+to verify the integrity and origin of the downloaded package.
+In order to check a signature it is necessary to download
+<a href="/keys/nginx_signing.key">nginx signing key</a>
+and import it to the <code>rpm</code> or <code>apt</code>
+program’s keyring:</p>
+<p></p> <ul class="compact"></p>
+<p><li>
+On Debian/Ubuntu:</p>
+<blockquote class="example"><pre>sudo apt-key add nginx_signing.key</pre></blockquote>
+<p></li></p>
+<p><li>
+On RHEL/CentOS:</p>
+<blockquote class="example"><pre>sudo rpm --import nginx_signing.key</pre></blockquote>
+<p></li></p>
+<p><li>
+On SLES:</p>
+<blockquote class="example"><pre>sudo rpm --import nginx_signing.key</pre></blockquote>
+<p></li></p>
+<p></ul><p> 
+</p><p>
+On Debian/Ubuntu/SLES signatures are checked by default, but
+on RHEL/CentOS it is necessary to set
+</p> <blockquote class="example"><pre>gpgcheck=1</pre></blockquote><p>  in the
+<code>/etc/yum.repos.d/nginx.repo</code> file.
+</p><p>
+Since our <a href="../en/pgp_keys.html">PGP keys</a>
+and packages are located on the same server,
+they are equally trusted.
+It is highly advised to additionally verify
+the authenticity of the downloaded PGP key.
+PGP has the “Web of Trust” concept,
+when a key is signed by someone else’s key,
+that in turn is signed by another key and so on.
+It often makes possible to build a chain from an arbitrary key
+to someone’s key who you know and trust personally,
+thus verify the authenticity of the first key in a chain.
+This concept is described in details in
+<a href="http://www.dewinter.com/gnupg_howto/english/GPGMiniHowto-1.html">
+GPG Mini Howto</a>.
+Our keys have enough signatures,
+and their authenticity is relatively easy to check.
+</p></div></div></body></html></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

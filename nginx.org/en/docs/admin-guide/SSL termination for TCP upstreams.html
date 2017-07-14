@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SSL termination for TCP upstreams</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This article explains how to set up SSL termination for NGINX Plus and a load-balanced group of servers that accept TCP connections.</p>
+<h2 id="toc">Table of Contents</a></h2>
+<ul>
+<li><a href="#about">What is SSL Termination?</a></li>
+<li><a href="#prereq">Prerequisites</a></li>
+<li><a href="#certs">Obtaining SSL Certificates</a></li>
+<li><a href="#config">Configuring NGINX Plus</a></li>
+<li><a href="#optimize">Speeding up Secure TCP Connections</a></li>
+<li><a href="#example">Complete Example</a></li>
+</ul>
+<h2 id="about">What is SSL Termination?</h2>
+<p>SSL termination means that NGINX Plus acts as the server-side SSL endpoint for connections with clients: it performs the decryption of requests and encryption of responses that backend servers would otherwise have to do. The operation is called termination because NGINX Plus closes the client connection and forwards the client data over a newly created, unencrypted connection to the servers in an upstream group. In release R6 and later, NGINX Plus performs SSL termination for TCP connections as well as HTTP connections.
+</p>
+<h2 id="prereq">Prerequisites</h2>
+<ul>
+<li>NGINX Plus <a href="https://www.nginx.com/resources/admin-guide/nginx-plus-releases/">R6</a> or later</li>
+<li>A load-balanced <a href="https://www.nginx.com/resources/admin-guide/tcp-load-balancing/">upstream group</a> with several TCP servers</li>
+<li>SSL certificates and a private key (obtained or self-generated)</li>
+</ul>
+<h2 id="certs">Obtaining SSL Certificates</h2>
+<p>First, you will need to obtain server certificates and a private key and put them on the server. A certificate can be obtained from a trusted certificate authority (CA) or generated using an SSL library such as <a href="https://www.openssl.org/">OpenSSL</a>.</p>
+<h2 id="config">Configuring NGINX Plus</h2>
+<p>To configure SSL termination, add the following directives to the NGINX Plus configuration:</p>
+<h3>Enabling SSL</h3>
+<p>To enable SSL, specify the <code>ssl</code> parameter of the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen">listen</a></code> directive for the TCP server that passes connections to an upstream server group:</p>
+<pre><code>stream {
+ 
+    server {
+        listen     12345 ssl;
+        proxy_pass backend;
+        …
+    }
+}</code></pre>
+<h3>Adding SSL Certificates</h3>
+<p>To add SSL certificates, specify the path to the certificates (which must be in the PEM format) with the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate">ssl_certificate</a></code> directive, and specify the path to the private key in the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate_key">ssl_certificate_key</a></code> directive:</p>
+<pre><code>server {
+    …
+    ssl_certificate        /etc/ssl/certs/server.crt;
+    ssl_certificate_key    /etc/ssl/certs/server.key;
+}</code></pre>
+<p>Additionally, the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_protocols">ssl_protocols</a></code> and <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ciphers">ssl_ciphers</a></code> directives can be used to limit connections and to include only the strong versions and ciphers of SSL/TLS:</p>
+<pre><code>server {
+    …
+    ssl_protocols  SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers    HIGH:!aNULL:!MD5;
+}</code></pre>
+<p>The <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ciphers">ssl_ciphers</a></code> directive tells NGINX to inform the SSL library which ciphers it prefers.</p>
+<h2 id="optimize">Speeding up Secure TCP Connections</h2>
+<p>Implementing SSL/TLS can significantly impact server performance, because the SSL handshake operation (a series of messages the client and server  exchange to verify that the connection is trusted) is quite CPU-intensive. The default timeout for the SSL handshake is 60 seconds and it can be redefined with the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_handshake_timeout">ssl_handshake_timeout</a></code> directive. We do not recommend setting this value too low or too high, as that might result either in handshake failure or a long time to wait for the handshake to complete:</p>
+<pre><code>server {
+    …
+    ssl_handshake_timeout 10s;
+}</code></pre>
+<h3>Optimizing the SSL Session Cache</h3>
+<p>Creating a cache of the session parameters that apply to each SSL/TLS connection reduces the number of handshakes and thus can significantly improve performance. Caching is set with the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_session_cache">ssl_session_cache</a></code> directive:</p>
+<pre><code>ssl_session_cache;</code></pre>
+<p>By default, NGINX Plus uses the <code>built-in</code> type of the session cache, which means the cache built in your SSL library. This is not optimal, because such a cache can be used by only one worker process and can cause memory fragmentation. Set the <code>ssl_session_cache</code> directive to <code>shared</code> to share the cache among all worker processes, which speeds up later connections because the connection setup information is already known:</p>
+<pre><code>ssl_session_cache shared:SSL:1m;</code></pre>
+<p>As a reference, a 1-MB shared cache can hold approximately 4,000 sessions.</p>
+<p>By default, NGINX Plus retains cached session parameters for five minutes. Increasing the value of the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_session_timeout">ssl_session_timeout</a></code> to several hours can improve performance because reusing cached session parameters reduces the number of time-consuming handshakes. When you increase the timeout, the cache needs to be bigger to accommodate the larger number of cached parameters that results. For the 4-hour timeout in the following example, a 20-MB cache is appropriate:</p>
+<pre><code>ssl_session_timeout 4h;</code></pre>
+<p>If the timeout length is increased, you need a larger cache to store sessions, for example, 20 MB:</p>
+<pre><code>server {
+    …
+    ssl_session_cache   shared:SSL:20m;
+    ssl_session_timeout 4h;
+}</code></pre>
+<p>These lines create an in-memory cache of 20 MB to store session information, and instruct NGINX Plus to reuse session parameters from the cache for 4 hours after the moment they were added.</p>
+<h3>Session Tickets</h3>
+<p>Session tickets are an alternative to the session cache. Session information is stored on the client side, eliminating the need for a server-side cache to store session information. When a client resumes interaction with the backend server, it presents the session ticket and re-negotiation is not necessary. Set the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_session_tickets">ssl_session_tickets</a></code> directive to <code>on</code>:</p>
+<pre><code>server {
+    …
+    ssl_session_tickets on;
+}</code></pre>
+<p>When using session tickets for an upstream group, each upstream server must be initialized with the same session key. It’s a best practice to change session keys frequently, we recommend that you implement a mechanism to rotate the shared key across all upstream servers:</p>
+<pre><code>server {
+    …
+    ssl_session_tickets on;
+    ssl_session_ticket_key /etc/ssl/session_ticket_keys/current.key;
+    ssl_session_ticket_key /etc/ssl/session_ticket_keys/previous.key;
+}</code></pre>
+<h2 id="example">Complete Example</h2>
+<pre><code>stream {
+    upstream stream_backend {
+         server backend1.example.com:12345;
+         server backend2.example.com:12345;
+         server backend3.example.com:12345;
+    }
+ 
+    server {
+        listen                12345 ssl;
+        proxy_pass            stream_backend;
+ 
+        ssl_certificate       /etc/ssl/certs/server.crt;
+        ssl_certificate_key   /etc/ssl/certs/server.key;
+        ssl_protocols         SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+        ssl_ciphers           HIGH:!aNULL:!MD5;
+        ssl_session_cache     shared:SSL:20m;
+        ssl_session_timeout   4h;
+        ssl_handshake_timeout 30s;
+    …
+     }
+}
+</code></pre>
+<p>In this example, the directives in the <code>server</code> block instruct NGINX Plus to terminate and decrypt secured TCP traffic from clients and pass it unencrypted to the upstream group <code>stream_backend</code> which consists of three servers.</p>
+<p>The <code>ssl</code> parameter of the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen">listen</a></code> directive instructs NGINX Plus to accept SSL connections. When a clent requests a secure TCP connection, NGINX Plus starts the handshake process, which uses the PEM-format certificate specified by the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate">ssl_certificate</a></code> directive, the certificate’s private key specified by the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_certificate_key">ssl_certificate_key</a></code> directive, and the protocols and cyphers listed by the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_protocols">ssl_protocols</a></code> and <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_ciphers">ssl_ciphers</a></code> directives.</p>
+<p>As soon as the secure TCP connection is established, NGINX Plus caches the session parameters according to the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_session_cache">ssl_session_cache</a></code> directive. In the example, the session cache is shared between all worker processes (the <code>shared</code> parameter), is 20 MB in size (the <code>20m</code> parameter), and retains each SSL session for reuse for 4 hours (the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_ssl_module.html#ssl_session_timeout">ssl_session_timeout</a></code> directive).</p>
+<p>To learn more about NGINX Plus, please see the descriptions of our <a href="https://www.nginx.com/products/">commercial subscriptions</a>.</p>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

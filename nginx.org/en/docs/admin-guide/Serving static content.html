@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Serving static content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This section describes how to use NGINX and NGINX Plus to serve static content, the ways to define the paths that are searched to find requested files, and how to set up index files.</p>
+<h2 id="toc">In This Section</a></h2>
+<ul>
+<li><a href="#root">Root Directory and Index Files</a></li>
+<li><a href="#options">Trying Several Options</a></li>
+<li><a href="#optimize">Optimizing NGINX Speed for Serving Content</a></li>
+</ul>
+<h2 id="root">Root Directory and Index Files</a></h2>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#root">root</a></code> directive specifies the root directory that will be used to search for a file. To obtain the path of a requested file, NGINX appends the request URI to the path specified by the <code>root</code> directive. The directive can be placed on any level within the <code>http</code>, <code>server</code>, or <code>location</code> contexts. In the example below, the <code>root</code> directive is defined for a virtual server. It applies to all <code>location</code> blocks where the <code>root</code> directive is not included to explicitly redefine the root:</p>
+<pre><code>server {
+    root /www/data;
+
+    location / {
+    }
+
+    location /images/ {
+    }
+
+    location ~ \.(mp3|mp4) {
+        root /www/media;
+    }
+}</code></pre>
+<p>Here, NGINX searches for a URI that starts with <code>/images/</code> in the <span style="white-space: nowrap;"><code>/www/data/images/</code></span> directory on the file system. But if the URI ends with the <code>.mp3</code> or <code>.mp4</code> extension, NGINX instead searches for the file in the <code>/www/media/</code> directory because it is defined in the matching <code>location</code> block.</p>
+<p>If a request ends with a slash, NGINX treats it as a request for a directory and tries to find an index file in the directory. The <code><a href="http://nginx.org/en/docs/http/ngx_http_index_module.html#index">index</a></code> directive defines the index file&#8217;s name (the default value is <code>index.html</code>). To continue with the example, if the request URI is <code>/images/some/path/</code>, NGINX delivers the file <code>/www/data/images/some/path/index.html</code> if it exists. If it does not, NGINX returns HTTP code 404 (Not found) by default. To configure NGINX to return an automatically generated directory listing instead, include the <code>on</code> parameter to the <code><a href="http://nginx.org/en/docs/http/ngx_http_autoindex_module.html#autoindex">autoindex</a></code> directive:</p>
+<pre><code>location /images/ {
+    autoindex on;
+}</code></pre>
+<p>You can list more than one filename in the <code>index</code> directive. NGINX searches for files in the specified order and returns the first one it finds.</p>
+<pre><code>location / {
+    index index.$geo.html index.htm index.html;
+}</code></pre>
+<p>The <code>$geo</code> variable used here here is a custom variable set through the <code><a href="http://nginx.org/en/docs/http/ngx_http_geo_module.html#geo">geo</a></code> directive. The value of the variable depends on the client&#8217;s IP address.</p>
+<p>To return the index file, NGINX checks for its existence and then makes an internal redirect to the URI obtained by appending the name of the index file to the base URI. The internal redirect results in a new search of a location and can end up in another location as in the following example:</p>
+<pre><code>location / {
+    root /data;
+    index index.html index.php;
+}
+
+location ~ \.php {
+    fastcgi_pass localhost:8000;
+    ...
+}</code></pre>
+<p>Here, if the URI in a request is <code>/path/</code>, and <span style="white-space: nowrap;"><code>/data/path/index.html</code></span> does not exist but <span style="white-space: nowrap;"><code>/data/path/index.php</code></span> does, the internal redirect to <span style="white-space: nowrap;"><code>/path/index.php</code></span> is mapped to the second location. As a result, the request is proxied.</p>
+<h2 id="options">Trying Several Options</h2>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#try_files">try_files</a></code> directive can be used to check whether the specified file or directory exists and make an internal redirect, or return a specific status code if they don’t. For example, to check the existence of a file corresponding to the request URI, use the <code>try_files</code> directive and the <code>$uri</code> variable as follows:</p>
+<pre><code>server {
+    root /www/data;
+
+    location /images/ {
+        try_files $uri /images/default.gif;
+    }
+}</code></pre>
+<p>The file is specified in the form of the URI, which is processed using the <code>root</code> or <code>alias</code> directives set in the context of the current location or virtual server. In this case, if the file corresponding to the original URI doesn&#8217;t exist, NGINX makes an internal redirect to the URI specified in the last parameter, returning <span style="white-space: nowrap;"><code>/www/data/images/default.gif</code></span>.</p>
+<p>The last parameter can also be a status code (directly preceded by the equals sign) or the name of a location. In the following example, a 404 error is returned if none of the parameters to the <code>try_files</code> directive resolve to an existing file or directory.</p>
+<pre><code>location / {
+    try_files $uri $uri/ $uri.html =404;
+}</code></pre>
+<p>In the next example, if neither the original URI nor the URI with the appended trailing slash resolve into an existing file or directory, the request is redirected to the named location which passes it to a proxied server.</p>
+<pre><code>location / {
+    try_files $uri $uri/ @backend;
+}
+
+location @backend {
+    proxy_pass http://backend.example.com;
+}</code></pre>
+<p>For more information, watch the <a href="https://www.nginx.com/resources/webinars/content-caching-nginx-plus/">Content Caching</a> on-demand webinar to learn how to dramatically improve the performance of a website, and get a deep-dive into NGINX&#8217;s caching capabilities.</p>
+<h1 id="optimize">Optimizing NGINX Speed for Serving Content</a></h1>
+<p>Loading speed is a crucial factor of serving any content. Making minor optimizations to your NGINX configuration may boost the productivity and help reach optimal performance.</p>
+<h2 id="sendfile">Enabling sendfile</a></h2>
+<p>By default, NGINX handles file transmission itself and copies the file into the buffer before sending it. Enabling the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#sendfile">sendfile</a></code> directive will eliminate the step of copying the data into the buffer and enables direct copying data from one file descriptor to another. Alternatively, to prevent one fast connection to entirely occupy the worker process, you can limit the amount of data transferred in a single sendfile() call by defining the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#sendfile_max_chunk">sendfile_max_chunk</a></code> directive:</p>
+<pre><code>location /mp3 {
+    sendfile           on;
+    sendfile_max_chunk 1m;
+    ...
+}</code></pre>
+<h2 id="tcp_nopush">Enabling tcp_nopush</a></h2>
+<p>Use the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#tcp_nopush">tcp_nopush</a></code> option together with <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#sendfile">sendfile</a></code> <code>on;</code>. The option will enable NGINX to send HTTP response headers in one packet right after the chunk of data has been obtained by <code>sendfile</code></p>
+<pre><code>location /mp3 {
+    sendfile   on;
+    tcp_nopush on;
+    ...
+}</code></pre>
+<h2 id="tcp_nodelay">Enabling tcp_nodelay</a></h2>
+<p>The <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#tcp_nodelay">tcp_nodelay</a></code> option allows overriding the <a href="https://en.wikipedia.org/wiki/Nagle's_algorithm">Nagle’s algorithm</a>, originally designed to solve problems with small packets in slow networks. The algorithm consolidates a number of small packets into the larger one and sends the packet with the 200 ms delay. Nowadays, when serving large static files, the data can be sent immediately regardless of the packet size. The delay would also affect online applications (ssh, online games, online trading). By default, the <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#tcp_nodelay">tcp_nodelay</a></code> directive is set to <code>on</code> which means that the Nagle’s algorithm is disabled. The option is used only for keepalive connections:</p>
+<pre><code>location /mp3  {
+    tcp_nodelay       on;
+    keepalive_timeout 65;
+    ...
+}</code></pre>
+<h2 id="backlog">Optimizing the Backlog Queue</a></h2>
+<p>One of the important factors is how fast NGINX can handle incoming connections. The general rule is when a connection is established, it is put into the “listen” queue of a listen socket. Under normal load, there is either low queue, or there is no queue at all. But under high load, the queue may dramatically grow which may result in uneven performance, connections dropping, and latency.</p>
+<h3 id="backlog_measure">Measuring the Listen Queue</a></h3>
+<p>Let’s measure the current listen queue. Run the command:</p>
+<pre><code>netstat -Lan</code></pre>
+<p>The command output may be the following:</p>
+<pre><code>Current listen queue sizes (qlen/incqlen/maxqlen)
+Listen         Local Address         
+0/0/128        *.12345            
+<b>10</b>/0/128        *.80       
+0/0/128        *.8080
+</code></pre>
+<p>The command output shows that there are <code>10</code> unaccepted connections in the listen queue on Port <code>80</code>, while the connection limit is <code>128</code> connections, and this situation is normal.</p>
+<p>However, the command output may be as follows:</p>
+<pre><code>Current listen queue sizes (qlen/incqlen/maxqlen)
+Listen         Local Address         
+0/0/128        *.12345            
+<b>192</b>/0/128        *.80       
+0/0/128        *.8080
+</code></pre>
+<p>The command output shows <code>192</code> unaccepted connections which exceeds the limit of <code>128</code> connections. This is quite common when a web site experience heavy traffic. To achieve optimal performance you will need to increase the maximum number of connections that can be queued for acceptance by NGINX in both your operating system and NGINX configuration.</p>
+<h3 id="backlog_tune_os">Tuning the Operating System</a></h3>
+<p>Increase the value of the <i>net.core.somaxconn</i> key from its default value (<i>128</i>) to the value high enough to be able to handle a high burst of traffic:</p>
+<p><ul>
+<li>For FreeBSD, run the command:</p>
+<pre><code>sudo sysctl kern.ipc.somaxconn=4096</code></pre>
+<p></li>
+<li>For Linux, run the command:</p>
+<pre><code>sudo sysctl -w net.core.somaxconn=4096</code></pre>
+<p>Open the file: <i>/etc/sysctl.conf</i></p>
+<pre><code>vi   /etc/sysctl.conf</code></pre>
+<p>Add the line to the file and save the file:</p>
+<pre><code>net.core.somaxconn = 4096</code></pre>
+<p></li></p>
+<h3 id="backlog_tune_nginx">Tuning NGINX</a></h3>
+<p>If you set the <i>somaxconn</i> key to a value greater than <i>512</i>, change the <code>backlog</code> parameter of the NGINX <code><a href="http://nginx.org/en/docs/http/ngx_http_core_module.html#listen">listen</a></code> directive to match:</p>
+<pre><code>server {
+    listen 80 backlog 4096;
+    # The rest of server configuration
+}</code></pre>
+<p></body>
+</html></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

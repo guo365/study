@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> packages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+Open Source Nginx
+</head>
+<body>
+<h1><center>Using pkg for Binary Package</center></h1>
+<p><br></p>
+<h2>4.4. Using  for Binary Package Management</h2>
+<p>pkg is the next generation replacement for the traditional FreeBSD package management tools, offering many features that make dealing with binary packages faster and easier.pkg is not a replacement for port management tools like<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/ports-mgmt/portmaster/pkg-descr">ports-mgmt/portmaster</a> or <a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/ports-mgmt/portupgrade/pkg-descr">ports-mgmt/portupgrade</a>.  These tools can be used to install third-party software from both binary packages and the Ports Collection, while
+      <span class="application">pkg</span> installs only binary
+      packages.</p><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-initial-setup"></a>4.4.1. Getting Started with
+	<span class="application">pkg</span></h3></div></div></div><p>FreeBSD includes a bootstrap utility which can be used to
+	download and install <span class="application">pkg</span>, along
+	with its manual pages.</p><p>To bootstrap the system, run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>/usr/sbin/pkg</code></strong></pre><p>For earlier FreeBSD versions,
+	<span class="application">pkg</span> must instead be installed
+	from the Ports Collection or as a binary package.</p><p>To install the port, run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>cd /usr/ports/ports-mgmt/pkg</code></strong>
+<code class="prompt">#</code> <strong class="userinput"><code>make</code></strong>
+<code class="prompt">#</code> <strong class="userinput"><code>make install clean</code></strong></pre><p>When upgrading an existing system that originally used the
+	older package system, the database must be converted to the
+	new format, so that the new tools are aware of the already
+	installed packages.  Once <span class="application">pkg</span> has
+	been installed, the
+	package database must be converted from the traditional format
+	to the new format by running this command:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg2ng</code></strong></pre><div xmlns="" class="note"><h3 class="admontitle">Note: </h3><p xmlns="http://www.w3.org/1999/xhtml">This step is not required for new installations that
+	do not yet have any third-party software
+	installed.</p></div><div xmlns="" class="important"><h3 class="admontitle">Important: </h3><p xmlns="http://www.w3.org/1999/xhtml">This step is not reversible.  Once the package database
+	  has been converted to the <span class="application">pkg</span>
+	  format, the traditional <code class="literal">pkg<em>*</code> tools
+	  should no longer be used.</p></div><div xmlns="" class="note"><h3 class="admontitle">Note: </h3><p xmlns="http://www.w3.org/1999/xhtml">The package database conversion may emit errors as the
+	  contents are converted to the new version.  Generally, these
+	  errors can be safely ignored.  However, a list of
+	  third-party software that was not successfully converted
+	  will be listed after <code class="command">pkg2ng</code> has finished
+	  and these applications must be manually reinstalled.</p></div><p>To ensure that the FreeBSD Ports Collection registers
+	new software with <span class="application">pkg</span>, and not
+	the traditional packages format, FreeBSD versions earlier than
+	10.<em class="replaceable"><code>X</code></em> require this line in
+	<code class="filename">/etc/make.conf</code>:</p><pre class="programlisting">WITH</em>PKGNG=	yes</pre><p>By default <span class="application">pkg</span> uses the FreeBSD
+	package mirrors.  For information about building a custom
+	package repository, see <a class="xref" href="ports-poudriere.html" title="4.6. Building Packages with Poudriere">Section 4.6, &#8220;Building Packages with
+      <span class="application">Poudriere</span>&#8221;</a></p><p>Additional <span class="application">pkg</span> configuration
+	options are described in <a class="citerefentry" href="http://www.FreeBSD.org/cgi/man.cgi?query=pkg.conf&amp;sektion=5&amp;manpath=freebsd-release-ports"><span class="citerefentry"><span class="refentrytitle">pkg.conf</span>(5)</span></a>.</p><p>Usage information for <span class="application">pkg</span> is
+	available in the <a class="citerefentry" href="http://www.FreeBSD.org/cgi/man.cgi?query=pkg&amp;sektion=8&amp;manpath=freebsd-release-ports"><span class="citerefentry"><span class="refentrytitle">pkg</span>(8)</span></a> manual page or by running
+	<code class="command">pkg</code> without additional arguments.</p><p>Each <span class="application">pkg</span> command argument is
+	documented in a command-specific manual page.  To read the
+	manual page for <code class="command">pkg install</code>, for example,
+	run either of these commands:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg help install</code></strong></pre><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>man pkg-install</code></strong></pre><p>The rest of this section demonstrates common binary
+	package management tasks which can be performed using
+	<span class="application">pkg</span>.  Each demonstrated command
+	provides many switches to customize its use.  Refer to a
+	command's help or man page for details and more
+	examples.</p></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-pkg-info"></a>4.4.2. Obtaining Information About Installed Packages</h3></div></div></div><p>Information about the packages installed on a system
+	can be viewed by running <code class="command">pkg info</code> which,
+	when run without any switches, will list the package version
+	for either all installed packages or the specified
+	package.</p><p>For example, to see which version of
+	<span class="application">pkg</span> is installed, run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg info pkg</code></strong>
+pkg-1.1.4<em>1</pre></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-installing-deinstalling"></a>4.4.3. Installing and Removing Packages</h3></div></div></div><p>To install a binary package use the following command,
+	where <em class="replaceable"><code>packagename</code></em> is the name of
+	the package to install:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg install <em class="replaceable"><code>packagename</code></em></code></strong></pre><p>This command uses repository data to determine which
+	version of the software to install and if it has any
+	uninstalled dependencies.  For example, to install
+	<span class="application">curl</span>:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg install curl</code></strong>
+Updating repository catalogue
+/usr/local/tmp/All/curl-7.31.0</em>1.txz          100% of 1181 kB 1380 kBps 00m01s</p>
+<p>/usr/local/tmp/All/ca<em>root</em>nss-3.15.1_1.txz   100% of  288 kB 1700 kBps 00m00s</p>
+<p>Updating repository catalogue
+The following 2 packages will be installed:</p>
+<pre><code>    Installing ca_root_nss: 3.15.1_1
+    Installing curl: 7.31.0_1
+</code></pre>
+
+<p>The installation will require 3 MB more space</p>
+<p>0 B to be downloaded</p>
+<p>Proceed with installing packages [y/N]: <strong class="userinput"><code>y</code></strong>
+Checking integrity... done
+[1/2] Installing ca<em>root</em>nss-3.15.1<em>1... done
+[2/2] Installing curl-7.31.0<em>1... done
+Cleaning up cache files...Done</pre><p>The new package and any additional packages that were
+	  installed as dependencies can be seen in the installed
+	  packages list:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg info</code></strong>
+ca</em>root</em>nss-3.15.1<em>1	The root certificate bundle from the Mozilla Project
+curl-7.31.0</em>1	Non-interactive tool to get files from FTP, GOPHER, HTTP(S) servers
+pkg-1.1.4_6	New generation package manager</pre><p>Packages that are no longer needed can be removed with
+	  <code class="command">pkg delete</code>.  For example:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg delete curl</code></strong>
+The following packages will be deleted:</p>
+<pre><code>curl-7.31.0_1
+</code></pre>
+
+<p>The deletion will free 3 MB</p>
+<p>Proceed with deleting packages [y/N]: <strong class="userinput"><code>y</code></strong>
+[1/1] Deleting curl-7.31.0<em>1... done</pre></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-upgrading"></a>4.4.4. Upgrading Installed Packages</h3></div></div></div><p>Installed packages can be upgraded to their latest
+	versions by running:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg upgrade</code></strong></pre><p>This command will compare the installed versions with
+	those available in the repository catalogue and upgrade them
+	from the repository.</p></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-auditing"></a>4.4.5. Auditing Installed Packages</h3></div></div></div><p>Occasionally, software vulnerabilities may be discovered
+	in third-party applications.  To address this,
+	<span class="application">pkg</span> includes a built-in auditing
+	mechanism.  To determine if there are any known
+	vulnerabilities for the software installed on the system,
+	run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg audit -F</code></strong></pre></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-autoremove"></a>4.4.6. Automatically Removing Leaf Dependencies</h3></div></div></div><p>Removing a package may leave behind dependencies which
+	are no longer required.  Unneeded packages that were installed
+	as dependencies can be automatically detected and removed
+	using:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg autoremove</code></strong>
+Packages to be autoremoved:
+	ca</em>root<em>nss-3.15.1</em>1</p>
+<p>The autoremoval will free 723 kB</p>
+<p>Proceed with autoremoval of packages [y/N]: <strong class="userinput"><code>y</code></strong>
+Deinstalling ca<em>root</em>nss-3.15.1<em>1... done</pre></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-backup"></a>4.4.7. Restoring the Package Database</h3></div></div></div><p>Unlike the traditional package management system,
+	<span class="application">pkg</span> includes its own package
+	database backup mechanism.  This functionality is enabled by
+	default.</p><div xmlns="" class="tip"><h3 class="admontitle">Tip: </h3><p xmlns="http://www.w3.org/1999/xhtml">To disable the periodic script from backing up the
+	  package database, set
+	  <code class="literal">daily<em>backup</em>pkgdb</em>enable=&quot;NO&quot;</code> in
+	  <a class="citerefentry" href="http://www.FreeBSD.org/cgi/man.cgi?query=periodic.conf&amp;sektion=5&amp;manpath=freebsd-release-ports"><span class="citerefentry"><span class="refentrytitle">periodic.conf</span>(5)</span></a>.</p></div><p>To restore the contents of a previous package database
+	backup, run the following command replacing
+	<em class="replaceable"><code>/path/to/pkg.sql</code></em> with the location
+	of the backup:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg backup -r <em class="replaceable"><code>/path/to/pkg.sql</code></em></code></strong></pre><div xmlns="" class="note"><h3 class="admontitle">Note: </h3><p xmlns="http://www.w3.org/1999/xhtml">If restoring a backup taken by the periodic script,
+	  it must be decompressed prior to being restored.</p></div><p>To run a manual backup of the
+	<span class="application">pkg</span> database, run the following
+	command, replacing <em class="replaceable"><code>/path/to/pkg.sql</code></em>
+	with a suitable file name and location:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg backup -d <em class="replaceable"><code>/path/to/pkg.sql</code></em></code></strong></pre></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-clean"></a>4.4.8. Removing Stale Packages</h3></div></div></div><p>By default, <span class="application">pkg</span> stores
+	binary packages in a cache directory defined by
+	<code class="envar">PKG_CACHEDIR</code> in <a class="citerefentry" href="http://www.FreeBSD.org/cgi/man.cgi?query=pkg.conf&amp;sektion=5&amp;manpath=freebsd-release-ports"><span class="citerefentry"><span class="refentrytitle">pkg.conf</span>(5)</span></a>.  Only copies
+	of the latest installed packages are kept.  Older versions of
+	<span class="application">pkg</span> kept all previous packages.  To
+	remove these outdated binary packages, run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg clean</code></strong></pre><p>The entire cache may be cleared by running:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg clean -a</code></strong></pre></div><div class="sect2"><div xmlns="" class="titlepage"><div><div><h3 xmlns="http://www.w3.org/1999/xhtml" class="title"><a id="pkgng-set"></a>4.4.9. Modifying Package Metadata</h3></div></div></div><p>Software within the FreeBSD Ports Collection can
+	undergo major version number changes.  To address this,
+	<span class="application">pkg</span> has a built-in command to
+	update package origins.  This can be useful, for example, if
+	<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/lang/php5/pkg-descr">lang/php5</a> is renamed to
+	<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/lang/php53/pkg-descr">lang/php53</a> so that
+	<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/lang/php5/pkg-descr">lang/php5</a> can now
+	represent version <code class="literal">5.4</code>.</p><p>To change the package origin for the above example,
+	run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg set -o lang/php5:lang/php53</code></strong></pre><p>As another example, to update
+	<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/lang/ruby18/pkg-descr">lang/ruby18</a> to
+	<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/lang/ruby19/pkg-descr">lang/ruby19</a>, run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg set -o lang/ruby18:lang/ruby19</code></strong></pre><p>As a final example, to change the origin of the
+	<code class="filename">libglut</code> shared libraries from
+	<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/graphics/libglut/pkg-descr">graphics/libglut</a> to
+	<a xmlns="" class="package" href="http://www.freebsd.org/cgi/url.cgi?ports/graphics/freeglut/pkg-descr">graphics/freeglut</a>, run:</p><pre class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg set -o graphics/libglut:graphics/freeglut</code></strong></pre><div xmlns="" class="note"><h3 class="admontitle">Note: </h3><p xmlns="http://www.w3.org/1999/xhtml">When changing package origins, it is important to
+	  reinstall packages that are dependent on the package with
+	  the modified origin.  To force a reinstallation of dependent
+	  packages, run:</p><pre xmlns="http://www.w3.org/1999/xhtml" class="screen"><code class="prompt">#</code> <strong class="userinput"><code>pkg install -Rf <em class="replaceable"><code>graphics/freeglut</code></em></code></strong></pre></div></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer">
+    </body></html></p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SSL between NGINX and a TCP upstream</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This article explains how to secure TCP traffic between NGINX and a TCP upstream server or an upstream group of TCP servers.</p>
+<h2 id="toc">Table of Contents</h2>
+<ul>
+<li><a href="#prereq">Prerequisites</a></li>
+<li><a href="#server_certs">Obtaining SSL Server Certificates</a></li>
+<li><a href="#client_certs">Obtaining an SSL Client Certificate</a></li>
+<li><a href="#config">Configuring NGINX</a></li>
+<li><a href="#example">Complete Example</a></li>
+</ul>
+<h2 id="prereq">Prerequisites</h2>
+<ul>
+<li>NGINX Plus <a href="/resources/admin-guide/nginx-plus-releases/">R6</a> and later or the latest NGINX Open Source compiled with the <code>--with-stream</code> and <code>with-stream_ssl_module</code> configuration parameters</li>
+<li>A proxied TCP server or an <a href="/resources/admin-guide/tcp-load-balancing/">upstream group of TCP servers</a></li>
+<li>SSL certificates and a private key</li>
+</ul>
+<h2 id="server_certs">Obtaining SSL Server Certificates</h2>
+<p>First, you will need to get server certificates and a private key and put them on the upstream server or on each server in the upstream group. A certificate can be obtained from a trusted certificate authority (CA) or generated using an SSL library such as <a href="http://www.openssl.org/">OpenSSL</a>.</p>
+<p>Self-signed server certificates are used when you need to encrypt the connection between NGINX and the upstream server. However, these connections are vulnerable to a man-in-the-middle attack: an imposter can impersonate the upstream server and NGINX will not know it is talking to a fake server. If you obtain server certificates that have been signed by a trusted CA (you can create your own internal CA using OpenSSL), you can then configure NGINX to only trust certificates that have been signed by that CA. This makes it much more difficult for an attacker to impersonate an upstream server.</p>
+<h2 id="client_certs">Obtaining an SSL Client Certificate</h2>
+<p>NGINX can identify itself to the upstream servers by using an SSL Client Certificate. This client certificate must be signed by a trusted CA and stored on NGINX along with the corresponding private key.</p>
+<p>You will need to configure the upstream servers to require client certificates for all incoming SSL connections and to trust the CA that issued the client certificate to NGINX. Then, when NGINX connects to the upstream, it will provide its client certificate and the upstream server will accept it.</p>
+<h2 id="config">Configuring NGINX</h2>
+<p>In the NGINX configuration file, include the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl">proxy_ssl</a></code> directive in the <code>server</code> block on the <code>stream</code> level:</p>
+<pre><code>stream {
+    server {
+        ...
+        proxy_pass backend;
+        proxy_ssl  on;
+    }
+}</code></pre>
+<p>Then specify the path to the SSL client certificate required by the upstream server and the certificate&#8217;s private key:</p>
+<pre><code>server {
+        ...
+        proxy_ssl_certificate     /etc/ssl/certs/backend.crt;
+        proxy_ssl_certificate_key /etc/ssl/certs/backend.key;
+}
+</code></pre>
+<p>Optionally, you can specify which SSL protocols and ciphers are used:</p>
+<pre><code>server {
+        ...
+        proxy_ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        proxy_ssl_ciphers   HIGH:!aNULL:!MD5;
+}</code></pre>
+<p>If you use certificates issued by a CA, also include the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_trusted_certificate">proxy_ssl_trusted_certificate</a></code> directive to name the file containing the trusted CA certificates used to verify the upstream’s security certificates. The file must be in the PEM format. Optionally, include the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify">proxy_ssl_verify</a></code> and <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify_depth">proxy_ssl_verfiy_depth</a></code> directives to have NGINX check the validity of the security certificates:</p>
+<pre><code>server {
+    ...
+    proxy_ssl_trusted_certificate /etc/ssl/certs/trusted_ca_cert.crt;
+    proxy_ssl_verify       on;
+    proxy_ssl_verify_depth 2;
+}</code></pre>
+<p>Each new SSL connection requires a full SSL handshake between the client and server, which is quite CPU-intensive. To have NGINX proxy previously negotiated connection parameters and use a so-called abbreviated handshake, include the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_session_reuse">proxy_ssl_session_reuse</a></code> directive:</p>
+<pre><code>proxy_ssl_session_reuse on;</code></pre>
+<h2 id="example">Complete Example</h2>
+<pre><code>stream {
+
+    upstream backend {
+        server backend1.example.com:12345;
+        server backend2.example.com:12345;
+        server backend3.example.com:12345;
+   }
+
+    server {
+        listen     12345;
+        proxy_pass backend;
+        proxy_ssl  on;
+
+        proxy_ssl_certificate         /etc/ssl/certs/backend.crt;
+        proxy_ssl_certificate_key     /etc/ssl/certs/backend.key;
+        proxy_ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
+        proxy_ssl_ciphers             HIGH:!aNULL:!MD5;
+        proxy_ssl_trusted_certificate /etc/ssl/certs/trusted_ca_cert.crt;
+
+        proxy_ssl_verify        on;
+        proxy_ssl_verify_depth  2;
+        proxy_ssl_session_reuse on;
+    }
+}</code></pre>
+<p>In this example, the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl">proxy_ssl</a></code> directive specifies that TCP traffic forwarded by NGINX to upstream servers be secured.</p>
+<p>When a secure TCP connection is passed from NGINX to the upstream server for the first time, the full handshake process is performed. The upstream server asks NGINX to present a security certificate specified in the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_certificate">proxy_ssl_certificate</a></code> directive. The <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_protocols">proxy_ssl_protocols</a></code> and <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_ciphers">proxy_ssl_ciphers</a></code> directives control which protocols and ciphers are used.</p>
+<p>The next time NGINX passes a connection to the upstream, session parameters will be reused because of the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_session_reuse">proxy_ssl_session_reuse</a></code> directive, and the secured TCP connection is established faster.</p>
+<p>The trusted CA certificates in the file named by the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_trusted_certificate">proxy_ssl_trusted_certificate</a></code> directive are used to verify the certificate on the upstream server. The <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify_depth">proxy_ssl_verify_depth</a></code> directive specifies that two certificates in the certificates chain are checked, and the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_ssl_verify">proxy_ssl_verify</a></code> directive verifies the validity of certificates.</p>
+<p>To learn more about NGINX Plus, please see our <a href="/products/">commercial subscriptions</a>.</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

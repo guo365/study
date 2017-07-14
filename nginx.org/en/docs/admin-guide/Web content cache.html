@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Web content cache</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This section describes how to enable and configure caching of responses received from proxied servers.</p>
+<h2 id="toc">In This Section</h2>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#enable">Enabling the Caching of Responses</a></li>
+<li><a href="#processes">NGINX Processes Involved in Caching</a></li>
+<li><a href="#select">Specifying Which Requests to Cache</a></li>
+<li><a href="#bypass">Limiting or Bypassing Caching</a></li>
+<li><a href="#purge">Purging Content From The Cache</a>
+<ul>
+<li><a href="#purge_configure">Configuring Cache Purge</a></li>
+<li><a href="#purge_request">Sending the Purge Command</a></li>
+<li><a href="#purge_secure">Restricting Access to the Purge Command</a></li>
+<li><a href="#purge_remove">Completely Removing Files from the Cache</a></li>
+<li><a href="#purge_example">Cache Purge Configuration Example</a></li>
+</ul>
+</li>
+<li><a href="#slice">Byte-Range Caching</a></li>
+<li><a href="#example">Combined Configuration Example</a></li>
+</ul>
+<h2 id="intro">Introduction</h2>
+<p>When caching is enabled, NGINX Plus saves responses in a disk cache and uses them to respond to clients without having to proxy requests for the same content every time.</p>
+<p>To learn more about NGINX Plus&#8217;s caching capabilities, watch the <a href="https://dev.wp.nginx.com/resources/webinars/content-caching-nginx-plus/">Content Caching with NGINX webinar on demand</a> and get an in-depth review of features such as dynamic <a href="https://dev.wp.nginx.com/products/content-caching-nginx-plus/">content caching</a>, cache purging, and delayed caching.</p>
+<h2 id="enable">Enabling the Caching of Responses</h2>
+<p>To enable caching, include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">proxy_cache_path</a></code> directive in the top-level <code>http</code> context. The mandatory first parameter is the local filesystem path for cached content, and the mandatory <code>keys_zone</code> parameter defines the name and size of the shared memory zone that is used to store metadata about cached items:</p>
+<pre><code>http {
+    ...
+    proxy_cache_path /data/nginx/cache <strong>keys_zone</strong>=<strong>one</strong>:10m;
+}</code></pre>
+<p>Then include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache">proxy_cache</a></code> directive in the context (protocol type, virtual server, or location) for which you want to cache server responses, specifying the zone name defined by the <code>keys_zone</code> parameter to the <code>proxy_cache_path</code> directive (in this case, <code>one</code>):</p>
+<pre><code>http {
+    ...
+    proxy_cache_path /data/nginx/cache keys_zone=one:10m;
+
+    server {
+        proxy_cache <strong>one</strong>;
+        location / {
+            proxy_pass http://localhost:8000;
+        }
+    }
+}</code></pre>
+<p>Note that the size defined by the <code>keys_zone</code> parameter does not limit the total amount of cached response data. Cached responses themselves are stored with a copy of the metadata in specific files on the filesystem. To limit the amount of cached response data, include the <code>max_size</code> parameter to the <code>proxy_cache_path</code> directive. (But note that the amount of cached data can temporarily exceed this limit, as described in the following section.)</p>
+<h2 id="processes">NGINX Processes Involved in Caching</h2>
+<p>There are two additional NGINX processes involved in caching:</p>
+<ul>
+<li>
+<p>The <em>cache manager</em> is activated periodically to check the state of the cache. If the cache size exceeds the limit set by the <code>max_size</code> parameter to the <code>proxy_cache_path</code> directive, the cache manager removes the data that was accessed least recently. As previously mentioned, the amount of cached data can temporarily exceed the limit during the time between cache manager activations.</p>
+</li>
+<li>
+<p>The <em>cache loader</em> runs only once, right after NGINX starts. It loads metadata about previously cached data into the shared memory zone. Loading the whole cache at once could consume sufficient resources to slow NGINX performance during the first few minutes after startup. To avoid this, configure iterative loading of the cache by including the following parameters to the <code>proxy_cache_path</code> directive:</p>
+<ul>
+<li><code>loader_threshold</code>&nbsp;&ndash;&nbsp;Duration of an iteration, in milliseconds (by default, 200)</li>
+<li><code>loader_files</code>&nbsp;&ndash;&nbsp;Maximum number of items loaded during one iteration (by default, 100)</li>
+<li><code>loader_sleeps</code>&nbsp;&ndash;&nbsp;Delay between iterations, in milliseconds (by default, 50)</li>
+</ul>
+</li>
+</ul>
+<p>In the following example, iterations last 300 milliseconds or until 200 items have been loaded:</p>
+<pre><code>proxy_cache_path /data/nginx/cache keys_zone=one:10m loader_threshold=300 loader_files=200;</code></pre>
+<h2 id="select">Specifying Which Requests to Cache</h2>
+<p>By default, NGINX&nbsp;Plus caches all responses to requests made with the HTTP GET and HEAD methods the first time such responses are received from a proxied server. As the key (identifier) for a request, NGINX&nbsp;Plus uses the request string. If a request has the same key as a cached response, NGINX&nbsp;Plus sends the cached response to the client. You can include various directives in the <code>http</code>, <code>server</code>, or <code>location</code> context to control which responses are cached.</p>
+<p>To change the request characteristics used in calculating the key, include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_key">proxy_cache_key</a></code> directive:</p>
+<pre><code>proxy_cache_key "$host$request_uri$cookie_user";</code></pre>
+<p>To define the minimum number of times that a request with the same key must be made before the response is cached, include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_min_uses">proxy_cache_min_uses</a></code> directive:</p>
+<pre><code>proxy_cache_min_uses 5;</code></pre>
+<p>To cache responses to requests with methods other than GET and HEAD, list them along with GET and HEAD as parameters to the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_methods">proxy_cache_methods</a></code> directive:</p>
+<pre><code>proxy_cache_methods GET HEAD POST;</code></pre>
+<h2 id="bypass">Limiting or Bypassing Caching</h2>
+<p>By default, responses remain in the cache indefinitely. They are removed only when the cache exceeds the maximum configured size, and then in order by length of time since they were last requested. You can set how long cached responses are considered valid, or even whether they are used at all, by including directives in the <code>http</code>, <code>server</code>, or <code>location</code> context:</p>
+<p>To limit how long cached responses with specific status codes are considered valid, include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_valid">proxy_cache_valid</a></code> directive:</p>
+<pre><code>proxy_cache_valid 200 302 10m;
+proxy_cache_valid 404      1m;</code></pre>
+<p>In this example, responses with the code 200 or 302 are considered valid for 10 minutes, and responses with code 404 are valid for 1 minute. To define the validity time for responses with all status codes, specify <code>any</code> as the first parameter:</p>
+<pre><code>proxy_cache_valid any 5m;</code></pre>
+<p>To define conditions under which NGINX&nbsp;Plus does not send cached responses to clients, include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_bypass">proxy_cache_bypass</a></code> directive. Each parameter defines a condition and consists of a number of variables. If at least one parameter is not empty and does not equal “0” (zero), NGINX&nbsp;Plus does not look up the response in the cache, but instead forwards the request to the backend server immediately.</p>
+<pre><code>proxy_cache_bypass $cookie_nocache $arg_nocache$arg_comment;</code></pre>
+<p>To define conditions under which NGINX&nbsp;Plus does not cache a response at all, include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_no_cache">proxy_no_cache</a></code> directive, defining parameters in the same way as for the <code>proxy_cache_bypass</code> directive.</p>
+<pre><code>proxy_no_cache $http_pragma $http_authorization;</code></pre>
+<h2 id="purge">Purging Content From The Cache</h2>
+<p>NGINX makes it possible to remove outdated cached files from the cache. This is necessary for removing outdated cached content to prevent serving old and new versions of web pages at the same time. The cache is purged upon receiving a special “purge” request that contains either a custom HTTP header, or the “PURGE” HTTP method.</p>
+<h3 id="purge_configure">Configuring Cache Purge</h3>
+<p>Let’s set up a configuration that identifies requests that use the “PURGE” HTTP method and deletes matching URLs.</p>
+<ol>
+<li>On the <code>http</code> level, create a new variable, for example, <code>$purge_method</code>, that will depend on the <code>$request_method</code> variable:
+<pre><code>http {
+    ...
+    map $request_method $purge_method {
+        PURGE 1;
+        default 0;
+    }
+}</code></pre>
+</li>
+<li>In the <code>location</code> where caching is configured, include the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_purge">proxy_cache_purge</a></code> directive that will specify a condition of a cache purge request. In our example, it is the <code>$purge_method</code> configured at the previous step:
+<pre><code>server {
+    listen      80;
+    server_name www.example.com;
+
+    location / {
+        proxy_pass  https://localhost:8002;
+        proxy_cache mycache;
+
+        proxy_cache_purge $purge_method;
+    }
+}</code></pre>
+</li>
+</ol>
+<h3 id="purge_request">Sending the Purge Command</h3>
+<p>When the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_purge">proxy_cache_purge</a></code> directive is configured, you’ll need to send a special cache purge request to purge the cache. You can issue purge requests using a range of tools, for example, the <em>curl</em> command:</p>
+<pre><code class="terminal">$ curl -X PURGE -D – "https://www.example.com/*"
+HTTP/1.1 204 No Content
+Server: nginx/1.5.7
+Date: Sat, 01 Dec 2015 16:33:04 GMT
+Connection: keep-alive</code></pre>
+<p>In the example, the resources that have a common URL part (specified by the asterisk wildcard) will be removed. However, such cache entries will not be removed completely from the cache: they will remain on the disk until they are deleted for either <a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">inactivity</a> (the <code>inactive</code> parameter of <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">proxy_cache_path</a></code>), or processed by the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#purger">cache purger</a></code> process, or a client attempts to access them.
+</p>
+<h3 id="purge_secure">Restricting Access to the Purge Command</h3>
+<p>It is recommended that you configure a limited number of IP addresses allowed to send a cache purge request:</p>
+<pre><code>geo $purge_allowed {
+   default         0;  # deny from other
+   10.0.0.1        1;  # allow from localhost
+   192.168.0.0/24  1;  # allow from 10.0.0.0/24
+}
+
+map $request_method $purge_method {
+   PURGE   $purge_allowed;
+   default 0;
+}</code></pre>
+<p>In this example, NGINX checks if the &#8220;PURGE&#8221; method is used in a request, and, if so, analyzes the client IP address. If the IP address is whitelisted, then the <code>$purge_method</code> is set to <code>$purge_allowed</code>: &#8220;1&#8221; permits purging, &#8220;0&#8221; denies purging.</p>
+<h3 id="purge_remove">Completely Removing Files from the Cache</h3>
+<p>To completely remove cache files that match an asterisk, you will need to activate a special <code>cache purger</code> process that will permanently iterate through all cache entries and delete the entries that match the wildcard key. On the <code>http</code> level, add the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#purger">purger</a></code> parameter to the <code><a href="http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path">proxy_cache_path</a></code> directive:</p>
+<pre><code>proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=mycache:10m <strong>purger=on</strong>;</code></pre>
+<h3 id="purge_example">Cache Purge Configuration Example</h3>
+<pre><code>http {
+    ...
+    proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=mycache:10m purger=on;
+
+    map $request_method $purge_method {
+        PURGE 1;
+        default 0;
+    }
+
+    server {
+        listen      80;
+        server_name www.example.com;
+
+        location / {
+            proxy_pass        https://localhost:8002;
+            proxy_cache       mycache;
+            proxy_cache_purge $purge_method;
+        }
+    }
+
+    geo $purge_allowed {
+       default         0;
+       10.0.0.1        1;
+       192.168.0.0/24  1;
+    }
+
+    map $request_method $purge_method {
+       PURGE   $purge_allowed;
+       default 0;
+    }
+}</code></pre>
+<h2 id="slice">Byte-Range Caching</h2>
+<p>Sometimes, the initial cache fill operation may take some time, especially for large files. When the first request starts downloading a part of a video file, next requests will have to wait for the entire file to be downloaded and put into the cache.</p>
+<p>NGINX makes it possible cache such range requests and gradually fill the cache with the <code><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html">cache slice module</a></code>. The file is divided into smaller “slices”. Each range request chooses particular slices that would cover the requested range and, if this range is still not cached, put it into the cache. All other requests to these slices will take the response from the cache.</p>
+<p>To enable byte-range caching:</p>
+<ol>
+<li>Make sure your NGINX is compiled with the <code><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html">slice</a></code> module.</li>
+<li>Specify the size of the slice with the <code><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html#slice">slice</a></code> directive:
+<pre><code>location / {
+    slice  1m;
+}</code></pre>
+<p>The slice size should be adjusted reasonably enough to make slice download fast. A too small size may result in excessive memory usage and a large number of opened file descriptors while processing the request, a too large value may result in latency.</li>
+<li>Include the <code><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html#var_slice_range">$slice_range</a></code> variable to the cache key:
+<pre><code>proxy_cache_key $uri$is_args$args<strong>$slice_range</strong>;</code></pre>
+</li>
+<li>Enable caching of responses with <code>206</code> status code:
+<pre><code>proxy_cache_valid 200 <strong>206</strong> 1h;</code></pre>
+</li>
+<li>Enable passing range requests to the proxied server by passing the <code><a href="http://nginx.org/en/docs/http/ngx_http_slice_module.html#var_slice_range">$slice_range</a></code> variable in the <code>Range</code> header field:
+<pre><code>proxy_set_header  Range $slice_range;</code></pre>
+</li>
+</ol>
+<p>Byte-range caching example:</p>
+<pre><code>location / {
+    slice             1m;
+    proxy_cache       cache;
+    proxy_cache_key   $uri$is_args$args$slice_range;
+    proxy_set_header  Range $slice_range;
+    proxy_cache_valid 200 206 1h;
+    proxy_pass        http://localhost:8000;
+}</code></pre>
+<p>Note that if slice caching is turned on, the initial file should not be changed.</p>
+<h2 id="example">Combined Configuration Example</h2>
+<p>The following sample configuration combines some of the caching options described above.</p>
+<pre><code>http {
+    ...
+    proxy_cache_path /data/nginx/cache keys_zone=one:10m loader_threshold=300 
+                     loader_files=200 max_size=200m;
+
+    server {
+        listen 8080;
+        proxy_cache one;
+
+        location / {
+            proxy_pass http://backend1;
+        }
+
+        location /some/path {
+            proxy_pass http://backend2;
+            proxy_cache_valid any 1m;
+            proxy_cache_min_uses 3;
+            proxy_cache_bypass $cookie_nocache $arg_nocache$arg_comment;
+        }
+    }
+}</code></pre>
+<p>In this example, two locations use the same cache but in different ways.</p>
+<p>Because responses from the <code>backend1</code> server rarely change, no cache-control directives are included. Responses are cached the first time a request is made, and remain valid indefinitely.</p>
+<p>By contrast, responses to requests served by <code>backend2</code> change frequently, so they are considered valid for only 1&nbsp;minute and aren&#8217;t cached until the same request is made 3&nbsp;times. Moreover, if a request matches the conditions defined by the <code>proxy_cache_bypass</code> directive, NGINX&nbsp;Plus immediately passes the request to <code>backend2</code> without looking for it in the cache.</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

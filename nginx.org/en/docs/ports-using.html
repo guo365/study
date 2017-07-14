@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ports-using</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+Open Source Nginx
+</head>
+<body>
+<h1><center>Using the Ports Collection</center><br></h1>
+<h1>4.5. Using the Ports Collection</h1>
+<p>The Ports Collection is a set of Makefiles, patches, and description files stored in /usr/ports. This set of files is used to compile and install applications on FreeBSD. Before an application can be compiled using a port, the Ports Collection must first be installed. If it was not installed during the installation of FreeBSD, use one of the following methods to install it:</p>
+<h3>Procedure 4.1. Portsnap Method</h3>
+<p>The base system of FreeBSD includes Portsnap. This is a fast and user-friendly tool for retrieving the Ports Collection and is the recommended choice for most users. This utility connects to a FreeBSD site, verifies the secure key, and downloads a new copy of the Ports Collection. The key is used to verify the integrity of all downloaded files.</p>
+<p>To download a compressed snapshot of the Ports Collection into /var/db/portsnap:</p>
+<pre><code>#portsnap fetch
+</code></pre>
+
+<p>When running Portsnap for the first time, extract the snapshot into /usr/ports:</p>
+<pre><code>#portsnap extract
+</code></pre>
+
+<p>After the first use of Portsnap has been completed as shown above, /usr/ports can be updated as needed by running:</p>
+<pre><code>#portsnap fetch
+#portsnap update
+</code></pre>
+
+<p>When using fetch, the extract or the update operation may be run consecutively, like so:</p>
+<pre><code># portsnap fetch update
+</code></pre>
+
+<h3>Procedure 4.2. Subversion Method</h3>
+<p>If more control over the ports tree is needed or if local changes need to be maintained, Subversion can be used to obtain the Ports Collection. Refer to the Subversion Primer for a detailed description of Subversion.</p>
+<p>Subversion must be installed before it can be used to check out the ports tree. If a copy of the ports tree is already present, install Subversion like this:</p>
+<pre><code>#cd /usr/ports/devel/subversion
+#make install clean
+</code></pre>
+
+<p>If the ports tree is not available, or pkg is being used to manage packages, Subversion can be installed as a package:</p>
+<pre><code>#pkg install subversion
+</code></pre>
+
+<p>Check out a copy of the ports tree:</p>
+<pre><code>#svn checkout https://svn.FreeBSD.org/ports/head /usr/ports
+</code></pre>
+
+<p>As needed, update /usr/ports after the initial Subversion checkout:</p>
+<pre><code>#svn update /usr/ports
+</code></pre>
+
+<p>The Ports Collection installs a series of directories representing software categories with each category having a subdirectory for each application. Each subdirectory, also referred to as a ports skeleton, contains a set of files that tell FreeBSD how to compile and install that program. Each port skeleton includes these files and directories:</p>
+<ul>
+<li>
+<p>Makefile: contains statements that specify how the application should be compiled and where its components should be installed.</p>
+</li>
+<li>
+<p>distinfo: contains the names and checksums of the files that must be downloaded to build the port.</p>
+</li>
+<li>
+<p>files/: this directory contains any patches needed for the program to compile and install on FreeBSD. This directory may also contain other files used to build the port.</p>
+</li>
+<li>
+<p>pkg-descr: provides a more detailed description of the program.</p>
+</li>
+<li>
+<p>pkg-plist: a list of all the files that will be installed by the port. It also tells the ports system which files to remove upon deinstallation.</p>
+</li>
+</ul>
+<p>Some ports include pkg-message or other files to handle special situations. For more details on these files, and on ports in general, refer to the FreeBSD Porter's Handbook.</p>
+<p>The port does not include the actual source code, also known as a distfile. The extract portion of building a port will automatically save the downloaded source to /usr/ports/distfiles.</p>
+<h2>4.5.1. Installing Ports</h2>
+<p>This section provides basic instructions on using the Ports Collection to install or remove software. The detailed description of available make targets and environment variables is available in ports(7).</p>
+<p>Warning: Before compiling any port, be sure to update the Ports Collection as described in the previous section. Since the installation of any third-party software can introduce security vulnerabilities, it is recommended to first check http://vuxml.freebsd.org/ for known security issues related to the port. Alternately, run pkg audit -F before installing a new port. This command can be configured to automatically perform a security audit and an update of the vulnerability database during the daily security system check. For more information, refer to pkg-audit(8) and periodic(8).
+Using the Ports Collection assumes a working Internet connection. It also requires superuser privilege.</p>
+<p>To compile and install the port, change to the directory of the port to be installed, then type make install at the prompt. Messages will indicate the progress:</p>
+<pre><code>#cd /usr/ports/sysutils/lsof
+#make install
+    &gt;&gt; lsof_4.88D.freebsd.tar.gz doesn't seem to exist in /usr/ports/distfiles/.
+    &gt;&gt; Attempting to fetch from ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/.
+    ===&gt;  Extracting for lsof-4.88
+    ...
+    [extraction output snipped]
+    ...
+    &gt;&gt; Checksum OK for lsof_4.88D.freebsd.tar.gz.
+    ===&gt;  Patching for lsof-4.88.d,8
+    ===&gt;  Applying FreeBSD patches for lsof-4.88.d,8
+    ===&gt;  Configuring for lsof-4.88.d,8
+    ...
+    [configure output snipped]
+    ...
+    ===&gt;  Building for lsof-4.88.d,8
+    ...
+    [compilation output snipped]
+    ...
+
+    ===&gt;  Installing for lsof-4.88.d,8
+    ...
+    [installation output snipped]
+    ...
+    ===&gt;   Generating temporary packing list
+    ===&gt;   Compressing manual pages for lsof-4.88.d,8
+    ===&gt;   Registering installation for lsof-4.88.d,8
+    ===&gt;  SECURITY NOTE:
+      This port has installed the following binaries which execute with
+      increased privileges.
+     /usr/local/sbin/lsof
+#
+</code></pre>
+
+<p>Since lsof is a program that runs with increased privileges, a security warning is displayed as it is installed. Once the installation is complete, the prompt will be returned.</p>
+<p>Some shells keep a cache of the commands that are available in the directories listed in the PATH environment variable, to speed up lookup operations for the executable file of these commands. Users of the tcsh shell should type rehash so that a newly installed command can be used without specifying its full path. Use hash -r instead for the sh shell. Refer to the documentation for the shell for more information.</p>
+<p>During installation, a working subdirectory is created which contains all the temporary files used during compilation. Removing this directory saves disk space and minimizes the chance of problems later when upgrading to the newer version of the port:</p>
+<pre><code>#make clean
+===&gt;  Cleaning for lsof-88.d,8
+#
+</code></pre>
+
+<p>Note: To save this extra step, instead use make install clean when compiling the port.</p>
+<h2>4.5.1.1. Customizing Ports Installation</h2>
+<p>Some ports provide build options which can be used to enable or disable application components, provide security options, or allow for other customizations. Examples include www/firefox, security/gpgme, and mail/sylpheed-claws. If the port depends upon other ports which have configurable options, it may pause several times for user interaction as the default behavior is to prompt the user to select options from a menu. To avoid this, run make config-recursive within the port skeleton to do this configuration in one batch. Then, run make install [clean] to compile and install the port.</p>
+<p>Tip: When using config-recursive, the list of ports to configure are gathered by the all-depends-list target. It is recommended to run make config-recursive until all dependent ports options have been defined, and ports options screens no longer appear, to be certain that all dependency options have been configured.
+There are several ways to revisit a port's build options menu in order to add, remove, or change these options after a port has been built. One method is to cd into the directory containing the port and type make config. Another option is to use make showconfig. Another option is to execute make rmconfig which will remove all selected options and allow you to start over. All of these options, and others, are explained in great detail in ports(7).</p>
+<p>The ports system uses fetch(1) to download the source files, which supports various environment variables. The FTP<em>PASSIVE</em>MODE, FTP<em>PROXY, and FTP</em>PASSWORD variables may need to be set if the FreeBSD system is behind a firewall or FTP/HTTP proxy. See fetch(3) for the complete list of supported variables.</p>
+<p>For users who cannot be connected to the Internet all the time, make fetch can be run within /usr/ports, to fetch all distfiles, or within a category, such as /usr/ports/net, or within the specific port skeleton. Note that if a port has any dependencies, running this command in a category or ports skeleton will not fetch the distfiles of ports from another category. Instead, use make fetch-recursive to also fetch the distfiles for all the dependencies of a port.</p>
+<p>In rare cases, such as when an organization has a local distfiles repository, the MASTER_SITES variable can be used to override the download locations specified in the Makefile. When using, specify the alternate location:</p>
+<pre><code>#cd /usr/ports/directory
+#make MASTER_SITE_OVERRIDE= \
+ftp://ftp.organization.org/pub/FreeBSD/ports/distfiles/ fetch
+</code></pre>
+
+<p>The WRKDIRPREFIX and PREFIX variables can override the default working and target directories. For example:</p>
+<pre><code>#make WRKDIRPREFIX=/usr/home/example/ports install
+</code></pre>
+
+<p>will compile the port in /usr/home/example/ports and install everything under /usr/local.</p>
+<pre><code> # make PREFIX=/usr/home/example/local install
+</code></pre>
+
+<p>will compile the port in /usr/ports and install it in /usr/home/example/local. And:</p>
+<pre><code># make WRKDIRPREFIX=../ports PREFIX=../local install
+</code></pre>
+
+<p>will combine the two.</p>
+<p>These can also be set as environmental variables. Refer to the manual page for your shell for instructions on how to set an environmental variable.</p>
+<h2>4.5.2. Removing Installed Ports</h2>
+<p>Installed ports can be uninstalled using pkg delete. Examples for using this command can be found in the pkg-delete(8) manual page.</p>
+<p>Alternately, make deinstall can be run in the port's directory:</p>
+<pre><code># cd /usr/ports/sysutils/lsof
+make deinstall
+===&gt;  Deinstalling for sysutils/lsof
+===&gt;   Deinstalling
+Deinstallation has been requested for the following 1 packages:
+
+    lsof-4.88.d,8
+
+The deinstallation will free 229 kB
+[1/1] Deleting lsof-4.88.d,8... done
+</code></pre>
+
+<p>It is recommended to read the messages as the port is uninstalled. If the port has any applications that depend upon it, this information will be displayed but the uninstallation will proceed. In such cases, it may be better to reinstall the application in order to prevent broken dependencies.</p>
+<h2>4.5.3. Upgrading Ports</h2>
+<p>Over time, newer versions of software become available in the Ports Collection. This section describes how to determine which software can be upgraded and how to perform the upgrade.</p>
+<p>To determine if newer versions of installed ports are available, ensure that the latest version of the ports tree is installed, using the updating command described in either Procedure 4.1, “Portsnap Method” or Procedure 4.2, “Subversion Method”. On FreeBSD 10 and later, or if the system has been converted to pkg, the following command will list the installed ports which are out of date:</p>
+<pre><code># pkg version -l &quot;&lt;&quot;
+</code></pre>
+
+<p>For FreeBSD 9.X and lower, the following command will list the installed ports that are out of date:</p>
+<pre><code># pkg_version -l &quot;&lt;&quot;
+</code></pre>
+
+<p>Important: Before attempting an upgrade, read /usr/ports/UPDATING from the top of the file to the date closest to the last time ports were upgraded or the system was installed. This file describes various issues and additional steps users may encounter and need to perform when updating a port, including such things as file format changes, changes in locations of configuration files, or any incompatibilities with previous versions. Make note of any instructions which match any of the ports that need upgrading and follow these instructions when performing the upgrade.
+To perform the actual upgrade, use either Portmaster or Portupgrade.</p>
+<h2>4.5.3.1. Upgrading Ports Using Portmaster</h2>
+<p>ports-mgmt/portmaster is a very small utility for upgrading installed ports. It is designed to use the tools installed with FreeBSD without depending on other ports or databases. To install this utility as a port:</p>
+<pre><code># cd /usr/ports/ports-mgmt/portmaster
+# make install clean
+</code></pre>
+
+<p>Portmaster defines four categories of ports:</p>
+<ul>
+<li>
+<p>Root port: has no dependencies and is not a dependency of any other ports.</p>
+</li>
+<li>
+<p>Trunk port: has no dependencies, but other ports depend upon it.</p>
+</li>
+<li>
+<p>Branch port: has dependencies and other ports depend upon it.</p>
+</li>
+<li>
+<p>Leaf port: has dependencies but no other ports depend upon it.</p>
+</li>
+</ul>
+<p>To list these categories and search for updates:</p>
+<pre><code># portmaster -L
+===&gt;&gt;&gt; Root ports (No dependencies, not depended on)
+===&gt;&gt;&gt; ispell-3.2.06_18
+===&gt;&gt;&gt; screen-4.0.3
+        ===&gt;&gt;&gt; New version available: screen-4.0.3_1
+===&gt;&gt;&gt; tcpflow-0.21_1
+===&gt;&gt;&gt; 7 root ports
+...
+===&gt;&gt;&gt; Branch ports (Have dependencies, are depended on)
+===&gt;&gt;&gt; apache22-2.2.3
+        ===&gt;&gt;&gt; New version available: apache22-2.2.8
+...
+===&gt;&gt;&gt; Leaf ports (Have dependencies, not depended on)
+===&gt;&gt;&gt; automake-1.9.6_2
+===&gt;&gt;&gt; bash-3.1.17
+        ===&gt;&gt;&gt; New version available: bash-3.2.33
+...
+===&gt;&gt;&gt; 32 leaf ports
+
+===&gt;&gt;&gt; 137 total installed ports
+    ===&gt;&gt;&gt; 83 have new versions available
+</code></pre>
+
+<p>This command is used to upgrade all outdated ports:</p>
+<pre><code> # portmaster -a
+</code></pre>
+
+<p>Note: By default, Portmaster makes a backup package before deleting the existing port. If the installation of the new version is successful, Portmaster deletes the backup. Using -b instructs Portmaster not to automatically delete the backup. Adding -i starts Portmaster in interactive mode, prompting for confirmation before upgrading each port. Many other options are available. Read through the manual page for portmaster(8) for details regarding their usage.
+If errors are encountered during the upgrade process, add -f to upgrade and rebuild all ports:</p>
+<pre><code># portmaster -af
+</code></pre>
+
+<p>Portmaster can also be used to install new ports on the system, upgrading all dependencies before building and installing the new port. To use this function, specify the location of the port in the Ports Collection:</p>
+<pre><code># portmaster shells/bash
+</code></pre>
+
+<h2>4.5.3.2. Upgrading Ports Using Portupgrade</h2>
+<p>Another utility that can be used to upgrade ports is Portupgrade, which is available as the ports-mgmt/portupgrade package or port. This utility installs a suite of applications which can be used to manage ports. However, it is dependent upon Ruby. To install the port:</p>
+<pre><code># cd /usr/ports/ports-mgmt/portupgrade
+# make install clean
+</code></pre>
+
+<p>Before performing an upgrade using this utility, it is recommended to scan the list of installed ports using pkgdb -F and to fix all the inconsistencies it reports.</p>
+<p>To upgrade all the outdated ports installed on the system, use portupgrade -a. Alternately, include -i to be asked for confirmation of every individual upgrade:</p>
+<pre><code># portupgrade -ai
+</code></pre>
+
+<p>To upgrade only a specified application instead of all available ports, use portupgrade pkgname. It is very important to include -R to first upgrade all the ports required by the given application:</p>
+<pre><code># portupgrade -R firefox
+</code></pre>
+
+<p>If -P is included, Portupgrade searches for available packages in the local directories listed in PKG_PATH. If none are available locally, it then fetches packages from a remote site. If packages can not be found locally or fetched remotely, Portupgrade will use ports. To avoid using ports entirely, specify -PP. This last set of options tells Portupgrade to abort if no packages are available:</p>
+<pre><code># portupgrade -PP gnome3
+</code></pre>
+
+<p>To just fetch the port distfiles, or packages, if -P is specified, without building or installing anything, use -F. For further information on all of the available switches, refer to the manual page for portupgrade.</p>
+<h2>4.5.4. Ports and Disk Space</h2>
+<p>Using the Ports Collection will use up disk space over time. After building and installing a port, running make clean within the ports skeleton will clean up the temporary work directory. If Portmaster is used to install a port, it will automatically remove this directory unless -K is specified. If Portupgrade is installed, this command will remove all work directories found within the local copy of the Ports Collection:</p>
+<pre><code># portsclean -C
+</code></pre>
+
+<p>In addition, a lot of out-dated source distribution files will collect in /usr/ports/distfiles over time. If Portupgrade is installed, this command will delete all the distfiles that are no longer referenced by any ports:</p>
+<pre><code># portsclean -D
+</code></pre>
+
+<p>To use Portupgrade to remove all distfiles not referenced by any port currently installed on the system:</p>
+<pre><code># portsclean -DD
+</code></pre>
+
+<p>If Portmaster is installed, use:</p>
+<pre><code># portmaster --clean-distfiles
+</code></pre>
+
+<p>By default, this command is interactive and will prompt the user to confirm if a distfile should be deleted.</p>
+<p>In addition to these commands, the ports-mgmt/pkg_cutleaves package or port automates the task of removing installed ports that are no longer needed.</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

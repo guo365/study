@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>uWSGI and Django</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p>This chapter describes how to use NGINX Plus and NGINX Open Source to proxy and load balance TCP and UDP traffic.</p>
+<h2 id="toc">Table of Contents</h2>
+<ul>
+<li><a href="#intro">Introduction</a></li>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#proxy_pass">Configuring Reverse Proxying</a></li>
+<li><a href="#upstream">Configuring TCP or UDP Load Balancing</a>
+<ul>
+<li><a href="#method">Choosing a Load Balancing Method</a></li>
+<li><a href="#hash">Configuring Session Persistence</a></li>
+</ul>
+</li>
+<li><a href="#health_passive">Passive Health Monitoring</a></li>
+<li><a href="#health_active">Active Health Monitoring</a>
+<ul>
+<li><a href="#health_active_about">How It Works</a></li>
+<li><a href="#health_active_prerequisites">Prerequisites</a></li>
+<li><a href="#health_active_advanced">Basic Configuration</a></li>
+<li><a href="#health_active_advanced">Fine-Tuning Health Checks</a></li>
+<li><a href="#health_active_match">Fine-Tuning Health Checks with the match Configuration Block</a>
+<ul>
+<li><a href="#health_active_match_tcp">Fine-Tuning Health Checks For TCP</a></li>
+<li><a href="#health_active_match_udp">Fine-Tuning Health Checks For UDP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#upstream_conf">On-the-Fly Configuration</a>
+<ul>
+<li><a href="#upstream_conf_example">On-the-Fly Configuration Example</a></li>
+</ul>
+</li>
+<li><a href="#example">Example of TCP and UDP Load Balancing Configuration</a></li>
+</ul>
+<h2 id="intro">Introduction</h2>
+<p><a href="https://www.nginx.com/solutions/load-balancing/">Load balancing</a> refers to efficiently distributing network traffic across multiple backend servers. </p>
+<p>In <a title="NGINX Plus Releases" href="/resources/admin-guide/nginx-plus-releases/">Release 5</a> and later, NGINX can proxy and load balance TCP traffic. TCP (Transmission Control Protocol) is the protocol for many popular applications and services, such as LDAP, MySQL, and RTMP.</p>
+<p>In <a title="NGINX Plus Releases" href="/resources/admin-guide/nginx-plus-releases/">Release 9</a> and later, NGINX can proxy and load balance UDP traffic. UDP (User Datagram Protocol) is the protocol for many popular nontransactional applications, such as DNS, syslog, and RADIUS.</p>
+<p>To load balance HTTP traffic, refer to the <a href="/resources/admin-guide/load-balancer/">HTTP Load Balancing</a> article.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>
+Latest NGINX Open Source built with the <code>--with-stream</code> configuration flag, or latest NGINX Plus (no extra build steps required)
+</li>
+<li>
+An application, database, or service that communicates over TCP or UDP
+</li>
+<li>
+Upstream servers, each running the same instance of the application, database, or service
+</li>
+</ul>
+<h2 id="proxy_pass">Configuring Reverse Proxying</h2>
+<p>First, you will need to configure <em>reverse proxying</em> so that NGINX can forward TCP connections or UDP datagrams from clients to an upstream group or a proxied server.</p>
+<p>Open the NGINX configuration file and perform the following steps:</p>
+<ol>
+<li>
+Create a top-level <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream {}</a></code> block:</p>
+<pre><code>stream {
+...
+}</code></pre>
+</li>
+<li>
+Define one or more <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#server">server {}</a></code> configuration blocks for each virtual server in the top-level <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream {}</a></code> context.
+</li>
+<li>
+Within the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#server">server {}</a></code> configuration block for each server, include the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#listen">listen</a></code> directive to define the <em>IP address</em> and/or <em>port</em> on which the server listens. For UDP traffic, also include the <code>udp</code> parameter. TCP is the default protocol for the <code>stream</code> context, so there is no <code>tcp</code> parameter to the <code>listen</code> directive:</p>
+<pre><code>stream {
+    server {
+        listen 12345;
+        ...
+    }
+    server {
+        listen 53 udp;
+        ...
+    }
+    ...
+}</code></pre>
+</li>
+<li>
+Include the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_pass">proxy_pass</a></code> directive to define the proxied server or an upstream group to which the server forwards traffic:</p>
+<pre><code>stream {
+    server {
+        listen     12345;
+
+        #TCP traffic will be proxied to the "stream_backend" upstream group
+        proxy_pass stream_backend;
+    }
+
+    server {
+        listen     12346;
+
+        #TCP traffic will be proxied a proxied server
+        proxy_pass backend.example.com:12346;
+    }
+
+    server {
+        listen     53 udp;
+
+        #UDP traffic will be proxied to the "dns_servers" upstream group
+        proxy_pass dns_servers;
+    }
+    ...
+}</code></pre>
+</li>
+<li>
+Optionally, if your proxy server has several network interfaces, you can configure NGINX to choose a source IP address for connecting to an upstream server. This may be useful if a proxied server behind NGINX is configured to accept connections from particular IP networks or IP address ranges.</p>
+<p>Specify the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_bind">proxy_bind</a></code> directive and the IP address of the necessary network interface:</p>
+<pre><code>stream {
+    ...
+    server {
+        listen     127.0.0.1:12345;
+        proxy_pass backend.example.com:12345;
+        proxy_bind 127.0.0.1:12345;
+    }
+}
+</code></pre>
+</li>
+<li>
+Optionally, you can tune the size of two in-memory buffers where NGINX can put data from both the client and upstream connections. If there is a small volume of data, the buffers can be reduced which may save memory resources. If there is a large volume of data, the buffer size can be increased to reduce the number of socket read/write operations. As soon as data is received on one connection, NGINX reads it and forwards it over the other connection. The buffers are controlled with the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_buffer_size">proxy_buffer_size</a></code> directive:</p>
+<pre><code>stream {
+    ...
+    server {
+        listen            127.0.0.1:12345;
+        proxy_pass        backend.example.com:12345;
+        proxy_buffer_size 16k;
+    }
+}
+</code></pre>
+</li>
+</ol>
+<h2 id="upstream">Configuring TCP or UDP Load Balancing</h2>
+<p>To configure load balancing:</p>
+<ol>
+<li>Create a group of servers, or an <em>upstream group</em> whose traffic will be load balanced. Define one or more <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#upstream">upstream {}</a></code> configuration blocks in the top-level <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream {}</a></code> context and set the name for the upstream group, for example, <code>stream_backend</code> for TCP servers and <code>dns_servers</code> for UDP servers:
+<pre><code>stream {
+    upstream stream_backend {
+        ...    
+    }
+
+    upstream dns_servers {
+        ...    
+    }
+    ...
+}</code></pre>
+<p>Make sure that the name of the upstream group is referenced in the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_pass">proxy_pass</a></code> directive configured earlier.
+</li>
+<li>
+Populate the upstream group with <em>upstream servers</em>. Within the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#upstream">upstream {}</a></code>  block, add a <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">server</a></code> directive for each upstream server, specifying its IP address or hostname (which can resolve to multiple IP addresses) and an <em>obligatory</em> port number. Note that you do not define the protocol for each server, because that is defined for the entire upstream group by the parameter you include on the <code>listen</code> directive in the <code>server</code> block, which you have created earlier.</p>
+<pre><code>stream {
+    upstream stream_backend {
+        server backend1.example.com:12345;
+        server backend2.example.com:12345;
+        server backend3.example.com:12346;
+        ...
+    }
+    upstream dns_servers {
+        server 192.168.136.130:53;
+        server 192.168.136.131:53;
+        ...
+    }
+    ...
+}</code></pre>
+</li>
+<li id="method">
+Configure a <em>load balancing method</em> used by the upstream group. You can specify one of the following methods:</p>
+<ul>
+<li>
+<code>round-robin</code>&nbsp;&ndash;&nbsp;By default, NGINX uses the round-robin algorithm to load balance traffic, directing it sequentially to the servers in the configured upstream group. Because it is the default method, there is no <code>round-robin</code> directive; simply create an <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#upstream">upstream</a></code> configuration block in the top-level <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a></code> context and add the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">server</a></code> directives as described in the previous step.
+</li>
+<li>
+<code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#least_conn">least_conn</a></code>&nbsp;&ndash;&nbsp;NGINX selects the server with the smaller number of current active connections.
+</li>
+<li>
+<code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#least_time">least_time</a></code>&nbsp;&ndash;&nbsp;NGINX selects the server with the lowest average latency and the least number of active connections. The lowest average latency is calculated based on which of the following parameters is included on the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#least_time">least_time</a></code> directive:</p>
+<ul>
+<li><code>connect</code>&nbsp;&ndash;&nbsp;Time to connect to the upstream server</li>
+<li><code>first_byte</code>&nbsp;&ndash;&nbsp;Time to receive the first byte of data</li>
+<li><code>last_byte</code>&nbsp;&ndash;&nbsp;Time to receive the full response from the server</li>
+</ul>
+<pre><code>upstream stream_backend {
+    least_time first_byte;
+
+    server backend1.example.com:12345;
+    server backend2.example.com:12345;
+    server backend3.example.com:12346;
+}
+</code></pre>
+</li>
+<li id="hash">
+<code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#hash">hash</a></code>&nbsp;&ndash;&nbsp;NGINX selects the server based on a user-defined key, for example, a source IP address (<code>$remote_addr</code>):</p>
+<pre><code>upstream stream_backend {
+    hash $remote_addr;
+
+    server backend1.example.com:12345;
+    server backend2.example.com:12345;
+    server backend3.example.com:12346;
+}</code></pre>
+<p>The <a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#hash">hash</a> load balancing method is also used to configure <em>session persistence</em>. As the hash function is based on client IP address, connections from a given client are always passed to the same server unless the server is down or otherwise unavailable. Specify an optional <code>consistent</code> parameter to apply the <em>ketama</em> consistent hashing method:</p>
+<pre><code>hash $remote_addr consistent;
+</code></pre>
+</li>
+</ul>
+<li>
+Optionally, for each upstream server specify server-specific parameters including <a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#max_conns">maximum number of connections</a>, <a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#weight">server weight</a>, and so on:</p>
+<pre><code>upstream stream_backend {
+    hash   $remote_addr consistent;
+    server backend1.example.com:12345 weight=5;
+    server backend2.example.com:12345;
+    server backend3.example.com:12346 max_conns=3;
+}
+
+    upstream dns_servers {
+        least_conn;
+        server 192.168.136.130:53;
+        server 192.168.136.131:53;
+        ...
+    }
+</code></pre>
+</li>
+</ol>
+<p>An alternative approach is to proxy traffic to a single server instead of an upstream group. If you identify the server by hostname, and configure the hostname to resolve to multiple IP addresses, then NGINX load balances traffic across the IP addresses using the round-robin algorithm. In this case, you <em>must</em> specify the server’s port number in the <code>proxy_pass</code> directive and <em>must not</em> specify the protocol before IP address or hostname:</p>
+<pre><code>stream {
+    ...
+    server {
+        listen     12345;
+        proxy_pass backend.example.com:12345;
+    }
+}
+</code></pre>
+<h2 id="health_passive">Passive Health Monitoring</h2>
+<p>If an attempt to connect to an upstream server times out or results in an error, NGINX Open Source or NGINX Plus can mark the server as unavailable and stop sending requests to it for a defined amount of time. To define the conditions under which NGINX considers an upstream server unavailable, include the following parameters to the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">server</a></code> directive </p>
+<ul>
+<li>
+<code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#fail_timeout">fail_timeout</a></code>&nbsp;&ndash;&nbsp;The amount of time within which a specified number of connection attempts must fail for the server to be considered unavailable. Also, the amount of time that NGINX considers the server unavailable after marking it so.
+</li>
+<li>
+<code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#max_fails">max_fails</a></code>&nbsp;&ndash;&nbsp;The number of failed attempts that happen during the specified time for NGINX to consider the server unavailable.</li>
+</ul>
+<p>The default values are <code>10</code> seconds and <code>1</code> attempt. So if a connection attempt times out or fails at least once in a 10-second period, NGINX marks the server as unavailable for 10 seconds. The example shows how to set these parameters to 2 failures within 30 seconds:</p>
+<pre><code>upstream stream_backend {
+    server backend1.example.com:12345 weight=5;
+    server backend2.example.com:12345 max_fails=2 fail_timeout=30s;
+    server backend3.example.com:12346 max_conns=3;
+}</code></pre>
+<h2 id="health_active">Active Health Monitoring</h2>
+<p>Health checks can be configured to test a wide range of failure types. For example, NGINX Plus can continually test upstream servers for responsiveness and avoid servers that have failed.</p>
+<h3 id="health_active_about">How It Works</h3>
+<p>NGINX Plus sends special health-check requests to each upstream server and checks for a response that satisfies certain conditions. If a connection to the server cannot be established, the health check fails, and the server is considered unhealthy. NGINX Plus does not proxy client connections to unhealthy servers. If several health checks are defined for a group of servers, the failure of any one check is enough for the corresponding server be considered unhealthy.</p>
+<h3 id="health_active_prerequisites">Prerequisites</h3>
+<ul>
+<li>
+You have configured an upstream group of servers in the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream</a></code> context, for example:</p>
+<pre><code>stream {
+    upstream stream_backend {
+ 
+    server backend1.example.com:12345;
+    server backend2.example.com:12345;
+    server backend3.example.com:12345;
+   }
+}
+</code></pre>
+</li>
+<li>
+You have configured a server that passes traffic (in this case, TCP connections) to the server group:</p>
+<pre><code>server {
+    listen     12345;
+    proxy_pass stream_backend;
+}
+</code></pre>
+</li>
+</ul>
+<h3 id="health_active_basic">Basic Configuration</h3>
+<ol>
+<li>
+Specify a <em>shared memory zone</em> &#8211; a special area where the NGINX Plus worker processes share state information about counters and connections. Add the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#zone">zone</a></code> directive to the upstream server group and specify the <em>zone name</em> and the <em>amount of memory</em>:</p>
+<pre><code>stream {
+    upstream stream_backend {
+
+        zone   stream_backend 64k; 
+        server backend1.example.com:12345;
+        server backend2.example.com:12345;
+        server backend3.example.com:12345;
+   }
+}
+</code></pre>
+</li>
+<li>
+Enable health checks for servers in the upstream group. Add the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#health_check">health_check</a></code> and <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#health_check_timeout">health_check_timeout</a></code> directives to the server that proxies connections to the upstream group:</p>
+<pre><code>server {
+    listen        12345;
+    proxy_pass    stream_backend;
+    health_check;
+    health_check_timeout 5s;
+}</code></pre>
+<p>The <code>health_check</code> directive enables the health check functionality, while <code>health_check_timeout</code> overrides the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_proxy_module.html#proxy_timeout">proxy_timeout</a></code> value for health checks, as for health checks this timeout needs to be significantly shorter.</p>
+<p>To enable health checks for UDP traffic, in the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#health_check">health_check</a></code> directive specify the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#health_check_udp">udp</a></code> parameter that enables health checks for UDP, and the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#hc_match">match=</a></code> parameter with a name of a corresponding <code>match</code> block that contains tests for verifying server responses (see <a href="#health_active_match_udp">Fine-Tuning UDP Health Checks</a>):</p>
+<pre><code>server {
+    listen       5053;
+    proxy_pass   dns_servers;
+    health_check udp match=dns;
+    health_check_timeout 5s;
+}</code></pre>
+</li>
+</ol>
+<h3 id="health_active_advanced">Fine-Tuning Health Checks</h3>
+<p>By default, NGINX Plus tries to connect to each server in an upstream server group every 5&nbsp;seconds. If the connection cannot be established, NGINX Plus considers the health check failed, marks the server as unhealthy, and stops forwarding client connections to the server.</p>
+<p>To change the default behavior, include parameters to the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#health_check">health_check</a></code> directive:</p>
+<ul>
+<li>
+<code>interval</code>&nbsp;&ndash;&nbsp;How often (in seconds) NGINX Plus sends health check requests (default is 5&nbsp;seconds)
+</li>
+<li>
+<code>passes</code>&nbsp;&ndash;&nbsp;Number of consecutive health checks the server must respond to to be considered healthy (default is&nbsp;1)
+</li>
+<li>
+<code>fails</code>&nbsp;&ndash;&nbsp;Number of consecutive health checks the server must fail to respond to to be considered unhealthy (default is&nbsp;1)
+</li>
+</ul>
+<pre><code>server {
+    listen       12345;
+    proxy_pass   stream_backend;
+    health_check interval=10 passes=2 fails=3;
+}
+</code></pre>
+<p>In the example, the time between TCP health checks is increased to <code>10</code> seconds, the server is considered unhealthy after <code>3</code> consecutive failed health checks, and the server needs to pass <code>2</code> consecutive checks to be considered healthy again.</p>
+<p>By default, NGINX Plus sends health check messages to the port specified by the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#server">server</a></code> directive in the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#upstream">upstream</a></code> block. You can specify another port for health checks, which is particularly helpful when monitoring the health of many services on the same host. To override the port, specify the <code>port</code> parameter of the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#health_check">health_check</a></code> directive:</p>
+<pre><code>server {
+    listen       12345;
+    proxy_pass   stream_backend;
+    health_check port=8080;
+}
+</code></pre>
+<p></p></p>
+<h3 id="health_active_match"> Fine-Tuning Health Checks with the match Configuration Block</h3>
+<p>You can verify server responses to health checks by configuring a number of tests. These tests are defined with the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#match">match {}</a></code> configuration block placed in the <code>stream {}</code> context. Specify the <code>match {}</code> block and set its name, for example, <code>tcp_test</code>:</p>
+<pre><code>stream {
+    ...
+    match  tcp_test {
+        ...
+    }
+}</code></pre>
+<p>Then refer to the block from the <code>health_check</code> directive by including the <code>match</code> parameter and the name of the <code>match</code> block:</p>
+<pre><code>stream {
+    server {
+        listen       12345;
+        health_check <b>match=tcp_test</b>;
+        proxy_pass   stream_backend;
+    }
+}</code></pre>
+<p>The conditions or tests under which a health check succeeds are set with <code>send</code> and <code>expect</code> parameters:</p>
+<ul>
+<li>
+<code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#match_send">send</a></code>&nbsp;&ndash;&nbsp;The text string or hexadecimal literals (&#8220;/x&#8221; followed by two hex digits) to send to the server
+</li>
+<li>
+<code><code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#match_expect">expect</a></code></code>&nbsp;&ndash;&nbsp;Literal string or regular expression that the data returned by the server needs to match
+</li>
+</ul>
+<p>These parameters can be used in different combinations, but no more than one <code>send</code> and one <code>expect</code> parameter can be specified at a time. The parameters configuration also depends on the protocol used (TCP or UDP).</p>
+<h4 id="health_active_match_tcp"> Fine-Tuning TCP Health Checks</h4>
+<p>To fine-tune health checks for TCP, you can combine <code>send</code> and <code>expect</code> parameters as follows:</p>
+<ul>
+<li>
+If no <code>send</code> or <code>expect</code> parameters are specified, the ability to connect to the server is tested.
+</li>
+<li>
+If the <code>expect</code> parameter is specified, the server is expected to unconditionally send data first:</p>
+<pre><code>match pop3 {
+    expect ~* "\+OK";
+}</code></pre>
+</li>
+<li>If the <code>send</code> parameter is specified, it is expected that the connection will be successfully established and the specified string will be sent to the server:
+<pre><code>match pop_quit {
+    send QUIT;
+}</code></pre>
+</li>
+<li>
+If both the <code>send</code> and <code>expect</code> parameters are specified, then the string from the <code>send</code> parameter must match the regular expression from the <code>expect</code> parameter:</p>
+<pre><code>stream {
+    upstream   stream_backend {
+        zone   upstream_backend 64k;
+        server backend1.example.com:12345;
+    }
+ 
+    match http {
+        send      "GET / HTTP/1.0\r\nHost: localhost\r\n\r\n";
+        expect ~* "200 OK";
+    }
+ 
+    server {
+    listen       12345;
+    health_check match=http;
+    proxy_pass   stream_backend;
+    }
+}</code></pre>
+<p>The example shows that in order for a health check to pass, the HTTP request must be sent to the server, and the expected result from the server contains “200 OK” to indicate a successful HTTP response.
+</li>
+</ul>
+<h4 id="health_active_match_udp">Fine-Tuning UDP Health Checks</h4>
+<p>To fine-tune health checks for UDP, you should specify both <code>send</code> and <code>expect</code> parameters:</p>
+<p>Example for NTP:</p>
+<pre><code>match ntp {
+   send \xe3\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00;
+   expect ~* \x24;
+}</code></pre>
+<p>Example for DNS:</p>
+<pre><code>match dns {
+   send \x00\x2a\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x03\x73\x74\x6c\x04\x75\x6d\x73\x6c\x03\x65\x64\x75\x00\x00\x01\x00\x01;
+   expect ~* "health.is.good";
+}</code></pre>
+<h2 id="upstream_conf">On-the-Fly Configuration</h2>
+<p>Upstream server groups can be easily reconfigured on-the-fly using a simple HTTP interface. Using this interface, you can view all servers in an upstream group or a particular server, modify server parameters, and add or remove upstream servers.</p>
+<p>To enable on-the-fly configuration:</p>
+<ol>
+<li>
+Create the top-level <code>http {}</code> block or make sure it is present in your configuration:</p>
+<pre><code>http {
+    ...
+}</code></pre>
+</li>
+<li>
+Create a location for configuration requests, for example, <em>upstream_conf</em>:</p>
+<pre><code>http {
+
+    server {
+        location /upstream_conf {
+            ...
+        }
+   }        
+}</code></pre>
+</li>
+<li>
+In this location specify the <code><a href="http://nginx.org/en/docs/http/ngx_http_upstream_conf_module.html#upstream_conf">upstream_conf</a></code> directive &#8211; a special handler that can be used to inspect and reconfigure upstream groups in NGINX Plus:</p>
+<pre><code>http {
+
+    server {
+        location /upstream_conf {
+            upstream_conf;
+            ...
+        }
+   }        
+}</code></pre>
+</li>
+<li>
+Limit access to this location with <code>allow</code> and <code>deny</code> directives:</p>
+<pre><code>http {
+
+    server {
+        location /upstream_conf {
+            upstream_conf;
+            allow 127.0.0.1; # permit access from localhost
+            deny  all;       # deny access from everywhere else
+        }
+   }        
+}</code></pre>
+</li>
+<li>
+Create a <em>shared memory zone</em> for the group of upstream servers so that all worker processes can use the same configuration. To do this, in the top-level <code><a href="http://nginx.org/en/docs/stream/ngx_stream_core_module.html#stream">stream {}</a></code> block, find the target upsteam group, add the <code><a href="http://nginx.org/en/docs/stream/ngx_stream_upstream_module.html#zone">zone</a></code> directive to the upstream server group and specify the <em>zone name</em> and the <em>amount of memory</em>:</p>
+<pre><code>stream {
+    upstream stream_backend {
+        zone backend 64k;
+        ...
+    }
+}</code></pre>
+</li>
+</ol>
+<h3 id="upstream_conf_example">On-the-Fly Configuration Example</h3>
+<pre><code>stream {
+    ...
+    # Configuration of an upstream server group
+    upstream appservers {
+        zone appservers 64k;
+
+        server appserv1.example.com:12345 weight=5;
+        server appserv2.example.com:12345 fail_timeout=5s;
+
+        server backup1.example.com:12345 backup;
+        server backup2.example.com:12345 backup;
+    }
+
+    server {
+        # Server that proxies connections to the upstream group
+        proxy_pass appservers;
+        health_check;
+    }
+}
+
+http {
+    ...
+    server {
+        # Location for configuration requests
+        location /upstream_conf {
+            upstream_conf;
+            allow 127.0.0.1;
+            deny  all;
+        }
+    }
+}</code></pre>
+<p>Here, access to the location is allowed only from the <code>127.0.0.1</code> address. Access from all other IP addresses is denied.</p>
+<p>To pass a configuration command to NGINX, send an HTTP request by any method. The request must have an appropriate URI to get into the location that includes the <code>upstream_conf</code> directive. The request must include the <code>upstream</code> argument set to the name of the server group.</p>
+<p><p>For example, to view all backup servers (indicated by the <code>backup</code> argument) in the server group, send:</p>
+<p><code>http://127.0.0.1/upstream_conf?stream=&amp;upstream=appservers&amp;backup=</code></p>
+<p>To add a new server to the server group, send a request with <code>add</code> and <code>server</code> arguments:</p>
+<p><code>http://127.0.0.1/upstream_conf?stream=&amp;add=&amp;upstream=appservers&amp;server=appserv3.example.com:12345&amp;weight=2&amp;max_fails=3</code></p>
+<p>To remove a server from the server group, send a request with the <code>remove</code> argument and the <code>id</code> argument identifying the server:</p>
+<p><code>http://127.0.0.1/upstream_conf?stream=&amp;remove=&amp;upstream=appservers&amp;id=2</code></p>
+<p>To modify a parameter for a specific server, send a request with the <code>id</code> argument identifying the server and the name of the parameter:</p>
+<p><code>http://127.0.0.1/upstream_conf?stream=&amp;upstream=appservers&amp;id=2&amp;down=</code></p>
+<h2 id="example">Example of TCP and UDP Load Balancing Configuration</h2>
+<p>This is a configuration example of TCP and UDP load balancing with NGINX:</p>
+<pre><code>stream {
+        upstream stream_backend {
+            least_conn;
+            server backend1.example.com:12345 weight=5;
+            server backend2.example.com:12345 max_fails=2 fail_timeout=30s;
+            server backend3.example.com:12346 max_conns=3;
+        }
+
+        upstream dns_servers {
+            least_conn;
+            server 192.168.136.130:53;
+            server 192.168.136.131:53;
+            server 192.168.136.132:53;
+        }
+
+        server {
+            listen        12345;
+            proxy_pass    backend;
+            proxy_timeout 3s;
+            proxy_connect_timeout 1s;
+
+        }
+
+        server {
+            listen     53 udp;
+            proxy_pass dns_servers; 
+        }
+
+        server {
+            listen     12346;
+            proxy_pass backend.example.com:12346;
+        }
+    }</code></pre>
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
