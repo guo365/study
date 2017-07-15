@@ -468,23 +468,27 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<p><h1 id='0'>Markdown语法整理</h1></p>
+<h1 id="0">Markdown语法整理</h1>
+
 <ul>
 <li><a href="#0">目录</a><ul>
 <li><a href="#1">一.分级目录</a></li><li><a href="#2">二.斜体与粗体</a></li><li><a href="#3">三.超链接</a><ul>
-<li><a href="#4">3.1.行内式:</a></li><li><a href="#5">3.2.参考式</a></li><li><a href="#6">3.3.自动连接</a></li></ul>
+<li><a href="#4">3.1.行内式</a></li><li><a href="#5">3.2.参考式</a></li><li><a href="#6">3.3.自动连接</a></li></ul>
 </li><li><a href="#7">四.锚点</a><ul>
 <li><a href="#8">4.1.页内超链接</a></li><li><a href="#9">4.2.文章内部标题链接</a></li></ul>
 </li><li><a href="#10">五.列表</a><ul>
-<li><a href="#11">5.1.无需列表</a></li><li><a href="#12">5.2.有序列表</a></li><li><a href="#13">5.3.定义型列表</a></li><li><a href="#14">5.4.列表缩进</a></li><li><a href="#15">5.5.包含段落的列表</a></li></ul>
-</li><li><a href="#16">六.表格</a><ul>
-<li><a href="#17">6.1.竖杠<code>|</code>下划线<code>-</code>写法</a></li><li><a href="#18">6.2.html<code>table</code>写法</a></li></ul>
+<li><a href="#11">5.1.无需列表</a></li><li><a href="#12">5.2.有序列表</a></li><li><a href="#13">5.3.定义型列表</a></li><li><a href="#14">5.4.列表缩进</a></li><li><a href="#15">5.5.包含段落的列表</a></li><li><a href="#16">5.6.任务列表</a></li></ul>
+</li><li><a href="#17">六.表格</a><ul>
+<li><a href="#18">6.1.竖杠<code>|</code>下划线<code>-</code>写法</a></li><li><a href="#19">6.2.html写法</a></li></ul>
+</li><li><a href="#20">七.创建和突出显示代码块</a><ul>
+<li><a href="#21">7.1.栅栏代码块</a></li><li><a href="#22">7.2.语法高亮显示</a></li><li><a href="#23">7.3.引用代码</a></li><li><a href="#24">7.4.引用文字</a></li><li><a href="#25">7.5.删除线</a></li></ul>
 </li></ul>
 </li></ul>
 <blockquote>
-<p><strong>说明：本文中中语法里面的代码就是需要写的Markdown语法，展示效果就是最后生成的页面</strong><br><strong>此语法编写和测试环境：windows上使用MarkdownPad2的GitHub风格的Markdown语法</strong></p>
+<p><strong>说明：本文中中语法里面的代码就是需要写的Markdown语法，展示效果就是最后生成的页面</strong><br><strong>此语法编写和测试环境：windows上使用MarkdownPad2的GitHub离线风格的Markdown语法，使用在线风格好像不支持文章内部链接跳转</strong></p>
 </blockquote>
-<p><h2 id='1'>一.分级目录</h2></p>
+<h2 id="1">一.分级目录</h2>
+
 <h4 id="-">语法：</h4>
 <pre><code>* 总目录
   * 一级目录
@@ -500,15 +504,17 @@ vertical-align:1px;
 </li></ul>
 </li></ul>
 </li></ul>
-<p><h2 id='2'>二.斜体与粗体</h2></p>
+<h2 id="2">二.斜体与粗体</h2>
+
 <h4 id="-">语法：</h4>
 <pre><code>*斜体*
 **粗体**
 </code></pre><h4 id="-">展示效果：</h4>
 <p>  <em>斜体</em><br>  <strong>粗体</strong></p>
-<p><h2 id='3'>三.超链接</h2></p>
+<h2 id="3">三.超链接</h2>
+
 <h4 id="markdown-">Markdown支持两种形式的链接语法：行内式和参考式，行内式一般用的比较多。</h4>
-<h4 id='4'>3.1.行内式：</h4>
+<h4 id="4">3.1.行内式：</h4>
 
 <h4 id="-">语法：</h4>
 <pre><code>    [打开百度](http://www.baidu.com)
@@ -516,7 +522,7 @@ vertical-align:1px;
 </code></pre><p>说明:[]里写链接文字，()里写链接地址, ()中的”“中可以为链接指定title属性，title属性可加可不加。title属性的效果是鼠标悬停在链接上会出现指定的 title文字。[链接文字](链接地址 “链接标题”)这样的形式。链接地址与链接标题前有一个空格。</p>
 <h4 id="-">展示效果:</h4>
 <p><a href="http://www.baidu.com">打开百度</a><br><a href="http://www.baidu.com" title="打开百度">打开百度</a></p>
-<h4 id='5'>3.2.参考式:</h4>
+<h4 id="5">3.2.参考式:</h4>
 
 <p> 参考式超链接一般用在学术论文上面，或者另一种情况，如果某一个链接在文章中多处使用，那么使用引用 的方式创建链接将非常好，它可以让你对链接进行统一的管理。</p>
 <h4 id="-">语法:</h4>
@@ -526,23 +532,23 @@ vertical-align:1px;
   [3]:http://www.51cto.com &quot;51cto&quot;
   [4]:http://www.aiqiyi.com &quot;aiqiyi&quot;
   [网站]:http://www.qq.com
-</code></pre><hr>
-<h4 id="-">展示效果：</h4>
-<p>我经常浏览的几个网站<a href="http://www.google.com" title="google">Google</a>、<a href="http://www.baidu.com" title="Baidu">Baidu</a>、<a href="http://www.51cto.com" title="51cto">51CTO</a>和看视频的网站<a href="http://www.aiqiyi.com" title="aiqiyi">爱奇艺</a>感觉都是很不错的<a href="http://www.qq.com">网站</a>.</p>
-<hr>
-<h4 id='6'>3.3.自动连接：</h4>
+</code></pre><h4 id="-">展示效果：</h4>
+<p>  我经常浏览的几个网站<a href="http://www.google.com" title="google">Google</a>、<a href="http://www.baidu.com" title="Baidu">Baidu</a>、<a href="http://www.51cto.com" title="51cto">51CTO</a>和看视频的网站<a href="http://www.aiqiyi.com" title="aiqiyi">爱奇艺</a>感觉都是很不错的<a href="http://www.qq.com">网站</a>.</p>
+<h4 id="6">3.3.自动连接：</h4>
 
 <h4 id="-">语法：</h4>
 <pre><code>   &lt;http://www.baidu.com/&gt;
    &lt;admin@baidu.com&gt;
 </code></pre><p>说明：Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用&lt;&gt;包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样。</p>
-<hr>
 <h4 id="-">展示效果：</h4>
-<p><a href="http://www.baidu.com/">http://www.baidu.com/</a><br><br><a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x61;&#100;&#109;&#x69;&#x6e;&#64;&#98;&#97;&#x69;&#x64;&#x75;&#x2e;&#99;&#111;&#x6d;">&#x61;&#100;&#109;&#x69;&#x6e;&#64;&#98;&#97;&#x69;&#x64;&#x75;&#x2e;&#99;&#111;&#x6d;</a></br></p>
-<hr>
-<p><h2 id='7'>四.锚点</h2><br>网页中，锚点其实就是页内超链接，也就是链接本文档内部的某些元素，实现当前页面中的跳转。比如我这里写下一个锚点，点击回到目录，就能跳转到目录。 在目录中点击这一节，就能跳过来。还有下一节的注脚。这些根本上都是用锚点来实现的。</p>
+<p>   <a href="http://www.baidu.com/">http://www.baidu.com/</a><br>   <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x61;&#100;&#109;&#x69;&#x6e;&#64;&#98;&#x61;&#105;&#x64;&#117;&#x2e;&#99;&#x6f;&#109;">&#x61;&#100;&#109;&#x69;&#x6e;&#64;&#98;&#x61;&#105;&#x64;&#117;&#x2e;&#99;&#x6f;&#109;</a></p>
+<h2 id="7">四.锚点</h2>
+
+
+<p>网页中，锚点其实就是页内超链接，也就是链接本文档内部的某些元素，实现当前页面中的跳转。比如我这里写下一个锚点，点击回到目录，就能跳转到目录。 在目录中点击这一节，就能跳过来。还有下一节的注脚。这些根本上都是用锚点来实现的。</p>
 <p>注意：Markdown Extra 只支持在标题后插入锚点，其它地方无效</p>
-<p><h4 id='8'>4.1.页内超链接:</h4></p>
+<h4 id="8">4.1.页内超链接:</h4>
+
 <h4 id="-">语法：</h4>
 <pre><code># 1.分级目录{#index}
   跳转到[标题]{#index}
@@ -551,37 +557,38 @@ vertical-align:1px;
 </blockquote>
 <h4 id="-">展示效果：</h4>
 <h1 id="1-index-">1.分级目录{#index}</h1>
-<p>跳转到<a href="#index">1.分级目录</a></p>
+<p>  跳转到<a href="#index">1.分级目录</a></p>
 <blockquote>
 <p>说明：这里是在本文的分级目录设置的，不然效果不明显</p>
 </blockquote>
-<p><h4 id='9'>4.2.文章内部标题链接：</h4></p>
-<h4 id="-">语法：</h4>
-<pre><code>* [目录1](#20)
-   * [标题1](#21)
-   * [标题2](#22)
-   * [标题3](#23)
-   * [标题4](#24)
+<h4 id="9">4.2.文章内部标题链接：</h4>
 
-&lt;h3 id=&#39;21&#39;&gt;标题1&lt;/h3&gt;
+
+<h4 id="-">语法：</h4>
+<pre><code>* [目录1](#40)
+   * [标题1](#41)
+   * [标题2](#42)
+   * [标题3](#43)
+   * [标题4](#44)
+
+&lt;h3 id=&quot;41&quot;&gt;标题1&lt;/h3&gt;
     轻轻的我走了， 正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。
-&lt;h3 id=&#39;22&#39;&gt;标题2&lt;/h3&gt;
+&lt;h3 id=&quot;42&quot;&gt;标题2&lt;/h3&gt;
     正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。
-&lt;h3 id=&#39;23&#39;&gt;标题3&lt;/h3&gt;
+&lt;h3 id=&quot;43&quot;&gt;标题3&lt;/h3&gt;
     我轻轻的招手， 作别西天的云彩。
-&lt;h3 id=&#39;24&#39;&gt;标题4&lt;/h3&gt;
+&lt;h3 id=&quot;44&quot;&gt;标题4&lt;/h3&gt;
     作别西天的云彩。
 </code></pre><h4 id="-">展示效果：</h4>
 <ul>
-<li><a href="#0">目录</a><ul>
-<li><a href="#1">标题1</a></li><li><a href="#2">标题2</a></li><li><a href="#3">标题3</a></li><li><a href="#4">标题4</a></li></ul>
+<li><a href="#40">目录1</a><ul>
+<li><a href="#41">标题1</a></li><li><a href="#42">标题2</a></li><li><a href="#43">标题3</a></li><li><a href="#44">标题4</a></li></ul>
 </li></ul>
-<p><h3 id='1'>标题1</h3><br>    轻轻的我走了， 正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。</p>
-<p><h3 id='2'>标题2</h3><br>    正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。</p>
-<p><h3 id='3'>标题3</h3><br>    我轻轻的招手， 作别西天的云彩。</p>
-<p><h3 id='4'>标题4</h3><br>    作别西天的云彩。</p>
-<p><h2 id='10'>五.列表</h2></p>
-<p><h4 id='11'>5.1.无需列表:</h4></p>
+<p>   <h3 id="41">标题1</h3><br>       轻轻的我走了， 正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。<br>   <h3 id="42">标题2</h3><br>       正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。<br>   <h3 id="43">标题3</h3><br>       我轻轻的招手， 作别西天的云彩。<br>   <h3 id="44">标题4</h3><br>    作别西天的云彩。</p>
+<h2 id="10">五.列表</h2>
+
+<h4 id="11">5.1.无需列表:</h4>
+
 <blockquote>
 <p>使用 *，+，- 表示无序列表</p>
 </blockquote>
@@ -596,7 +603,8 @@ vertical-align:1px;
 <li>无序列表二</li></ul>
 <ul>
 <li>无序列表三</li></ul>
-<p><h4 id='12'>5.2.有序列表：</h4></p>
+<h4 id="12">5.2.有序列表：</h4>
+
 <blockquote>
 <p>有序列表则使用数字接着一个英文句点</p>
 </blockquote>
@@ -607,21 +615,25 @@ vertical-align:1px;
 </code></pre><h4 id="-">展现效果：</h4>
 <ol>
 <li>有序列表一</li><li>有序列表二</li><li>有序列表三</li></ol>
-<p><h4 id='13'>5.3.定义型列表:</h4></p>
+<h4 id="13">5.3.定义型列表:</h4>
+
 <h4 id="-">语法：</h4>
-<pre><code>  Markdown
-  :    轻量级文本标记语言，可以转换成html，pdf等格式（左侧有一个可见的冒号和四个不可见的空格）
+<pre><code>  名词1
+  :    定义 1（左侧有一个可见的冒号和四个不可见的空格）
+
   代码块 2
   :    这是代码块的定义（左侧有一个可见的冒号和四个不可见的空格）
+
     代码块（左侧有八个不可见的空格）
 </code></pre><blockquote>
 <p>说明：<br>定义型列表由名词和解释组成。一行写上定义，紧跟一行写上解释。解释的写法:紧跟一个缩进(Tab)</p>
 </blockquote>
 <h4 id="-">展现效果：</h4>
-<p>Markdown<br>:    轻量级文本标记语言，可以转换成html，pdf等格式（左侧有一个可见的冒号和四个不可见的空格）</p>
-<p>代码块 2<br>:   这是代码块的定义（左侧有一个可见的冒号和四个不可见的空格）</p>
-<pre><code>    代码块（左侧有八个不可见的空格）
-</code></pre><p><h4 id='14'>5.4.列表缩进：</h4></p>
+<p> 名词1<br> :    定义 1（左侧有一个可见的冒号和四个不可见的空格）</p>
+<p> 代码块 2<br> :    这是代码块的定义（左侧有一个可见的冒号和四个不可见的空格）</p>
+<pre><code>     代码块（左侧有八个不可见的空格）
+</code></pre><h4 id="14">5.4.列表缩进：</h4>
+
 <h4 id="-">语法：</h4>
 <pre><code>    *   轻轻的我走了， 正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。
     那河畔的金柳， 是夕阳中的新娘； 波光里的艳影， 在我的心头荡漾。
@@ -635,7 +647,8 @@ vertical-align:1px;
 <h4 id="-">效果：</h4>
 <ul>
 <li>轻轻的我走了， 正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。<br>那河畔的金柳， 是夕阳中的新娘； 波光里的艳影， 在我的心头荡漾。<br>软泥上的青荇， 油油的在水底招摇； 在康河的柔波里， 我甘心做一条水草！</li><li>那榆荫下的一潭， 不是清泉， 是天上虹； 揉碎在浮藻间， 沉淀着彩虹似的梦。<br>但我不能放歌， 悄悄是别离的笙箫； 夏虫也为我沉默， 沉默是今晚的康桥！<br>悄悄的我走了， 正如我悄悄的来； 我挥一挥衣袖， 不带走一片云彩。</li></ul>
-<p><h4 id='15'>5.5.包含段落的列表：</h4></p>
+<h4 id="15">5.5.包含段落的列表:</h4>
+
 <h4 id="-">语法：</h4>
 <pre><code>  *   轻轻的我走了， 正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。
   那河畔的金柳， 是夕阳中的新娘； 波光里的艳影， 在我的心头荡漾。
@@ -653,11 +666,29 @@ vertical-align:1px;
 <li><p>轻轻的我走了， 正如我轻轻的来； 我轻轻的招手， 作别西天的云彩。<br>那河畔的金柳， 是夕阳中的新娘； 波光里的艳影， 在我的心头荡漾。<br>软泥上的青荇， 油油的在水底招摇； 在康河的柔波里， 我甘心做一条水草！</p>
 <p>那榆荫下的一潭， 不是清泉， 是天上虹； 揉碎在浮藻间， 沉淀着彩虹似的梦。<br>寻梦？撑一支长篙， 向青草更青处漫溯； 满载一船星辉， 在星辉斑斓里放歌。<br>但我不能放歌， 悄悄是别离的笙箫； 夏虫也为我沉默， 沉默是今晚的康桥！</p>
 </li><li>悄悄的我走了， 正如我悄悄的来； 我挥一挥衣袖， 不带走一片云彩。</li></ul>
-<p><h2 id='16'>六.表格</h2></p>
-<p><h4 id='17'>6.1.竖杠<code>|</code>下划线<code>-</code>写法:</h4></p>
+<h4 id="16">5.6.任务列表:</h4>
+
+<blockquote>
+<p>要创建任务列表，前缀列表项<code>[ ]</code>。要将任务标记为完整，请使用<code>[x]</code></p>
+</blockquote>
+<h4 id="-">语法：</h4>
+<pre><code>  - [] 跑步
+  - [] 骑车
+  - [x] 吃饭
+  - [] 睡觉
+</code></pre><h4 id="-">展现效果：</h4>
+<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled> 跑步</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled> 骑车</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked disabled> 吃饭</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled> 睡觉</li></ul>
+<h2 id="17">六.表格</h2>
+
+<h4 id="18">6.1.竖杠<code>|</code>下划线<code>-</code>写法:</h4>
+
+<blockquote>
+<p>使用竖杠<code>|</code>下划线<code>-</code>写法</p>
+</blockquote>
 <h4 id="-">语法：</h4>
 <pre><code>  |名字|性别|年龄|国籍|
-  |-----------------|
+  |---|----|----|---|
   |张三|男|23|中国|
   |小红|女|18|中国|
   |Tom|男|46|美国|
@@ -692,7 +723,11 @@ vertical-align:1px;
 </tr>
 </tbody>
 </table>
-<p><h4 id='18'>6.2.html<code>table</code>写法：</h4></p>
+<h4 id="19">6.2.html写法:</h4>
+
+<blockquote>
+<p>使用<code>&lt;table&gt;</code> <code>&lt;tr&gt;</code> <code>&lt;td&gt;</code> <code>&lt;/td&gt;</code> <code>&lt;/tr&gt;</code> <code>&lt;/table&gt;</code></p>
+</blockquote>
 <h4 id="-">语法：</h4>
 <pre><code> &lt;table&gt;
        &lt;tr&gt;
@@ -707,10 +742,87 @@ vertical-align:1px;
         &lt;/tr&gt;
  &lt;/table&gt;
 </code></pre><h4 id="-">展现效果：</h4>
-<table><br>     <tr><br>        <td>车次</td><br>        <td>开车时间</td><br>        <td>到达时间</td><br>      </tr><br>      <tr><br>          <td>D110</td><br>          <td>10:22</td><br>          <td>11:00</td><br>      </tr><br></table>
+ <table><br>      <tr><br>         <td>车次</td><br>         <td>开车时间</td><br>         <td>到达时间</td><br>       </tr><br>       <tr><br>           <td>D110</td><br>           <td>10:22</td><br>           <td>11:00</td><br>       </tr><br> </table>
 
 <blockquote>
-<p>说明：这里有点奇怪，为什么那么大空格，目前没有找到原因，跳转至<a href="#0">首页</a></p>
+<p>这里是因为使用github离线风格导致空格，使用在线就没有了</p>
+</blockquote>
+<h2 id="20">七.创建和突出显示代码块</h2>
+
+<h4 id="21">7.1.栅栏代码块:</h4>
+
+<h4 id="-">语法：</h4>
+<pre><code> ```
+
+   function test() {
+     console.log（“在此函数之前注意空白行?&quot;);
+   }
+
+```
+</code></pre><h4 id="-">展现效果：</h4>
+<pre><code>        function test() {
+          console.log(&quot;在此函数之前注意空白行?&quot;);
+        }
+</code></pre><h4 id="22">7.2.语法高亮显示:</h4>
+
+<blockquote>
+<p>高亮度需要使用github在线风格才能显示颜色</p>
+</blockquote>
+<h4 id="-">语法：</h4>
+<pre><code>```ruby
+   require &#39;redcarpet&#39;
+   markdown = Redcarpet.new(&quot;Hello World!&quot;)
+   puts markdown.to_html
+```
+</code></pre><h4 id="-">展现效果：</h4>
+<blockquote>
+<p>ruby语法：</p>
+</blockquote>
+<pre><code class="lang-ruby">          require &#39;redcarpet&#39;
+          markdown = Redcarpet.new(&quot;Hello World!&quot;)
+          puts markdown.to_html
+</code></pre>
+<blockquote>
+<p>python语法：</p>
+</blockquote>
+<pre><code class="lang-python">   def foo():
+       if not bar:
+           return True
+</code></pre>
+<blockquote>
+<p><strong>本文使用的markdownPad2需要使用github在线markdown风格才会显示，其他不显示。</strong></p>
+</blockquote>
+<h4 id="23">7.3.引用代码:</h4>
+
+<blockquote>
+<p>您可以使用单个反引号来调用句子中的代码或命令。反引号内的文本将不被格式化。</p>
+</blockquote>
+<h4 id="-">语法：</h4>
+<pre><code> Use `git status` to list all new or modified files that haven&#39;t yet been committed.
+</code></pre><h4 id="-">展现效果:</h4>
+<p>   Use <code>git status</code> to list all new or modified files that haven&#39;t yet been committed.</p>
+<h4 id="24">7.4.引用文字:</h4>
+
+<blockquote>
+<p>你可以用引用文本<code>&gt;</code>.</p>
+</blockquote>
+<h4 id="-">语法：</h4>
+<pre><code>In the words of Abraham Lincoln:
+
+&gt; Pardon my French
+</code></pre><h4 id="-">展现效果:</h4>
+<p>   In the words of Abraham Lincoln:</p>
+<blockquote>
+<p>Pardon my French</p>
+</blockquote>
+<h4 id="25">7.5.删除线:</h4>
+
+<h4 id="-">语法：</h4>
+<pre><code>~~This was mistaken text~~
+</code></pre><h4 id="-">展现效果:</h4>
+<p>   <del>This was mistaken text</del></p>
+<blockquote>
+<p>跳转至<a href="#0">首页</a></p>
 </blockquote>
 
 </body>
