@@ -469,7 +469,7 @@ vertical-align:1px;
 </head>
 <body>
 <h1 id="fly">fly</h1>
-<h2 id="git-">git搭建测试页面</h2>
+<h2 id="git-">git 搭建测试页面</h2>
 <h2 id="-">步骤一：</h2>
 <ul>
 <li>登陆GitHub主页</li><li>点击右上角<code>+</code>号，选择New Repository</li><li>再打开的Create a new repository页面，按照如下设置：<ul>
@@ -538,6 +538,13 @@ vertical-align:1px;
 </code></pre><blockquote>
 <p>这个问题github上面的代码里面已经有你本地新添加的代码文件内容，他不允许直接覆盖</p>
 <p>解决方法：<br>   <code># git pull origin master</code><br>重新拉去一次，然后重新提交</p>
+</blockquote>
+<h2 id="-github-">如何删除github上不想要或者上传错的文件：</h2>
+<pre><code># git rm --cached filename
+# git commit -m &quot;hehe&quot;
+# git push origin
+</code></pre><blockquote>
+<p>刷新页面即可消失</p>
 </blockquote>
 
 </body>
