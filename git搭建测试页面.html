@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>tt</title>
+<title>README</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 /* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
@@ -468,9 +468,77 @@ vertical-align:1px;
 </style>
 </head>
 <body>
-<h1 id="-center-center-"><center>网页目录指南</center></h1>
+<h1 id="fly">fly</h1>
+<h2 id="git-">git搭建测试页面</h2>
+<h2 id="-">步骤一：</h2>
 <ul>
-<li>elasticsearch访问地址：<a href="http://guo365.github.io/study/elasticsearch.html">elasticsearch</a></li><li>markdown语法访问地址：<a href="http://guo365.github.io/study/Markdown.html">markdown</a></li><li>OpenStack访问地址：<a href="https://guo365.github.io/study/OpenStack_Guide/openstack.html">OpenStack</a></li><li>github上传代说明地址：<a href="https://guo365.github.io/study/git搭建测试页面.html">github</a></li><li>nginx访问地址：<a href="https://guo365.github.io/study/nginx.org/en/docs/index.html">nginx</a></li></ul>
+<li>登陆GitHub主页</li><li>点击右上角<code>+</code>号，选择New Repository</li><li>再打开的Create a new repository页面，按照如下设置：<ul>
+<li>Owner：这个是账户，如果你想给其他账户创建Repository就选择其他的</li><li>Repository name|：这里是填写创建资源库名称</li><li>Repository权限设置：<ul>
+<li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" checked disabled> Plublic</li><li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled> Private<blockquote>
+<p>Public免费的,不过任何人都能访问<br>Private收费的，限制其他人访问<br>这个根据需求选择吧，一般相信Public够用了，反正是玩而已</p>
+</blockquote>
+</li></ul>
+</li><li>Initialize this repository with a README<blockquote>
+<p>使用README初始化这个仓库<br>这将让您立即将存储库克隆到计算机。如果要导入现有存储库，请跳过此步骤<br>这里勾选，因为我是创建新的</p>
+</blockquote>
+</li></ul>
+</li><li>然后点击创建Create repository,即可创建一个仓库</li></ul>
+<h2 id="-">步骤二：</h2>
+<ul>
+<li><p>添加ssh免密钥登陆（本地操作）</p>
+<pre><code>  # ssh-keygen -t rsa -C &quot;你的邮箱账户（好像也可以不写）&quot;
+</code></pre></li><li><p>拷贝生成的id_rsa.pub内容</p>
+<pre><code>  # cat id_rsa.pub
+</code></pre></li><li><p>点击右上角头像，选择Setting，打开页面选择SSH and GPG keys</p>
+</li><li>在SSH and GPG keys右侧点击SSH keys右边的New SSH key，在弹出的框中粘贴刚才复制的密钥，然后单击添加即可</li><li><p>本地验证是否成功</p>
+<pre><code> # ssh -T git@github.com
+  Hi admin! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
+</code></pre><blockquote>
+<p>如有以上提示就说明成功了，这个是测试，后面拉去、上传代码文件不需要这样操作</p>
+</blockquote>
+</li></ul>
+<h2 id="-">步骤三：</h2>
+<ul>
+<li><p>本地创建与github同名的文件夹</p>
+<pre><code>  # mkdir project
+</code></pre><blockquote>
+<p>project为你github上的仓库名</p>
+</blockquote>
+</li><li><p>首次初始化本地仓库</p>
+<pre><code>  # git init
+</code></pre></li><li><p>设置github登录名和邮箱</p>
+<pre><code> # git config --global user.name &quot;your name&quot;
+ # git config --global user.email &quot;your email&quot;
+</code></pre></li><li><p>将该Github版本仓库添加到本机的远程列表中</p>
+<pre><code> #  git remote add origin  git@github.com:yuoraccount/your Repostiry.git
+</code></pre></li><li><p>添加内容至test.md</p>
+<pre><code> # echo &quot;test is ok&quot; &gt;test.md
+</code></pre></li><li><p>提交文件到本地缓存库</p>
+<pre><code> # git add test.md
+</code></pre></li><li><p>提交到本地git版本库</p>
+<pre><code> # git commit -M &quot;add words&quot;
+</code></pre></li><li><p>同步本地版本库至github</p>
+<pre><code># git push origin master
+</code></pre></li></ul>
+<p>备注：首次同步到github需要添加<code>-u</code>参数,或者先pull下</p>
+<h2 id="-">容易遇到的问题</h2>
+<pre><code>
+   error:failed to push some refs to ...
+
+   Dealing with “non-fast-forward” errors
+   From time to time you may encounter this error while pushing:
+
+   $ git push origin master  
+   To ../remote/  
+   ! [rejected]        master -&gt; master (non-fast forward)  
+   error: failed to push some refs to &#39;../remote/&#39;  
+   To prevent you from losing history, non-fast-forward updates were rejected
+   Merge the remote changes before pushing again.  See the &#39;non-fast forward&#39;
+   section of &#39;git push --help&#39; for details.
+</code></pre><blockquote>
+<p>这个问题github上面的代码里面已经有你本地新添加的代码文件内容，他不允许直接覆盖</p>
+<p>解决方法：<br>   <code># git pull origin master</code><br>重新拉去一次，然后重新提交</p>
+</blockquote>
 
 </body>
 </html>
