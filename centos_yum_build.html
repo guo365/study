@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>搭建CentOS在线yum源镜像服务器</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<h1 id="-centos-yum-">搭建CentOS在线yum源镜像服务器</h1>
+<ul>
+<li><p>系统环境：</p>
+<ul>
+<li>操作系统：CentOS 6.x</li><li>IP地址：192.168.21.188</li></ul>
+</li><li><p>实现目的：同步CentOS镜像站点的内容到此服务器，并且通过配置http服务器，能够向外提供yum服务</p>
+</li></ul>
+<h1 id="-">准备篇：</h1>
+<h2 id="-http-">一、安装http服务器</h2>
+<ul>
+<li><p>这里使用Nginx服务器提供http服务</p>
+<blockquote>
+<p>关于Nginx服务器搭建，参考：<a href="http://www.osyunwei.com/archives/5910.html">CentOS安装配置LNMP服务器（Nginx+PHP+MySQL）</a></p>
+</blockquote>
+</li></ul>
+<h2 id="-">二、系统约定</h2>
+<ul>
+<li><p>Nginx站点根目录:<code>/usr/local/nginx/html</code></p>
+</li><li><p>服务器执行脚本文件存放目录:<code>/home/crontab</code></p>
+</li></ul>
+<h2 id="-nginx-">三、开始Nginx目录浏览功能</h2>
+<pre><code># vi /usr/local/nginx/conf/nginx.conf #编辑配置文件，在http {下面添加以下内容：
+
+  autoindex on; #开启nginx目录浏览功能
+
+  autoindex_exact_size off; #文件大小从KB开始显示
+
+  autoindex_localtime on; #显示文件修改时间为服务器本地时间
+</code></pre><blockquote>
+<p>:wq! #保存，退出</p>
+</blockquote>
+<pre><code># service nginx reload #重新加载配置
+</code></pre><blockquote>
+<p>参考：Nginx开启目录浏览功能: <a href="http://www.osyunwei.com/archives/5051.html">http://www.osyunwei.com/archives/5051.html</a></p>
+</blockquote>
+<h1 id="-">安装篇：</h1>
+<h2 id="-">一、创建镜像文件存放目录</h2>
+<pre><code>mkdir -p /usr/local/nginx/html/centos #CentOS官方标准源
+
+mkdir -p /usr/local/nginx/html/repoforge #第三方rpmforge源
+
+mkdir -p /usr/local/nginx/html/epel #第三方epel源
+</code></pre><blockquote>
+<p>说明：这里创建三个文件夹，分别存放CentOS官方标准源、第三方的rpmforge源和epel源</p>
+</blockquote>
+<h2 id="-yum-">二、确定以上三个yum源上游源的同步镜像地址</h2>
+<ul>
+<li>CentOS官方标准源：rsync://mirrors.ustc.edu.cn/centos/</li><li>rpmforge源：rsync://mirrors.ispros.com.bd/repoforge/</li><li><p>epel源：rsync://mirrors.ustc.edu.cn/epel/</p>
+<blockquote>
+<p>备注：上游yum源必须要支持rsync协议，否则不能使用rsync进行同步。</p>
+</blockquote>
+</li><li><p>参考：</p>
+<ul>
+<li>CentOS官方标准源：<pre><code>rsync://mirrors.kernel.org/centos
+</code></pre></li><li>rpmforge源：<pre><code>http://apt.sw.be/
+rsync://ftp-stud.fht-esslingen.de/dag
+</code></pre></li><li>epel源：<pre><code>http://mirrors.fedoraproject.org/publiclist/EPEL/
+rsync://mirrors.kernel.org/fedora-epel
+</code></pre></li></ul>
+</li></ul>
+<h2 id="-yum-">三、创建以上三个yum源同步脚本，并且设定脚本自动执行</h2>
+<pre><code># mkdir -p /home/crontab #创建目录
+# vi /home/crontab/yum_rsync.sh #添加以下代码
+  #!/bin/sh
+
+ /usr/bin/rsync -avrt rsync://mirrors.ustc.edu.cn/centos/ --exclude-from=/usr/local/nginx/html/exclude_centos.list /usr/local/nginx/html/centos/
+
+ /usr/bin/rsync -avrt rsync://mirrors.ispros.com.bd/repoforge/ --exclude-from=/usr/local/nginx/html/exclude_repoforge.list /usr/local/nginx/html/repoforge/
+
+ /usr/bin/rsync -avrt rsync://mirrors.ustc.edu.cn/epel/ --exclude-from=/usr/local/nginx/html/exclude_epel.list /usr/local/nginx/html/epel/
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+<pre><code>chmod +x /home/crontab/yum_rsync.sh #添加脚本执行权限
+</code></pre><blockquote>
+<p>备注：运行此脚本前，先要创建好同步目录及不需要同步的目录列表文件</p>
+</blockquote>
+<pre><code># cd /usr/local/nginx/html/   #进入目录
+# touch exclude_centos.list   #创建文件
+# touch exclude_repoforge.list   #创建文件
+# touch exclude_epel.list   #创建文件
+</code></pre><blockquote>
+<p>把不需要同步的目录写到上面对应的文件中，每行一个目录,例如：</p>
+</blockquote>
+<pre><code># vi exclude_epel.list
+
+# 4/
+# 4AS/
+# 4ES/
+# 4WS/
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+<h2 id="-">四、添加脚本定时执行任务</h2>
+<pre><code># vi /etc/crontab  #在最后一行添加以下代码
+
+ 0 1 * * * root /home/crontab/yum_rsync.sh #设置每天凌晨1点整开始执行脚本
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+<pre><code># service crond restart #重启
+</code></pre><h1 id="-">测试篇：</h1>
+<h2 id="-rsync-">一、安装rsync同步软件</h2>
+<pre><code># yum install rsync xinetd #安装
+
+# vi /etc/xinetd.d/rsync #编辑配置文件，设置开机启动rsync
+
+ disable = no #修改为
+
+# /etc/init.d/xinetd start #启动（CentOS中是以xinetd 来管理Rsync服务的）
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+<h2 id="-">二、执行同步脚本</h2>
+<pre><code># sh /home/crontab/yum_rsync.sh
+</code></pre><blockquote>
+<p>注意：等待脚本执行完毕，首次同步，耗费的时间比较长！</p>
+</blockquote>
+<h2 id="-yum-repo-">三、根据不同版本创建三个yum源的repo配置文件</h2>
+<pre><code># cd /etc/yum.repos.d/ #进入目录
+# mv /etc/yum.repos.d/CentOS-Base.repo CentOS-Base.repo-bak
+</code></pre><ol>
+<li><p>CentOS官方标准源：</p>
+<ul>
+<li><p>CentOS 5.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/CentOS-Base.repo #添加以下代码
+
+ # CentOS-Base.repo
+
+ #
+
+ # The mirror system uses the connecting IP address of the client and the
+
+ # update status of each mirror to pick mirrors that are updated to and
+
+ # geographically close to the client. You should use this for CentOS updates
+
+ # unless you are manually picking other mirrors.
+
+ #
+
+ # If the mirrorlist= does not work for you, as a fall back you can try the
+
+ # remarked out baseurl= line instead.
+
+ #
+
+ #
+
+[base]
+
+name=CentOS-$releasever - Base - huanqiu.com
+
+baseurl=http://192.168.21.188/centos/$releasever/os/$basearch/
+
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os
+
+gpgcheck=1
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-5
+
+#released updates
+
+[updates]
+
+name=CentOS-$releasever - Updates - huanqiu.com
+
+baseurl=http://192.168.21.188/centos/$releasever/updates/$basearch/
+
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates
+
+gpgcheck=1
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-5
+
+#packages used/produced in the build but not released
+
+[addons]
+
+name=CentOS-$releasever - Addons - huanqiu.com
+
+baseurl=http://192.168.21.188/centos/$releasever/addons/$basearch/
+
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=addons
+
+gpgcheck=1
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-5
+
+#additional packages that may be useful
+
+[extras]
+
+name=CentOS-$releasever - Extras - huanqiu.com
+
+baseurl=http://192.168.21.188/centos/$releasever/extras/$basearch/
+
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras
+
+gpgcheck=1
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-5
+
+#additional packages that extend functionality of existing packages
+
+[centosplus]
+
+name=CentOS-$releasever - Plus - huanqiu.com
+
+baseurl=http://192.168.21.188/centos/$releasever/centosplus/$basearch/
+
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus
+
+gpgcheck=1
+
+enabled=0
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-5
+
+#contrib - packages by Centos Users
+
+[contrib]
+
+name=CentOS-$releasever - Contrib - huanqiu.com
+
+baseurl=http://192.168.21.188/centos/$releasever/contrib/$basearch/
+
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=contrib
+
+gpgcheck=1
+
+enabled=0
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-5
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>CentOS 6.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/CentOS-Base.repo #添加以下代码
+
+   # CentOS-Base.repo
+
+   #
+
+   # The mirror system uses the connecting IP address of the client and the
+
+   # update status of each mirror to pick mirrors that are updated to and
+
+   # geographically close to the client. You should use this for CentOS updates
+
+   # unless you are manually picking other mirrors.
+
+   #
+
+   # If the mirrorlist= does not work for you, as a fall back you can try the
+
+   # remarked out baseurl= line instead.
+
+   #
+
+   #
+
+   [base]
+
+   name=CentOS-$releasever - Base - huanqiu.com
+
+   baseurl=http://192.168.21.188/centos/$releasever/os/$basearch/
+
+   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os
+
+   gpgcheck=1
+
+   gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+   #released updates
+
+   [updates]
+
+   name=CentOS-$releasever - Updates - huanqiu.com
+
+   baseurl=http://192.168.21.188/centos/$releasever/updates/$basearch/
+
+   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates
+
+   gpgcheck=1
+
+   gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+   #additional packages that may be useful
+
+   [extras]
+
+   name=CentOS-$releasever - Extras - huanqiu.com
+
+   baseurl=http://192.168.21.188/centos/$releasever/extras/$basearch/
+
+   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras
+
+   gpgcheck=1
+
+   gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+   #additional packages that extend functionality of existing packages
+
+   [centosplus]
+
+   name=CentOS-$releasever - Plus - huanqiu.com
+
+   baseurl=http://192.168.21.188/centos/$releasever/centosplus/$basearch/
+
+   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus
+
+   gpgcheck=1
+
+   enabled=0
+
+   gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+   #contrib - packages by Centos Users
+
+   [contrib]
+
+   name=CentOS-$releasever - Contrib - huanqiu.com
+
+   baseurl=http://192.168.21.188/centos/$releasever/contrib/$basearch/
+
+   #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=contrib
+
+   gpgcheck=1
+
+   enabled=0
+
+   gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>CentOS 7.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/CentOS-Base.repo #添加以下代码
+
+  # CentOS-Base.repo
+
+  #
+
+  # The mirror system uses the connecting IP address of the client and the
+
+  # update status of each mirror to pick mirrors that are updated to and
+
+  # geographically close to the client. You should use this for CentOS updates
+
+  # unless you are manually picking other mirrors.
+
+  #
+
+  # If the mirrorlist= does not work for you, as a fall back you can try the
+
+  # remarked out baseurl= line instead.
+
+  #
+
+  #
+
+  [base]
+
+  name=CentOS-$releasever - Base
+
+  #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os
+
+  baseurl=http://192.168.21.188/centos/$releasever/os/$basearch/
+
+  gpgcheck=1
+
+  gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-7
+
+  #released updates
+
+  [updates]
+
+  name=CentOS-$releasever - Updates
+
+  #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates
+
+  baseurl=http://192.168.21.188/centos/$releasever/updates/$basearch/
+
+  gpgcheck=1
+
+  gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-7
+
+ #additional packages that may be useful
+
+ [extras]
+
+ name=CentOS-$releasever - Extras
+
+ #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras
+
+ baseurl=http://192.168.21.188/centos/$releasever/extras/$basearch/
+
+ gpgcheck=1
+
+ gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-7
+
+ #additional packages that extend functionality of existing packages
+
+ [centosplus]
+
+ name=CentOS-$releasever - Plus
+
+ #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus
+
+ baseurl=http://192.168.21.188/centos/$releasever/centosplus/$basearch/
+
+ gpgcheck=1
+
+ enabled=0
+
+ gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-7
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+<ul>
+<li>或者参考：<a href="https://lug.ustc.edu.cn/wiki/mirrors/help/centos">https://lug.ustc.edu.cn/wiki/mirrors/help/centos</a><br>把里面的<a href="http://mirrors.ustc.edu.cn/替换为http://192.168.21.188/">http://mirrors.ustc.edu.cn/替换为http://192.168.21.188/</a></li></ul>
+</li></ul>
+</li><li><p>rpmforge源：</p>
+<ul>
+<li><p>CentOS 5.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/rpmforge.repo #添加以下代码
+
+ [rpmforge]
+
+ name = RHEL $releasever - RPMforge.net - dag
+
+ baseurl = http://192.168.21.188/repoforge/redhat/el5/en/$basearch/rpmforge
+
+ enabled = 1
+
+ protect = 0
+
+ gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+ gpgcheck = 1
+
+ [rpmforge-extras]
+
+ name = RHEL $releasever - RPMforge.net - extras
+
+ baseurl = http://192.168.21.188/repoforge/redhat/el5/en/$basearch/extras
+
+ enabled = 0
+
+ protect = 0
+
+ gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+ gpgcheck = 1
+
+[rpmforge-testing]
+
+name = RHEL $releasever - RPMforge.net - testing
+
+baseurl = http://192.168.21.188/repoforge/redhat/el5/en/$basearch/testing
+
+enabled = 0
+
+protect = 0
+
+gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+gpgcheck = 1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>CentOS 6.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/rpmforge.repo #添加以下代码
+
+  [rpmforge]
+
+  name = RHEL $releasever - RPMforge.net - dag
+
+  baseurl = http://192.168.21.188/repoforge/redhat/el6/en/$basearch/rpmforge
+
+  enabled = 1
+
+  protect = 0
+
+  gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+  gpgcheck = 1
+
+  [rpmforge-extras]
+
+  name = RHEL $releasever - RPMforge.net - extras
+
+  baseurl = http://192.168.21.188/repoforge/redhat/el6/en/$basearch/extras
+
+  enabled = 0
+
+  protect = 0
+
+  gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+  gpgcheck = 1
+
+  [rpmforge-testing]
+
+  name = RHEL $releasever - RPMforge.net - testing
+
+  baseurl = http://192.168.21.188/repoforge/redhat/el6/en/$basearch/testing
+
+  enabled = 0
+
+  protect = 0
+
+  gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+  gpgcheck = 1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>CentOS 7.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/rpmforge.repo #添加以下代码
+
+   [rpmforge]
+
+   name = RHEL $releasever - RPMforge.net - dag
+
+   baseurl = http://192.168.21.188/repoforge/redhat/el7/en/$basearch/rpmforge
+
+   enabled = 1
+
+   protect = 0
+
+   gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+   gpgcheck = 1
+
+   [rpmforge-extras]
+
+   name = RHEL $releasever - RPMforge.net - extras
+
+   baseurl = http://192.168.21.188/repoforge/redhat/el7/en/$basearch/extras
+
+   enabled = 0
+
+   protect = 0
+
+   gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+   gpgcheck = 1
+
+   [rpmforge-testing]
+
+   name = RHEL $releasever - RPMforge.net - testing
+
+   baseurl = http://192.168.21.188/repoforge/redhat/el7/en/$basearch/testing
+
+   enabled = 0
+
+   protect = 0
+
+   gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+   gpgcheck = 1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li></ul>
+</li><li><p>epel源：</p>
+<ul>
+<li><p>CentOS 5.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/epel.repo #添加以下代码
+
+ [epel]
+
+ name=Extra Packages for Enterprise Linux 5 - $basearch
+
+ baseurl=http://192.168.21.188/epel/5/$basearch
+
+ failovermethod=priority
+
+ enabled=1
+
+ gpgcheck=1
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-5
+
+ [epel-debuginfo]
+
+ name=Extra Packages for Enterprise Linux 5 - $basearch - Debug
+
+ baseurl=http://192.168.21.188/epel/5/$basearch/debug
+
+ failovermethod=priority
+
+ enabled=0
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-5
+
+ gpgcheck=1
+
+ [epel-source]
+
+ name=Extra Packages for Enterprise Linux 5 - $basearch - Source
+
+ baseurl=http://192.168.21.188/epel/5/SRPMS
+
+ failovermethod=priority
+
+ enabled=0
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-5
+
+ gpgcheck=1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>CentOS 6.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/epel.repo #添加以下代码
+
+ [epel]
+
+ name=Extra Packages for Enterprise Linux 6 - $basearch
+
+ baseurl=http://192.168.21.188/epel/6/$basearch
+
+ failovermethod=priority
+
+ enabled=1
+
+ gpgcheck=1
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-6
+
+ [epel-debuginfo]
+
+ name=Extra Packages for Enterprise Linux 6 - $basearch - Debug
+
+ baseurl=http://192.168.21.188/epel/6/$basearch/debug
+
+ failovermethod=priority
+
+ enabled=0
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-6
+
+ gpgcheck=1
+
+ [epel-source]
+
+ name=Extra Packages for Enterprise Linux 6 - $basearch - Source
+
+ baseurl=http://192.168.21.188/epel/6/SRPMS
+
+ failovermethod=priority
+
+ enabled=0
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-6
+
+ gpgcheck=1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>CentOS 7.x系列：</p>
+<pre><code># vi /etc/yum.repos.d/epel.repo #添加以下代码
+
+ [epel]
+
+ name=Extra Packages for Enterprise Linux 7 - $basearch
+
+ baseurl=http://192.168.21.188/epel/beta/7/$basearch
+
+ failovermethod=priority
+
+ enabled=1
+
+ gpgcheck=1
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-7
+
+ [epel-debuginfo]
+
+ name=Extra Packages for Enterprise Linux 7 - $basearch - Debug
+
+ baseurl=http://192.168.21.188/epel/beta/7/$basearch/debug
+
+ failovermethod=priority
+
+ enabled=0
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-7
+
+ gpgcheck=1
+
+ [epel-source]
+
+ name=Extra Packages for Enterprise Linux 7 - $basearch - Source
+
+ baseurl=http://192.168.21.188/epel/beta/7/SRPMS
+
+ failovermethod=priority
+
+ enabled=0
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-7
+
+ gpgcheck=1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li></ul>
+</li></ol>
+<h2 id="-yum-">四、测试yum源是否配置正确</h2>
+<blockquote>
+<p>当前系统版本为CentOS 6.x，以此为例</p>
+</blockquote>
+<ol>
+<li><p>添加CentOS-Base.repo</p>
+<pre><code># cd /etc/yum.repos.d/
+# mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+# vi CentOS-Base.repo #添加以下代码
+
+  # CentOS-Base.repo
+
+  #
+
+  # The mirror system uses the connecting IP address of the client and the
+
+  # update status of each mirror to pick mirrors that are updated to and
+
+  # geographically close to the client. You should use this for CentOS updates
+
+  # unless you are manually picking other mirrors.
+
+  #
+
+  # If the mirrorlist= does not work for you, as a fall back you can try the
+
+  # remarked out baseurl= line instead.
+
+  #
+
+  #
+
+  [base]
+
+  name=CentOS-$releasever - Base - huanqiu.com
+
+  baseurl=http://192.168.21.188/centos/$releasever/os/$basearch/
+
+  #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os
+
+  gpgcheck=1
+
+  gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+  #released updates
+
+  [updates]
+
+  name=CentOS-$releasever - Updates - huanqiu.com
+
+ baseurl=http://192.168.21.188/centos/$releasever/updates/$basearch/
+
+ #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates
+
+ gpgcheck=1
+
+ gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+ #additional packages that may be useful
+
+ [extras]
+
+ name=CentOS-$releasever - Extras - huanqiu.com
+
+ baseurl=http://192.168.21.188/centos/$releasever/extras/$basearch/
+
+ #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras
+
+ gpgcheck=1
+
+ gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+ #additional packages that extend functionality of existing packages
+
+ [centosplus]
+
+ name=CentOS-$releasever - Plus - huanqiu.com
+
+ baseurl=http://192.168.21.188/centos/$releasever/centosplus/$basearch/
+
+ #mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus
+
+gpgcheck=1
+
+enabled=0
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+
+#contrib - packages by Centos Users
+
+[contrib]
+
+name=CentOS-$releasever - Contrib - huanqiu.com
+
+baseurl=http://192.168.21.188/centos/$releasever/contrib/$basearch/
+
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=contrib
+
+gpgcheck=1
+
+enabled=0
+
+gpgkey=http://192.168.21.188/centos/RPM-GPG-KEY-CentOS-6
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>添加rpmforge.repo</p>
+<pre><code># vi rpmforge.repo #添加以下代码
+
+ [rpmforge]
+
+ name = RHEL $releasever - RPMforge.net - dag
+
+ baseurl = http://192.168.21.188/repoforge/redhat/el6/en/$basearch/rpmforge
+
+ enabled = 1
+
+ protect = 0
+
+ gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+ gpgcheck = 1
+
+ [rpmforge-extras]
+
+ name = RHEL $releasever - RPMforge.net - extras
+
+ baseurl = http://192.168.21.188/repoforge/redhat/el6/en/$basearch/extras
+
+ enabled = 0
+
+ protect = 0
+
+ gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+ gpgcheck = 1
+
+ [rpmforge-testing]
+
+ name = RHEL $releasever - RPMforge.net - testing
+
+ baseurl = http://192.168.21.188/repoforge/redhat/el6/en/$basearch/testing
+
+ enabled = 0
+
+ protect = 0
+
+ gpgkey=http://192.168.21.188/repoforge/RPM-GPG-KEY-rpmforge
+
+ gpgcheck = 1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>添加epel.repo</p>
+<pre><code># vi epel.repo #添加以下代码
+
+ [epel]
+
+ name=Extra Packages for Enterprise Linux 6 - $basearch
+
+ baseurl=http://192.168.21.188/epel/6/$basearch
+
+ failovermethod=priority
+
+ enabled=1
+
+ gpgcheck=1
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-6
+
+ [epel-debuginfo]
+
+ name=Extra Packages for Enterprise Linux 6 - $basearch - Debug
+
+ baseurl=http://192.168.21.188/epel/6/$basearch/debug
+
+ failovermethod=priority
+
+ enabled=0
+
+ gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-6
+
+ gpgcheck=1
+
+ [epel-source]
+
+ name=Extra Packages for Enterprise Linux 6 - $basearch - Source
+
+ baseurl=http://192.168.21.188/epel/6/SRPMS
+
+failovermethod=priority
+
+enabled=0
+
+gpgkey =http://192.168.21.188/epel/RPM-GPG-KEY-EPEL-6
+
+gpgcheck=1
+</code></pre><blockquote>
+<p>:wq! #保存退出</p>
+</blockquote>
+</li><li><p>清除缓存，列出可用源软件包</p>
+<pre><code># yum clean all #清除当前yum缓存
+# yum makecache #缓存yum源中的软件包信息
+# yum repolist #列出yum源中可用的软件包
+</code></pre></li><li>使用yum命令安装软件<pre><code># yum install php #测试CentOS官方标准源
+# yum install htop #测试rpmforge源
+# yum install nginx #测试epel源
+</code></pre></li></ol>
+<blockquote>
+<p>至此，搭建CentOS在线yum源镜像服务器完成<br>此教程来源: <a href="http://www.centoscn.com/CentosServer/test/2014/0904/3675.html">http://www.centoscn.com/CentosServer/test/2014/0904/3675.html</a></p>
+</blockquote>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
