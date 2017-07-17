@@ -1,0 +1,224 @@
+<!-- 插件官网地址：http://ruby-china.org/topics/17028 -->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>OpenStack管理员指南</title>
+        <link rel="stylesheet" type="text/css" href="./markdownToc_files/github2-rightpart.css" media="all">
+        <link rel="stylesheet" type="text/css" href="./markdownToc_files/github1-contents.css">
+        <link rel="stylesheet" href="./markdownToc_files/zTreeStyle.css" type="text/css">
+        <style>
+            .ztree li a.curSelectedNode {
+                padding-top: 0px;
+                background-color: #FFE6B0;
+                color: black;
+                height: 16px;
+                border: 1px #FFB951 solid;
+                opacity: 0.8;
+            }
+            .ztree{
+                overflow: auto;
+                height:100%;
+                min-height: 200px;
+                top: 0px;
+            }
+        </style>
+    </head>
+    <body style="">
+        <div>
+            <div style="width:30%;">
+                <ul id="tree" class="ztree" style="width: 260px; overflow: auto; position: fixed; z-index: 2147483647; border: 0px none; left: 0px; bottom: 0px;">
+                <!-- 目录内容在网页另存为之后将插入到此处 -->
+                </ul>
+            </div>
+            <div id="readme" style="width:70%;margin-left:25%;">
+                <article class="markdown-body">
+
+
+<!-- ***********************************************************内容分割线****************************************************************** -->
+<!-- 请把你的html正文部分粘贴到此处，在浏览器中打开之后将会自动生成目录。如果想要将目录保留并嵌入到此文档中，只需在浏览器中“另存为->网页，全部”即可 -->
+
+<h1 id="openstack-">OpenStack管理员指南</h1>
+<p>更新：2016-12-30 18:29</p>
+<h2 id="-">摘要</h2>
+<p>   OpenStack提供OpenStack管理员的开源软件来管理和解决OpenStack云。</p>
+<p>   本指南介绍了OpenStack Newton和Mitaka的发行版。</p>
+<h2 id="-openstack">开始使用OpenStack</h2>
+<h4 id="-admin-guide-html-"><a href="./admin-guide/概念架构.html">概念架构</a></h4>
+<h4 id="-admin-guide-html-"><a href="./admin-guide/逻辑架构.html">逻辑架构</a></h4>
+<h4 id="openstack-">Openstack服务</h4>
+<p>本节详细介绍OpenStack服务。</p>
+<h5 id="-admin-guide-openstack-html-"><a href="./admin-guide/OpenStack服务/计算服务概述.html">计算服务概述</a></h5>
+<h5 id="-admin-guide-openstack-html-"><a href="./admin-guide/OpenStack服务/存储概念.html">存储概念</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">对象存储服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">块存储服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">共享文件系统服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">网络服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">仪表板概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">身份服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">图像服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">遥测服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">遥测数据采集服务</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">遥测报警服务</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">协调服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">数据库服务概述</a></h5>
+<h5 id="-admin-guide-openstack-"><a href="./admin-guide/OpenStack服务/">数据处理服务概述</a></h5>
+<h2 id="-">身份管理</h2>
+<h3 id="-">身份概念</h3>
+<h3 id="pki-">PKI证书</h3>
+<h3 id="-">域专用配置</h3>
+<h3 id="-">身份认证</h3>
+<h3 id="-ldap-">将身份与LDAP集成</h3>
+<h3 id="-">梯形失真标记</h3>
+<h3 id="-">配置身份服务以进行令牌绑定</h3>
+<h3 id="fernet-">Fernet - 常见问题</h3>
+<h3 id="-">使用信任</h3>
+<h3 id="-">缓存层</h3>
+<h3 id="-pci-dss">安全合规性和PCI-DSS</h3>
+<h3 id="-">使用示例和身份特征</h3>
+<h3 id="-">用户名和密码的认证中间件</h3>
+<h3 id="-rbac-api-">基于角色的访问控制（RBAC）的身份API保护</h3>
+<h3 id="-">排除身份服务故障</h3>
+<h2 id="-">仪表板</h2>
+<h3 id="-">自定义和配置仪表板</h3>
+<h3 id="-">为仪表板设置会话存储</h3>
+<h3 id="-">创建和管理镜像</h3>
+<h3 id="-">创建和管理角色</h3>
+<h3 id="-">管理实例</h3>
+<h3 id="-flavors">管理flavors</h3>
+<h3 id="-">管理卷和卷类型</h3>
+<h3 id="-">管理共享和共享类型</h3>
+<h3 id="-">查看和管理配额</h3>
+<h3 id="-">查看云资源</h3>
+<h3 id="-">创建和管理主机聚合</h3>
+<h3 id="-">使用仪表板启动和管理堆栈</h3>
+<h2 id="-">计算</h2>
+<h3 id="-">系统架构</h3>
+<h3 id="-">镜像和实例</h3>
+<h3 id="-nova-network-">使用nova-network联网</h3>
+<h3 id="-">系统管理</h3>
+<h3 id="-compute-">排除Compute问题</h3>
+<h2 id="-">对象存储</h2>
+<h3 id="-">对象存储介绍</h3>
+<h3 id="-">特点和优点</h3>
+<h3 id="-">对象存储特性</h3>
+<h3 id="-">组件</h3>
+<h3 id="-">环建设者</h3>
+<h3 id="-">集群架构</h3>
+<h3 id="-">复制</h3>
+<h3 id="-">大对象支持</h3>
+<h3 id="-">对象审计员</h3>
+<h3 id="-">擦除编码</h3>
+<h3 id="-">帐户收货</h3>
+<h3 id="-">使用对象存储配置项目特定的镜像位置</h3>
+<h3 id="-">对象存储监控</h3>
+<h3 id="-">对象存储的系统管理</h3>
+<h3 id="-">排除对象存储问题</h3>
+<h2 id="-">块存储</h2>
+<p>OpenStack Block Storage服务通过一系列守护程序进程的交互进行工作，这些进程名称<code>cinder-*</code>永久存放在主机或机器上。您可以从单个节点运行所有二进制文件，或分布在多个节点上。您也可以在与其他OpenStack服务相同的节点上运行它们。</p>
+<p>要管理OpenStack Block Storage服务，了解一些概念是很有帮助的。当您在OpenStack中配置Block Storage服务时，您必须做出某些选择。大部分选项归结为两个选择 - 单节点或多节点安装。您可以在“ OpenStack操作指南”中 阅读有关存储决策的更长时间的讨论。</p>
+<p>OpenStack Block Storage可以为您的OpenStack Compute实例添加额外的块级存储。该服务类似于Amazon EC2弹性块存储（EBS）产品。</p>
+<h3 id="-block-storage-api-">增加Block Storage API服务吞吐量</h3>
+<h3 id="-">管理卷</h3>
+<h3 id="-">排除安装问题</h3>
+<h2 id="-">共享文件系统</h2>
+<p>共享文件系统服务为多项目云环境中的共享文件系统提供了一套管理服务。该服务类似于OpenStack块存储服务项目中的基于OpenStack块的存储管理。使用共享文件系统服务，您可以创建一个远程文件系统，将文件系统安装在实例上，然后从文件系统读取和写入实例中的数据。</p>
+<p>共享文件系统服务与亚马逊弹性文件系统（EFS）相同。</p>
+<h3 id="-">介绍</h3>
+<h3 id="-">关键概念</h3>
+<h3 id="-">分享管理</h3>
+<h3 id="-">迁移股份</h3>
+<h3 id="-">共享类型</h3>
+<h3 id="-">共享快照</h3>
+<h3 id="-">安全服务</h3>
+<h3 id="-">一致性组</h3>
+<h3 id="-">共享复制</h3>
+<h3 id="-">多存储配置</h3>
+<h3 id="-">联网</h3>
+<h3 id="-">排除共享文件系统服务</h3>
+<h2 id="-">联网</h2>
+<p>学习开栈网络概念，体系结构和基本和高级<code>neutron</code>和<code>nova</code>命令行界面（CLI）的命令。</p>
+<h3 id="-">网络简介</h3>
+<h3 id="-">网络架构</h3>
+<h3 id="-">插件配置</h3>
+<h3 id="-">配置中子剂</h3>
+<h3 id="-">配置网络身份服务</h3>
+<h3 id="-">高级配置选项</h3>
+<h3 id="-dhcp-">可扩展和高可用性的DHCP代理</h3>
+<h3 id="-">使用网络</h3>
+<h3 id="-api-">高级功能通过API扩展</h3>
+<h3 id="-">先进的操作功能</h3>
+<h3 id="-">认证和授权</h3>
+<h2 id="-telemetry-">遥测(Telemetry)</h2>
+<p>即使在云计算行业，供应商也必须使用多步骤进行计费。帐单在云环境中使用的所需步骤是计量，评级和计费。由于提供商的要求可能对于共享解决方案来说太具体，因此不能在满足所有需求的通用模块中设计评级和计费解决方案。为了满足云计算的定义，用户需要为云服务提供测量。<code>measured service</code></p>
+<p>遥测服务最初旨在支持OpenStack云资源的计费系统。该项目仅覆盖计费所需处理的计量部分。此服务收集有关系统的信息，并以样品的形式存储，以提供有关可收取的任何内容的数据。</p>
+<p>除了系统测量，Telemetry服务还捕获在OpenStack系统中执行各种操作时触发的事件通知。该数据被捕获为事件并与计量数据一起存储。</p>
+<p>仪表列表不断增长，这使得可以使用遥测收集的数据用于不同的计费。例如，编排服务中的自动缩放功能可以由该模块设置的报警触发，然后在遥测中通知。</p>
+<p>本文档中的部分包含有关遥测的架构和用法的信息。第一部分包含有关典型OpenStack部署中使用的系统架构的简要摘要。第二部分描述数据收集机制。您还可以阅读有关警报的详细信息，以了解警报定义如何发布到遥测，以及如果发生警报，​​可能会发生什么操作。最后一节包含故障排除指南，其中提到错误情况和可能的问题解决方案。</p>
+<p>您可以通过三种不同的方式检索收集的样本：使用REST API，使用命令行界面，或使用OpenStack仪表板上的Metering选项卡。</p>
+<h3 id="-">系统架构</h3>
+<h3 id="-">数据采集</h3>
+<h3 id="-">数据收集，处理和管道</h3>
+<h3 id="-">数据检索</h3>
+<h3 id="-">警报</h3>
+<h3 id="-">测量</h3>
+<h3 id="-">活动</h3>
+<h3 id="-">故障排除遥测</h3>
+<h3 id="-">遥测最佳实践</h3>
+<h2 id="-">数据库</h2>
+<h3 id="-">介绍</h3>
+<h3 id="-">创建数据存储</h3>
+<h3 id="-">配置集群</h3>
+<h2 id="-bare-metal">(裸机)Bare Metal</h2>
+<p>Bare Metal服务提供物理硬件管理功能。</p>
+<h3 id="-">介绍</h3>
+<h3 id="-">系统架构</h3>
+<h3 id="bare-metal-">Bare Metal部署</h3>
+<h3 id="-bare-metal">使用Bare Metal</h3>
+<h3 id="-">故障排除</h3>
+<h2 id="-orchestration-">业务流程(Orchestration)</h2>
+<p>业务流程是一种业务流程引擎，可以根据可以像代码一样对待的文本文件的形式，基于模板启动多个复合云应用程序。一个本地的热协调模板（HOT）格式正在发展，但它也努力提供与AWS CloudFormation模板格式的兼容性，以便许多现有的CloudFormation模板可以在OpenStack上启动。</p>
+<h3 id="-">介绍</h3>
+<h3 id="-">编排授权模式</h3>
+<h3 id="-">堆叠域用户</h3>
+<h2 id="openstack-">OpenStack命令行客户端</h2>
+<h3 id="-">命令行客户端概述</h3>
+<h3 id="-openstack-">安装OpenStack命令行客户机</h3>
+<h3 id="-">发现客户端的版本号</h3>
+<h3 id="-openstack-rc-">使用OpenStack RC文件设置环境变量</h3>
+<h3 id="-">管理项目，用户和角色</h3>
+<h3 id="-">管理项目安全</h3>
+<h3 id="-">管理服务</h3>
+<h3 id="-">管理镜像</h3>
+<h3 id="-">管理卷</h3>
+<h3 id="-">管理共享</h3>
+<h3 id="-flavors">管理flavors</h3>
+<h3 id="-openstack-">管理OpenStack环境</h3>
+<h3 id="-">管理配额</h3>
+<h3 id="-">分析日志文件</h3>
+<h3 id="-">管理块存储调度</h3>
+<h2 id="-">跨项目功能</h2>
+<p>许多功能对于所有OpenStack服务都是通用的，并且在配置和部署模式方面是一致的。除非明确指出，否则您可以放心地假定本章中的功能以一致的方式得到支持和配置。</p>
+<h3 id="-">跨原始资源共享</h3>
+<h2 id="-">社区支持</h2>
+<p>以下资源可用于帮助您运行和使用OpenStack。OpenStack社区不断改进并增加了OpenStack的主要功能，但如果您有任何问题，请不要犹豫。使用以下资源获取OpenStack支持并对安装进行故障排除。</p>
+
+
+<!-- ***********************************************************内容分割线****************************************************************** -->
+
+                </article>
+            </div>
+        </div>
+    <script src="./markdownToc_files/jquery-1.10.2.min.js"></script>
+    <script src="./markdownToc_files/jquery.ztree.all-3.5.min.js"></script>
+    <script src="./markdownToc_files/jquery.ztree_toc.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#tree').ztree_toc({
+                is_auto_number:false,
+                documment_selector:'.markdown-body',
+                is_expand_all: true
+            });
+        });
+    </script>
+    </body>
+</html>
