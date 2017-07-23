@@ -1,0 +1,362 @@
+<!-- 插件官网地址：http://ruby-china.org/topics/17028 -->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Python基础教程</title>
+        <link rel="stylesheet" type="text/css" href="./markdownToc_files/github2-rightpart.css" media="all">
+        <link rel="stylesheet" type="text/css" href="./markdownToc_files/github1-contents.css">
+        <link rel="stylesheet" href="./markdownToc_files/zTreeStyle.css" type="text/css">
+        <style>
+            .ztree li a.curSelectedNode {
+                padding-top: 0px;
+                background-color: #FFE6B0;
+                color: black;
+                height: 16px;
+                border: 1px #FFB951 solid;
+                opacity: 0.8;
+            }
+            .ztree{
+                overflow: auto;
+                height:100%;
+                min-height: 200px;
+                top: 0px;
+            }
+        </style>
+    </head>
+    <body style="">
+        <div>
+            <div style="width:30%;">
+                <ul id="tree" class="ztree" style="width: 260px; overflow: auto; position: fixed; z-index: 2147483647; border: 0px none; left: 0px; bottom: 0px;">
+                <!-- 目录内容在网页另存为之后将插入到此处 -->
+                </ul>
+            </div>
+            <div id="readme" style="width:70%;margin-left:25%;">
+                <article class="markdown-body">
+
+
+<!-- ***********************************************************内容分割线****************************************************************** -->
+<!-- 请把你的html正文部分粘贴到此处，在浏览器中打开之后将会自动生成目录。如果想要将目录保留并嵌入到此文档中，只需在浏览器中“另存为->网页，全部”即可 -->
+<h1 id="-center-python-ceneter-"><center>Python基础教程</ceneter></h1>
+<h2 id="python-">Python简介</h2>
+<h3 id="python-">Python历史</h3>
+<p>Python 是由 Guido van Rossum 在八十年代末和九十年代初，在荷兰国家数学和计算机科学研究所设计出来的。<br>Python 本身也是由诸多其他语言发展而来的,这包括 ABC、Modula-3、C、C++、Algol-68、SmallTalk、Unix shell 和其他的脚本语言等等。<br>像 Perl 语言一样，Python 源代码同样遵循 GPL(GNU General Public License)协议。<br>现在 Python 是由一个核心开发团队在维护，Guido van Rossum 仍然占据着至关重要的作用，指导其进展。</p>
+<p>目前流行的是Python2.x，最新的Python目前是Python3.x。</p>
+<h3 id="python-">Python特征</h3>
+<ol>
+<li>易于学习：Python有相对较少的关键字，结构简单，和一个明确定义的语法，学习起来更加简单。</li><li>易于阅读：Python代码定义的更清晰。</li><li>易于维护：Python的成功在于它的源代码是相当容易维护的。</li><li>一个广泛的标准库：Python的最大的优势之一是丰富的库，跨平台的，在UNIX，Windows和Macintosh兼容很好。</li><li>互动模式：互动模式的支持，您可以从终端输入执行代码并获得结果的语言，互动的测试和调试代码片断。</li><li>可移植：基于其开放源代码的特性，Python已经被移植（也就是使其工作）到许多平台。</li><li>可扩展：如果你需要一段运行很快的关键代码，或者是想要编写一些不愿开放的算法，你可以使用C或C++完成那部分程序，然后从你的Python程序中调用。</li><li>数据库：Python提供所有主要的商业数据库的接口。</li><li>GUI编程：Python支持GUI可以创建和移植到许多系统调用。</li><li>可嵌入: 你可以将Python嵌入到C/C++程序，让你的程序的用户获得&quot;脚本化&quot;的能力。</li><li>解释性和编译性：Python语言写的程序不需要编译成二进制代码，可以直接运从源代码运行程序，但是需要解释器。这点类似于Java，或者Matlab。Python也可以编译后执行程序，这样速度优于直接从源代码执行的速度。</li><li>面向对象编程：Python支持面向过程的编程也支持面向对象的编程。与其他的语言如C++和Java相比，Python以一种非常强大而又简单的方式实现面向对象编程。</li><li>高级语言：使用Python语言编写程序，无需考虑诸如管理内存一类的底层。</li><li>丰富的库：</li></ol>
+<h3 id="python-">Python应用场景</h3>
+<p>国外：</p>
+<ul>
+<li>Google：实现Web爬虫和搜索引擎中的很多组件</li><li>YaHoo： 管理讨论组以及其他技术</li><li>NASA：NASA在他的几个系统中既实用Python开发，又作为脚本语言</li><li>YouTube： 视频分享服务大部分都是由Python编写的</li></ul>
+<p>国内：</p>
+<ul>
+<li>豆瓣：前后台使用Python</li><li>还有其他很多的现在也是用Python作为前后台开发的</li></ul>
+<h2 id="python-">Python安装</h2>
+<h3 id="linux-python-">Linux下Python环境搭建</h3>
+<p>大多数Linux发行版都默认自带Python，一般都是Python2.x<br>如果没有安装可以通过源码进行安装：</p>
+<pre><code># ./configure --prefix=/usr/local
+# make &amp;&amp; make install
+# make clean 
+# make distclean
+</code></pre><p>然后命令行直接输入python，打开python解释器，如图：<br><img src="http://i.imgur.com/mLTIuJy.png" alt=""></p>
+<blockquote>
+<p>说明：因为当前没有linux环境，就使用cywin演示了一下，效果是跟linux的一样的。</p>
+</blockquote>
+<h3 id="windows-python-">Windows下Python环境搭建</h3>
+<p>Windows下安装很方便，根据系统版本可下载相对应的Python MSI的安装包，按照步骤点击下一步，即可，默认安装在c:\Python2.x目录，不建议更改它的安装目录。</p>
+<blockquote>
+<p>注意：在安装的过程最好勾选path那个选项，这样Python在安装完毕会自动建立系统环境变量，这样直接通过cmd窗口就可以输入python，打开Python解释器。</p>
+</blockquote>
+<p>安装完毕通过cmd窗口打开python，如图：<br><img src="http://i.imgur.com/lJ3l2dQ.png" alt=""></p>
+<h2 id="python-">Python的文件类型</h2>
+<ul>
+<li>源代码：Python的源代码文件以&quot;py&quot;为扩展名，由Python程序解释，不需要编译，可直接运行，特点：可直接运行，方便修改源代码</li><li>字节代码：Python源文件经过编译后生成的扩展名为&quot;pyc&quot;的文件，特点：运行速度快<br>编译方法：<pre><code>  import py_compile
+  py_compile(&quot;hello.py&quot;)
+</code></pre></li><li>优化代码：经过优化后的源文件扩展名为&quot;.pyo&quot;，特点：运行速度快<br>优化方法：<pre><code>  python -O -m py_compile hello.py
+</code></pre></li><li>以上三种均可以直接运行</li></ul>
+<h2 id="python-">Python变量</h2>
+<p>变量就是给数据起一个名字，写过shell脚本的，应该知道其中的变量，跟他类似。<br>变量是计算机内存中的一块区域，变量可以存储规定范围内的值，而且值可以改变。</p>
+<h3 id="-">变量的命名：</h3>
+<ul>
+<li>变量名可由字母、数字、下划线组成</li><li>数字不能开头</li><li>不可以使用关键字</li></ul>
+<h3 id="-">变量的赋值：</h3>
+<ul>
+<li>是变量声明和定义的过程</li></ul>
+<h3 id="-">实例演示：</h3>
+<pre><code>  &gt;&gt;&gt;a = 1
+  &gt;&gt;&gt;a
+  1
+</code></pre><blockquote>
+<p>说明：给变量a赋值为1，并显示变量a的赋值结果，相当于我有个同学叫1，但是我先麻烦，所以我就给他另起了一个名称a，这样我直接叫a就可以了，当然叫1也行。变量赋值中间的等号严格意义上需要前后有空格，当然没有空格也行，推荐加空格。</p>
+</blockquote>
+<h3 id="-">设定变量的好处：</h3>
+<p>方便在脚本或者程序中，简化数据长度或者便于一次性修改脚本或者程序中多次使用的值。<br>  举个简单的例子，如下：</p>
+<pre><code>  # coding=utf-8
+  #!/bin/bash/env python
+  #设定变量a并赋值为50
+  a = 50
+
+  print &quot;我买本Python学习书籍价格&quot;， a
+  print &quot;我喝的可乐价格&quot;， a
+  print &quot;我买的车价格是&quot;，  a
+</code></pre><p>  在上述的脚本中，如果价格发生变化，你是不是得每行去修改，如果内容多，那是不是更麻烦，为了减少这种不必要的操作浪费时间，就在开头设定变量a，然后赋值价格，这样，如果价格发生变化我们只需要修改变量a的值即可。简化数据这个有点跟这个相似，就是如果值的的数据很长，这样会增加代码的可读性难度，设定变量就容易多了。</p>
+<h2 id="-">运算符和表达式</h2>
+<h3 id="-">赋值运算符：</h3>
+<ul>
+<li>赋值运算符符号：<code>=</code></li><li>最常见的就是对于变量赋值，如： a = 1</li></ul>
+<h3 id="-">算数运算符：</h3>
+<p>算术运算符的优先级跟往常的算数运算符优先级一样，遇到其他特殊的网上再查下，后面再整理。</p>
+<ul>
+<li>加法： <code>+</code>,例如： x+y</li><li>加等于: <code>+=</code>,例如：x += 2相当于x = x+2</li><li>减法： <code>-</code>,例如： x -y</li><li>减等于: <code>-=</code>,例如：x -= 2相当于x = x-2</li><li>乘法： <code>*</code>,例如： x*y</li><li>乘等于: <code>*=</code>,例如：x <em>= 2相当于x = x</em>2</li><li>实数除法： <code>/</code>,例如： 3/2,3.0/2</li><li>整除法： <code>//</code>,例如： 5.6/2，5.6//2</li><li>除等于: <code>/=</code>,例如：x /= 2相当于x = x/2</li><li>求余数： <code>%</code>,例如： 17%8余1</li><li>求余等于： <code>%=</code>，例如：x %= 2相当于x = x%2</li><li><p>求幂运算: <code>**</code>,例如： 2**3 = 8</p>
+<blockquote>
+<p>注意：使用除法的时候默认是整除，如果想带小数点，后面必须添加小数点（例如：3.0/2）运算符号只适合在数值中使用，如果放在字符串中就另有其意，后面遇到再说。</p>
+</blockquote>
+</li></ul>
+<h3 id="-">关系运算符：</h3>
+<ul>
+<li>小于号： <code>&lt;</code>,例如： 1 &lt; 2</li><li>大于号： <code>&gt;</code>,例如： 2 &gt; 1</li><li>小于等于号： <code>&lt;=</code>,例如： 1 &lt;= 1,1小于等于1</li><li>大于等于号： <code>&gt;=</code>,例如： 2 &gt;= 2,2大于等于2</li><li>不等于号： <code>!=</code>,例如： 1 != 2，1不等于2</li><li><p>完全等于号： <code>==</code>,例如： 2 == 2，2等于2</p>
+<blockquote>
+<p>注意：运算符号前后建议留出一个空格。</p>
+</blockquote>
+</li></ul>
+<h3 id="-">逻辑运算符：</h3>
+<ul>
+<li><p>逻辑与： <code>and</code>，例如：1 and 2，判断结果必须同时满足1和2，否则不成立</p>
+<ul>
+<li><p>举个小例子：</p>
+<pre><code># coding=utf-8
+#!/bin/bash/env python
+
+if 1 == 1 and 1 &lt; 2 :
+   print &quot;OK&quot;
+else:
+print &quot;Failed&quot;
+</code></pre></li><li>运行上面的脚本，返回值如下：<br><img src="http://i.imgur.com/tBczrzR.png" alt=""></li><li>将上面的1 &lt; 2改为 1 == 2，再次运行脚本，返回值如下：<br> <img src="http://i.imgur.com/xqCbw3x.png" alt=""><blockquote>
+<p>通过以上实例得知逻辑与（and）必须同时满足and前后两个条件，才会成立，否则不成立。</p>
+</blockquote>
+</li></ul>
+</li><li><p>逻辑或： <code>or</code>,例如：1 or 2，判断结果只要满足其中一个就成立</p>
+<ul>
+<li><p>将上面例子中的脚本的and改为or：</p>
+<pre><code># coding=utf-8
+#!/bin/bash/env python
+
+if 1 == 1 or 1 == 2 :
+   print &quot;OK&quot;
+else:
+print &quot;Failed&quot;
+</code></pre></li><li>再次运行一下，返回值如下：<br><img src="http://i.imgur.com/d9aCpAm.png" alt=""><blockquote>
+<p>通过以上实例得知逻辑或（or）只要满足其中一个条件即可成立。</p>
+</blockquote>
+</li></ul>
+</li><li><p>逻辑非： <code>not</code>,例如： not 0，非0，取反</p>
+<ul>
+<li><p>在上面例子中的脚本的or 后面再添加一个逻辑非（not）：</p>
+<pre><code># coding=utf-8
+#!/bin/bash/env python
+
+if 1 == 1 and  not 1 == 2 :
+   print &quot;OK&quot;
+else:
+print &quot;Failed&quot;
+</code></pre></li><li>运行返回结果如下：<br><img src="http://i.imgur.com/d9aCpAm.png" alt=""><blockquote>
+<p>在未添加逻辑非（not）时，这个条件是不成立的，因为1不会等于2的，添加逻辑非（not）后，告诉1就是不等于2，所以判断成立，返回OK。</p>
+</blockquote>
+</li></ul>
+</li></ul>
+<h3 id="-">表达式：</h3>
+<p>是将不同数据（包括变量、函数）用运算符号按照一定规则连接起来的一种方式。</p>
+<ul>
+<li>加号表达式： <code>+</code>，用于字符串拼接<ul>
+<li>如下分别定义一个变量a = &quot;Hello&quot;，b = &quot;World&quot;，想让Hello和World变成一句话，可以使用<code>+</code>进行拼接：<pre><code>&gt;&gt;&gt; a = &quot;Hello&quot;
+&gt;&gt;&gt; b = &quot;World&quot;
+&gt;&gt;&gt; a+b
+&#39;HelloWorld&#39;
+</code></pre></li></ul>
+</li><li>乘号表达式：<code>*</code>，用于字符串重复出现，<code>*</code>后面跟重复的次数<ul>
+<li>如下定义一个变量a = &quot;Hello&quot;，我想让它重复5次，可以使用a*5，如下：<pre><code>&gt;&gt;&gt; a = &quot;Hello&quot;
+&gt;&gt;&gt; a*5
+&#39;HelloHelloHelloHelloHello&#39;
+</code></pre><blockquote>
+<p>注意：使用运算符号作为表达式，进行拼接或者重复出现时，变量的赋值必须是字符串（也就是等号后面的值必须用双引号<code>&quot;&quot;</code>或者单引号<code>&#39;&#39;</code>包起来）</p>
+</blockquote>
+</li></ul>
+</li></ul>
+<h2 id="python-">Python数据类型</h2>
+<h3 id="-">数字</h3>
+<h4 id="-">整型</h4>
+<ul>
+<li>整型<code>int</code>表示的范围-2，147，483，648到2，147，483，648<ul>
+<li>例如：1，100，200，-100，-200</li></ul>
+</li><li>实例演示，通过给num赋值123，可以通过<code>type()</code>查看当前变量的属性：<pre><code>&gt;&gt;&gt; num=123
+&gt;&gt;&gt; type(num)
+&lt;type &#39;int&#39;&gt;
+</code></pre></li></ul>
+<h4 id="-">长整型</h4>
+<ul>
+<li>长整型（long）的范围很大，几乎可以说任意大的整数都可以存储，当定义的数值超过整型（int）的范围时，就会使用长整型（long）</li><li>为了区分普通整型和长整型，需要在整数的后面加大写<code>L</code>或者小写<code>l</code><ul>
+<li>例如：5145677888L, -0x45677532L,建议使用大写<code>L</code>，避免数字1与小写<code>l</code>混合，造成不必要的麻烦</li></ul>
+</li><li>实例演示,定义给一个变量num赋值1L，可以通过type()查看当前变量的属性：<pre><code>&gt;&gt;&gt; num=1L
+&gt;&gt;&gt; type(num)
+&lt;type &#39;long&#39;&gt;
+</code></pre>也可以直接给num赋值一个超过整型(int)范围的数值：<pre><code>&gt;&gt;&gt; num=99999999999999999999999999999999999999999
+&gt;&gt;&gt; type(num)
+&lt;type &#39;long&#39;&gt;
+</code></pre></li></ul>
+<h4 id="-">浮点型</h4>
+<ul>
+<li>浮点型（float）也就是常说的小数点类型，例如：3.7.-1.8. 3e+8等等</li><li>实例演示，通过定义变量num赋值2.3，可以通过type()查看当前变量的属性：<pre><code>&gt;&gt;&gt; num=1.2
+&gt;&gt;&gt; type(num)
+&lt;type &#39;float&#39;&gt;
+</code></pre></li></ul>
+<h4 id="-">复数型</h4>
+<ul>
+<li>Python对复数（complex）提供内嵌支持，这是其他大部分软件所没有的,使用抛物线经常用到</li><li>复数类型（complex）通过给数值后面添加<code>j</code>来实现，如：3.4j,5.67j,32e-56j</li><li>实例演示，通过定义变量num赋值2.3j，可以通过type()查看当前变量的属性：<pre><code> &gt;&gt;&gt; num=1.2j
+ &gt;&gt;&gt; type(num)
+ &lt;type &#39;complex&#39;&gt;
+</code></pre></li></ul>
+<h3 id="-">字符串</h3>
+<ul>
+<li>使用引号（双引号<code>&quot;&quot;</code>或者单引号<code>&#39;&#39;</code>)定义的一组可以包含数字，字母，符号（非特殊符号）的集合<ul>
+<li>例如：<pre><code>Name = &#39;My name is Tom&#39;
+Pay = &quot;This is pay&quot;
+Car = &quot;&quot;&quot;this is a car&quot;&quot;&quot;
+</code></pre><blockquote>
+<ul>
+<li>三重引号（docstring)<code>&quot;&quot;&quot; &quot;&quot;&quot;</code>通常用来制作字符串后面再详说。</li><li>如果字符串中存在单引号<code>&#39;&#39;</code>时可以使用双引号<code>&quot;&quot;``，或者通过转义符</code>`来进行转义</li></ul>
+</blockquote>
+</li></ul>
+</li></ul>
+<h2 id="-">序列</h2>
+<ul>
+<li>列表、元组和字符串都是序列</li><li>序列的两个主要特点：索引操作和贴片操作符<ul>
+<li>索引操作符让我们可以从哪个序列中抓取一个特定的项目</li><li>切片操作符让我嫩能够获取序列的一个切片，即一部分序列</li></ul>
+</li></ul>
+<h3 id="-">索引</h3>
+<ul>
+<li>索引操作符是序列后跟一个方括号<code>[]</code>，方括号中有一对可选的数字</li><li>索引同样可是负数，位置是从序列尾部开始计算的<ul>
+<li>例如，当我们想取出a=&quot;12345678&quot;中的8，可以这样做：<pre><code>  &gt;&gt;&gt; a = &quot;12345678&quot;
+  &gt;&gt;&gt; a[7]
+  &#39;8&#39;
+</code></pre></li><li>因为索引可以是负数，也可以这样取值：<pre><code> &gt;&gt;&gt; a[-1]
+ &#39;8&#39;
+</code></pre><blockquote>
+<p>索引位置从左往右是：01234567，从右往左就是：-1，-2，-3，-4，-5，-6，-7，0</p>
+</blockquote>
+</li></ul>
+</li></ul>
+<blockquote>
+<p>例如：shop[-1]便是序列的最后一个元素，而shop[-2]抓取到的是序列的倒数第二个元素</p>
+</blockquote>
+<h3 id="-">切片</h3>
+<ul>
+<li>切片操作符是序列后跟一个方括号<code>[]</code>，方括号中有一对可选的数字，并用冒号分割<ul>
+<li>这与索引操作符很相似，不过需要使用<code>:</code>，并却是必须的</li><li>切片操作符中的第一个数（冒号<code>:</code>之前）表示切片开始的位置，第二个数（冒号<code>:</code>之后）表示切片到哪里结束（不包含这个位置的元素）。如果不指定第一个数，Python就从序列的首位开始。如果没有指定第二个数，Python则会停止在序列的尾部。<ul>
+<li>例如，定义变量a赋值字符串&#39;12345678&#39;，然后切取23456：<pre><code>&gt;&gt;&gt; a = &quot;12345678&quot;
+&gt;&gt;&gt; a[1:6]
+&#39;23456&#39;
+</code></pre><blockquote>
+<p>说明：计算机中<code>0</code>是默认开始位置，所以上述12345678对应的位置就是01234567，当我们要切取23456的字符串时，就得从1开始，按照切片取值定义想取到字符串6就得定位到6（这里的6不是字符串6，是7的位置）</p>
+</blockquote>
+</li><li>从位置1开始取值，不指定第二个位置，将会取到2345678：<pre><code>&gt;&gt;&gt; a = &quot;12345678&quot;
+&gt;&gt;&gt; a[1:]
+&#39;2345678&#39;
+</code></pre></li><li>如果只有<code>[:]</code>将会打印出所有的值：<pre><code>&gt;&gt;&gt; a = &quot;12345678&quot; 
+&gt;&gt;&gt; a[:]
+&#39;12345678&#39;
+</code></pre></li><li>当出现<code>[::]</code>时，后面没有步长值，默认位置为1，打印效果：<pre><code> &gt;&gt;&gt; a = &quot;12345678&quot; 
+ &gt;&gt;&gt; a[:：]
+ &#39;12345678&#39;
+</code></pre></li><li>当<code>[::]</code>里面设定步长值后，如设置步长值为2：[::2]，打印效果：<pre><code> &gt;&gt;&gt; a = &quot;12345678&quot; 
+ &gt;&gt;&gt; a[:：2]
+ &#39;1357&#39;
+</code></pre><blockquote>
+<p><code>[::2]</code>其实就是起到步长值得作用，后面的数字2就是走两步取后面一个值，上述的例子中，从位置1开始取值，然后从1位置走两步（也就是到位置2）取后面值3，然后从位置3走两步（也就是位置4）取后面值5，然后从位置5走两步（也就是位置7）取后面值7，最后取出来为1357.</p>
+</blockquote>
+</li></ul>
+</li></ul>
+</li></ul>
+<h3 id="-">序列的基本操作</h3>
+<ul>
+<li><code>len()</code>:求序列长度<ul>
+<li>例如求a = &quot;12345678&quot;的长度：<pre><code>&gt;&gt;&gt;a = &quot;12345678&quot;
+&gt;&gt;&gt; len(a)
+8
+</code></pre></li></ul>
+</li><li><p><code>+</code>:连接2个序列：</p>
+<ul>
+<li>例如：<pre><code>&gt;&gt;&gt; a = &quot;Hello&quot;
+&gt;&gt;&gt; b = &quot;World&quot;
+&gt;&gt;&gt; a + b
+&#39;HelloWorld&#39;
+</code></pre></li></ul>
+</li><li><p><code>*</code>:重复序列：</p>
+<ul>
+<li>例如将hello重复5次：<pre><code> &gt;&gt;&gt; a = &quot;Hello&quot;
+ &gt;&gt;&gt; a*5
+ &#39;HelloHelloHelloHelloHello&#39;
+</code></pre></li></ul>
+</li><li><code>in</code>：判断元素是否在序列中<ul>
+<li>例如判断c是否在a = &quot;Hello&quot;中：<pre><code>&gt;&gt;&gt; a = &quot;Hello&quot;
+&gt;&gt;&gt; &#39;c&#39; in a
+False
+</code></pre><blockquote>
+<p>返回Fasle说明不存在</p>
+</blockquote>
+</li></ul>
+</li><li><code>max()</code>:返回最大值<ul>
+<li>例如查看a = &quot;12345678&quot;中的最大值：<pre><code>&gt;&gt;&gt; a = &quot;12345678&quot;
+&gt;&gt;&gt; max(a)
+&#39;8&#39;
+</code></pre></li></ul>
+</li><li><code>min()</code>:返回最小值<ul>
+<li>例如查看a = &quot;12345678&quot;中的最小值：<pre><code>&gt;&gt;&gt; a = &quot;12345678&quot;
+&gt;&gt;&gt; min(a)
+&#39;1&#39;
+</code></pre></li></ul>
+</li><li><code>cmp(tuple1, tuple2)</code>:比较2个序列的值是否相等<ul>
+<li>例如判断a = &quot;3&quot;与b = &quot;4&quot;,返回结果：<pre><code>&gt;&gt;&gt; a = &quot;3&quot;
+&gt;&gt;&gt; b = &quot;4&quot;
+&gt;&gt;&gt; cmp(a, b)
+-1
+</code></pre></li><li>如果a与b换个位置在进行比较一下看下返回结果：<pre><code>&gt;&gt;&gt; cmp(b, a)
+1
+</code></pre></li><li>如果a和b的值相等，看下返回值：<pre><code>&gt;&gt;&gt; a = &quot;3&quot;
+&gt;&gt;&gt; b = &quot;3&quot;
+&gt;&gt;&gt; cmp(b, a)
+0
+</code></pre><blockquote>
+<p>通过以上例子可以看出，当使用<code>cmp（tuple1，tuple2）</code>进行比较的时候，如果前面的数值大于后面的会返回1，小于时会返回-1，等于时会返回0，另外如果字符串是字母的时候它一般会按照英文字母的顺序进行比对，通常是后面的字母大于前面的，如：</p>
+<pre><code>&gt;&gt; a = &quot;c&quot;
+&gt;&gt; b = &quot;d&quot;
+&gt;&gt; cmp(b, a)
+    1
+</code></pre></blockquote>
+</li></ul>
+</li></ul>
+<h3 id="-">元组</h3>
+<ul>
+<li>元组和列表十分相似，只不过元组和字符串一样是不可变得，即你不能修改元组</li><li>元组通过圆括号<code>()</code>和其中的逗号<code>,</code>来分割项目，例如：（1，2，3，4）</li><li>元组通常用在使语句和用户定义的函数能够安全的采用一组固定（这里的固定式说这组的值不能随意更改）的值得时候使用。</li></ul>
+<h3 id="-">列表</h3>
+<h3 id="-">字典</h3>
+
+
+<!-- ***********************************************************内容分割线****************************************************************** -->
+
+                </article>
+            </div>
+        </div>
+    <script src="./markdownToc_files/jquery-1.10.2.min.js"></script>
+    <script src="./markdownToc_files/jquery.ztree.all-3.5.min.js"></script>
+    <script src="./markdownToc_files/jquery.ztree_toc.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#tree').ztree_toc({
+                is_auto_number:false,
+                documment_selector:'.markdown-body',
+                is_expand_all: true
+            });
+        });
+    </script>
+    </body>
+</html>
