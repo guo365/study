@@ -271,7 +271,7 @@ Car = &quot;&quot;&quot;this is a car&quot;&quot;&quot;
  &gt;&gt;&gt; a[:：2]
  &#39;1357&#39;
 </code></pre><blockquote>
-<p><code>[::2]</code>其实就是起到步长值得作用，后面的数字2就是走两步取后面一个值，上述的例子中，从位置1开始取值，然后从1位置走两步（也就是到位置2）取后面值3，然后从位置3走两步（也就是位置4）取后面值5，然后从位置5走两步（也就是位置7）取后面值7，最后取出来为1357.</p>
+<p><code>[::2]</code>其实就是起到步长值得作用，后面的数字2就是走两步取后面一个值，上述的例子中，从位置1开始取值，然后从1位置走两步（也就是到位置3）取后面值3，然后从位置3走两步（也就是位置5）取后面值5，然后从位置5走两步（也就是位置7）取后面值7，最后取出来为1357.这里所说的走2步就是从位置1开始走到位置2算一步，然后到位置3就是第二步。</p>
 </blockquote>
 </li></ul>
 </li></ul>
@@ -336,10 +336,157 @@ False
 </li></ul>
 <h3 id="-">元组</h3>
 <ul>
-<li>元组和列表十分相似，只不过元组和字符串一样是不可变得，即你不能修改元组</li><li>元组通过圆括号<code>()</code>和其中的逗号<code>,</code>来分割项目，例如：（1，2，3，4）</li><li>元组通常用在使语句和用户定义的函数能够安全的采用一组固定（这里的固定式说这组的值不能随意更改）的值得时候使用。</li></ul>
+<li>元组和列表十分相似，只不过元组和字符串一样是不可变得，即你不能修改元组</li><li>元组通过圆括号<code>()</code>和其中的逗号<code>,</code>来分割项目，例如：（1，2，3，4）</li><li>元组通常用在使语句和用户定义的函数能够安全的采用一组固定（这里的固定式说这组的值不能随意更改）的值得时候使用。</li><li>定义元组可以包含字符串、列表、数字等，通过逗号<code>,</code>分隔。</li><li>元组的好处，定义范围广</li><li>元组是不可变类型的数据</li><li><p>创建元组:</p>
+<ul>
+<li>一个空元组由一对空的圆括号<code>( )</code>组成，例如： a = ()</li><li><p>含有单个元素的元组，如：</p>
+<ul>
+<li>a = (2<code>,</code>)<blockquote>
+<p>注意：定义一个单个元组，元素后面必须有一个逗号<code>,</code>这个比较特殊一些。</p>
+</blockquote>
+</li></ul>
+</li><li><p>一般元组, 如：</p>
+<ul>
+<li>name = (&#39;Tom&#39;,&#39;Joy&#39;,&#39;jack&#39;)</li><li>user_pay = (&#39;Tom&#39;,&#39;egg&#39;,20)</li></ul>
+</li><li>可以通过type()函数来当前变量的属性：<pre><code>&gt;&gt;&gt; a = (2,)
+&gt;&gt;&gt; type(a)
+&lt;type &#39;tuple&#39;&gt;
+</code></pre><blockquote>
+<ul>
+<li>看到tuple就说明此变量为元组</li></ul>
+</blockquote>
+</li></ul>
+</li><li>元组操作：<ul>
+<li>元组和字符串类型一样都是属于序列类型，可以通过索引和切片操作</li><li>定义好的元组，值不能改变</li></ul>
+</li><li><p>实例演示，定义一个元组a = (&#39;Tom&#39;,30,&#39;male&#39;)</p>
+<ul>
+<li><p>试图更改元组里面的元素，这里试图修改一个值：</p>
+<pre><code>&gt;&gt;&gt; a = (&#39;Tom&#39;,30,&#39;male&#39;)
+&gt;&gt;&gt; a[1] = 31
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+TypeError: &#39;tuple&#39; object does not support item assignment
+</code></pre><blockquote>
+<p>修改其中一个元素报错：告诉我们元组是不支持组分配指定的，也就说不能修改。</p>
+</blockquote>
+</li><li>拆分元组操作：<pre><code> &gt;&gt;&gt; a = (&#39;Tom&#39;,30,&#39;male&#39;)
+ &gt;&gt;&gt; name
+ &#39;Tom&#39;
+ &gt;&gt;&gt; age
+ 30
+ &gt;&gt;&gt; sex
+ &#39;male&#39;
+ &gt;&gt;&gt; name,age,sex
+ (&#39;Tom&#39;, 30, &#39;male&#39;)
+</code></pre></li></ul>
+</li></ul>
 <h3 id="-">列表</h3>
+<ul>
+<li>列表(List)是处理一组有序项目的数据结构，即你可以在一个列表中存储一个序列的项目</li><li>列表是可变类型的数据</li><li>列表跟元组一样，定义范围广，元素可以是字符串、数字，其中也可以有列表和元组，不过元组不能修改</li><li>列表的组成：用方括号<code>[]</code>表示列表，包含多个元素以逗号<code>,</code>分隔，如：<ul>
+<li>List1 = [&#39;Tom&#39;,&#39;列表&#39;,1]</li><li>List2 = [1,2,3,4,5]</li><li>List3 = [&quot;python&quot;,&quot;Linux&quot;,&quot;wiondows&quot;]</li><li>List4 = [1]<blockquote>
+<p>列表不像元组，单个元素的的列表后面需要添加逗号<code>,</code></p>
+</blockquote>
+</li><li>以上实例可以通过<code>type()</code>函数查看器属性，返回结果如下：<pre><code>   &gt;&gt;&gt; List1 = [&#39;Tom&#39;,&#39;列表&#39;,1]
+   &gt;&gt;&gt; type(List1)
+   &lt;type &#39;list&#39;&gt;
+</code></pre><pre><code>   &gt;&gt;&gt; List2 = [1,2,3,4,5]
+   &gt;&gt;&gt; type(List2)
+   &lt;type &#39;list&#39;&gt;
+</code></pre><pre><code>   &gt;&gt;&gt; List3 = [&quot;python&quot;,&quot;Linux&quot;,&quot;wiondows&quot;]
+   &gt;&gt;&gt; type(List3)
+   &lt;type &#39;list&#39;&gt;
+</code></pre><pre><code>   &gt;&gt;&gt; List4 = [1]
+   &gt;&gt;&gt; type(List4)
+   &lt;type &#39;list&#39;&gt;
+</code></pre></li></ul>
+</li><li>列表操作方法：<ul>
+<li>取值：<ul>
+<li>索引取值：<br>定义一个列表：a = [1,2,3,4,5],通过索引取值：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a[0]
+1
+&gt;&gt;&gt; a[1]
+2
+&gt;&gt;&gt; a[4]
+5
+</code></pre></li><li>切片取值：<br>定义一个列表：a = [1,2,3,4,5],通过切片取值：<ul>
+<li>从位置1开始取值，到列表位置结束：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a[1:]
+[2, 3, 4, 5]
+</code></pre></li><li>从位置1取值，到位置4：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a[1:4]
+[2, 3, 4]
+</code></pre></li><li>从位置4结束取值:<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a[:4]
+[1, 2, 3, 4]
+</code></pre></li><li>使用<code>[::]</code>设定步长值取值，此处设定步长值为2：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a[::2]
+[1, 3, 5]
+</code></pre><blockquote>
+<p>说明：从位置1开始取值（设定步长值后，起始位置为1），然后走2步到位置3取值3（位置3的值），然后从位置3开始走2步取值5（位置5的值），这里所说的走2步就是从位置1开始走到位置2算一步，然后到位置3就是第二步。</p>
+</blockquote>
+</li></ul>
+</li><li>添加值，使用属性<code>append</code>来实现：<ul>
+<li>定义一个列表a = [1,2,3,4,5],然后通过<code>append</code>属性添加值：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a.append(6)
+&gt;&gt;&gt; a
+[1, 2, 3, 4, 5, 6]
+</code></pre><blockquote>
+<p>说明：属性<code>append</code>属于给列表结尾追加值，存储空间会变化，可通过<code>id</code>来确认</p>
+</blockquote>
+</li></ul>
+</li><li>删除值：<ul>
+<li>使用<code>del</code>删除列表中的元素：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5,6]
+&gt;&gt;&gt; del(a[5])
+&gt;&gt;&gt; a
+[1, 2, 3, 4, 5]
+</code></pre><blockquote>
+<p><code>del()</code>通过列表索引删除指定的元素，好处在于如果列表元素太长，使用<code>del()</code>能快速删除指定的元素，简单明了。而且可以直接删除整个列表。</p>
+</blockquote>
+</li><li>使用<code>remove</code>删除列表中的元素：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a.remove(5)
+&gt;&gt;&gt; a
+[1, 2, 3, 4]
+</code></pre><blockquote>
+<p><code>remove</code>直接指定列表的元素就可以删除</p>
+</blockquote>
+</li></ul>
+</li><li>修改值：<ul>
+<li>通过<code>list[] = x</code>来对列表中的元素进行修改：<pre><code>&gt;&gt;&gt; a = [1,2,3,4]
+&gt;&gt;&gt; a[3] = 5
+&gt;&gt;&gt; a
+[1, 2, 3, 5]
+</code></pre><blockquote>
+<p>通过索引重新赋值即可</p>
+</blockquote>
+</li></ul>
+</li><li>修改列表中的元素列表的存储空间不变（扩展说明），例：<ul>
+<li>定义一个列表a = [1,2,3,4,5]</li><li>首先查看列表a的存储空间id:<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; id(a)
+7696579682248
+</code></pre></li><li>通过索引重新赋值修改其中一个元素的值：<pre><code>&gt;&gt;&gt; a = [1,2,3,4,5]
+&gt;&gt;&gt; a[1] = 6
+&gt;&gt;&gt; a
+[1, 6, 3, 4, 5]
+</code></pre></li><li>再次通过<code>id()</code>来查看列表a的存储空间id值：<pre><code>&gt;&gt;&gt; a = [1,6,3,4,5]
+&gt;&gt;&gt; id(a)
+7696579682248
+</code></pre><blockquote>
+<p>此时发现修改列表a的值后，通过<code>id()</code>查看存储空间id，未变化</p>
+</blockquote>
+</li></ul>
+</li><li>查找值：<ul>
+<li>通过<code>var in list</code>来查找列表中是否有这个值：<pre><code>&gt;&gt;&gt; a = [1,2,3,5]
+&gt;&gt;&gt; a in a
+False
+&gt;&gt;&gt; 5 in a
+True
+</code></pre><blockquote>
+<p>说明：在列表中查找a，a不存在返回<code>False</code>，查找5存在则返回<code>True</code></p>
+</blockquote>
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
 <h3 id="-">字典</h3>
-
 
 <!-- ***********************************************************内容分割线****************************************************************** -->
 
