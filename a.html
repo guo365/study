@@ -1,0 +1,162 @@
+<h3 id="-latex-">使用LaTeX方法：</h3>
+<blockquote>
+<p>下面还有些没有显示出效果，先扔着把，毕竟才开始玩，先这样吧<br> MathJax是一款相当强悍的在网页显示数学公式的插件。本教程介绍MathJax如何使用LaTeX语法编写数学公式。</p>
+</blockquote>
+<h4 id="-">如何插入公式</h4>
+<p>L aTeX的数学公式有两种：行中公式和独立公式。行中公式放在文中与其它文字混编，独立公式单独成行。</p>
+<p> 行中公式可以用如下两种方法表示：</p>
+<pre><code class="lang-python"> ＼(数学公式＼)　或　￥数学公式￥（要把人民币符号换成美元符号）
+</code></pre>
+<p> 独立公式可以用如下两种方法表示：</p>
+<pre><code class="lang-python"> ＼[数学公式＼]　或　￥￥数学公式￥￥（要把人民币符号换成美元符号）
+</code></pre>
+<p> 例子：</p>
+<pre><code class="lang-python"> $$ ＼[J\alpha(x) = \sum{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \frac{x}{2} }\right)}^{2m + \alpha}＼] $$
+</code></pre>
+<p> 显示：<br> $$ \J<em>\alpha(x) = \sum</em>{m=0}^\infty \frac{(-1)^m}{m! \Gamma (m + \alpha + 1)} {\left({ \frac{x}{2} }\right)}^{2m + \alpha}\ ] $$</p>
+<h4 id="-">如何输入上下标</h4>
+<p> <code>^</code>表示上标,<code>_</code>表示下标。如果上下标的内容多于一个字符，要用<code>{}</code>把这些内容括起来当成一个整体。上下标是可以嵌套的，也可以同时使用。</p>
+<p> 例子：</p>
+<pre><code class="lang-python"> $$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$
+</code></pre>
+<p> 显示：<br> $$ x^{y^z}=(1+{\rm e}^x)^{-2xy^w} $$</p>
+<p> 另外，如果要在左右两边都有上下标，可以用<code>\sideset</code>命令。</p>
+<p> 例子：</p>
+<pre><code class="lang-python"> \sideset{^12}{^34}\bigotimes
+</code></pre>
+<p> 显示：<br> $$ \sideset{^1<em>2}{^3</em>4}\bigotimes $$</p>
+<h4 id="-">如何输入括号和分隔符</h4>
+<p> <code>()</code>、<code>[]</code>和<code>|</code>表示自己，<code>{}</code>表示<code>{}</code>。当要显示大号的括号或分隔符时，要用<code>\left</code>和<code>\right</code>命令。</p>
+<p> 例子：</p>
+<pre><code class="lang-python"> $$ f(x,y,z) = 3y^2z \left( 3+\frac{7x+5}{1+y^2} \right) $$
+</code></pre>
+<p> 显示：<br> $$ f(x,y,z) = 3y^2z \left( 3+\frac{7x+5}{1+y^2} \right) $$</p>
+<p> 有时候要用<code>\left.</code>或<code>\right.</code>进行匹配而不显示本身。</p>
+<p> 例子：</p>
+<pre><code class="lang-python"> $$ \left. \frac{{\rm d}u}{{\rm d}x} \right| _{x=0} $$
+</code></pre>
+<p> 显示：<br> $$ \left. \frac{{\rm d}u}{{\rm d}x} \right| _{x=0} $$</p>
+<h4 id="-">如何输入分数</h4>
+<p> 例子：</p>
+<pre><code class="lang-python"> $$ \frac{1}{3}　或　1 \over 3 $$
+</code></pre>
+<p> 显示：<br> $$ \frac{1}{3} 　或  1 \over 3 $$</p>
+<h4 id="-">如何输入开方</h4>
+<p> 语法：</p>
+<pre><code class="lang-python"> $$ \sqrt{2}　和　\sqrt[n]{3} $$
+</code></pre>
+<p> 显示：<br> $$ \sqrt{2} 　和　 \sqrt[n]{3} $$</p>
+<h4 id="-">如何输入省略号</h4>
+<p> 数学公式中常见的省略号有两种，<code>\ldots</code>表示与文本底线对齐的省略号，<code>\cdots</code>表示与文本中线对齐的省略号。</p>
+<p> 语法：</p>
+<pre><code class="lang-python"> f(x1,x2,\ldots,xn) = x1^2 + x2^2 + \cdots + xn^2
+</code></pre>
+<p> 显示：<br> $$  f(x<em>1,x</em>2,\ldots,x<em>n) = x</em>1^2 + x<em>2^2 + \cdots + x</em>n^2 $$</p>
+<h4 id="-">如何输入矢量</h4>
+<p> 语法：</p>
+<pre><code class="lang-python"> \vec{a} \cdot \vec{b}=0
+</code></pre>
+<p> 显示：<br> $$ \vec{a} \cdot \vec{b}=0 $$</p>
+<h4 id="-">如何输入积分</h4>
+<p> 语法：</p>
+<pre><code class="lang-python"> \int_0^1 x^2 {\rm d}x
+</code></pre>
+<p> 显示：<br> $$ \int_0^1 x^2 {\rm d}x $$</p>
+<h4 id="-">如何输入极限运算</h4>
+<p> 语法：</p>
+<pre><code class="lang-python"> \lim_{n \rightarrow +\infty} \frac{1}{n(n+1)}
+</code></pre>
+<p> 显示：<br> $$ \lim_{n \rightarrow +\infty} \frac{1}{n(n+1)} $$</p>
+<h4 id="-">如何输入累加、累乘运算</h4>
+<p> 语法：</p>
+<pre><code class="lang-python"> \sum{i=0}^n \frac{1}{i^2}　和　\prod{i=0}^n \frac{1}{i^2}
+</code></pre>
+<p> 显示：<br> \sum<em>{i=0}^n \frac{1}{i^2} 　和　 \prod</em>{i=0}^n \frac{1}{i^2}</p>
+<h4 id="-">如何进行公式应用</h4>
+<p> 先要在［mathjax］后添加：</p>
+<pre><code class="lang-python">  &lt;script type=&quot;text/javascript&quot; 
+    src=&quot;D:/jaxedit-0.30/library/mathjax/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;
+  &lt;/script&gt;
+ ＜script type=&quot;text/x-mathjax-config&quot;＞ MathJax.Hub.Config({ TeX: {equationNumbers: { autoNumber: [&quot;AMS&quot;], useLabelIds: true}}, &quot;HTML-CSS&quot;: {linebreaks: {automatic: true}}, SVG: {linebreaks: {automatic: true}} }); ＜/script＞
+</code></pre>
+<blockquote>
+<p>只要按照这个添加代码就能实现本页的效果，包的下载自己找吧，就这样</p>
+</blockquote>
+<p> 语法：</p>
+<pre><code class="lang-python"> ＼begin{equation}\label{equation1}r = rF+ \beta(rM – r_F) + \epsilon＼end{equation}
+</code></pre>
+<p> 显示：<br>  \begin{equation}\label{equation1}r = rF+ \beta(rM – r_F) + \epsilon\end{equation}</p>
+<blockquote>
+<p>引用：请见公式( \ref{equation1} )</p>
+</blockquote>
+<h4 id="-">如何输入希腊字母</h4>
+<blockquote>
+<p>哎，这里的空白这蛋疼，目前还没有最终得解决发子</p>
+</blockquote>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \alpha $$</code></td>  <td>$$ \alpha $$</td></tr><br><tr><td><code>$$ \beta $$</code></td>  <td>$$ \beta $$ </td></tr><br><tr><td><code>$$\gamma $$</code></td>  <td>$$\gamma $$ </td></tr><br><tr><td><code>$$ \Gamma $$</code></td>  <td>$$ \Gamma $$</td></tr><br><tr><td><code>$$ \delta $$</code></td>  <td>$$ \delta $$</td></tr><br><tr><td><code>$$ \Delta $$</code></td>  <td>$$ \Delta $$</td></tr><br><tr><td><code>$$ \epsilon $$</code></td>      <td>$$ \epsilon $$</td></tr><br><tr><td><code>$$ \varepsilon $$</code></td>      <td>$$ \varepsilon $$</td></tr><br><tr><td><code>$$ \zeta $$</code></td>      <td>$$ \zeta $$ </td></tr><br><tr><td><code>$$ \eta $$</code></td>      <td>$$ \eta $$  </td></tr><br><tr><td><code>$$ \theta $$</code></td>      <td>$$ \theta $$</td></tr><br><tr><td><code>$$ \Theta $$</code></td>      <td>$$ \Theta $$</td></tr><br><tr><td><code>$$ \vartheta $$</code></td>      <td>$$ \vartheta $$</td></tr><br><tr><td><code>$$ \iota $$</code></td>      <td>$$ \iota $$  </td></tr><br><tr><td><code>$$ \kappa $$</code></td>      <td>$$ \kappa $$ </td></tr><br><tr><td><code>$$ \lambda$$</code></td>      <td>$$ \lambda$$ </td></tr><br><tr><td><code>$$ \Lambda $</code></td>      <td>$$ \Lambda $$</td></tr><br><tr><td><code>$$ \mu $$</code></td>      <td>$$ \mu $$</td></tr><br><tr><td><code>$$ \nu $$</code></td>      <td>$$ \nu $$</td></tr><br><tr><td><code>$$ \Xi $$</code></td>      <td>$$ \Xi $$</td></tr><br><tr><td><code>$$ \pi $$</code></td>      <td>$$ \pi $$</td></tr><br><tr><td><code>$$ \Pi $$</code></td>      <td>$$ \Pi $$</td></tr><br><tr><td><code>$$ \varpi $$</code></td>      <td>$$ \varpi $$</td></tr><br><tr><td><code>$$ \rho $$</code></td>      <td>$$ \rho $$  </td></tr><br><tr><td><code>$$\varrho $$</code></td>      <td>$$\varrho $$</td></tr><br><tr><td><code>$$ \sigma $$</code></td>      <td>$$ \sigma $$</td></tr><br><tr><td><code>$$ \Sigma $$</code></td>      <td>$$ \Sigma $$</td></tr><br><tr><td><code>$$ \varsigma $$</code></td>      <td>$$ \varsigma $$</td></tr><br><tr><td><code>$$ \tau $$</code></td>      <td>$$ \tau $$</td></tr><br><tr><td><code>$$ \upsilon $$</code></td>      <td>$$ \upsilon $$</td></tr><br><tr><td><code>$$ \Upsilon $$</code></td>      <td>$$ \Upsilon $$</td></tr><br><tr><td><code>$$ \xi $$</code></td>      <td>$$ \xi $$ </td></tr><br><tr><td><code>$$ \Phi $$</code></td>      <td>$$ \Phi $$</td></tr><br><tr><td><code>$$ \varphi $$</code></td>      <td>$$ \varphi $$</td></tr><br><tr><td><code>$$ \chi $$</code></td>      <td>$$ \chi $$</td></tr><br><tr><td><code>$$ \psi $$</code></td>      <td>$$ \psi $$</td></tr><br><tr><td><code>$$ \Psi $$</code></td>      <td>$$ \Psi $$</td></tr><br><tr><td><code>$$ \omega $$</code></td>      <td>$$ \omega $$ </td></tr><br><tr><td><code>$$ \Omega $$</code></td>      <td>$$ \Omega $$ </td></tr><br></table>
+
+<h4 id="-">如何输入其它特殊字符</h4>
+<p>关系运算符：                                             </p>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \pm $$</code></td>          <td>$$ \pm $$</td></tr><br><tr><td><code>$$ \times $$</code></td>       <td>$$ \times $$</td></tr><br><tr><td><code>$$ \div $$</code></td>         <td>$$ \div $$  </td></tr><br><tr><td><code>$$ \mid $$</code></td>         <td>$$ \mid $$  </td></tr><br><tr><td><code>$$ \nmid $$</code></td>        <td>$$ \nmid $$ </td></tr><br><tr><td><code>$$ \cdot $$</code></td>        <td>$$ \cdot $$ </td></tr><br><tr><td><code>$$ \circ $$</code></td>        <td>$$ \circ $$ </td></tr><br><tr><td><code>$$ \ast $$</code></td>         <td>$$ \ast $$  </td></tr><br><tr><td><code>$$ \bigodot $$</code></td>     <td>$$ \bigodot $$ </td></tr><br><tr><td><code>$$ \bigotimes $$</code></td>   <td>$$ \bigotimes$$</td></tr><br><tr><td><code>$$ \bigoplus $$</code></td>    <td>$$ \bigoplus $$</td></tr><br><tr><td><code>$$ \leq $$</code></td>         <td>$$ \leq $$</td></tr><br><tr><td><code>$$ \geq $$</code></td>         <td>$$ \geq $$</td></tr><br><tr><td><code>$$ \neq $$</code></td>         <td>$$ \neq $$</td></tr><br><tr><td><code>$$ \approx $$</code></td>      <td>$$ \approx $$</td></tr><br><tr><td><code>$$ \equiv $$</code></td>       <td>$$ \equiv $$</td></tr><br><tr><td><code>$$ \sum $$</code></td>         <td>$$ \sum $$  </td></tr><br><tr><td><code>$$ \prod $$</code></td>        <td>$$ \prod $$ </td></tr><br><tr><td><code>$$ \coprod $$</code></td>      <td>$$ \coprod $$  </td></tr><br></table>
+
+<h4 id="-">集合运算符：</h4>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \emptyset $$</code></td> <td>$$ \emptyset $$</td></tr><br><tr><td><code>$$ \in       $$</code></td> <td>$$ \in       $$</td></tr><br><tr><td><code>$$ \notin    $$</code></td> <td>$$ \notin    $$</td></tr><br><tr><td><code>$$ \subset   $$</code></td> <td>$$ \subset   $$</td></tr><br><tr><td><code>$$ \supset   $$</code></td> <td>$$ \supset   $$</td></tr><br><tr><td><code>$$ \subseteq $$</code></td> <td>$$ \subseteq $$</td></tr><br><tr><td><code>$$ \supseteq $$</code></td> <td>$$ \supseteq $$</td></tr><br><tr><td><code>$$ \bigcap   $$</code></td> <td>$$ \bigcap   $$</td></tr><br><tr><td><code>$$ \bigcup   $$</code></td> <td>$$ \bigcup   $$</td></tr><br><tr><td><code>$$ \bigvee   $$</code></td> <td>$$ \bigvee   $$</td></tr><br><tr><td><code>$$ \bigwedge $$</code></td> <td>$$ \bigwedge $$</td></tr><br><tr><td><code>$$ \biguplus $$</code></td> <td>$$ \biguplus $$</td></tr><br><tr><td><code>$$ \bigsqcup $$</code></td> <td>$$ \bigsqcup $$</td></tr><br></table>
+
+<h4 id="-">对数运算符：</h4>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \log $$</code> <td>$$ \log $$</td></tr><br><tr><td><code>$$ \lg  $$</code> <td>$$ \lg  $$</td></tr><br><tr><td><code>$$ \ln  $$</code> <td>$$ \ln  $$</td></tr><br></table>
+
+<h4 id="-">三角运算符：</h4>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \bot $$</code></td>     <td>$$ \bot $$</td</tr><br><tr><td><code>$$ \angle $$</code></td>   <td>$$ \angle $$</td></tr><br><tr><td><code>$$ 30^\circ $$</code></td> <td>$$ 30^\circ $$</td></tr><br><tr><td><code>$$ \sin $$</code></td> <td>$$ \sin $$</td></tr><br><tr><td><code>$$ \cos $$</code></td> <td>$$ \cos $$</td></tr><br><tr><td><code>$$ \tan $$</code></td> <td>$$ \tan $$</td></tr><br><tr><td><code>$$ \cot $$</code></td> <td>$$ \cot $$</td></tr><br><tr><td><code>$$ \sec $$</code></td> <td>$$ \sec $$</td></tr><br><tr><td><code>$$ \csc $$</code></td> <td>$$ \csc $$</td></tr><br></table>
+
+<h4 id="-">微积分运算符：</h4>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \prime  $$</code></td> <td>$$ \prime  $$</td></tr><br><tr><td><code>$$ \int    $$</code></td> <td>$$ \int    $$</td></tr><br><tr><td><code>$$ \iint   $$</code></td> <td>$$ \iint   $$</td></tr><br><tr><td><code>$$ \iiint  $$</code></td> <td>$$ \iiint  $$</td></tr><br><tr><td><code>$$ \iiiint $$</code></td> <td>$$ \iiiint $$</td></tr><br><tr><td><code>$$ \oint   $$</code></td> <td>$$ \oint   $$</td></tr><br><tr><td><code>$$ \lim    $$</code></td> <td>$$ \lim    $$</td></tr><br><tr><td><code>$$ \infty  $$</code></td> <td>$$ \infty  $$</td></tr><br><tr><td><code>$$ \nabla  $$</code></td> <td>$$ \nabla  $$</td></tr><br></table>
+
+<h4 id="-">逻辑运算符：</h4>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \because  $$</code></td>   <td>$$ \because     $$</td></tr><br><tr><td><code>$$ \therefore $$</code></td>  <td>$$ \therefore   $$</td></tr><br><tr><td><code>$$ \forall   $$</code></td>   <td>$$ \forall      $$</td></tr><br><tr><td><code>$$ \exists   $$</code></td>   <td>$$ \exists      $$</td></tr><br><tr><td><code>$$ \not=     $$</code></td>   <td>$$ \not=        $$</td></tr><br><tr><td><code>$$ \not&gt;     $$</code></td>   <td>$$ \not&gt;        $$</td></tr><br><tr><td><code>$$ \not\subset $$</code></td> <td>$$ \not\subset  $$</td></tr><br></table>
+
+<h4 id="-">戴帽符号：</h4>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \hat{y}    $$</code></td>   <td>$$ \hat{y}     $$</td></tr><br><tr><td><code>$$ \check{y}  $$</code></td>   <td>$$ \check{y}   $$</td></tr><br><tr><td><code>$$ \breve{y}  $$</code></td>   <td>$$ \breve{y}   $$</td></tr><br></table>
+
+<h4 id="-">连线符号：</h4>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \overline{a+b+c+d}  $$</code></td>   <td>$$ \overline{a+b+c+d}     $$</td></tr><br><tr><td><code>$$ \underline{a+b+c+d} $$</code></td>   <td>$$ \underline{a+b+c+d}    $$</td></tr><br><tr><td><code>$$ \overbrace{a+\underbrace{b+c}&lt;em&gt;{1.0}+d}^{2.0}  $$</code></td>  <td>$$ \overbrace{a+\underbrace{b+c}{1.0}+d}^{2.0}    $$</td></tr><br></table>
+
+<h4 id="-">箭头符号：</h4>
+<blockquote>
+<p>哎，这里的空白这蛋疼，目前还没有最终得解决发子</p>
+</blockquote>
+<table><br><tr><td>语法</td><td>显示效果</td></tr><br><tr><td><code>$$ \uparrow        $$</code></td>   <td>$$ \uparrow     $$</td></tr><br><tr><td><code>$$ \downarrow      $$</code></td>   <td>$$ \downarrow   $$</td></tr><br><tr><td><code>$$ \Uparrow        $$</code></td>   <td>$$ \Uparrow     $$</td></tr><br><tr><td><code>$$ \Downarrow      $$</code></td>   <td>$$ \Downarrow   $$</td></tr><br><tr><td><code>$$ \rightarrow     $$</code></td>   <td>$$ \rightarrow  $$</td></tr><br><tr><td><code>$$ \leftarrow      $$</code></td>   <td>$$ \leftarrow   $$</td></tr><br><tr><td><code>$$ \Rightarrow     $$</code></td>   <td>$$ \Rightarrow  $$</td></tr><br><tr><td><code>$$ \Leftarrow      $$</code></td>   <td>$$ \Leftarrow   $$</td></tr><br><tr><td><code>$$ \longrightarrow $$</code></td>   <td>$$ \longrightarrow  $$</td></tr><br><tr><td><code>$$ \longleftarrow  $$</code></td>   <td>$$ \longleftarrow   $$</td></tr><br><tr><td><code>$$ \Longrightarrow $$</code></td>   <td>$$ \Longrightarrow  $$</td></tr><br><tr><td><code>$$ \Longleftarrow  $$</code></td>   <td>$$ \Longleftarrow   $$</td></tr><br></table>
+
+<h4 id="-">要输出字符</h4>
+<blockquote>
+<p>哎，这里的空白这蛋疼，目前还没有最终得解决发子</p>
+</blockquote>
+<p><table></p>
+<p><tr><td>语法</td><td>显示效果</td></tr></p>
+<p><tr><td><code>\空格</code></td> <td>a\ b</td></tr>　</p>
+<p><tr><td><code>\#</code></td> <td>#</td></tr>　</p>
+<p><tr><td><code>\$</code></td> <td>$</td></tr>　</p>
+<p><tr><td><code>\%</code></td> <td>%</td></tr>　</p>
+<p><tr><td><code>\&amp;</code></td> <td>&amp;</td></tr>　</p>
+<p><tr><td><code>_</code></td>  <td>_</td</tr></p>
+<p><tr><td><code>{　}</code></td> <td>{ }</td</tr><br></table></p>
+<blockquote>
+<p>这里的空格没有搞定，显示没有按预期的效果来，<code>#</code>下面的，在MarkdownPad2中默认是不需要转换，所以加<code>\</code>没效果</p>
+</blockquote>
+<h4 id="-">如何进行字体转换</h4>
+<p>要对公式的某一部分字符进行字体转换，可以用<code>$$ {\rm 需转换的部分字符 } $$</code>命令，其中<code>\rm</code>可以参照下表选择合适的字体。<br>一般情况下，公式默认为意大利体。</p>
+<p><table></p>
+<p><tr><td>语法</td><td>字体名称</td><td>显示效果</td></tr> </p>
+<p><tr><td><code>$$ {\rm 需转换的部分字符} $$</code></td> <td>罗马体</td>     <td>$$ {\rm ABCD} $$</td></tr>　　　</p>
+<p><tr><td><code>$$ {\it 需转换的部分字符} $$</code></td> <td>意大利体</td>   <td>$$ {\it ABCD} $$ </td></tr></p>
+<p><tr><td><code>$$ {\Bbbr 需转换的部分字符} $$</code></td> <td>黑板粗体字</td> <td>$$ {\Bbb ABCD} $$ </td></tr></p>
+<p><tr><td><code>$$ {\bf 需转换的部分字符} $$</code></td> <td>黑体</td>      <td>$$ {\bf　ABCD} $$ </td></tr>　　　</p>
+<p><tr><td><code>$$ {\cal 需转换的部分字符} $$</code></td> <td>花体</td>      <td>$$ {\cal　ABCD} $$ </td></tr></p>
+<p><tr><td><code>$$ {\sl 需转换的部分字符} $$</code></td> <td>倾斜体</td>    <td>$$ {\sl ABCD} $$ </td></tr>　　　</p>
+<p><tr><td><code>$$ {\sf 需转换的部分字符} $$</code></td> <td>等线体</td>    <td>$$ {\sf　ABCD} $$ </td></tr></p>
+<p><tr><td><code>$$ {\mit 需转换的部分字符} $$</code></td> <td>数学斜体</td>   <td>$$ {\mit　ABCD} $$ </td></tr>　　　</p>
+<p><tr><td><code>$$ {\tt 需转换的部分字符} $$</code></td> <td>打字机字体</td> <td>$$ {\tt ABCD} $$ </td></tr></p>
+<p><tr><td><code>$$ {\scr 需转换的部分字符} $$</code></td> <td>小体大写字母</td> <td>$$ {\scr ABCD} $$ </td></tr></p>
+<p><tr><td><code>$$ {\frakr 需转换的部分字符} $$</code></td> <td>Fraktur字母（一种德国字体）</td> <td>$$ {\frak ABCD} $$    </td></tr><br></table></p>
+<blockquote>
+<p>先到这里把，这个字体转换还没有彻底的明白，其中有几个还没有成功，对于MarkdownPad2支持Latex确实有点蛋疼，实时预览看不到，需要F6 html预览才行，另外还得额外加载相关js代码</p>
+</blockquote>
