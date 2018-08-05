@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Windows 10设置标准帐户及权限，放心让别人用</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+对于使用windows下的markdownpad2语法编辑器的用户来说，最蛋疼的是支持功能太少，自定义也费劲，不过通过自定义css能实现简单的代码风格，这是我修改过的效果如下：
+
+
+
+主要就是修改了这些，后面再研究吧，毕竟css也不是那么熟，都是看着html颜色代码一个一个试的，后期看看能通过自己写的js嵌入到编辑器中实现语法高亮度，下面是我修改的css代码：
+
+
+
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite,code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+  code,tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;color:red
+}
+pre {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace,color:black
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border:	#ccc solid thin;
+  background-color: #F5F5F5;
+  border-radius: 3px;
+  
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+  color:black
+}
+
+pre {
+  background-color: #F5F5F5;
+  border: 1px solid #FFFFFF;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+  
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: 	#DDDDDD;
+    background-image: linear-gradient(#F1F1F1, 	#DDDDDD);
+    background-repeat: repeat-x;
+    border-color: 	#DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid 	#2F4F4F;
+  padding: 0 15px;
+  color: 	#777;
+   background-color:#edf2f7;
+  
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+table
+  {
+  border-collapse:collapse;
+  }
+table th {
+  font-weight: bold;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:#F5F5F5;
+  color:#000000;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+
+
+
+
+</style>
+<style type="text/css">
+.highlight  { background: #ffffff; }
+.highlight .c { color: #999988; font-style: italic } /* Comment */
+.highlight .err { color: #a61717; background-color: #e3d2d2 } /* Error */
+.highlight .k { font-weight: bold } /* Keyword */
+.highlight .o { font-weight: bold } /* Operator */
+.highlight .cm { color: #999988; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #999999; font-weight: bold } /* Comment.Preproc */
+.highlight .c1 { color: #999988; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #999999; font-weight: bold; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #000000; background-color: #ffdddd } /* Generic.Deleted */
+.highlight .gd .x { color: #000000; background-color: #ffaaaa } /* Generic.Deleted.Specific */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #aa0000 } /* Generic.Error */
+.highlight .gh { color: #999999 } /* Generic.Heading */
+.highlight .gi { color: #000000; background-color: #ddffdd } /* Generic.Inserted */
+.highlight .gi .x { color: #000000; background-color: #aaffaa } /* Generic.Inserted.Specific */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #555555 } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #aaaaaa } /* Generic.Subheading */
+.highlight .gt { color: #aa0000 } /* Generic.Traceback */
+.highlight .kc { font-weight: bold } /* Keyword.Constant */
+.highlight .kd { font-weight: bold } /* Keyword.Declaration */
+.highlight .kp { font-weight: bold } /* Keyword.Pseudo */
+.highlight .kr { font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #445588; font-weight: bold } /* Keyword.Type */
+.highlight .m { color: #009999 } /* Literal.Number */
+.highlight .s { color: #d14 } /* Literal.String */
+.highlight .na { color: #008080 } /* Name.Attribute */
+.highlight .nb { color: #0086B3 } /* Name.Builtin */
+.highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
+.highlight .no { color: #008080 } /* Name.Constant */
+.highlight .ni { color: #800080 } /* Name.Entity */
+.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .nn { color: #555555 } /* Name.Namespace */
+.highlight .nt { color: #000080 } /* Name.Tag */
+.highlight .nv { color: #008080 } /* Name.Variable */
+.highlight .ow { font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mf { color: #009999 } /* Literal.Number.Float */
+.highlight .mh { color: #009999 } /* Literal.Number.Hex */
+.highlight .mi { color: #009999 } /* Literal.Number.Integer */
+.highlight .mo { color: #009999 } /* Literal.Number.Oct */
+.highlight .sb { color: #d14 } /* Literal.String.Backtick */
+.highlight .sc { color: #d14 } /* Literal.String.Char */
+.highlight .sd { color: #d14 } /* Literal.String.Doc */
+.highlight .s2 { color: #d14 } /* Literal.String.Double */
+.highlight .se { color: #d14 } /* Literal.String.Escape */
+.highlight .sh { color: #d14 } /* Literal.String.Heredoc */
+.highlight .si { color: #d14 } /* Literal.String.Interpol */
+.highlight .sx { color: #d14 } /* Literal.String.Other */
+.highlight .sr { color: #009926 } /* Literal.String.Regex */
+.highlight .s1 { color: #d14 } /* Literal.String.Single */
+.highlight .ss { color: #990073 } /* Literal.String.Symbol */
+.highlight .bp { color: #999999 } /* Name.Builtin.Pseudo */
+.highlight .vc { color: #008080 } /* Name.Variable.Class */
+.highlight .vg { color: #008080 } /* Name.Variable.Global */
+.highlight .vi { color: #008080 } /* Name.Variable.Instance */
+.highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.pl-c {
+    color: #969896;
+}
+
+.pl-c1,.pl-mdh,.pl-mm,.pl-mp,.pl-mr,.pl-s1 .pl-v,.pl-s3,.pl-sc,.pl-sv {
+    color: #0086b3;
+}
+
+.pl-e,.pl-en {
+    color: #795da3;
+}
+
+.pl-s1 .pl-s2,.pl-smi,.pl-smp,.pl-stj,.pl-vo,.pl-vpf {
+    color: #333;
+}
+
+.pl-ent {
+    color: #63a35c;
+}
+
+.pl-k,.pl-s,.pl-st {
+    color: #a71d5d;
+}
+
+.pl-pds,.pl-s1,.pl-s1 .pl-pse .pl-s2,.pl-sr,.pl-sr .pl-cce,.pl-sr .pl-sra,.pl-sr .pl-sre,.pl-src,.pl-v {
+    color: #df5000;
+}
+
+.pl-id {
+    color: #b52a1d;
+}
+
+.pl-ii {
+    background-color: #b52a1d;
+    color: #f8f8f8;
+}
+
+.pl-sr .pl-cce {
+    color: #63a35c;
+    font-weight: bold;
+}
+
+.pl-ml {
+    color: #693a17;
+}
+
+.pl-mh,.pl-mh .pl-en,.pl-ms {
+    color: #1d3e81;
+    font-weight: bold;
+}
+
+.pl-mq {
+    color: #008080;
+}
+
+.pl-mi {
+    color: #333;
+    font-style: italic;
+}
+
+.pl-mb {
+    color: #333;
+    font-weight: bold;
+}
+
+.pl-md,.pl-mdhf {
+    background-color: #ffecec;
+    color: #bd2c00;
+}
+
+.pl-mdht,.pl-mi1 {
+    background-color: #eaffea;
+    color: #55a532;
+}
+
+.pl-mdr {
+    color: #795da3;
+    font-weight: bold;
+}
+
+.pl-mo {
+    color: #1d3e81;
+}
+.task-list {
+padding-left:10px;
+margin-bottom:0;
+}
+
+.task-list li {
+    margin-left: 20px;
+}
+
+.task-list-item {
+list-style-type:none;
+padding-left:10px;
+}
+
+.task-list-item label {
+font-weight:400;
+}
+
+.task-list-item.enabled label {
+cursor:pointer;
+}
+
+.task-list-item+.task-list-item {
+margin-top:3px;
+}
+
+.task-list-item-checkbox {
+display:inline-block;
+margin-left:-20px;
+margin-right:3px;
+vertical-align:1px;
+}
+</style>
+</head>
+<body>
+<h1 id="windows-10-">Windows 10设置标准帐户及权限，放心让别人用</h1>
+<h2 id="-">背景：</h2>
+<p>在个人电脑上如何设置标准帐户供公用呢？特别是当你的个人电脑被别人借用又不好拒绝的时候，但不影响自己的资料和权限，这时候设置一个他人使用的来宾帐户就非常应景了。</p>
+<p>实现方式是通过在管理员帐户下新建一个标准用户，并使用组策略对标准帐户的权限进行管理。本文须要管理员帐户下操作，可以只看图片按图示步骤操作即可。（本教程在最新的Windows 10 v1803上测试通过）</p>
+<h2 id="-">一、建立一个标准账户用于公用登录</h2>
+<ol>
+<li>按<code>win健+R</code>运行<code>control.exe</code>进入控制面板。</li><li>打开<code>控制面板\所有控制面板项\用户帐户\管理帐户</code>，点击<code>在电脑设置中添加新用户</code>。<br><img src="https://i.imgur.com/vhNyTmV.jpg" alt=""></li><li>点击<code>将其他人添加到这台电脑</code>，然后依提示完成一系列动作。特别建议：<strong>添加本地用户帐户</strong>。<br><img src="https://i.imgur.com/PHdmtzL.jpg" alt=""><br><img src="https://i.imgur.com/kLKoIAj.jpg" alt=""><br><img src="https://i.imgur.com/ABvFVXS.jpg" alt=""><br><img src="https://i.imgur.com/Z9zOC48.jpg" alt=""></li></ol>
+<hr>
+<p>至此，我们就完成了新建一个标准帐户的步骤，接下来是对标准账户的权限控制管理。</p>
+<h2 id="-">二、使用“本地安全策略”限制标准帐户安装软件的权限</h2>
+<ol>
+<li>按<code>win健+R</code>运行<code>secpol.msc</code>进入组策略（本地安全策略）。</li><li>安全设置-本地策略-安全选项中找<code>用户帐户控制：标准用户的提升行为</code>选<code>自动拒绝提升请求</code>。</li><li>用户帐户控制：检测应用程序安装并提示提升选<code>已禁用</code>。<br><img src="https://i.imgur.com/5erpCP1.jpg" alt=""><br><img src="https://i.imgur.com/kM5aXPT.jpg" alt=""></li></ol>
+<hr>
+<p>至此就完成了对标准账户安装软件权限控制管理，接下来是对标准账户进行定制高级设置。</p>
+<h2 id="-">三、使用“本地组策略编辑器”对标准帐户定制高级设置</h2>
+<ul>
+<li><p>创建Windows管理工具文件:</p>
+<ul>
+<li>开始运行<code>mmc.exe</code>进入控制台</li><li>点击文件；选择<code>添加/删除管理单元</code>选项<br><img src="https://i.imgur.com/pLPu9Gz.jpg" alt=""></li><li>在<code>可用管理单元</code>下，选择<code>本地用户和组</code>；单击添加按钮。此项添加后，可以把标准帐户更改密码的权限关闭。<br><img src="https://i.imgur.com/99QrqWD.jpg" alt=""><br><img src="https://i.imgur.com/41eWcak.jpg" alt=""><br><img src="https://i.imgur.com/rLV2nbw.jpg" alt=""><br><img src="https://i.imgur.com/iLxlB2u.jpg" alt=""></li><li>点击文件；选择<code>添加/删除管理单元</code>选项；在<code>可用管理单元</code>下，选择<code>组策略对象编辑器</code>；单击添加按钮。<br><img src="https://i.imgur.com/skEZn6Y.jpg" alt=""></li><li>单击<code>文件</code>；选择<code>另存为</code>选项；选择一个名称，并将控制台保存在你记住的位置<br><img src="https://i.imgur.com/RMQPlkj.jpg" alt=""></li><li>完成上述步骤后，可以按照正常情况进行策略更改，但使用刚创建的更改的控制台仅适用于你使用上述步骤指定的用户或组。</li></ul>
+</li><li><p>禁止标准帐户访问驱动器（须完成前序步骤，创建标准帐户并完成添加Windows管理工具）</p>
+<p>在打开的本地组策略编辑器窗口中依次点击<code>用户配置/管理模板/Windows组件/文件资源管理器</code>菜单项；在右侧打开页面中找到<code>防止从“我的电脑”访问驱动器”</code>快捷链接，并双击打开其<code>属性设置</code>窗口；在打开的<code>防止从“我的电脑”访问驱动器”</code>编辑窗口中，选择<code>已启用</code>一项，最后点击<code>确定</code>按钮。<br><img src="https://i.imgur.com/IXgGHRd.jpg" alt=""><br><img src="https://i.imgur.com/yXrrsoJ.jpg" alt=""></p>
+</li><li><p>禁止标准帐户访问控制面板与设置（须完成前序步骤，创建标准帐户并完成添加Windows管理工具）</p>
+<p>在打开的本地组策略编辑器窗口中依次点击<code>用户配置/管理模板/控制面板</code>菜单项；在右侧打开页面中找到<code>禁止访问控制面板和PC设置</code>快捷链接，并双击打开其<code>属性设置</code>窗口；在打开的<code>禁止访问控制面板和PC设置</code>编辑窗口中，选择<code>已启用</code>一项，最后点击<code>确定</code>按钮。</p>
+<p><img src="https://i.imgur.com/FI3hQAp.jpg" alt=""><br><img src="https://i.imgur.com/VtABswe.jpg" alt=""></p>
+</li></ul>
+<h2 id="-">四、结语</h2>
+<p> 至此，基本已经完成个人设备的标准账户设置供公用，实现了标准用户无法访问文件、无法安装软件，设备所有者对设备状态可控，其他用户仅能在你指定的应用内活动。一般大多数管理员帐户安装在电脑上的软件标准帐户都可以使用。</p>
+<p> 深入一点可以在组策略里面发掘更有趣的玩法，比如可以禁止标准账户访问开始菜单等等。<br> <img src="https://i.imgur.com/RvDmQvH.jpg" alt=""></p>
+<p> 实际上作者建议大家一般都使用标准账户自用，特别是对电脑不熟悉的朋友，以防被“莫名其妙”的安装上各种“神奇”的软件。</p>
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->
